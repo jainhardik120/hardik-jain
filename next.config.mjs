@@ -1,4 +1,6 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+import removeImports from "next-remove-imports";
 
-export default nextConfig;
+
+
+export default removeImports()({});
