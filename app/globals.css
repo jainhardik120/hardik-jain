@@ -54,7 +54,7 @@ section:not(:first-child) {
   width: 100%;
   text-align: center;
   font-size: 2rem;
-
+  margin-bottom: 80px;
 }
 
 .section-content {
