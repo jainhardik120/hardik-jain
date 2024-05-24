@@ -11,13 +11,16 @@ export type Skill = {
   skills: SubSkill[]
 }
 
-async function getSkills() {
-  const fSkills: Skill[] = await (await fetch("/api/skills")).json();
-  return fSkills;
-}
+const SkillsSection: React.FC = () => {
+  const [skills, setSkills] = useState<Skill[]>([]);
+  useEffect(() => {
+    async function fetchSkills() {
+      const fSkills: Skill[] = await (await fetch("/api/skills")).json();
+      setSkills(fSkills);
+    }
+    fetchSkills();
+  }, []);
 
-const SkillsSection: React.FC = async () => {
-  const skills = await getSkills();
   return (
     <section id="skills">
       <p className="section_header">Skills</p>
