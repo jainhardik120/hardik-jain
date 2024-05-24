@@ -6,8 +6,14 @@ export async function GET(request: Request) {
   try {
     const db = (await clientPromise).db("hardik-jain")
     const skillsCollection = db.collection("skills");
-    const skills = skillsCollection.find();
-    return Response.json(skills);
+    const skillsCursor = skillsCollection.find({});
+    const skills = await skillsCursor.toArray();
+    return new Response(JSON.stringify(skills), {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
   } catch (error) {
     return ErrorResponse(error);
   }
