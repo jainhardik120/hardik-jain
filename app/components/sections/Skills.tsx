@@ -1,41 +1,35 @@
 import SkillCard from "../SkillCard";
+import { useEffect, useState } from "react";
 
-const SkillsSection: React.FC = () => {
-    const skillsData = [
-        {
-            title: 'Programming Languages',
-            skills: ['C++', 'Kotlin', 'JavaScript', 'Typescript'],
-        },
-        {
-            title: 'Tools & Technologies',
-            skills: ['Git & GitHub', 'Docker', 'AWS', 'Android Studio', 'Remix IDE'],
-        },
-        {
-            title: 'Web Development',
-            skills: ['HTML & CSS', 'React', 'Node.js', 'Next.js', 'Express', 'MongoDB', 'PostgreSQL'],
-        },
-        {
-            title: 'Android Development',
-            skills: ['Kotlin', 'Jetpack Compose', 'Dagger Hilt', 'Room Database', 'MVVM', 'Ktor', 'Retrofit'],
-        },
-        {
-            title: 'Blockchain Development',
-            skills: ['Solidity', 'EtherJS', 'Hardhat', 'Metamask', 'OpenZeppelin'],
-        }
-    ];
+export type SubSkill = {
+  name: string,
+  level: string
+}
 
-    return (
-        <section id="skills">
-            <p className="section_header">Skills</p>
-            <div className="mx-auto">
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 ">
-                    {skillsData.map((skillSet, index) => (
-                        <SkillCard key={index} title={skillSet.title} skills={skillSet.skills} />
-                    ))}
-                </div>
-            </div>
-        </section>
-    );
+export type Skill = {
+  name: string,
+  skills: SubSkill[]
+}
+
+async function getSkills() {
+  const fSkills: Skill[] = await (await fetch("/api/skills")).json();
+  return fSkills;
+}
+
+const SkillsSection: React.FC = async () => {
+  const skills = await getSkills();
+  return (
+    <section id="skills">
+      <p className="section_header">Skills</p>
+      <div className="mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 ">
+          {skills.map((skillSet, index) => (
+            <SkillCard key={index} title={skillSet.name} skills={skillSet.skills} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
 };
 
 export default SkillsSection;
