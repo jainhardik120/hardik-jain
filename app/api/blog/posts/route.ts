@@ -1,8 +1,9 @@
 import ErrorResponse from "@/lib/ErrorResponse";
 import clientPromise from "@/lib/mongodb";
+import { authMiddleware } from "@/middleware/Auth";
 
 export async function POST(request: Request) {
-  try {
+  return authMiddleware(request, async (userId) => {
     const body = await request.json();
     const mongo = (await clientPromise).db("hardik-jain");
     const post = mongo.collection("posts");
@@ -16,8 +17,6 @@ export async function POST(request: Request) {
         content: content
       }
     )
-    return Response.json({id : result.insertedId});
-  } catch (error: any) {
-    return ErrorResponse(error);
-  }
+    return Response.json({ id: result.insertedId });
+  })
 } 

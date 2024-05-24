@@ -1,33 +1,46 @@
-import ErrorResponse from "@/lib/ErrorResponse";
-import clientPromise from "@/lib/mongodb";
+import clientPromise from '@/lib/mongodb';
 import bcrypt from 'bcryptjs';
 import { serialize } from 'cookie';
-import { ObjectId } from "mongodb";
+import { ObjectId } from 'mongodb';
+import ErrorResponse from '@/lib/ErrorResponse';
 
-export async function POST(request: Request) {
+export async function POST(request : Request) {
   try {
+    throw new Error("Signup not allowed")
     const mongo = (await clientPromise).db("hardik-jain");
     const users = mongo.collection("users");
     const sessions = mongo.collection("sessions");
     const { email, password } = await request.json();
+
     if (!email || !password) {
-      return ErrorResponse('Email and password are required');
+      return ErrorResponse('Email and password are required', 400);
     }
-    const user = await users.findOne({ email });
-    if (!user) {
-      return ErrorResponse('Invalid email or password');
+
+
+    const existingUser = await users.findOne({ email });
+    if (existingUser) {
+      return ErrorResponse('Email already in use', 409);
     }
-    const isValid = await bcrypt.compare(password, user.password);
-    if (!isValid) {
-      return ErrorResponse('Invalid email or password');
-    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newUser = {
+      _id: new ObjectId(),
+      email,
+      password: hashedPassword,
+      createdAt: new Date(),
+    };
+
+    await users.insertOne(newUser);
+
     const sessionId = new ObjectId();
     const session = {
       _id: sessionId,
-      userId: user._id,
+      userId: newUser._id,
       createdAt: new Date(),
     };
     await sessions.insertOne(session);
+
     const cookie = serialize('session_id', sessionId.toString(), {
       httpOnly: true,
       secure: process.env.NODE_ENV !== 'development',
@@ -35,14 +48,16 @@ export async function POST(request: Request) {
       maxAge: 60 * 60 * 24 * 7, // 1 week
       path: '/',
     });
-    return new Response(JSON.stringify({ message: 'Login successful' }), {
-      status: 200,
+
+    return new Response(JSON.stringify({ message: 'Signup successful' }), {
+      status: 201,
       headers: {
         'Set-Cookie': cookie,
         'Content-Type': 'application/json'
       }
     });
+
   } catch (error) {
-    return ErrorResponse(error)
+    return ErrorResponse('Internal server error', 500);
   }
 }

@@ -9,9 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.583.0",
+    "@aws-sdk/s3-request-presigner": "^3.583.0",
     "@types/bcryptjs": "^2.4.6",
     "@uiw/react-md-editor": "^3.6.0",
     "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
     "cookie": "^0.6.0",
     "mongodb": "^6.6.2",
     "next": "14.2.3",
