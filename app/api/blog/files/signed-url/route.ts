@@ -1,7 +1,6 @@
 import ErrorResponse from "@/lib/ErrorResponse";
 import { authMiddleware } from "@/middleware/Auth";
-import { URLSearchParams } from "url";
-import { S3Client, GetObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3';
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 
 const s3Client = new S3Client({
@@ -12,12 +11,9 @@ const s3Client = new S3Client({
   }
 })
 
-export async function GET(request: Request) {
+export async function POST(request: Request) {
   return authMiddleware(request, async (userId) => {
-    const url = new URL(request.url);
-    const params = new URLSearchParams(url.search);
-    const filename = params.get('filename');
-    const filetype = params.get('filetype');
+    const {filename, filetype} = await request.json();
     if (!filename || !filetype) {
       return ErrorResponse("Filename and Filetype are required");
     }

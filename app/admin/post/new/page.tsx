@@ -44,7 +44,13 @@ const onImagePasted = async (dataTransfer: DataTransfer, setValue: (value: SetSt
   await Promise.all(
     files.map(async (file) => {
       const filenameWithDatetime = `${currentDatetime}_${file.name}`;
-      const response = await fetch('/api/blog/files/signed-url?filename=' + encodeURIComponent(filenameWithDatetime) + '&filetype=' + encodeURIComponent(file.type));
+      const response = await fetch('/api/blog/files/signed-url', {
+        method: 'POST',
+        body: JSON.stringify({ filename: filenameWithDatetime, filetype: file.type }),
+        headers: {
+          'Content-Type' : 'application/json'
+        }
+      });
       const data = await response.json();
       const signedUrl = data.signedUrl;
       const uploadResponse = await fetch(signedUrl, {
