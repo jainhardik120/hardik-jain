@@ -13,7 +13,7 @@ const TextareaInput: React.FC<TextareaInputProps> = ({ label, name, value, place
     <div className="mb-6">
       <label
         htmlFor={name}
-        className="text-white block text-sm mb-2 font-medium"
+        className="text-tsecondary-light dark:text-tsecondary-dark block text-sm mb-2 font-medium"
       >
         {label}
       </label>
@@ -23,7 +23,7 @@ const TextareaInput: React.FC<TextareaInputProps> = ({ label, name, value, place
         value={value}
         onChange={onChange}
         required
-        className="bg-[#18191E] border border-[#33353F] placeholder-[#9CA2A9] text-gray-100 text-sm rounded-lg block w-full p-2.5"
+        className="dark:bg-[#18191E] border dark:border-[#33353F] dark:placeholder-[#9CA2A9] text-sm rounded-lg block w-full p-2.5"
         placeholder={placeholder}
       />
     </div>

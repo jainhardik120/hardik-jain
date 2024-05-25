@@ -1,11 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
-import GithubIcon from "../../../public/github-icon.svg";
-import LinkedinIcon from "../../../public/linkedin-icon.svg";
+import GithubIcon from "../../public/github-icon.svg";
+import LinkedinIcon from "../../public/linkedin-icon.svg";
 import Image from "next/image";
-import TextInput from "../TextInput";
-import TextareaInput from "../TextareaInput";
+import TextInput from "./TextInput";
+import TextareaInput from "./TextareaInput";
 
 const ContactSection: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -37,34 +37,27 @@ const ContactSection: React.FC = () => {
   };
 
   return (
-    <section
-      id="contact"
-      className="grid md:grid-cols-2 my-12 md:my-12 py-24 gap-4 relative"
-    >
-      <div>
-        <h5 className="text-xl font-bold text-white my-2">
-          Let&apos;s Connect
-        </h5>
-        <p className="text-[#ADB7BE] mb-4 max-w-md">
-          I&apos;m currently looking for new opportunities, my inbox is always
-          open. Whether you have a question or just want to say hi, I&apos;ll
-          try my best to get back to you!
-        </p>
-        <div className="socials flex flex-row gap-2">
-          <a href="https://github.com/jainhardik120" aria-label="github" target="_blank" rel="noopener">
-            <Image src={GithubIcon} alt="Github Icon" />
-          </a>
-          <a href="https://linkedin.com/in/jainhardik120" aria-label="linkedin" target="_blank" rel="noopener">
-            <Image src={LinkedinIcon} alt="Linkedin Icon" />
-          </a>
-        </div>
-      </div>
-      <div>
-        {emailSubmitted ? (
-          <p className="text-green-500 text-sm mt-2">
-            Email sent successfully!
+    <section id="contact">
+      <h2 className="text-center text-4xl font-bold mt-4 mb-8 md:mb-12">
+        Let&apos;s Connect
+      </h2>
+      <div className="grid md:grid-cols-2 gap-12 relative">
+        <div className="flex flex-col md:justify-center">
+          <p className="mb-4 max-w-md text-tsecondary-light dark:text-tsecondary-dark text-center md:text-left">
+            I&apos;m currently looking for new opportunities, my inbox is always
+            open. Whether you have a question or just want to say hi, I&apos;ll
+            try my best to get back to you!
           </p>
-        ) : (
+          <div className="socials flex flex-row gap-2 w-full justify-center">
+            <a href="https://github.com/jainhardik120" aria-label="github" target="_blank" rel="noopener">
+              <Image src={GithubIcon} alt="Github Icon" className="filter invert dark:invert-0" />
+            </a>
+            <a href="https://linkedin.com/in/jainhardik120" aria-label="linkedin" target="_blank" rel="noopener">
+              <Image src={LinkedinIcon} alt="Linkedin Icon" className="filter invert dark:invert-0" />
+            </a>
+          </div>
+        </div>
+        <div>
           <form className="flex flex-col" onSubmit={handleSubmit}>
             <TextInput
               label="Your email"
@@ -95,8 +88,13 @@ const ContactSection: React.FC = () => {
             >
               Send Message
             </button>
+            {emailSubmitted && (
+              <p className="text-sm mt-2">
+                Email sent successfully!
+              </p>
+            )}
           </form>
-        )}
+        </div>
       </div>
     </section>
   );

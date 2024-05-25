@@ -16,6 +16,7 @@
     "@uiw/react-md-editor": "^3.6.0",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
+    "boxicons": "^2.1.4",
     "cookie": "^0.6.0",
     "framer-motion": "^11.2.6",
     "mongodb": "^6.6.2",

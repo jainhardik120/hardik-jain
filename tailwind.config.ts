@@ -18,6 +18,8 @@ const config: Config = {
       ...colors,
       primary: colors.purple,
       secondary: colors.green,
+      'tsecondary-light' : '#4b5563',
+      'tsecondary-dark' : '#9ca3af',
     },
   },
   plugins: [],
