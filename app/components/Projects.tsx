@@ -31,7 +31,7 @@ const ProjectTag: React.FC<{ name: string, onClick: (name: string) => void, isSe
 
 const ProjectCard: React.FC<{ imgUrl: string, title: string, description: string, gitUrl: string, previewUrl: string }> = ({ imgUrl, title, description, gitUrl, previewUrl }) => {
   return (
-    <div className="relative sm:w-full md:h-[216px] md:w-[384px] overflow-hidden flex items-end rounded-lg group">
+    <div className="relative md:h-[196px] md:w-[350px] overflow-hidden flex items-end rounded-lg group">
       <img
         src={imgUrl}
         alt={title}
@@ -95,7 +95,7 @@ const ProjectsSection: React.FC = () => {
         <h2 className="text-center text-4xl font-bold mt-4 mb-8 md:mb-12">
           My Projects
         </h2>
-        <div className="flex flex-row justify-center items-center gap-2 py-6">
+        <div className="flex flex-row justify-center items-center gap-4 mb-8 md:mb-12">
           {categories.map(tcategory => (
             <ProjectTag
               key={tcategory}
@@ -105,7 +105,7 @@ const ProjectsSection: React.FC = () => {
             />
           ))}
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8 md:gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
           {filteredProjects.map((project) => (
             <ProjectCard
               key={project._id}

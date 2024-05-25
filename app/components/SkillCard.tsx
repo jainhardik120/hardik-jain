@@ -7,7 +7,7 @@ interface SkillCardProps {
 
 const SkillCard: React.FC<SkillCardProps> = ({ title, skills }) => {
   return (
-    <div className="border-[1px] border-black dark:border-white rounded-lg w-[350px] py-4">
+    <div className="border-[1px] dark:bg-[#18191E] dark:border-[#33353F]  border-black rounded-lg w-[350px] py-4">
       <h3 className="text-2xl text-center mb-4">{title}</h3>
       <div className="px-4 ms-4">
         {skills.map((skill, index) => {

@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/solid";
 import NavLink from "./NavLink";
 import MenuOverlay from "./MenuLink";
+import ThemeSwitcher from "./ThemeSwitcher";
 
 const navLinks = [
 	{
@@ -30,33 +31,6 @@ const navLinks = [
 
 const Navbar = () => {
 	const [navbarOpen, setNavbarOpen] = useState(false);
-	const [themeMenuOpen, setThemeMenuOpen] = useState(false);
-
-	const applyTheme = (theme: string) => {
-		if (typeof window !== "undefined" && window.localStorage) {
-			if (theme === 'system') {
-				window.localStorage.removeItem('theme');
-			} else {
-				window.localStorage.setItem('theme', theme);
-			}
-			updateTheme();
-		}
-	};
-
-	const updateTheme = () => {
-		if (typeof window !== "undefined" && window.localStorage) {
-			const theme = window.localStorage.getItem('theme');
-			if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-				document.documentElement.classList.add('dark');
-			} else {
-				document.documentElement.classList.remove('dark');
-			}
-		}
-	};
-
-	useEffect(() => {
-		updateTheme();
-	}, []);
 
 	useEffect(() => {
 		const handleScroll = () => {
@@ -121,48 +95,8 @@ const Navbar = () => {
 							</li>
 						))}
 						<li>
-							<div className="relative">
-								<button
-									type="button"
-									title="theme menu"
-									onClick={() => setThemeMenuOpen(!themeMenuOpen)}
-									className="block py-2 pl-3 pr-4 dark:text-[#ADB7BE] sm:text-xl rounded md:p-0 dark:hover:text-white"
-								>
-									Theme
-								</button>
-								{themeMenuOpen && (
-									<div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-20">
-										<ul className="py-1">
-											<li
-												className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
-												onClick={() => {
-													setThemeMenuOpen(false);
-													applyTheme('light');
-												}}
-											>
-												Light
-											</li>
-											<li
-												className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
-												onClick={() => {
-													setThemeMenuOpen(false);
-													applyTheme('dark');
-												}}
-											>
-												Dark
-											</li>
-											<li
-												className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
-												onClick={() => {
-													setThemeMenuOpen(false);
-													applyTheme('system');
-												}}
-											>
-												System
-											</li>
-										</ul>
-									</div>
-								)}
+							<div className="py-2 pl-3 pr-4 md:p-0 h-full flex items-center">
+								<ThemeSwitcher />
 							</div>
 						</li>
 					</ul>

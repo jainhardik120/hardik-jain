@@ -15,10 +15,10 @@ export default function Home() {
         <Navbar />
         <div className="container mx-auto px-12 py-4">
           <ProfileSection />
-          {/* <AboutSection /> */}
+          <AboutSection />
           <SkillsSection />
           <ProjectsSection />
-          {/* <BlogSection /> */}
+          <BlogSection />
           <ContactSection />
         </div>
       </main>
