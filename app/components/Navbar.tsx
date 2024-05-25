@@ -33,20 +33,24 @@ const Navbar = () => {
 	const [themeMenuOpen, setThemeMenuOpen] = useState(false);
 
 	const applyTheme = (theme: string) => {
-		if (theme === 'system') {
-			localStorage.removeItem('theme');
-		} else {
-			localStorage.setItem('theme', theme);
+		if (typeof window !== "undefined" && window.localStorage) {
+			if (theme === 'system') {
+				window.localStorage.removeItem('theme');
+			} else {
+				window.localStorage.setItem('theme', theme);
+			}
+			updateTheme();
 		}
-		updateTheme();
 	};
 
 	const updateTheme = () => {
-		const theme = localStorage.getItem('theme');
-		if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-			document.documentElement.classList.add('dark');
-		} else {
-			document.documentElement.classList.remove('dark');
+		if (typeof window !== "undefined" && window.localStorage) {
+			const theme = window.localStorage.getItem('theme');
+			if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+				document.documentElement.classList.add('dark');
+			} else {
+				document.documentElement.classList.remove('dark');
+			}
 		}
 	};
 
