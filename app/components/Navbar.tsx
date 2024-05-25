@@ -6,64 +6,45 @@ import NavLink from "./NavLink";
 import MenuOverlay from "./MenuLink";
 import ThemeSwitcher from "./ThemeSwitcher";
 
-const navLinks = [
-	{
-		title: "About",
-		path: "#about",
-	},
-	{
-		title: "Skills",
-		path: "#skills",
-	},
-	{
-		title: "Projects",
-		path: "#projects",
-	},
-	{
-		title: "Blog",
-		path: "#blog",
-	},
-	{
-		title: "Contact",
-		path: "#contact",
-	},
-];
-
-const Navbar = () => {
+const Navbar: React.FC<{ navLinks: { title: string, path: string }[], LogoText: string, LogoPath: string, HideLogo?: boolean }> = ({ navLinks, LogoText, LogoPath, HideLogo = true }) => {
 	const [navbarOpen, setNavbarOpen] = useState(false);
-
 	useEffect(() => {
-		const handleScroll = () => {
-			const profileSection = document.getElementById("hero_text");
-			if (profileSection) {
-				const profileSectionRect = profileSection.getBoundingClientRect();
-				const isVisible = profileSectionRect.top >= 0 && profileSectionRect.bottom <= window.innerHeight;
-				const x = document.getElementById("nav-logo");
-				if (x) {
-					if (isVisible) {
-						x.classList.add("hidden");
-					} else {
-						x.classList.remove("hidden");
+		const x = document.getElementById("nav-logo");
+		if (HideLogo) {
+			const handleScroll = () => {
+				const profileSection = document.getElementById("hero_text");
+				if (profileSection) {
+					const profileSectionRect = profileSection.getBoundingClientRect();
+					const isVisible = profileSectionRect.top >= 0 && profileSectionRect.bottom <= window.innerHeight;
+					if (x) {
+						if (isVisible) {
+							x.classList.add("hidden");
+						} else {
+							x.classList.remove("hidden");
+						}
 					}
 				}
+			};
+			window.addEventListener("scroll", handleScroll);
+			return () => {
+				window.removeEventListener("scroll", handleScroll);
+			};
+		} else {
+			if (x) {
+				x.classList.remove("hidden");
 			}
-		};
-
-		window.addEventListener("scroll", handleScroll);
-		return () => {
-			window.removeEventListener("scroll", handleScroll);
-		};
-	}, []);
+		}
+	}, [HideLogo]);
 
 	return (
 		<nav className="fixed mx-auto top-0 left-0 right-0 z-10 bg-opacity-100 h-20 bg-white dark:bg-[#121212]">
 			<div className="flex container lg:py-4 flex-wrap items-center justify-between mx-auto px-4 py-2 h-full">
 				<Link
 					id="nav-logo"
-					href={"/"}
+					href={LogoPath}
 					className="text-2xl md:text-4xl font-semibold hidden"
 				>
-					Hardik Jain
+					{LogoText}
 				</Link>
 				<div></div>
 				<div className="mobile-menu block lg:hidden">

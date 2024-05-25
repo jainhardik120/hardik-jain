@@ -4,6 +4,7 @@ import "@uiw/react-md-editor/markdown-editor.css";
 import "@uiw/react-markdown-preview/markdown.css";
 import dynamic from "next/dynamic";
 import { SetStateAction, useState } from "react";
+import TextInput from "@/app/components/TextInput";
 
 const MDEditor = dynamic(
   () => import("@uiw/react-md-editor"),
@@ -34,7 +35,7 @@ const insertToTextArea = (intsertString: string) => {
 
 const onImagePasted = async (dataTransfer: DataTransfer, setValue: (value: SetStateAction<string | undefined>) => void) => {
   const files: File[] = [];
-  const currentDatetime = new Date().toISOString().replace(/[-:.]/g, ''); // Get current datetime without separators
+  const currentDatetime = new Date().toISOString().replace(/[-:.]/g, '');
   for (let index = 0; index < dataTransfer.items.length; index += 1) {
     const file = dataTransfer.files.item(index);
     if (file) {
@@ -85,8 +86,14 @@ const Page: React.FC = () => {
   return (
     <>
       <div>
-        <label htmlFor="title">Post Title</label>
-        <input id="title" type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
+        <TextInput
+          label="Title"
+          name="title"
+          type="text"
+          value={title}
+          placeholder=""
+          onChange={(e) => setTitle(e.target.value)}
+        />
         <MDEditor
           height={600}
           value={value}

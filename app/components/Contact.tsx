@@ -6,6 +6,26 @@ import LinkedinIcon from "../../public/linkedin-icon.svg";
 import Image from "next/image";
 import TextInput from "./TextInput";
 import TextareaInput from "./TextareaInput";
+import Button from "./Button";
+
+
+const contactMethods = [
+  {
+    href: "mailto:jainhardik120@gmail.com",
+    label: "Mail",
+    detail: "jainhardik120@gmail.com"
+  },
+  {
+    href: "https://wa.me/7983121194",
+    label: "Whatsapp",
+    detail: "7983121194"
+  },
+  {
+    href: "https://instagram.com/_.hardikj",
+    label: "Instagram",
+    detail: "@_.hardikj"
+  }
+];
 
 const ContactSection: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -59,35 +79,19 @@ const ContactSection: React.FC = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-2  gap-8 ">
         <div className="flex flex-col md:justify-center w-[350px] gap-8">
-          <a
-            href="mailto:jainhardik120@gmail.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="border-[1px] dark:bg-[#18191E] dark:border-[#33353F] border-black rounded-lg p-4 text-center hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-          >
-            <h3 className="text-lg font-semibold">Mail</h3>
-            <span className="text-sm text-tsecondary-light dark:text-tsecondary-dark">jainhardik120@gmail.com</span>
-          </a>
-          <a
-            href="https://wa.me/7983121194"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="border-[1px] dark:bg-[#18191E] dark:border-[#33353F] border-black rounded-lg p-4 text-center hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-          >
-            <h3 className="text-lg font-semibold">Whatsapp</h3>
-            <span className="text-sm text-tsecondary-light dark:text-tsecondary-dark">7983121194</span>
-          </a>
-          <a
-            href="https://instagram.com/_.hardikj"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="border-[1px] dark:bg-[#18191E] dark:border-[#33353F] border-black rounded-lg p-4 text-center hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-          >
-            <h3 className="text-lg font-semibold">Instagram</h3>
-            <span className="text-sm text-tsecondary-light dark:text-tsecondary-dark">@_.hardikj</span>
-          </a>
+          {contactMethods.map((method, index) => (
+            <a
+              key={index}
+              href={method.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="border-[1px] dark:bg-[#18191E] dark:border-[#33353F] border-black rounded-lg p-4 text-center hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+            >
+              <h3 className="text-lg font-semibold">{method.label}</h3>
+              <span className="text-sm text-tsecondary-light dark:text-tsecondary-dark">{method.detail}</span>
+            </a>
+          ))}
         </div>
-
         <div>
           <form className="flex flex-col" onSubmit={handleSubmit}>
             <TextInput
@@ -113,12 +117,7 @@ const ContactSection: React.FC = () => {
               placeholder="Let's talk about..."
               onChange={(e) => setMessage(e.target.value)}
             />
-            <button
-              type="submit"
-              className="bg-primary-500 hover:bg-primary-600 text-white font-medium py-2.5 px-5 rounded-lg w-full"
-            >
-              Send Message
-            </button>
+            <Button type="submit">Send Message</Button>
             {emailSubmitted && (
               <p className="text-sm mt-2">
                 Email sent successfully!

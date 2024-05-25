@@ -3,7 +3,7 @@
 const DashboardPage: React.FC = () => {
   return (
     <>
-      Admin Dashboard
+      
     </>
   )
 }

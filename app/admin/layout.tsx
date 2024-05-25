@@ -1,16 +1,21 @@
+import Navbar from "../components/Navbar";
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <div >
-      <div className="fixed top-0 left-0 w-full h-16 bg-black">
-
-      </div>
-      <div className="mt-16">
+    <main className="flex min-h-screen flex-col">
+      <Navbar navLinks={[
+        { title: "Posts", path: "/admin/post" },
+        { title: "Projects", path: "/admin/project" },
+        { title: "Skills", path: "/admin/skill" },
+        { title: "Login", path: "/admin/login" }
+      ]} LogoPath="/admin" LogoText="Admin Home" HideLogo={false}/>
+      <div className="px-12 pt-20">
         {children}
       </div>
-    </div>
+    </main>
   );
 }
