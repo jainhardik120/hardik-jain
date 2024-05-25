@@ -48,7 +48,7 @@ const onImagePasted = async (dataTransfer: DataTransfer, setValue: (value: SetSt
         method: 'POST',
         body: JSON.stringify({ filename: filenameWithDatetime, filetype: file.type }),
         headers: {
-          'Content-Type' : 'application/json'
+          'Content-Type': 'application/json'
         }
       });
       const data = await response.json();
@@ -80,10 +80,13 @@ const stripQueryParameters = (url: string): string => {
 
 
 const Page: React.FC = () => {
-  const [value, setValue] = useState<string | undefined>("**Hello world!!!**");
+  const [value, setValue] = useState<string | undefined>("");
+  const [title, setTitle] = useState<string>("");
   return (
     <>
       <div>
+        <label htmlFor="title">Post Title</label>
+        <input id="title" type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
         <MDEditor
           height={600}
           value={value}
@@ -96,7 +99,7 @@ const Page: React.FC = () => {
           }}
         />
         <button type="button" onClick={async () => {
-          if (!value || value.length === 0) {
+          if (!value || value.length === 0 || title.length == 0) {
             return;
           }
           const response = await fetch("/api/blog/posts", {
@@ -105,7 +108,7 @@ const Page: React.FC = () => {
               'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-              title: `${Date.now()}`,
+              title: title,
               content: value
             }),
           })
