@@ -20,6 +20,7 @@ const ProjectTag: React.FC<{ name: string, onClick: (name: string) => void, isSe
     : "text-[#ADB7BE] border-slate-600 hover:border-white";
   return (
     <button
+      type="button"
       className={`${buttonStyles} rounded-full border-2 px-6 py-3 text-xl cursor-pointer`}
       onClick={() => onClick(name)}
     >
