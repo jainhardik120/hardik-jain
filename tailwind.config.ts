@@ -17,9 +17,10 @@ const config: Config = {
     colors: {
       ...colors,
       primary: colors.purple,
-      secondary: colors.pink,
+      secondary: colors.green,
     },
   },
   plugins: [],
+  darkMode : 'selector'
 };
 export default config;
