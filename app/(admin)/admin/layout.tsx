@@ -1,4 +1,5 @@
-import Navbar from "../components/Navbar";
+import Footer from "@/app/components/Footer";
+import Navbar from "../../components/Navbar";
 
 export default function RootLayout({
   children,
@@ -12,10 +13,9 @@ export default function RootLayout({
         { title: "Projects", path: "/admin/project" },
         { title: "Skills", path: "/admin/skill" },
         { title: "Login", path: "/admin/login" }
-      ]} LogoPath="/admin" LogoText="Admin Home" HideLogo={false}/>
-      <div className="px-12 pt-20">
-        {children}
-      </div>
+      ]} LogoPath="/admin" LogoText="Admin Home" HideLogo={false} />
+      {children}
+      <Footer />
     </main>
   );
 }

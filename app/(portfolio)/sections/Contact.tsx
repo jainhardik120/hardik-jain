@@ -1,12 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
-import GithubIcon from "../../public/github-icon.svg";
-import LinkedinIcon from "../../public/linkedin-icon.svg";
+import GithubIcon from "./../../../public/github-icon.svg";
+import LinkedinIcon from "./../../../public/linkedin-icon.svg";
 import Image from "next/image";
-import TextInput from "./TextInput";
-import TextareaInput from "./TextareaInput";
-import Button from "./Button";
+import TextInput from "../../components/TextInput";
+import TextareaInput from "../../components/TextareaInput";
+import Button from "../../components/Button";
 
 
 const contactMethods = [

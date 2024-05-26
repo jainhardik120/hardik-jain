@@ -14,7 +14,6 @@ const LoginPage: React.FC = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setError(null);
-
     try {
       const response = await fetch("/api/auth/login", {
         method: "POST",

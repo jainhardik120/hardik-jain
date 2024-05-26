@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { SubSkill } from "./Skills";
+import { SubSkill } from "../Skills";
 interface SkillCardProps {
   title: string;
   skills: SubSkill[]

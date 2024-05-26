@@ -1,19 +1,18 @@
 import ErrorResponse from "@/lib/ErrorResponse";
-import clientPromise from "@/lib/mongodb";
+import dbConnect from "@/lib/dbConnect";
+import Session from "@/models/Session";
+import User from "@/models/User";
 import bcrypt from 'bcryptjs';
 import { serialize } from 'cookie';
-import { ObjectId } from "mongodb";
 
 export async function POST(request: Request) {
   try {
-    const mongo = (await clientPromise).db("hardik-jain");
-    const users = mongo.collection("users");
-    const sessions = mongo.collection("sessions");
+    await dbConnect();
     const { email, password } = await request.json();
     if (!email || !password) {
       return ErrorResponse('Email and password are required');
     }
-    const user = await users.findOne({ email });
+    const user = await User.findOne({ email: email });
     if (!user) {
       return ErrorResponse('Invalid email or password');
     }
@@ -21,14 +20,11 @@ export async function POST(request: Request) {
     if (!isValid) {
       return ErrorResponse('Invalid email or password');
     }
-    const sessionId = new ObjectId();
-    const session = {
-      _id: sessionId,
-      userId: user._id,
-      createdAt: new Date(),
-    };
-    await sessions.insertOne(session);
-    const cookie = serialize('session_id', sessionId.toString(), {
+    const session = new Session({
+      userId: user._id
+    });
+    const savedSession = await session.save();
+    const cookie = serialize('session_id', savedSession._id.toString(), {
       httpOnly: true,
       secure: process.env.NODE_ENV !== 'development',
       sameSite: 'strict',
@@ -43,6 +39,7 @@ export async function POST(request: Request) {
       }
     });
   } catch (error) {
+    console.log(error);
     return ErrorResponse(error)
   }
 }
