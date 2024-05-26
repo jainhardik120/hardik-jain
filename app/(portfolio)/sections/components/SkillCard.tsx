@@ -1,16 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
-import { SubSkill } from "../Skills";
-interface SkillCardProps {
-  title: string;
-  skills: SubSkill[]
-}
 
-const SkillCard: React.FC<SkillCardProps> = ({ title, skills }) => {
+import { ISkill } from "@/models/Skill";
+
+
+const SkillCard: React.FC<{ skill: ISkill }> = ({ skill }) => {
   return (
     <div className="border-[1px] dark:bg-[#18191E] dark:border-[#33353F]  border-black rounded-lg w-[350px] py-4">
-      <h3 className="text-2xl text-center mb-4">{title}</h3>
+      <h3 className="text-2xl text-center mb-4">{skill.name}</h3>
       <div className="px-4 ms-4">
-        {skills.map((skill, index) => {
+        {skill.skills.map((skill, index) => {
           return (
             <div key={index} className="flex items-center my-2">
               <img
