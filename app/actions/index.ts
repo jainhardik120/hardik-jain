@@ -18,7 +18,7 @@ export const getProjectsGroupedByCategory = async () => {
         _id: "$category",
         projects: {
           $push: {
-            _id: "$_id",
+            _id: { $toString: "$_id" }, 
             name: "$name",
             githubLink: "$githubLink",
             demoLink: "$demoLink",
@@ -31,9 +31,10 @@ export const getProjectsGroupedByCategory = async () => {
       }
     },
     {
-      $sort: { _id: 1 } 
+      $sort: { _id: 1 }
     }
   ]);
+
   const uniqueCategories = projectsGroupedByCategory.map(group => group._id);
   return {
     categories: uniqueCategories,

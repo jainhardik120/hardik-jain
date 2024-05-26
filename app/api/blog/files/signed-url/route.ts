@@ -25,4 +25,4 @@ export async function POST(request: Request) {
     const signedUrl = await getSignedUrl(s3Client, command);
     return Response.json({ signedUrl });
   })
-} 
+}

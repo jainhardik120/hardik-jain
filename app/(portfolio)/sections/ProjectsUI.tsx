@@ -19,7 +19,6 @@ interface UIProps {
 
 export const UI: React.FC<UIProps> = ({ categories, projectsByCategory, initialCategory }) => {
   const [category, setCategory] = useState<string>(initialCategory);
-
   const handleCategoryChange = (tcategory: string) => {
     setCategory(tcategory);
   };
@@ -43,15 +42,19 @@ export const UI: React.FC<UIProps> = ({ categories, projectsByCategory, initialC
         {projectsByCategory.map(group => (
           <div key={group._id} style={{ display: category === group._id ? 'block' : 'none' }}>
             <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
-              {group.projects.map((project) => (
-                <ProjectCard
-                  key={project.id}
-                  title={project.name}
-                  description={""}
-                  imgUrl={project.imageUrl}
-                  gitUrl={project.githubLink}
-                  previewUrl={project.demoLink}
-                />
+              {group.projects.map((project, index) => (
+                <>
+                  <div
+                    key={index}>
+                    <ProjectCard
+                      title={project.name}
+                      description={""}
+                      imgUrl={project.imageUrl}
+                      gitUrl={project.githubLink}
+                      previewUrl={project.demoLink}
+                    />
+                  </div>
+                </>
               ))}
             </div>
           </div>

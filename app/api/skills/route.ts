@@ -1,13 +1,12 @@
 import ErrorResponse from "@/lib/ErrorResponse";
 import { authMiddleware } from "@/middleware/Auth";
-import clientPromise from "@/lib/mongodb";
+import dbConnect from "@/lib/dbConnect";
+import Skill from "@/models/Skill";
 
 export async function GET(request: Request) {
   try {
-    const db = (await clientPromise).db("hardik-jain")
-    const skillsCollection = db.collection("skills");
-    const skillsCursor = skillsCollection.find({});
-    const skills = await skillsCursor.toArray();
+    await dbConnect();
+    const skills = await Skill.find({});
     return new Response(JSON.stringify(skills), {
       status: 200,
       headers: {
@@ -15,21 +14,27 @@ export async function GET(request: Request) {
       }
     });
   } catch (error) {
-    return ErrorResponse(error);
+    return ErrorResponse(error, 500);
   }
 }
 
-
 export async function POST(request: Request) {
   return authMiddleware(request, async (userId) => {
-    const db = (await clientPromise).db("hardik-jain")
-    const skillsCollection = db.collection("skills");
+    await dbConnect();
     const { name, skills } = await request.json();
-    const newDocument = {
+    if (!name || !skills) {
+      return ErrorResponse("Name and skills are required", 400);
+    }
+    const newSkill = new Skill({
       name,
       skills
-    }
-    const result = await skillsCollection.insertOne(newDocument);
-    return Response.json({ id: result.insertedId });
-  })
-} 
+    });
+    const savedSkill = await newSkill.save();
+    return new Response(JSON.stringify({ id: savedSkill._id }), {
+      status: 201,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+  });
+}

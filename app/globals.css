@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.dark:root {
+  color-scheme: dark;
+}
+
 section {
   min-height: 100vh;
   display: flex;

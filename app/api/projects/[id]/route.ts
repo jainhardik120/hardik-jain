@@ -1,29 +1,30 @@
 import ErrorResponse from "@/lib/ErrorResponse";
 import { authMiddleware } from "@/middleware/Auth";
-import clientPromise from "@/lib/mongodb";
-import { Project } from "../route";
 import { ObjectId } from "mongodb";
-
-async function getCollection() {
-  const db = (await clientPromise).db("hardik-jain")
-  return db.collection("projects");
-};
+import dbConnect from "@/lib/dbConnect";
+import ProjectModel from "@/models/Project";
 
 export async function PUT(request: Request, { params }: { params: { id: string } }) {
   return authMiddleware(request, async (userId) => {
-    const projectsCollection = await getCollection();
+    await dbConnect();
+
     const id = new ObjectId(params.id);
-    const { ...updateFields } = await request.json();
+    const updateFields = await request.json();
+
     if (Object.keys(updateFields).length === 0) {
-      return ErrorResponse("Update fields missing");
+      return ErrorResponse("Update fields missing", 400);
     }
-    const result = await projectsCollection.updateOne(
-      { "_id": id },
-      { $set: updateFields }
+
+    const updatedProject = await ProjectModel.findOneAndUpdate(
+      { _id: id },
+      updateFields,
+      { new: true }
     );
-    if (result.matchedCount === 0) {
-      return ErrorResponse("Project not found");
+
+    if (!updatedProject) {
+      return ErrorResponse("Project not found", 404);
     }
+
     return new Response(JSON.stringify({ message: "Project updated successfully" }), {
       status: 200,
       headers: {
@@ -31,13 +32,19 @@ export async function PUT(request: Request, { params }: { params: { id: string }
       }
     });
   });
-};
+}
 
 export async function GET(request: Request, { params }: { params: { id: string } }) {
   try {
+    await dbConnect();
+
     const id = new ObjectId(params.id);
-    const project = await (await getCollection()).findOne({ "_id": id });
-    console.log(project);
+    const project = await ProjectModel.findById(id);
+
+    if (!project) {
+      return ErrorResponse("Project not found", 404);
+    }
+
     return new Response(JSON.stringify(project), {
       status: 200,
       headers: {
@@ -45,6 +52,6 @@ export async function GET(request: Request, { params }: { params: { id: string }
       }
     });
   } catch (error) {
-    return ErrorResponse(error);
+    return ErrorResponse(error, 500);
   }
-};
+}

@@ -9,19 +9,23 @@ export async function POST(request: Request) {
   try {
     await dbConnect();
     const { email, password } = await request.json();
+
     if (!email || !password) {
-      return ErrorResponse('Email and password are required');
+      return ErrorResponse('Email and password are required', 400);
     }
+
     const user = await User.findOne({ email: email });
     if (!user) {
-      return ErrorResponse('Invalid email or password');
+      return ErrorResponse('Invalid email or password', 401);
     }
+
     const isValid = await bcrypt.compare(password, user.password);
     if (!isValid) {
-      return ErrorResponse('Invalid email or password');
+      return ErrorResponse('Invalid email or password', 401);
     }
+
     const session = new Session({
-      userId: user._id
+      userId: user._id,
     });
     const savedSession = await session.save();
     const cookie = serialize('session_id', savedSession._id.toString(), {
@@ -31,15 +35,16 @@ export async function POST(request: Request) {
       maxAge: 60 * 60 * 24 * 7, // 1 week
       path: '/',
     });
+
     return new Response(JSON.stringify({ message: 'Login successful' }), {
       status: 200,
       headers: {
         'Set-Cookie': cookie,
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     });
   } catch (error) {
-    console.log(error);
-    return ErrorResponse(error)
+    console.error(error);
+    return ErrorResponse(error);
   }
 }

@@ -1,47 +1,42 @@
-import clientPromise from '@/lib/mongodb';
+import dbConnect from '@/lib/dbConnect';
+import User from '@/models/User';
+import Session from '@/models/Session';
 import bcrypt from 'bcryptjs';
 import { serialize } from 'cookie';
-import { ObjectId } from 'mongodb';
 import ErrorResponse from '@/lib/ErrorResponse';
 
-export async function POST(request : Request) {
+export async function POST(request: Request) {
   try {
-    throw new Error("Signup not allowed")
-    const mongo = (await clientPromise).db("hardik-jain");
-    const users = mongo.collection("users");
-    const sessions = mongo.collection("sessions");
+    await dbConnect();
     const { email, password } = await request.json();
 
     if (!email || !password) {
       return ErrorResponse('Email and password are required', 400);
     }
 
-
-    const existingUser = await users.findOne({ email });
+    const existingUser = await User.findOne({ email });
     if (existingUser) {
       return ErrorResponse('Email already in use', 409);
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const newUser = {
-      _id: new ObjectId(),
+    const newUser = new User({
       email,
       password: hashedPassword,
       createdAt: new Date(),
-    };
+    });
 
-    await users.insertOne(newUser);
+    await newUser.save();
 
-    const sessionId = new ObjectId();
-    const session = {
-      _id: sessionId,
+    const session = new Session({
       userId: newUser._id,
       createdAt: new Date(),
-    };
-    await sessions.insertOne(session);
+    });
 
-    const cookie = serialize('session_id', sessionId.toString(), {
+    await session.save();
+
+    const cookie = serialize('session_id', session._id.toString(), {
       httpOnly: true,
       secure: process.env.NODE_ENV !== 'development',
       sameSite: 'strict',
@@ -58,6 +53,7 @@ export async function POST(request : Request) {
     });
 
   } catch (error) {
-    return ErrorResponse('Internal server error', 500);
+    console.error(error);
+    return ErrorResponse(error, 500);
   }
 }

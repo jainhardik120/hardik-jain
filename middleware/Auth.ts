@@ -1,6 +1,5 @@
 import { parse } from 'cookie';
-import clientPromise from '../lib/mongodb';
-import { ObjectId } from 'mongodb';
+import SessionModel from '@/models/Session';
 import ErrorResponse from '@/lib/ErrorResponse';
 
 export const authMiddleware = async (req: Request, next: (userId: string) => Promise<Response>) => {
@@ -14,16 +13,12 @@ export const authMiddleware = async (req: Request, next: (userId: string) => Pro
     return ErrorResponse('Unauthorized');
   }
   try {
-    const client = await clientPromise;
-    const db = client.db('hardik-jain');
-    const sessions = db.collection('sessions');
-    const session = await sessions.findOne({ _id: new ObjectId(sessionId) });
+    const session = await SessionModel.findOne({ _id: sessionId });
     if (!session) {
       return ErrorResponse('Unauthorized');
     }
-    return (await next(session.userId));
+    return await next(session.userId);
   } catch (error) {
-    console.log("from auth middleware", error);
     return ErrorResponse(error);
   }
 };
