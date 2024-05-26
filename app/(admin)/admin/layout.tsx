@@ -7,14 +7,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <main className="flex min-h-screen flex-col">
+    <main className="flex flex-col">
       <Navbar navLinks={[
         { title: "Posts", path: "/admin/post" },
         { title: "Projects", path: "/admin/project" },
         { title: "Skills", path: "/admin/skill" },
         { title: "Login", path: "/admin/login" }
       ]} LogoPath="/admin" LogoText="Admin Home" HideLogo={false} />
-      {children}
+      <div className="min-h-screen mt-20">
+        {children}
+      </div>
       <Footer />
     </main>
   );
