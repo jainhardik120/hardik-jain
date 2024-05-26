@@ -1,14 +1,18 @@
 // pages/projects.js
 "use client"
+
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { IProject } from '@/models/Project';
+import { TableHeader, TableRow, TableCell, Table, TableHead, TableBody } from '@/components/ui/table';
+import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
+
 
 const ProjectsPage = () => {
   const [projects, setProjects] = useState<IProject[]>([]);
-
+  const router = useRouter();
   useEffect(() => {
-    // Fetch projects data from your API endpoint
     const fetchProjects = async () => {
       try {
         const response = await fetch('/api/projects');
@@ -24,34 +28,33 @@ const ProjectsPage = () => {
 
   return (
     <div>
-      <h1>Projects</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Github Link</th>
-            <th>Demo Link</th>
-            <th>Category</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Name</TableHead>
+            <TableHead>Github Link</TableHead>
+            <TableHead>Demo Link</TableHead>
+            <TableHead>Category</TableHead>
+            <TableHead>Actions</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody >
           {projects.map((project) => (
-            <tr key={project.id}>
-              <td>{project.name}</td>
-              <td><a href={project.githubLink} target="_blank" rel="noopener noreferrer">{project.githubLink}</a></td>
-              <td><a href={project.demoLink} target="_blank" rel="noopener noreferrer">{project.demoLink}</a></td>
-              <td>{project.category}</td>
-              <td>
-                <Link href={`/admin/project/${project.id}`}>
+            <TableRow key={project._id as string}>
+              <TableCell>{project.name}</TableCell>
+              <TableCell><a href={project.githubLink} target="_blank" rel="noopener noreferrer">{project.githubLink}</a></TableCell>
+              <TableCell><a href={project.demoLink} target="_blank" rel="noopener noreferrer">{project.demoLink}</a></TableCell>
+              <TableCell>{project.category}</TableCell>
+              <TableCell>
+                <Button onClick={() => router.push(`/admin/project/${project._id}`)}>
                   Edit
-                </Link>
-              </td>
-            </tr>
+                </Button>
+              </TableCell>
+            </TableRow>
           ))}
-        </tbody>
-      </table>
-    </div>
+        </TableBody>
+      </Table>
+    </div >
   );
 };
 
