@@ -1,17 +1,75 @@
-// pages/projects.js
+/* eslint-disable @next/next/no-img-element */
 "use client"
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
 import { IProject } from '@/models/Project';
-import { TableHeader, TableRow, TableCell, Table, TableHead, TableBody } from '@/components/ui/table';
-import { Button } from '@/components/ui/button';
-import { useRouter } from 'next/navigation';
+import { ColumnDef } from "@tanstack/react-table"
+import { DataTable } from './DataTable';
 
+const columns: ColumnDef<IProject>[] = [
+  {
+    id: 'name',
+    header: 'Name',
+    accessorKey: 'name',
+  },
+  {
+    id: 'githubLink',
+    header: 'GitHub Link',
+    accessorKey: 'githubLink',
+    cell: (context) => {
+      const value = context.getValue() as string;
+      return <a href={value} target="_blank" rel="noopener noreferrer">{value}</a>;
+    },
+  },
+  {
+    id: 'demoLink',
+    header: 'Demo Link',
+    accessorKey: 'demoLink',
+    cell: (context) => {
+      const value = context.getValue() as string;
+      return <a href={value} target="_blank" rel="noopener noreferrer">{value}</a>;
+    },
+  },
+  {
+    id: 'category',
+    header: 'Category',
+    accessorKey: 'category',
+  },
+  {
+    id: 'imageUrl',
+    header: 'Image',
+    accessorKey: 'imageUrl',
+    cell: (context) => {
+      const value = context.getValue() as string;
+      return (
+        <img
+          src={value}
+          alt="Project"
+          style={{
+            maxHeight: '50px',
+            maxWidth: '100px',
+            objectFit: 'contain'
+          }}
+        />
+      );
+    },
+  },
+  {
+    id: 'edit',
+    header: 'Edit',
+    cell: (context) => {
+      const projectId = context.row.original._id;
+      return (
+        <button onClick={() => window.location.href = `/admin/project/${projectId}`}>
+          Edit
+        </button>
+      );
+    },
+  },
+];
 
 const ProjectsPage = () => {
   const [projects, setProjects] = useState<IProject[]>([]);
-  const router = useRouter();
   useEffect(() => {
     const fetchProjects = async () => {
       try {
@@ -22,39 +80,13 @@ const ProjectsPage = () => {
         console.error('Error fetching projects:', error);
       }
     };
-
     fetchProjects();
   }, []);
 
   return (
-    <div>
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Name</TableHead>
-            <TableHead>Github Link</TableHead>
-            <TableHead>Demo Link</TableHead>
-            <TableHead>Category</TableHead>
-            <TableHead>Actions</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody >
-          {projects.map((project) => (
-            <TableRow key={project._id as string}>
-              <TableCell>{project.name}</TableCell>
-              <TableCell><a href={project.githubLink} target="_blank" rel="noopener noreferrer">{project.githubLink}</a></TableCell>
-              <TableCell><a href={project.demoLink} target="_blank" rel="noopener noreferrer">{project.demoLink}</a></TableCell>
-              <TableCell>{project.category}</TableCell>
-              <TableCell>
-                <Button onClick={() => router.push(`/admin/project/${project._id}`)}>
-                  Edit
-                </Button>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </div >
+    <div className="w-full mt-20">
+      <DataTable columns={columns} data={projects} />
+    </div>
   );
 };
 
