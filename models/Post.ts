@@ -1,20 +1,18 @@
 import mongoose from "mongoose";
 
 export interface IPost extends mongoose.Document {
-  title: string;
-  content: string;
+  title?: string;
+  content?: string;
   createdAt: Date;
   updatedAt: Date;
 };
 
 const PostSchema = new mongoose.Schema<IPost>({
   title: {
-    type: String,
-    required: true
+    type: String
   },
   content: {
-    type: String,
-    required: true
+    type: String
   }
 }, {
   timestamps: true

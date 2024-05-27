@@ -4,9 +4,9 @@ import React, { useState } from "react";
 import GithubIcon from "./../../../public/github-icon.svg";
 import LinkedinIcon from "./../../../public/linkedin-icon.svg";
 import Image from "next/image";
-import TextInput from "../../components/TextInput";
-import TextareaInput from "../../components/TextareaInput";
-import Button from "../../components/Button";
+import TextInput from "../../../components/PortfolioComponents/TextInput";
+import TextareaInput from "../../../components/PortfolioComponents/TextareaInput";
+import Button from "../../../components/PortfolioComponents/Button";
 
 
 const contactMethods = [

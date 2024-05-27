@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   EditorRoot,
   EditorCommand,
@@ -31,32 +31,28 @@ import 'highlight.js/styles/atom-one-dark.css';
 
 interface EditorProp {
   initialValue?: JSONContent;
-  onChange: (value: JSONContent) => void;
+  onChange: (value: JSONContent) => Promise<void>
 }
 const Editor = ({ initialValue, onChange }: EditorProp) => {
   const [openNode, setOpenNode] = useState(false);
   const [openColor, setOpenColor] = useState(false);
   const [openLink, setOpenLink] = useState(false);
-
   const [saveStatus, setSaveStatus] = useState("Saved");
   const [charsCount, setCharsCount] = useState();
 
-
-  const highlightCodeblocks = (content: string) => {
-    const doc = new DOMParser().parseFromString(content, 'text/html');
-    doc.querySelectorAll('pre code').forEach((el) => {
-      // @ts-ignore
-      hljs.highlightElement(el);
-    });
-    return new XMLSerializer().serializeToString(doc);
-  };
+  // const highlightCodeblocks = (content: string) => {
+  //   const doc = new DOMParser().parseFromString(content, 'text/html');
+  //   doc.querySelectorAll('pre code').forEach((el) => {
+  //     // @ts-ignore
+  //     hljs.highlightElement(el);
+  //   });
+  //   return new XMLSerializer().serializeToString(doc);
+  // };
 
   const debouncedUpdates = useDebouncedCallback(async (editor: EditorInstance) => {
     const json = editor.getJSON();
     setCharsCount(editor.storage.characterCount.words());
-    window.localStorage.setItem("html-content", highlightCodeblocks(editor.getHTML()));
-    window.localStorage.setItem("novel-content", JSON.stringify(json));
-    window.localStorage.setItem("markdown", editor.storage.markdown.getMarkdown());
+    await onChange(json);
     setSaveStatus("Saved");
   }, 500);
 

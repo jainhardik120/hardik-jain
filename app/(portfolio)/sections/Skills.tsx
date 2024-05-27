@@ -1,7 +1,7 @@
 "use server"
 
 import { getSkills } from "../../actions";
-import SkillCard from "./components/SkillCard";
+import SkillCard from "./SkillCard";
 
 export default async function SkillsSection() {
   const skills = await getSkills();

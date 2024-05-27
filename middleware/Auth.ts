@@ -1,6 +1,7 @@
 import { parse } from 'cookie';
 import SessionModel from '@/models/Session';
 import ErrorResponse from '@/lib/ErrorResponse';
+import dbConnect from '@/lib/dbConnect';
 
 export const authMiddleware = async (req: Request, next: (userId: string) => Promise<Response>) => {
   const cookie = req.headers.get("cookie");
@@ -12,6 +13,7 @@ export const authMiddleware = async (req: Request, next: (userId: string) => Pro
   if (!sessionId) {
     return ErrorResponse('Unauthorized');
   }
+  await dbConnect();
   try {
     const session = await SessionModel.findOne({ _id: sessionId });
     if (!session) {
