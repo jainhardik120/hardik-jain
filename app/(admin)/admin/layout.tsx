@@ -14,10 +14,9 @@ export default function RootLayout({
         { title: "Skills", path: "/admin/skill" },
         { title: "Login", path: "/admin/login" }
       ]} LogoPath="/admin" LogoText="Admin Home" HideLogo={false} />
-      <div className="min-h-screen mt-24 px-4">
+      <div className="mt-24 px-4">
         {children}
       </div>
-      <Footer />
     </main>
   );
 }

@@ -4,7 +4,7 @@
 import { useEffect, useState } from 'react';
 import { IProject } from '@/models/Project';
 import { ColumnDef } from "@tanstack/react-table"
-import { DataTable } from './DataTable';
+import { DataTable } from '../../../../components/DataTable';
 
 const columns: ColumnDef<IProject>[] = [
   {
@@ -84,8 +84,12 @@ const ProjectsPage = () => {
   }, []);
 
   return (
-    <div className="w-full mt-20">
-      <DataTable columns={columns} data={projects} />
+    <div className="w-full">
+      <DataTable columns={columns} data={projects} CreateButton={
+        <>
+
+        </>
+      } filterOn='name' name='Projects' />
     </div>
   );
 };

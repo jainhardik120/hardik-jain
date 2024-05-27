@@ -5,13 +5,12 @@ import Post from "@/models/Post";
 export async function GET(request: Request) {
   try {
     await dbConnect();
-    const posts = await Post.find({})
-      .sort({ createdAt: -1 })
-      .limit(3)
-      .lean()
+    const posts = await Post.find({}, { content: 0 }).exec();
     return new Response(JSON.stringify(posts), {
       status: 200,
-      headers: { "Content-Type": "application/json" }
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
   } catch (error) {
     return ErrorResponse(error, 500);

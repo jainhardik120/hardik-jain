@@ -31,18 +31,23 @@ import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMe
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import React from "react"
+import React, { ReactNode } from "react"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
+  CreateButton: ReactNode
+  name : string
+  filterOn : string
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  CreateButton,
+  name, filterOn
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({})
   const [columnVisibility, setColumnVisibility] =
@@ -111,14 +116,14 @@ export function DataTable<TData, TValue>({
         <div className="flex items-center gap-4">
           <Input
             className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            placeholder="Search projects..."
-            value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+            placeholder={`Search ${name.toLowerCase()}...`}
+            value={(table.getColumn(filterOn)?.getFilterValue() as string) ?? ""}
             onChange={(event) =>
-              table.getColumn("name")?.setFilterValue(event.target.value)
+              table.getColumn(filterOn)?.setFilterValue(event.target.value)
             }
             type="text"
           />
-          <Button>Create Project</Button>
+          {CreateButton}
         </div>
       </div>
       <div className="rounded-md border">

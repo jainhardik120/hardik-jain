@@ -3,8 +3,7 @@
 import { useEffect, useState } from "react";
 import { JSONContent } from "novel";
 import Editor from "@/components/editor/advanced-editor";
-import { Input } from "@/components/ui/input"
-import { defaultValue } from "./default-value";
+import { defaultValue } from "../../../../../components/editor/default-value";
 import { IPost } from "@/models/Post";
 
 export default function Page({ params }: { params: { id: string } }) {
