@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 export interface IPost extends mongoose.Document {
   title?: string;
   content?: string;
+  description? :string;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -13,6 +14,9 @@ const PostSchema = new mongoose.Schema<IPost>({
   },
   content: {
     type: String
+  },
+  description : {
+    type : String
   }
 }, {
   timestamps: true

@@ -6,10 +6,11 @@ import Post from "@/models/Post";
 export async function POST(request: Request) {
   return authMiddleware(request, async (userId) => {
     await dbConnect();
-    let title, content
+    let title, content, description
     if (request.bodyUsed) {
       title = (await request.json())["title"];
       content = (await request.json())["content"];
+      description = (await request.json())["description"];
     }
     if (!title) {
       title = ""
@@ -18,13 +19,16 @@ export async function POST(request: Request) {
       content = JSON.stringify({
         type: "doc",
         content: [
-          
+
         ],
       });
     }
+    if (!description) {
+      description = ""
+    }
     const newPost = new Post({
       title,
-      content,
+      content, description
     });
     const savedPost = await newPost.save();
     return new Response(JSON.stringify({ id: savedPost._id }), {

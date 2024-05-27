@@ -26,33 +26,29 @@ import { Separator } from "../ui/separator";
 import { useDebouncedCallback } from "use-debounce"
 
 const extensions = [...defaultExtensions, slashCommand];
-import hljs from 'highlight.js';
 import 'highlight.js/styles/atom-one-dark.css';
 
 interface EditorProp {
   initialValue?: JSONContent;
-  onChange: (value: JSONContent) => Promise<void>
+  onChange: (value: JSONContent, title: string, description: string) => Promise<void>;
+  initialTitle: string;
+  initialDescription: string;
 }
-const Editor = ({ initialValue, onChange }: EditorProp) => {
+const Editor = ({ initialValue, onChange, initialDescription, initialTitle }: EditorProp) => {
   const [openNode, setOpenNode] = useState(false);
   const [openColor, setOpenColor] = useState(false);
   const [openLink, setOpenLink] = useState(false);
   const [saveStatus, setSaveStatus] = useState("Saved");
   const [charsCount, setCharsCount] = useState();
 
-  // const highlightCodeblocks = (content: string) => {
-  //   const doc = new DOMParser().parseFromString(content, 'text/html');
-  //   doc.querySelectorAll('pre code').forEach((el) => {
-  //     // @ts-ignore
-  //     hljs.highlightElement(el);
-  //   });
-  //   return new XMLSerializer().serializeToString(doc);
-  // };
+  const [title, setTitle] = useState(initialTitle);
+  const [description, setDescription] = useState(initialDescription);
+
 
   const debouncedUpdates = useDebouncedCallback(async (editor: EditorInstance) => {
     const json = editor.getJSON();
     setCharsCount(editor.storage.characterCount.words());
-    await onChange(json);
+    await onChange(json, title, description);
     setSaveStatus("Saved");
   }, 500);
 
@@ -64,9 +60,24 @@ const Editor = ({ initialValue, onChange }: EditorProp) => {
           {charsCount} Words
         </div>
       </div>
+      <div className="mb-5 flex flex-col space-y-3 border-b border-stone-200 pb-5 dark:border-stone-700">
+        <input
+          type="text"
+          placeholder="Title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          autoFocus
+          className="dark:placeholder-text-600 border-none px-0 font-cal text-3xl placeholder:text-stone-400 focus:outline-none focus:ring-0 "
+        />
+        <input
+          placeholder="Description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          className="dark:placeholder-text-600 w-full resize-none border-none px-0 placeholder:text-stone-400 focus:outline-none focus:ring-0 "
+        />
+      </div>
       <EditorRoot>
         <EditorContent
-          className="border p-4 rounded-xl"
           {...(initialValue && { initialContent: initialValue })}
           extensions={extensions}
           editorProps={{
@@ -121,7 +132,6 @@ const Editor = ({ initialValue, onChange }: EditorProp) => {
             <Separator orientation="vertical" />
             <NodeSelector open={openNode} onOpenChange={setOpenNode} />
             <Separator orientation="vertical" />
-
             <LinkSelector open={openLink} onOpenChange={setOpenLink} />
             <Separator orientation="vertical" />
             <TextButtons />
