@@ -83,7 +83,9 @@ const Navbar: React.FC<{ navLinks: { title: string, path: string }[], LogoText: 
 					</ul>
 				</div>
 			</div>
-			{navbarOpen ? <MenuOverlay links={navLinks} /> : null}
+			{navbarOpen ? <MenuOverlay links={navLinks} onClick={()=>{
+				setNavbarOpen(false);
+			}} /> : null}
 		</nav>
 	);
 };

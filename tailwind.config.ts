@@ -82,7 +82,7 @@ const config: Config = {
       'tsecondary-dark': '#9ca3af',
     },
   },
-  plugins: [],
+  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
   darkMode: 'selector',
 
 };
