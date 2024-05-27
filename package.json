@@ -31,6 +31,7 @@
     "clsx": "^2.1.1",
     "cookie": "^0.6.0",
     "framer-motion": "^11.2.6",
+    "highlight.js": "^11.9.0",
     "lowlight": "^3.1.0",
     "lucide-react": "^0.379.0",
     "mongodb": "^6.6.2",
@@ -46,7 +47,8 @@
     "sonner": "^1.4.41",
     "sooner": "^1.1.4",
     "tailwind-merge": "^2.3.0",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "use-debounce": "^10.0.1"
   },
   "devDependencies": {
     "@types/cookie": "^0.6.0",
