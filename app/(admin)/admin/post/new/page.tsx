@@ -1,11 +1,11 @@
 "use client"
 
 import { useState } from "react";
-import TextInput from "@/app/components/TextInput";
 import { JSONContent } from "novel";
 import { defaultValue } from "./default-value";
 import Editor from "@/components/editor/advanced-editor";
-
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button";
 
 const Page: React.FC = () => {
   const [title, setTitle] = useState<string>("");
@@ -13,19 +13,17 @@ const Page: React.FC = () => {
   return (
     <>
       <div>
-        <TextInput
-          label="Title"
+        <Input
           name="title"
           type="text"
           value={title}
           placeholder=""
           onChange={(e) => setTitle(e.target.value)}
         />
-        <div className="h-[500px] w-full">
+        <div className="w-full">
           <Editor initialValue={value} onChange={setValue} />
-
         </div>
-        <button type="button" onClick={async () => {
+        <Button type="submit" onClick={async () => {
           if (!value || value.length === 0 || title.length == 0) {
             return;
           }
@@ -39,7 +37,9 @@ const Page: React.FC = () => {
               content: value
             }),
           })
-        }}>Create Post</button>
+        }}>
+          Create Post
+        </Button>
       </div>
     </>
   )
