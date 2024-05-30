@@ -21,13 +21,13 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   return authMiddleware(request, async (userId) => {
     await dbConnect();
-    const { name, skills } = await request.json();
-    if (!name || !skills) {
-      return ErrorResponse("Name and skills are required", 400);
+    const { name } = await request.json();
+    if (!name ) {
+      return ErrorResponse("Name is required", 400);
     }
     const newSkill = new Skill({
       name,
-      skills
+      skills : []
     });
     const savedSkill = await newSkill.save();
     return new Response(JSON.stringify({ id: savedSkill._id }), {

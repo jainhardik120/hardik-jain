@@ -3,7 +3,7 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/solid";
 import NavLink from "./NavLink";
-import MenuOverlay from "./MenuLink";
+import MenuOverlay from "./MenuOverlay";
 import ThemeSwitcher from "./ThemeSwitcher";
 
 const Navbar: React.FC<{ navLinks: { title: string, path: string }[], LogoText: string, LogoPath: string, HideLogo?: boolean }> = ({ navLinks, LogoText, LogoPath, HideLogo = true }) => {
@@ -37,7 +37,7 @@ const Navbar: React.FC<{ navLinks: { title: string, path: string }[], LogoText: 
 	}, [HideLogo]);
 
 	return (
-		<nav className="fixed mx-auto top-0 left-0 right-0 z-10 bg-opacity-100 h-20 bg-white dark:bg-[#121212]">
+		<nav className="fixed mx-auto top-0 left-0 right-0 z-10 bg-opacity-100 h-20 bg-background">
 			<div className="flex container lg:py-4 flex-wrap items-center justify-between mx-auto px-4 py-2 h-full">
 				<Link
 					id="nav-logo"

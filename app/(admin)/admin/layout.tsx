@@ -1,4 +1,3 @@
-import Footer from "@/components/PortfolioComponents/Footer";
 import Navbar from "../../../components/PortfolioComponents/Navbar";
 
 export default function RootLayout({
@@ -7,7 +6,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <main className="flex flex-col">
+    <main className="flex flex-col min-h-screen">
       <Navbar navLinks={[
         { title: "Posts", path: "/admin/post" },
         { title: "Projects", path: "/admin/project" },
