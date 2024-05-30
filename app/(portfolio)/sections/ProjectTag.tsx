@@ -8,7 +8,7 @@ export const ProjectTag: React.FC<{ name: string; onClick: (name: string) => voi
   return (
     <button
       type="button"
-      className={`${buttonStyles} rounded-full border-2 px-6 py-3 text-xl cursor-pointer`}
+      className={`${buttonStyles} flex-1 rounded-full border-2 px-6 py-3 text-xl cursor-pointer`}
       onClick={() => onClick(name)}
     >
       {name}

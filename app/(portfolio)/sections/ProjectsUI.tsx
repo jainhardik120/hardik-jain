@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import { ProjectCard } from "./ProjectCard";
 import { ProjectTag } from "./ProjectTag";
 import { IProject } from "@/models/Project";
+import { cn } from "@/lib/utils";
 
 interface ProjectGroup {
   _id: string;
@@ -25,11 +26,11 @@ export const UI: React.FC<UIProps> = ({ categories, projectsByCategory, initialC
 
   return (
     <>
-      <section id="projects">
+      <section id="projects" className="px-12">
         <h2 className="text-center text-4xl font-bold mt-4 mb-8 md:mb-12">
           My Projects
         </h2>
-        <div className="flex flex-row justify-center items-center gap-4 mb-8 md:mb-12">
+        <div className={cn(`grid grid-cols-1 md:grid-cols-${categories.length}  justify-center items-center gap-4 mb-8 md:mb-12`)}>
           {categories.map(tcategory => (
             <ProjectTag
               key={tcategory}
@@ -41,7 +42,7 @@ export const UI: React.FC<UIProps> = ({ categories, projectsByCategory, initialC
         </div>
         {projectsByCategory.map(group => (
           <div key={group._id} style={{ display: category === group._id ? 'block' : 'none' }}>
-            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 ">
               {group.projects.map((project, index) => (
                 <>
                   <div

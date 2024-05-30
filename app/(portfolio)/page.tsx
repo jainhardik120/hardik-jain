@@ -8,14 +8,12 @@ import SkillsSection from "./sections/Skills";
 export default function Home() {
   return (
     <>
-      <div className="container mx-auto px-2 sm:px-12 py-4">
-        <ProfileSection />
-        <AboutSection />
-        <SkillsSection />
-        <ProjectsSection />
-        <BlogSection />
-        <ContactSection />
-      </div>
+      <ProfileSection />
+      <AboutSection />
+      <SkillsSection />
+      <ProjectsSection />
+      <BlogSection />
+      <ContactSection />
     </>
   );
 }

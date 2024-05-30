@@ -6,6 +6,7 @@ import { TypeAnimation } from "react-type-animation";
 import { motion } from "framer-motion";
 import AchievementsSection from "./Achievements";
 import { GitHubLogoIcon, LinkedInLogoIcon, InstagramLogoIcon, TwitterLogoIcon, DownloadIcon } from "@radix-ui/react-icons"
+import { Button } from "@/components/ui/button";
 
 const Socials = [
   {
@@ -33,8 +34,8 @@ const Socials = [
 const ProfileSection: React.FC = () => {
   return (
     <>
-      <section id="profile" className="lg:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-12 dark:text-white">
+      <section id="profile" className="px-12 container mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-12">
           <motion.div
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -43,7 +44,7 @@ const ProfileSection: React.FC = () => {
             id="hero_text"
           >
             <div>
-              <h1 className="mb-4 text-4xl md:text-6xl lg:text-8xl lg:leading-normal font-extrabold lg:min-h-[432px] lg:max-w-[600px] md:min-h-[180px] w-[350px] md:w-fit">
+              <h1 className="mb-4 text-4xl md:text-6xl xl:text-8xl xl:leading-normal font-extrabold xl:min-h-[432px] xl:max-w-[600px] md:min-h-[180px] w-[350px] md:w-fit">
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-secondary-600">
                   Hello, I&apos;m{" "}
                 </span>
@@ -65,19 +66,18 @@ const ProfileSection: React.FC = () => {
                 </span>
               </h1>
             </div>
-            <div className="flex flex-col md:flex-row gap-4 w-full items-center">
-              <Link
-                href="/"
-                className="h-12 rounded-full max-w-fit flex justify-center items-center px-4 gap-4 border-2 border-white"
+            <div className="flex flex-col xl:flex-row gap-4 w-full items-center md:items-start">
+              <Button
+                className="h-12 rounded-full w-[240px] flex justify-center items-center px-4 gap-2"
               >
                 Download CV
                 <DownloadIcon />
-              </Link>
+              </Button>
               <div className="flex flex-row gap-4">
                 {
                   Socials.map((value) => {
                     return (<>
-                      <Link href={value.href} aria-label={value.alt} className="w-12 h-12  border-2 border-white rounded-full flex justify-center items-center">
+                      <Link href={value.href} aria-label={value.alt} className="w-12 h-12 border-2 border-border rounded-full flex justify-center items-center">
                         {value.icon}
                       </Link>
                     </>)
@@ -92,7 +92,7 @@ const ProfileSection: React.FC = () => {
             transition={{ duration: 0.5 }}
             className="col-span-4 place-self-center mt-4 lg:mt-0"
           >
-            <div className="rounded-full bg-gray-200 dark:bg-[#181818] w-[250px] h-[250px] lg:w-[400px] lg:h-[400px]">
+            <div className="rounded-full w-[250px] h-[250px] xl:w-[400px] xl:h-[400px]">
               <Image
                 src="/images/hero-image.jpg"
                 alt="hero image"

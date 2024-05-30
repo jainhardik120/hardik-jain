@@ -1,13 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
-import GithubIcon from "./../../../public/github-icon.svg";
-import LinkedinIcon from "./../../../public/linkedin-icon.svg";
 import Image from "next/image";
-import TextInput from "../../../components/PortfolioComponents/TextInput";
-import TextareaInput from "../../../components/PortfolioComponents/TextareaInput";
-import Button from "../../../components/PortfolioComponents/Button";
-
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { GitHubLogoIcon, LinkedInLogoIcon, InstagramLogoIcon, TwitterLogoIcon, DownloadIcon } from "@radix-ui/react-icons"
 
 const contactMethods = [
   {
@@ -62,17 +61,17 @@ const ContactSection: React.FC = () => {
         Let&apos;s Connect
       </h2>
       <div className="flex flex-col justify-center mb-8">
-        <p className="mb-4 max-w-md text-tsecondary-light dark:text-tsecondary-dark text-center">
+        <p className="mb-4 max-w-sm md:max-w-md text-tsecondary-light dark:text-tsecondary-dark text-center">
           I&apos;m currently looking for new opportunities, my inbox is always
           open. Whether you have a question or just want to say hi, I&apos;ll
           try my best to get back to you!
         </p>
-        <div className="socials flex flex-row gap-2 w-full justify-center">
+        <div className="socials flex flex-row gap-4 w-full justify-center">
           <a href="https://github.com/jainhardik120" aria-label="github" target="_blank" rel="noopener">
-            <Image src={GithubIcon} alt="Github Icon" className="filter invert dark:invert-0" />
+            <GitHubLogoIcon className="h-6 w-6"/>
           </a>
           <a href="https://linkedin.com/in/jainhardik120" aria-label="linkedin" target="_blank" rel="noopener">
-            <Image src={LinkedinIcon} alt="Linkedin Icon" className="filter invert dark:invert-0" />
+            <LinkedInLogoIcon className="h-6 w-6"/>
           </a>
         </div>
       </div>
@@ -85,7 +84,7 @@ const ContactSection: React.FC = () => {
               href={method.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="border-[1px] dark:bg-[#18191E] dark:border-[#33353F] border-black rounded-lg p-4 text-center hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+              className="border border-border rounded-lg p-4 text-center"
             >
               <h3 className="text-lg font-semibold">{method.label}</h3>
               <span className="text-sm text-tsecondary-light dark:text-tsecondary-dark">{method.detail}</span>
@@ -93,30 +92,45 @@ const ContactSection: React.FC = () => {
           ))}
         </div>
         <div>
-          <form className="flex flex-col" onSubmit={handleSubmit}>
-            <TextInput
-              label="Your email"
-              name="email"
-              type="email"
-              value={email}
-              placeholder="jacob@google.com"
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <TextInput
-              label="Subject"
-              name="subject"
-              type="text"
-              value={subject}
-              placeholder="Just saying hi"
-              onChange={(e) => setSubject(e.target.value)}
-            />
-            <TextareaInput
-              label="Message"
-              name="message"
-              value={message}
-              placeholder="Let's talk about..."
-              onChange={(e) => setMessage(e.target.value)}
-            />
+          <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+            <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="email">
+                Email
+              </Label>
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                value={email}
+                placeholder="jacob@google.com"
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+            <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="subject">
+                Subject
+              </Label>
+              <Input
+                id="subject"
+                name="subject"
+                type="text"
+                value={subject}
+                placeholder="Just saying hi"
+                onChange={(e) => setSubject(e.target.value)}
+              />
+            </div>
+            <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="message">
+                Message
+              </Label>
+              <Textarea
+                id="message"
+                name="message"
+                value={message}
+                placeholder="Let's talk about..."
+                onChange={(e) => setMessage(e.target.value)}
+              />
+            </div>
             <Button type="submit">Send Message</Button>
             {emailSubmitted && (
               <p className="text-sm mt-2">
@@ -124,9 +138,9 @@ const ContactSection: React.FC = () => {
               </p>
             )}
           </form>
-        </div>
-      </div>
-    </section>
+        </div >
+      </div >
+    </section >
   );
 };
 

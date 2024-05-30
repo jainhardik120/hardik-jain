@@ -2,12 +2,23 @@
 
 import { ISkill } from "@/models/Skill";
 
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+
 
 const SkillCard: React.FC<{ skill: ISkill }> = ({ skill }) => {
   return (
-    <div className="border-[1px] dark:bg-[#18191E] dark:border-[#33353F]  border-black rounded-lg w-[350px] py-4">
-      <h3 className="text-2xl text-center mb-4">{skill.name}</h3>
-      <div className="px-4 ms-4">
+    <Card>
+      <CardHeader>
+        <CardTitle className="text-center">{skill.name}</CardTitle>
+      </CardHeader>
+      <CardContent>
         {skill.skills.map((skill, index) => {
           return (
             <div key={index} className="flex items-center my-2">
@@ -23,9 +34,8 @@ const SkillCard: React.FC<{ skill: ISkill }> = ({ skill }) => {
             </div>
           );
         })}
-      </div>
-    </div>
-
+      </CardContent>
+    </Card >
   );
 };
 

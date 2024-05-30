@@ -2,7 +2,7 @@
 
 export const ProjectCard: React.FC<{ imgUrl: string; title: string; description: string; gitUrl: string; previewUrl: string; }> = ({ imgUrl, title, description, gitUrl, previewUrl }) => {
   return (
-    <div className="relative md:h-[196px] md:w-[350px] overflow-hidden flex items-end rounded-lg group">
+    <div className="relative md:h-[196px] max-w-[350px] overflow-hidden flex items-end rounded-lg group">
       <img
         src={imgUrl}
         alt={title}
