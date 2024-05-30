@@ -34,17 +34,17 @@ const Socials = [
 const ProfileSection: React.FC = () => {
   return (
     <>
-      <section id="profile" className="px-12 container mx-auto">
+      <section id="profile" className="sm:px-12 container mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-12">
           <motion.div
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5 }}
-            className="col-span-8 place-self-center text-center md:text-left justify-self-start"
+            className="col-span-8 place-self-center text-center md:text-left flex flex-col items-center justify-self-start"
             id="hero_text"
           >
-            <div>
-              <h1 className="mb-4 text-4xl md:text-6xl xl:text-8xl xl:leading-normal font-extrabold xl:min-h-[432px] xl:max-w-[600px] md:min-h-[180px] w-[350px] md:w-fit">
+            <div className="w-full">
+              <h1 className="mb-4 text-4xl md:text-6xl xl:text-8xl xl:leading-normal font-extrabold xl:min-h-[432px] xl:w-[600px] md:min-h-[180px] w-[350px] md:w-[400px]">
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-secondary-600">
                   Hello, I&apos;m{" "}
                 </span>
@@ -56,7 +56,7 @@ const ProfileSection: React.FC = () => {
                       1000,
                       "Web Developer",
                       1000,
-                      "Mobile Developer",
+                      "Android Developer",
                       1000
                     ]}
                     wrapper="span"
@@ -65,6 +65,15 @@ const ProfileSection: React.FC = () => {
                   />
                 </span>
               </h1>
+            </div>
+            <div className="md:hidden rounded-full w-[250px] h-[250px] xl:w-[400px] xl:h-[400px] my-10">
+              <Image
+                src="/images/hero-image.jpg"
+                alt="hero image"
+                width={800}
+                height={800}
+                className="rounded-full"
+              />
             </div>
             <div className="flex flex-col xl:flex-row gap-4 w-full items-center md:items-start">
               <Button
@@ -90,7 +99,7 @@ const ProfileSection: React.FC = () => {
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5 }}
-            className="col-span-4 place-self-center mt-4 lg:mt-0"
+            className="col-span-4 place-self-center mt-4 lg:mt-0 hidden md:block"
           >
             <div className="rounded-full w-[250px] h-[250px] xl:w-[400px] xl:h-[400px]">
               <Image
