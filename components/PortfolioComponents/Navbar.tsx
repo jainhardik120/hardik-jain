@@ -6,7 +6,10 @@ import NavLink from "./NavLink";
 import MenuOverlay from "./MenuOverlay";
 import ThemeSwitcher from "./ThemeSwitcher";
 
-const Navbar: React.FC<{ navLinks: { title: string, path: string }[], LogoText: string, LogoPath: string, HideLogo?: boolean }> = ({ navLinks, LogoText, LogoPath, HideLogo = true }) => {
+
+const Navbar: React.FC<{
+	navLinks: { title: string, path?: string, onClick?: () => Promise<void> }[], LogoText: string, LogoPath: string, HideLogo?: boolean
+}> = ({ navLinks, LogoText, LogoPath, HideLogo = true }) => {
 	const [navbarOpen, setNavbarOpen] = useState(false);
 	useEffect(() => {
 		const x = document.getElementById("nav-logo");
@@ -72,7 +75,7 @@ const Navbar: React.FC<{ navLinks: { title: string, path: string }[], LogoText: 
 					<ul className="flex p-4 lg:p-0 lg:flex-row lg:space-x-8 mt-0">
 						{navLinks.map((link, index) => (
 							<li key={index}>
-								<NavLink href={link.path} title={link.title} />
+								<NavLink href={link.path} title={link.title} onClick={link.onClick} />
 							</li>
 						))}
 						<li>
@@ -83,7 +86,7 @@ const Navbar: React.FC<{ navLinks: { title: string, path: string }[], LogoText: 
 					</ul>
 				</div>
 			</div>
-			{navbarOpen ? <MenuOverlay links={navLinks} onClick={()=>{
+			{navbarOpen ? <MenuOverlay links={navLinks} onClick={async () => {
 				setNavbarOpen(false);
 			}} /> : null}
 		</nav>

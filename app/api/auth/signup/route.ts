@@ -8,6 +8,7 @@ import ErrorResponse from '@/lib/ErrorResponse';
 export async function POST(request: Request) {
   try {
     await dbConnect();
+    return ErrorResponse("Not Allowed", 401)
     const { email, password } = await request.json();
 
     if (!email || !password) {

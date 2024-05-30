@@ -1,15 +1,17 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 
-const NavLink: React.FC<{ href: string, title: string, onClick? : ()=>void }> = ({ href, title, onClick }) => {
+const NavLink: React.FC<{ href?: string, title: string, onClick?: () => Promise<void> }> = ({ href, title, onClick }) => {
   const router = useRouter();
   return (
     <button
       onClick={
-        () => {
-          router.push(href);
-          if(onClick){
-            onClick();
+        async () => {
+          if (href) {
+            router.push(href);
+          }
+          if (onClick) {
+            await onClick();
           }
         }
       }

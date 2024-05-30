@@ -12,12 +12,15 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { useAuthContext } from "@/lib/AuthenticationProvider";
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
+
+  const { refresh } = useAuthContext();
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -32,6 +35,7 @@ const LoginPage: React.FC = () => {
       });
 
       if (response.ok) {
+        await refresh();
         router.push("/admin");
       } else {
         const body = await response.json();
