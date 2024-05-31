@@ -8,11 +8,11 @@ import SkillsSection from "./sections/Skills";
 export default function Home() {
   return (
     <>
-      <ProfileSection />
+      {/* <ProfileSection />
       <AboutSection />
       <SkillsSection />
       <ProjectsSection />
-      <BlogSection />
+      <BlogSection /> */}
       <ContactSection />
     </>
   );
