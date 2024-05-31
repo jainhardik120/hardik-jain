@@ -10,7 +10,6 @@ import { FieldError, useForm } from "react-hook-form";
 import { z, ZodType } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-
 type ContactForm = {
   email: string,
   subject: string,
@@ -97,7 +96,6 @@ const ContactSection: React.FC = () => {
           </a>
         </div>
       </div>
-
       <div className="grid grid-cols-1 md:grid-cols-2  gap-8 ">
         <div className="flex flex-col md:justify-center w-[350px] gap-8">
           {contactMethods.map((method, index) => (
