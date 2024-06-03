@@ -1,14 +1,7 @@
-"use server"
+"use server";
+import dbConnect from "@/lib/dbConnect";
+import Project from "@/models/Project";
 
-import dbConnect from "@/lib/dbConnect"
-import Project, { IProject } from "@/models/Project";
-import Skill, { ISkill } from "@/models/Skill";
-
-export const getSkills = async () => {
-  await dbConnect();
-  const skills: ISkill[] = await Skill.find({});
-  return skills;
-}
 
 export const getProjectsGroupedByCategory = async () => {
   await dbConnect();
@@ -18,7 +11,7 @@ export const getProjectsGroupedByCategory = async () => {
         _id: "$category",
         projects: {
           $push: {
-            _id: { $toString: "$_id" }, 
+            _id: { $toString: "$_id" },
             name: "$name",
             githubLink: "$githubLink",
             demoLink: "$demoLink",

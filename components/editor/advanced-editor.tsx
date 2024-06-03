@@ -53,7 +53,7 @@ const Editor = ({ initialValue, onChange, initialDescription, initialTitle }: Ed
   }, 500);
 
   return (
-    <div className="relative w-full max-w-screen-lg">
+    <div className="relative w-full max-w-screen-lg border border-border p-4">
       <div className="flex absolute right-5 top-5 z-10 mb-5 gap-2">
         <div className="rounded-lg bg-accent px-2 py-1 text-sm text-muted-foreground">{saveStatus}</div>
         <div className={charsCount ? "rounded-lg bg-accent px-2 py-1 text-sm text-muted-foreground" : "hidden"}>
@@ -67,13 +67,13 @@ const Editor = ({ initialValue, onChange, initialDescription, initialTitle }: Ed
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           autoFocus
-          className="dark:placeholder-text-600 border-none px-0 font-cal text-3xl placeholder:text-stone-400 focus:outline-none focus:ring-0 "
+          className="dark:placeholder-text-600 bg-background border-none px-0 font-cal text-3xl placeholder:text-stone-400 focus:outline-none focus:ring-0 "
         />
         <input
           placeholder="Description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          className="dark:placeholder-text-600 w-full resize-none border-none px-0 placeholder:text-stone-400 focus:outline-none focus:ring-0 "
+          className="dark:placeholder-text-600 bg-background w-full resize-none border-none px-0 placeholder:text-stone-400 focus:outline-none focus:ring-0 "
         />
       </div>
       <EditorRoot>

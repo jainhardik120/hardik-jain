@@ -1,4 +1,4 @@
-import { getProjectsGroupedByCategory } from "@/app/actions";
+import { getProjectsGroupedByCategory } from "@/app/actions/getProjectsGroupedByCategory";
 import { UI } from "./ProjectsUI";
 
 export default async function ProjectSection() {
