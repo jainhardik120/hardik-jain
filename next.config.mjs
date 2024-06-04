@@ -10,5 +10,15 @@ export default removeImports()({
         permanent : true
       }
     ]
-  }
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'hardik-jain-blog-content.s3.eu-north-1.amazonaws.com',
+        port: '',
+        pathname: '/uploads/**',
+      },
+    ],
+  },
 });

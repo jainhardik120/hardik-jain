@@ -1,4 +1,4 @@
-import { getAllPosts } from "@/app/actions/getAllPosts";
+import { getAllPosts } from "@/lib/actions/getAllPosts";
 import Link from "next/link";
 
 export default async function Page({ params }: { params: { page: number } }) {

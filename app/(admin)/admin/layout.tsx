@@ -1,7 +1,7 @@
 "use client"
 
 import { AuthenticationProvider, useAuthContext } from "@/lib/AuthenticationProvider";
-import Navbar from "../../../components/PortfolioComponents/Navbar";
+import Navbar from "../../../components/Navbar";
 
 const AdminNavbar = () => {
   const { isLoggedIn, logOut } = useAuthContext();

@@ -1,5 +1,5 @@
-import Footer from "@/components/PortfolioComponents/Footer";
-import Navbar from "@/components/PortfolioComponents/Navbar";
+import Footer from "@/components/Footer";
+import Navbar from "@/components/Navbar";
 
 export default function HomeLayout({ children }: { children: React.ReactNode }) {
   return <>

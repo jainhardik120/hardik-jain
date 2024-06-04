@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { TypeAnimation } from "react-type-animation";
-import AchievementsSection from "./Achievements";
+import AchievementsSection from "./AchievementsSection";
 import { GitHubLogoIcon, LinkedInLogoIcon, InstagramLogoIcon, TwitterLogoIcon, DownloadIcon } from "@radix-ui/react-icons"
 import { Button } from "@/components/ui/button";
 

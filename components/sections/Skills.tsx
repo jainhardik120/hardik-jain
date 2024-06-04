@@ -1,6 +1,4 @@
-"use server"
-
-import { getSkills } from "@/app/actions/getSkills";
+import { getSkills } from "@/lib/actions/getSkills";
 import SkillCard from "./SkillCard";
 
 export default async function SkillsSection() {

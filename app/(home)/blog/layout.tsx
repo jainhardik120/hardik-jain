@@ -1,4 +1,4 @@
-import { getPageCount } from "@/app/actions/getPageCount";
+import { getPageCount } from "@/lib/actions/getPageCount";
 import PageSwitch from "./pageswtich";
 
 export default async function BlogLayout({ children }: { children: React.ReactNode }) {

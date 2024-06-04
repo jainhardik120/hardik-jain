@@ -1,6 +1,6 @@
-import { getPostContent } from "@/app/actions/getPostContent";
+import { getPostContent } from "@/lib/actions/getPostContent";
 import "./postcontent.css"
-import { getPostIds } from "@/app/actions/getPostIds";
+import { getPostIds } from "@/lib/actions/getPostIds";
 
 interface PostId {
   id: string

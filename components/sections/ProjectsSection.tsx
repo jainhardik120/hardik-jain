@@ -1,7 +1,6 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { ProjectCard } from "./ProjectCard";
 import { ProjectTag } from "./ProjectTag";
 import { IProject } from "@/models/Project";
@@ -18,12 +17,11 @@ interface UIProps {
   initialCategory: string;
 }
 
-export const UI: React.FC<UIProps> = ({ categories, projectsByCategory, initialCategory }) => {
+const ProjectsSection: React.FC<UIProps> = ({ categories, projectsByCategory, initialCategory }) => {
   const [category, setCategory] = useState<string>(initialCategory);
   const handleCategoryChange = (tcategory: string) => {
     setCategory(tcategory);
   };
-
   return (
     <>
       <section id="projects" className="px-12">
@@ -64,3 +62,5 @@ export const UI: React.FC<UIProps> = ({ categories, projectsByCategory, initialC
     </>
   );
 };
+
+export default ProjectsSection;

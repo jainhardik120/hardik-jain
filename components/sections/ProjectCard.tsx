@@ -1,12 +1,12 @@
-/* eslint-disable @next/next/no-img-element */
+import Image from "next/image";
 
 export const ProjectCard: React.FC<{ imgUrl: string; title: string; description: string; gitUrl: string; previewUrl: string; }> = ({ imgUrl, title, description, gitUrl, previewUrl }) => {
   return (
     <div className="relative md:h-[196px] max-w-[350px] overflow-hidden flex items-end rounded-lg group">
-      <img
+      <Image
         src={imgUrl}
         alt={title}
-        className="transition-transform duration-300 group-hover:scale-110 w-full h-full object-cover" />
+        className="transition-transform duration-300 group-hover:scale-110 w-full h-full object-cover"  width={600} height={400} />
       <div className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-70 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
         <h5 className="text-4xl font-semibold text-white mb-4">{title}</h5>
         <div className="flex justify-center space-x-8">

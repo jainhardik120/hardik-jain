@@ -1,5 +1,5 @@
-import Navbar from "../../components/PortfolioComponents/Navbar";
-import Footer from "../../components/PortfolioComponents/Footer";
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
 
 const navLinks = [
   {
@@ -23,7 +23,6 @@ const navLinks = [
     path: "/#contact",
   },
 ];
-
 
 export default function RootLayout({
   children,
