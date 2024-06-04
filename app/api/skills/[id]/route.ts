@@ -1,19 +1,17 @@
 import ErrorResponse from "@/lib/ErrorResponse";
 import { authMiddleware } from "@/middleware/Auth";
-import { ObjectId } from "mongodb";
 import dbConnect from "@/lib/dbConnect";
 import SkillModel from "@/models/Skill";
 
 export async function PUT(request: Request, { params }: { params: { id: string } }) {
   return authMiddleware(request, async (userId) => {
     await dbConnect();
-    const id = new ObjectId(params.id);
     const updateFields = await request.json();
     if (Object.keys(updateFields).length === 0) {
       return ErrorResponse("Update fields missing", 400);
     }
     const updatedSkill = await SkillModel.findOneAndUpdate(
-      { _id: id },
+      { _id: params.id },
       updateFields,
       { new: true }
     );
@@ -32,8 +30,7 @@ export async function PUT(request: Request, { params }: { params: { id: string }
 export async function DELETE(request: Request, { params }: { params: { id: string } }) {
   return authMiddleware(request, async (userId) => {
     await dbConnect();
-    const id = new ObjectId(params.id);
-    const deletedSkill = await SkillModel.findOneAndDelete({ _id: id });
+    const deletedSkill = await SkillModel.findOneAndDelete({ _id: params.id });
     if (!deletedSkill) {
       return ErrorResponse("Skill not found", 404);
     }

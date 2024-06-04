@@ -7,7 +7,7 @@ export async function PUT(request: Request, { params }: { params: { id: string }
   return authMiddleware(request, async (userId) => {
     await dbConnect();
     const updateFields = await request.json();
-    const updatedPost = await Post.findByIdAndUpdate({ _id: params.id }, updateFields,
+    const updatedPost = await Post.findByIdAndUpdate({ _id: params.id, author: userId }, updateFields,
       { new: true });
     if (!updatedPost) {
       return ErrorResponse("Post not found", 404);

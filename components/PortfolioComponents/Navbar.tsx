@@ -1,10 +1,10 @@
 "use client";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/solid";
 import NavLink from "./NavLink";
 import MenuOverlay from "./MenuOverlay";
 import ThemeSwitcher from "./ThemeSwitcher";
+import { Menu, X } from "lucide-react";
 
 
 const Navbar: React.FC<{
@@ -58,7 +58,7 @@ const Navbar: React.FC<{
 							onClick={() => setNavbarOpen(true)}
 							className="flex items-center px-3 py-2 dark:text-slate-200 dark:hover:text-white "
 						>
-							<Bars3Icon className="h-5 w-5" />
+							<Menu className="h-5 w-5" />
 						</button>
 					) : (
 						<button
@@ -67,7 +67,7 @@ const Navbar: React.FC<{
 							onClick={() => setNavbarOpen(false)}
 							className="flex items-center px-3 py-2 dark:text-slate-200 dark:hover:text-white "
 						>
-							<XMarkIcon className="h-5 w-5" />
+							<X className="h-5 w-5" />
 						</button>
 					)}
 				</div>

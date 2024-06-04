@@ -1,12 +1,14 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
+import { IUser } from "./User";  
 
 export interface IPost extends mongoose.Document {
   title?: string;
   content?: string;
-  description? :string;
+  description?: string;
+  author: IUser['_id']; 
   createdAt: Date;
   updatedAt: Date;
-};
+}
 
 const PostSchema = new mongoose.Schema<IPost>({
   title: {
@@ -15,8 +17,13 @@ const PostSchema = new mongoose.Schema<IPost>({
   content: {
     type: String
   },
-  description : {
-    type : String
+  description: {
+    type: String
+  },
+  author: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: true
   }
 }, {
   timestamps: true

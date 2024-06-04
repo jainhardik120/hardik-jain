@@ -28,7 +28,7 @@ export async function POST(request: Request) {
     }
     const newPost = new Post({
       title,
-      content, description
+      content, description, author: userId
     });
     const savedPost = await newPost.save();
     return new Response(JSON.stringify({ id: savedPost._id }), {

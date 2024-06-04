@@ -5,6 +5,8 @@ export interface IUser extends mongoose.Document {
   password: string;
   createdAt: Date;
   updatedAt: Date;
+  name: string;
+  profilePic?: string;
 };
 
 const UserSchema = new mongoose.Schema<IUser>({
@@ -25,6 +27,14 @@ const UserSchema = new mongoose.Schema<IUser>({
     type: String,
     required: true,
   },
+  name: {
+    type: String,
+    required: true,
+  },
+  profilePic: {
+    type: String,
+    required: false
+  }
 }, {
   timestamps: true
 });
