@@ -15,7 +15,6 @@ section {
   padding-top: 6rem;
 }
 
-
 @layer base {
   :root {
     --background: 0 0% 100%;

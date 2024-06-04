@@ -10,7 +10,7 @@ export default async function Page({ params }: { params: { page: number } }) {
           return (
             <>
               <div key={index} className="px-4 py-2 border border-border rounded-sm overflow-x-hidden">
-                <Link href={`/post/${post.id}`}>
+                <Link href={`/post/${post.id}`} prefetch={false}>
                   <h1 className="text text-2xl cursor-pointer">
                     {post.title}
                   </h1>

@@ -1,7 +1,6 @@
 "use client"
 
 import Image from "next/image";
-import Link from "next/link";
 import { TypeAnimation } from "react-type-animation";
 import AchievementsSection from "./AchievementsSection";
 import { GitHubLogoIcon, LinkedInLogoIcon, InstagramLogoIcon, TwitterLogoIcon, DownloadIcon } from "@radix-ui/react-icons"
@@ -82,9 +81,9 @@ const ProfileSection: React.FC = () => {
                 {
                   Socials.map((value) => {
                     return (<>
-                      <Link href={value.href} aria-label={value.alt} className="w-12 h-12 border-2 border-border rounded-full flex justify-center items-center">
+                      <a href={value.href} aria-label={value.alt} className="w-12 h-12 border-2 border-border rounded-full flex justify-center items-center">
                         {value.icon}
-                      </Link>
+                      </a>
                     </>)
                   })
                 }

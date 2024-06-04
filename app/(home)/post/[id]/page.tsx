@@ -6,11 +6,10 @@ interface PostId {
   id: string
 }
 
-export async function generateStaticParams() {
-  const postIds: PostId[] = await getPostIds();
-  console.log(postIds);
-  return postIds;
-}
+// export async function generateStaticParams() {
+//   const postIds: PostId[] = await getPostIds();
+//   return postIds;
+// }
 
 export default async function Page({ params }: { params: { id: string } }) {
   const postData = await getPostContent(params.id);

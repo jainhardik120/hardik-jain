@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "analyze": "cross-env ANALYZE=true next build",
+    "analyze:server": "cross-env BUNDLE_ANALYZE=server next build",
+    "analyze:browser": "cross-env BUNDLE_ANALYZE=browser next build"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.583.0",
@@ -51,11 +54,13 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@next/bundle-analyzer": "^14.2.3",
     "@types/bcryptjs": "^2.4.6",
     "@types/cookie": "^0.6.0",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "cross-env": "^7.0.3",
     "eslint": "^8",
     "eslint-config-next": "14.2.3",
     "postcss": "^8",

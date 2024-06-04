@@ -46,6 +46,7 @@ const Navbar: React.FC<{
 					id="nav-logo"
 					href={LogoPath}
 					className="text-2xl md:text-4xl font-semibold hidden"
+					prefetch={false}
 				>
 					{LogoText}
 				</Link>
