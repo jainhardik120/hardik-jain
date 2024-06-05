@@ -29,7 +29,19 @@ const Socials = [
   },
 ]
 
+const ResumeUrl = "https://hardik-jain-blog-content.s3.eu-north-1.amazonaws.com/uploads/2024-06-05T13-56-13-118Z_Hardik%20Jain%20CV.pdf";
+
 const ProfileSection: React.FC = () => {
+  const handleDownload = async () => {
+    const response = await (await fetch(ResumeUrl)).blob();
+    const url = URL.createObjectURL(response);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "Hardik Jain CV.pdf";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
   return (
     <>
       <section id="profile" className="sm:px-12 container mx-auto">
@@ -68,23 +80,25 @@ const ProfileSection: React.FC = () => {
                 width={800}
                 height={800}
                 className="rounded-full"
+                priority={true}
               />
             </div>
             <div className="flex flex-col xl:flex-row gap-4 w-full items-center md:items-start">
               <Button
                 className="h-12 rounded-full w-[240px] flex justify-center items-center px-4 gap-2"
+                onClick={handleDownload}
               >
                 Download CV
                 <DownloadIcon />
               </Button>
               <div className="flex flex-row gap-4">
                 {
-                  Socials.map((value) => {
-                    return (<>
-                      <a href={value.href} aria-label={value.alt} className="w-12 h-12 border-2 border-border rounded-full flex justify-center items-center">
+                  Socials.map((value, index) => {
+                    return (
+                      <a href={value.href} key={value.alt} aria-label={value.alt} className="w-12 h-12 border-2 border-border rounded-full flex justify-center items-center">
                         {value.icon}
                       </a>
-                    </>)
+                    )
                   })
                 }
               </div>
@@ -100,6 +114,7 @@ const ProfileSection: React.FC = () => {
                 width={800}
                 height={800}
                 className="rounded-full"
+                priority={true}
               />
             </div>
           </div>

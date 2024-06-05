@@ -2,6 +2,7 @@
 
 import { AuthenticationProvider, useAuthContext } from "@/lib/AuthenticationProvider";
 import Navbar from "../../../components/Navbar";
+import Footer from "@/components/Footer";
 
 const AdminNavbar = () => {
   const { isLoggedIn, logOut } = useAuthContext();
@@ -21,13 +22,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <main className="flex flex-col min-h-screen">
-      <AuthenticationProvider>
-        <AdminNavbar />
-        <div className="mt-24 px-4">
-          {children}
-        </div>
-      </AuthenticationProvider>
-    </main>
+    <AuthenticationProvider>
+      <AdminNavbar />
+      <div className="pt-20">
+        {children}
+      </div>
+      <Footer />
+    </AuthenticationProvider>
   );
 }

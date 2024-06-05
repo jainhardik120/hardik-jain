@@ -2,7 +2,6 @@
 import dbConnect from "@/lib/dbConnect";
 import Project from "@/models/Project";
 
-
 export const getProjectsGroupedByCategory = async () => {
   await dbConnect();
   const projectsGroupedByCategory = await Project.aggregate([
@@ -17,6 +16,8 @@ export const getProjectsGroupedByCategory = async () => {
             demoLink: "$demoLink",
             imageUrl: "$imageUrl",
             content: "$content",
+            shortDescription: "$shortDescription", 
+            techStack: "$techStack",
             createdAt: "$createdAt",
             updatedAt: "$updatedAt"
           }

@@ -2,13 +2,15 @@ import mongoose, { Schema, Document, Model } from 'mongoose';
 
 export interface IProject extends Document {
   name: string;
-  githubLink: string;
-  demoLink: string;
+  githubLink?: string;
+  demoLink?: string;
   category: string;
   imageUrl: string;
   content: string;
+  shortDescription: string;
   createdAt: Date;
   updatedAt: Date;
+  techStack: string[];
 }
 
 const ProjectSchema = new Schema<IProject>({
@@ -18,11 +20,9 @@ const ProjectSchema = new Schema<IProject>({
   },
   githubLink: {
     type: String,
-    required: true,
   },
   demoLink: {
     type: String,
-    required: true,
   },
   category: {
     type: String,
@@ -36,6 +36,14 @@ const ProjectSchema = new Schema<IProject>({
     type: String,
     required: true,
   },
+  shortDescription: {
+    type : String,
+    required : true
+  },
+  techStack : {
+    type : [String],
+    required : true
+  }
 }, {
   timestamps: true,
 });

@@ -38,26 +38,20 @@ const ProjectsSection: React.FC<UIProps> = ({ categories, projectsByCategory, in
             />
           ))}
         </div>
-        {projectsByCategory.map(group => (
-          <div key={group._id} style={{ display: category === group._id ? 'block' : 'none' }}>
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 ">
-              {group.projects.map((project, index) => (
-                <>
+        {projectsByCategory.map((group) => {
+          return (
+            <div key={group._id} style={{ display: category === group._id ? 'block' : 'none' }}>
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 ">
+                {group.projects.map((project, index) => (
                   <div
                     key={index}>
-                    <ProjectCard
-                      title={project.name}
-                      description={""}
-                      imgUrl={project.imageUrl}
-                      gitUrl={project.githubLink}
-                      previewUrl={project.demoLink}
-                    />
+                    <ProjectCard project={project}/>
                   </div>
-                </>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
+          )
+        })}
       </section>
     </>
   );
