@@ -24,7 +24,7 @@ const ProjectsSection: React.FC<UIProps> = ({ categories, projectsByCategory, in
   };
   return (
     <>
-      <section id="projects" className="px-12">
+      <section id="projects" className="mx-auto px-12 py-20 flex flex-col items-center ">
         <h2 className="text-center text-4xl font-bold mt-4 mb-8 md:mb-12">
           My Projects
         </h2>

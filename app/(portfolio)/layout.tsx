@@ -30,10 +30,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <main className="flex min-h-screen flex-col">
+    <>
       <Navbar navLinks={navLinks} LogoPath="/" LogoText="Hardik Jain" />
-      {children}
+      <div className="pt-20">
+        {children}
+      </div>
       <Footer />
-    </main>
+    </>
   );
 }

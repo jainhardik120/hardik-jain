@@ -5,7 +5,7 @@ export default async function BlogSection() {
   const blogs = await getAllPosts(0, 3);
   return (
     <>
-      <section id="blog">
+      <section id="blog" className="mx-auto px-12 py-20 flex flex-col items-center ">
         <h2 className="text-center text-4xl font-bold mt-4 mb-8 md:mb-12">
           Blog
         </h2>

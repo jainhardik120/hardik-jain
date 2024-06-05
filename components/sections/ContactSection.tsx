@@ -80,7 +80,7 @@ const ContactSection: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="px-4">
+    <section id="contact" className="mx-auto px-12 py-20 flex flex-col items-center ">
       <h2 className="text-center text-4xl font-bold mt-4 mb-8 md:mb-12">
         Let&apos;s Connect
       </h2>

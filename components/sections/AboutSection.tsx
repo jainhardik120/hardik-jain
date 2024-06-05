@@ -8,8 +8,8 @@ import {
 
 const AboutSection: React.FC = () => {
   return (
-    <section id="about" className="px-12">
-      <h2 className="text-center text-4xl font-bold mt-4 mb-8 md:mb-12">
+    <section id="about" className="container mx-auto px-12 py-20">
+      <h2 className="text-center text-4xl font-bold mb-8 md:mb-12">
         About Me
       </h2>
       <div className="max-w-3xl mx-auto w-full">

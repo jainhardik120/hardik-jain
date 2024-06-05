@@ -4,8 +4,8 @@ import SkillCard from "./SkillCard";
 export default async function SkillsSection() {
   const skills = await getSkills();
   return (
-    <section id="skills">
-      <h2 className="text-center text-4xl font-bold mt-4 mb-8 md:mb-12">
+    <section id="skills" className="container mx-auto px-12 py-20">
+      <h2 className="text-center text-4xl font-bold mb-8 md:mb-12">
         Skills
       </h2>
       <div className="mx-auto">

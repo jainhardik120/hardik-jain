@@ -39,34 +39,41 @@ export const ProjectCard: React.FC<{ project: IProject }> = ({ project }) => {
       </div>
       <Dialog open={dialogOpened} onOpenChange={setDialogOpened}>
         <DialogContent className="max-w-4xl">
-          <DialogHeader>
-            <DialogTitle>
-              {name}
-            </DialogTitle>
-          </DialogHeader>
-          <div className="mt-2">
-            <p>{shortDescription}</p>
-            <div className="mt-4">
-              <h6 className="font-semibold">Tech Stack:</h6>
-              <ul className="list-disc list-inside">
-                {techStack.map((tech, index) => (
-                  <li key={index}>{tech}</li>
-                ))}
-              </ul>
+          <div className="grid gap-4 items-start">
+            <div className="flex flex-col gap-4">
+              <div>
+                <h2 className="text-2xl font-bold">{project.name}</h2>
+                <p className="text-gray-500 dark:text-gray-400">{project.shortDescription}</p>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {project.techStack.map((techStack, index) =>
+                (<div key={index}>
+                  {techStack}
+                </div>)
+                )}
+              </div>
             </div>
-            <div className="mt-4">
-              <h6 className="font-semibold">Description:</h6>
-              <p className="max-h-[50vh] overflow-y-auto">{content}</p>
+            <div>
+              <div>
+                <Image
+                  src={project.imageUrl}
+                  width="400"
+                  height="400"
+                  alt="Project Screenshot"
+                  className="rounded-lg overflow-hidden float-end ml-4 mb-1"
+                />
+              </div>
+              <p className="text-justify text-gray-500 dark:text-gray-400">
+                {project.content}
+              </p>
             </div>
-          </div>
-          <DialogFooter>
-            <div className="flex flex-row gap-4">
+            <div className="flex gap-4">
               {githubLink && (
                 <a
                   href={githubLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-600"
+                  className="inline-flex h-9 items-center justify-center rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 dark:focus-visible:ring-gray-300"
                 >
                   Github
                 </a>
@@ -76,13 +83,13 @@ export const ProjectCard: React.FC<{ project: IProject }> = ({ project }) => {
                   href={demoLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-600"
+                  className="inline-flex h-9 items-center justify-center rounded-md border border-gray-200 border-gray-200 bg-white px-4 py-2 text-sm font-medium shadow-sm transition-colors hover:bg-gray-100 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:border-gray-800 dark:border-gray-800 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus-visible:ring-gray-300"
                 >
                   Preview
                 </a>
               )}
             </div>
-          </DialogFooter>
+          </div>
         </DialogContent>
       </Dialog>
     </>
