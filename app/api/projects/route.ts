@@ -2,6 +2,7 @@ import dbConnect from "@/lib/dbConnect";
 import Project from "@/models/Project";
 import ErrorResponse from "@/lib/ErrorResponse";
 import { authMiddleware } from "@/middleware/Auth";
+import { revalidatePath } from "next/cache";
 export async function GET(request: Request) {
   try {
     await dbConnect();
@@ -36,6 +37,7 @@ export async function POST(request: Request) {
     });
 
     const savedProject = await newProject.save();
+    revalidatePath("/(portfolio)",  "page")
     return new Response(JSON.stringify({ id: savedProject._id }), {
       status: 201,
       headers: {

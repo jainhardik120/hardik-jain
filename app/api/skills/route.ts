@@ -2,6 +2,7 @@ import ErrorResponse from "@/lib/ErrorResponse";
 import { authMiddleware } from "@/middleware/Auth";
 import dbConnect from "@/lib/dbConnect";
 import Skill from "@/models/Skill";
+import { revalidatePath } from "next/cache";
 
 export async function GET(request: Request) {
   try {
@@ -30,6 +31,7 @@ export async function POST(request: Request) {
       skills : []
     });
     const savedSkill = await newSkill.save();
+    revalidatePath("/(portfolio)",  "page")
     return new Response(JSON.stringify({ id: savedSkill._id }), {
       status: 201,
       headers: {

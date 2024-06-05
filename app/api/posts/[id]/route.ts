@@ -2,6 +2,7 @@ import ErrorResponse from "@/lib/ErrorResponse";
 import dbConnect from "@/lib/dbConnect";
 import { authMiddleware } from "@/middleware/Auth";
 import Post from "@/models/Post";
+import { revalidatePath } from "next/cache";
 
 export async function PUT(request: Request, { params }: { params: { id: string } }) {
   return authMiddleware(request, async (userId) => {
@@ -12,8 +13,7 @@ export async function PUT(request: Request, { params }: { params: { id: string }
     if (!updatedPost) {
       return ErrorResponse("Post not found", 404);
     }
-    const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
-    await sleep(2000)
+    revalidatePath("/(portfolio)",  "page")
     return new Response(null, { status: 201 })
   });
 }

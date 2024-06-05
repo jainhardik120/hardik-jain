@@ -2,6 +2,7 @@ import ErrorResponse from "@/lib/ErrorResponse";
 import dbConnect from "@/lib/dbConnect";
 import { authMiddleware } from "@/middleware/Auth";
 import Post from "@/models/Post";
+import { revalidatePath } from "next/cache";
 
 export async function POST(request: Request) {
   return authMiddleware(request, async (userId) => {
@@ -31,6 +32,7 @@ export async function POST(request: Request) {
       content, description, author: userId
     });
     const savedPost = await newPost.save();
+    revalidatePath("/(portfolio)",  "page")
     return new Response(JSON.stringify({ id: savedPost._id }), {
       status: 200,
       headers: { "Content-Type": "application/json" }

@@ -2,6 +2,7 @@ import ErrorResponse from "@/lib/ErrorResponse";
 import { authMiddleware } from "@/middleware/Auth";
 import dbConnect from "@/lib/dbConnect";
 import SkillModel from "@/models/Skill";
+import { revalidatePath } from "next/cache";
 
 export async function PUT(request: Request, { params }: { params: { id: string } }) {
   return authMiddleware(request, async (userId) => {
@@ -18,6 +19,7 @@ export async function PUT(request: Request, { params }: { params: { id: string }
     if (!updatedSkill) {
       return ErrorResponse("Skill not found", 404);
     }
+    revalidatePath("/(portfolio)",  "page")
     return new Response(JSON.stringify({ message: "Skill updated successfully", skill: updatedSkill }), {
       status: 200,
       headers: {
@@ -34,6 +36,7 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
     if (!deletedSkill) {
       return ErrorResponse("Skill not found", 404);
     }
+    revalidatePath("/(portfolio)",  "page")
     return new Response(JSON.stringify({ message: "Skill deleted successfully" }), {
       status: 200,
       headers: {
