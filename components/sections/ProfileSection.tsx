@@ -5,6 +5,7 @@ import { TypeAnimation } from "react-type-animation";
 import AchievementsSection from "./AchievementsSection";
 import { GitHubLogoIcon, LinkedInLogoIcon, InstagramLogoIcon, TwitterLogoIcon, DownloadIcon } from "@radix-ui/react-icons"
 import { Button } from "@/components/ui/button";
+import ThemeSwitcher from "../ThemeSwitcher";
 
 const Socials = [
   {
@@ -121,6 +122,9 @@ const ProfileSection: React.FC = () => {
             </div>
           </div>
           <AchievementsSection />
+        </div>
+        <div className="w-full flex justify-end pb-16">
+          <ThemeSwitcher />
         </div>
       </section>
     </>
