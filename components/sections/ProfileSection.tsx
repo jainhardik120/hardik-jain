@@ -44,8 +44,8 @@ const ProfileSection: React.FC = () => {
   };
   return (
     <>
-      <section id="profile" className="sm:px-12 container mx-auto flex flex-col items-center min-h-screen">
-        <div className="my-auto">
+      <section id="profile" className="snap-start h-screen sm:px-12 container mx-auto flex flex-col items-center min-h-screen">
+        <div className="my-auto flex flex-col gap-8">
           <div className="grid grid-cols-1 md:grid-cols-12">
             <div
               className="col-span-8 place-self-center text-center md:text-left flex flex-col items-center justify-self-start"

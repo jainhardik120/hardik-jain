@@ -9,13 +9,13 @@ import SkillsSection from "../../components/sections/Skills";
 export default async function Home() {
   const { categories, projectsByCategory } = await getProjectsGroupedByCategory();
   return (
-    <>
+    <div className="snap-y snap-mandatory h-screen overflow-y-scroll">
       <ProfileSection />
       <AboutSection />
       <SkillsSection />
       <ProjectsSection categories={categories} projectsByCategory={projectsByCategory} initialCategory={(categories && categories.length > 0) ? categories[0] : ""} />
       <BlogSection />
       <ContactSection />
-    </>
+    </div>
   );
 }

@@ -5,10 +5,11 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { GitHubLogoIcon, LinkedInLogoIcon } from "@radix-ui/react-icons"
 import { FieldError, useForm } from "react-hook-form";
 import { z, ZodType } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Github, Instagram, Linkedin, MailIcon } from "lucide-react";
+import Footer from "../Footer";
 
 type ContactForm = {
   email: string,
@@ -38,17 +39,22 @@ const contactMethods = [
   {
     href: "mailto:jainhardik120@gmail.com",
     label: "Mail",
-    detail: "jainhardik120@gmail.com"
+    icon: <MailIcon className="h-8 w-8 text-gray-900 group-hover:text-gray-700 dark:text-gray-50 dark:group-hover:text-gray-400" />
   },
   {
-    href: "https://wa.me/7983121194",
-    label: "Whatsapp",
-    detail: "7983121194"
+    href: "https://github.com/jainhardik120",
+    label: "GitHub",
+    icon: <Github className="h-8 w-8 text-gray-900 group-hover:text-gray-700 dark:text-gray-50 dark:group-hover:text-gray-400" />
   },
   {
     href: "https://instagram.com/_.hardikj",
     label: "Instagram",
-    detail: "@_.hardikj"
+    icon: <Instagram className="h-8 w-8 text-gray-900 group-hover:text-gray-700 dark:text-gray-50 dark:group-hover:text-gray-400" />
+  },
+  {
+    href: "https://linked.com/in/jainhardik120",
+    label: "LinkedIn",
+    icon: <Linkedin className="h-8 w-8 text-gray-900 group-hover:text-gray-700 dark:text-gray-50 dark:group-hover:text-gray-400" />
   }
 ];
 
@@ -80,111 +86,93 @@ const ContactSection: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="mx-auto px-12 py-20 flex flex-col items-center ">
-      <h2 className="text-center text-4xl font-bold mt-4 mb-8 md:mb-12">
-        Let&apos;s Connect
-      </h2>
-      <div className="flex flex-col justify-center mb-8">
-        <p className="mb-4 max-w-sm md:max-w-md text-tsecondary-light dark:text-tsecondary-dark text-center">
-          I&apos;m currently looking for new opportunities, my inbox is always
-          open. Whether you have a question or just want to say hi, I&apos;ll
-          try my best to get back to you!
-        </p>
-        <div className="socials flex flex-row gap-4 w-full justify-center">
-          <a href="https://github.com/jainhardik120" aria-label="github" target="_blank" rel="noopener">
-            <GitHubLogoIcon className="h-6 w-6" />
-          </a>
-          <a href="https://linkedin.com/in/jainhardik120" aria-label="linkedin" target="_blank" rel="noopener">
-            <LinkedInLogoIcon className="h-6 w-6" />
-          </a>
+    <section id="contact" className="snap-start h-screen flex flex-col">
+      <div className="mx-auto container px-12 flex flex-col items-center flex-grow">
+        <div className="my-auto flex flex-col gap-8">
+          <div className="mx-auto max-w-3xl space-y-6 text-center">
+            <div className="space-y-3 text-center mb-3">
+              <h2 className="text-4xl font-bold">Get in Touch</h2>
+              <p className="sm:text-lg mx-auto text-gray-500 dark:text-gray-400">
+                Have a question or want to work together? Fill out the form or reach out on your preferred platform.
+              </p>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-4 w-full">
+              {contactMethods.map((contact, index) => {
+                return (
+                  <>
+                    <a
+                      key={index}
+                      href={contact.href}
+                      target="_blank"
+                      className="group flex flex-col items-center justify-center space-y-2 rounded-lg bg-gray-100 p-4 transition-colors hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700"
+                    >
+                      {contact.icon}
+                      <span className="text-sm font-medium text-gray-900 group-hover:text-gray-700 dark:text-gray-50 dark:group-hover:text-gray-400">
+                        {contact.label}
+                      </span>
+                    </a>
+                  </>)
+              })}
+            </div>
+            <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 items-center">
+              <div className="grid grid-cols-2 gap-4 w-full">
+                <div className="space-y-2">
+                  <Label htmlFor="email">Email</Label>
+                  <Input id="email" placeholder="Enter your email" type="email"
+                    {...register("email")} />
+                  <FormError error={errors.email} />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="subject">Subject</Label>
+                  <Input id="subject" placeholder="Enter subject"
+                    {...register("subject")} />
+                  <FormError error={errors.subject} />
+                </div>
+              </div>
+              <div className="space-y-2 w-full">
+                <Label htmlFor="message">Message</Label>
+                <Textarea id="message" placeholder="Enter your message"
+                  {...register("message")} className="min-h-[100px]" />
+                <FormError error={errors.message} />
+              </div>
+              <Button type="submit" className="w-full" disabled={isLoading}>
+                {isLoading ? (
+                  <svg
+                    className="animate-spin h-5 w-5 mx-auto"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
+                ) : (
+                  "Send Message"
+                )}
+              </Button>
+              {emailSubmitted && (
+                <span className="text-green-500">
+                  Email sent successfully!
+                </span>
+              )}
+            </form>
+          </div>
         </div>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2  gap-8 ">
-        <div className="flex flex-col md:justify-center w-[350px] gap-8">
-          {contactMethods.map((method, index) => (
-            <a
-              key={index}
-              href={method.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="border border-border rounded-lg p-4 text-center"
-            >
-              <h3 className="text-lg font-semibold">{method.label}</h3>
-              <span className="text-sm text-tsecondary-light dark:text-tsecondary-dark">{method.detail}</span>
-            </a>
-          ))}
-        </div>
-        <div>
-          <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="email">
-                Email
-              </Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="jacob@google.com"
-                {...register("email")}
-              />
-              <FormError error={errors.email} />
-            </div>
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="subject">
-                Subject
-              </Label>
-              <Input
-                id="subject"
-                type="text"
-                placeholder="Just saying hi"
-                {...register("subject")}
-              />
-              <FormError error={errors.subject} />
-            </div>
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="message">
-                Message
-              </Label>
-              <Textarea
-                id="message"
-                placeholder="Let's talk about..."
-                {...register("message")}
-              />
-              <FormError error={errors.message} />
-            </div>
-            <Button type="submit" disabled={isLoading}>
-              {isLoading ? (
-                <svg
-                  className="animate-spin h-5 w-5 mx-auto"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  ></circle>
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  ></path>
-                </svg>
-              ) : (
-                "Send Message"
-              )}
-            </Button>
-            {emailSubmitted && (
-              <span className="text-green-500">
-                Email sent successfully!
-              </span>
-            )}
-          </form>
-        </div >
-      </div >
+      <Footer />
     </section >
   );
 };

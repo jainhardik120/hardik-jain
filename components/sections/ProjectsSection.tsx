@@ -24,11 +24,11 @@ const ProjectsSection: React.FC<UIProps> = ({ categories, projectsByCategory, in
   };
   return (
     <>
-      <section id="projects" className="mx-auto px-12 py-20 flex flex-col items-center ">
-        <h2 className="text-center text-4xl font-bold mt-4 mb-8 md:mb-12">
+      <section id="projects" className="snap-start mx-auto container px-12 py-20 flex flex-col items-center ">
+        <h2 className="text-center text-4xl font-bold mb-12">
           My Projects
         </h2>
-        <div className={cn(`grid grid-cols-1 md:grid-cols-${categories.length}  justify-center items-center gap-4 mb-8 md:mb-12`)}>
+        <div className={cn(`grid  md:grid-cols-3 justify-center items-center gap-4 mb-12`)}>
           {categories.map(tcategory => (
             <ProjectTag
               key={tcategory}
