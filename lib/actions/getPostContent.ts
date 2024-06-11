@@ -34,6 +34,14 @@ import Text from '@tiptap/extension-text';
 import Underline from '@tiptap/extension-underline';
 import YouTube from '@tiptap/extension-youtube';
 
+export const getPostMetadata = async (id: string) => {
+  await dbConnect();
+  const { title, description } = await Post.findById(id).select('title description');
+  if (!title || !description) {
+    return null;
+  }
+  return { title, description };
+};
 
 export const getPostContent = async (id: string) => {
   await dbConnect();
@@ -41,8 +49,7 @@ export const getPostContent = async (id: string) => {
   if (!post || !post.content) {
     return null;
   }
-
-  return generateHTML(JSON.parse(post.content), [
+  post.content = generateHTML(JSON.parse(post.content), [
     Blockquote,
     Bold,
     BubbleMenu,
@@ -74,5 +81,6 @@ export const getPostContent = async (id: string) => {
     Text,
     Underline,
     YouTube
-  ]);
-};
+  ])
+  return post
+}
