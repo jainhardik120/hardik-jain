@@ -7,6 +7,7 @@ import Bold from '@tiptap/extension-bold';
 import BubbleMenu from '@tiptap/extension-bubble-menu';
 import BulletList from '@tiptap/extension-bullet-list';
 import ListItem from '@tiptap/extension-list-item';
+import OrderedList from '@tiptap/extension-ordered-list';
 import TextStyle from '@tiptap/extension-text-style';
 import CharacterCount from '@tiptap/extension-character-count';
 import Code from '@tiptap/extension-code';
@@ -45,7 +46,7 @@ export const getPostMetadata = async (id: string) => {
 
 export const getPostContent = async (id: string) => {
   await dbConnect();
-  const post: IPost | null = await Post.findById(id);
+  const post = await Post.findById(id).populate('author', 'name');
   if (!post || !post.content) {
     return null;
   }
@@ -62,6 +63,7 @@ export const getPostContent = async (id: string) => {
     CodeBlockLowlight,
     Color,
     Document,
+    OrderedList,
     Dropcursor,
     FloatingMenu,
     Gapcursor,

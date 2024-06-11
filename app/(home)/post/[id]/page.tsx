@@ -37,7 +37,15 @@ export default async function Page({ params }: { params: { id: string } }) {
       <div className="post-content max-w-5xl px-4 lg:px-20 mx-auto">
         <h1>{postData.title}</h1>
         <h4>{postData.description}</h4>
-        <hr />
+        <div className="flex flex-col sm:flex-row justify-between">
+          <span>
+            By {postData.author.name}
+          </span>
+          <span>
+            {new Date(postData.createdAt).toDateString()}
+          </span>
+        </div>
+        <hr className="mb-4" />
         {postData.content && (
           <div dangerouslySetInnerHTML={{ __html: postData.content }} />
         )}
