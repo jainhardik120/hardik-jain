@@ -34,12 +34,12 @@ export default async function Page({ params }: { params: { id: string } }) {
   }
   return (
     <>
-      <div className="post-content max-w-5xl px-4 lg:px-20 mx-auto">
-        <h1>{postData.title}</h1>
+      <div className="max-w-5xl px-4 lg:px-20 mx-auto">
+        <h1 className="text-4xl mb-4">{postData.title}</h1>
         <h4>{postData.description}</h4>
-        <div className="flex flex-col sm:flex-row justify-between">
+        <div className="flex my-4 flex-col sm:flex-row justify-between">
           <span>
-            By {postData.author.name}
+            By <span className="font-bold">{postData.author.name}</span>
           </span>
           <span>
             {new Date(postData.createdAt).toDateString()}
@@ -47,7 +47,7 @@ export default async function Page({ params }: { params: { id: string } }) {
         </div>
         <hr className="mb-4" />
         {postData.content && (
-          <div dangerouslySetInnerHTML={{ __html: postData.content }} />
+          <div className="post-content" dangerouslySetInnerHTML={{ __html: postData.content }} />
         )}
       </div>
     </>
