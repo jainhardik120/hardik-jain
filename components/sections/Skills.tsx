@@ -4,7 +4,7 @@ import SkillCard from "./SkillCard";
 export default async function SkillsSection() {
   const skills = await getSkills();
   return (
-    <section id="skills" className="snap-start container mx-auto px-12 py-20">
+    <section id="skills" className=" container mx-auto px-12 py-20">
       <h2 className="text-center text-4xl font-bold mb-12">
         Skills
       </h2>

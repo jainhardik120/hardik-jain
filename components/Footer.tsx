@@ -1,5 +1,6 @@
 import Link from "next/link";
 import React from "react";
+import { ModeToggle } from "./theme-mode-toggle";
 
 const Footer = () => {
   return (
@@ -12,6 +13,7 @@ const Footer = () => {
         <Link href="/admin" className="text-[color:var(--primary)] hover:text-[color:var(--primary-foreground)] transition duration-300 ease-in-out" prefetch={false}>
           Admin Home Page
         </Link>
+        <ModeToggle />
       </div>
     </footer>
   );

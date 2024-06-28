@@ -3,7 +3,6 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import NavLink from "./NavLink";
 import MenuOverlay from "./MenuOverlay";
-import ThemeSwitcher from "./ThemeSwitcher";
 import { Menu, X } from "lucide-react";
 
 
@@ -79,11 +78,6 @@ const Navbar: React.FC<{
 								<NavLink href={link.path} title={link.title} onClick={link.onClick} />
 							</li>
 						))}
-						<li>
-							<div className="py-2 pl-3 pr-4 md:p-0 h-full flex items-center">
-								<ThemeSwitcher />
-							</div>
-						</li>
 					</ul>
 				</div>
 			</div>

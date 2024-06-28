@@ -5,12 +5,11 @@ import ContactSection from "../../components/sections/ContactSection";
 import ProfileSection from "../../components/sections/ProfileSection";
 import ProjectsSection from "../../components/sections/ProjectsSection";
 import SkillsSection from "../../components/sections/Skills";
-import ThemeSwitcher from "@/components/ThemeSwitcher";
 
 export default async function Home() {
   const { categories, projectsByCategory } = await getProjectsGroupedByCategory();
   return (
-    <div className="snap-y snap-mandatory h-screen overflow-y-scroll">
+    <div className="h-screen">
       <ProfileSection />
       <AboutSection />
       <SkillsSection />

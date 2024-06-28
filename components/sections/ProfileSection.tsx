@@ -5,7 +5,6 @@ import { TypeAnimation } from "react-type-animation";
 import AchievementsSection from "./AchievementsSection";
 import { GitHubLogoIcon, LinkedInLogoIcon, InstagramLogoIcon, TwitterLogoIcon, DownloadIcon } from "@radix-ui/react-icons"
 import { Button } from "@/components/ui/button";
-import ThemeSwitcher from "../ThemeSwitcher";
 
 const Socials = [
   {
@@ -30,6 +29,22 @@ const Socials = [
   },
 ]
 
+const HeroImage = () => {
+  return (
+    <div className="relative">
+      <div className="absolute inset-0 h-full w-full bg-gradient-to-r from-primary-500 to-secondary-500 transform scale-[0.80] bg-red-500 rounded-full blur-3xl" />
+      <Image
+        src="/images/hero-image.jpg"
+        alt="hero image"
+        width={800}
+        height={800}
+        className="relative rounded-full shadow-xl"
+        priority={true}
+      />
+    </div>
+  )
+}
+
 const ResumeUrl = "https://hardik-jain-blog-content.s3.eu-north-1.amazonaws.com/uploads/2024-06-05T13-56-13-118Z_Hardik%20Jain%20CV.pdf";
 
 const ProfileSection: React.FC = () => {
@@ -45,8 +60,9 @@ const ProfileSection: React.FC = () => {
   };
   return (
     <>
-      <section id="profile" className="snap-start h-screen sm:px-12 container mx-auto flex flex-col items-center min-h-screen">
-        <div className="my-auto flex flex-col gap-8">
+      <section id="profile" className="h-screen sm:px-12 container mx-auto flex flex-col items-center min-h-screen">
+        <div className="absolute inset-0 dark:bg-grid-white/[0.06] bg-grid-black/[0.04] [mask-image:linear-gradient(to_bottom,white_5%,transparent_40%)] pointer-events-none select-none"></div>
+        <div className="my-auto flex flex-col gap-8 z-10">
           <div className="grid grid-cols-1 md:grid-cols-12">
             <div
               className="col-span-8 place-self-center text-center md:text-left flex flex-col items-center justify-self-start"
@@ -54,7 +70,7 @@ const ProfileSection: React.FC = () => {
             >
               <div className="w-full">
                 <h1 className="mb-4 text-4xl md:text-6xl xl:text-8xl xl:leading-normal font-extrabold xl:min-h-[432px] xl:w-[600px] md:min-h-[180px] w-[350px] md:w-[400px]">
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-secondary-600">
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-500 to-secondary-500">
                     Hello, I&apos;m{" "}
                   </span>
                   <br />
@@ -76,14 +92,7 @@ const ProfileSection: React.FC = () => {
                 </h1>
               </div>
               <div className="md:hidden rounded-full w-[250px] h-[250px] xl:w-[400px] xl:h-[400px] my-10">
-                <Image
-                  src="/images/hero-image.jpg"
-                  alt="hero image"
-                  width={800}
-                  height={800}
-                  className="rounded-full"
-                  priority={true}
-                />
+                <HeroImage />
               </div>
               <div className="flex flex-col xl:flex-row gap-4 w-full items-center md:items-start">
                 <Button
@@ -110,21 +119,11 @@ const ProfileSection: React.FC = () => {
               className="col-span-4 place-self-center mt-4 lg:mt-0 hidden md:block"
             >
               <div className="rounded-full w-[250px] h-[250px] xl:w-[400px] xl:h-[400px]">
-                <Image
-                  src="/images/hero-image.jpg"
-                  alt="hero image"
-                  width={800}
-                  height={800}
-                  className="rounded-full"
-                  priority={true}
-                />
+                <HeroImage />
               </div>
             </div>
           </div>
           <AchievementsSection />
-        </div>
-        <div className="w-full flex justify-end pb-16">
-          <ThemeSwitcher />
         </div>
       </section>
     </>

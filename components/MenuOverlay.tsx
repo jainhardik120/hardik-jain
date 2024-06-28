@@ -1,6 +1,5 @@
 import React from "react";
 import NavLink from "./NavLink";
-import ThemeSwitcher from "./ThemeSwitcher";
 
 const MenuOverlay: React.FC<{ links: { title: string, path?: string, onClick?: () => Promise<void> }[], onClick?: () => Promise<void> }> = ({ links, onClick }) => {
   return (
@@ -17,9 +16,6 @@ const MenuOverlay: React.FC<{ links: { title: string, path?: string, onClick?: (
           }} />
         </li>
       ))}
-      <li className="my-4">
-        <ThemeSwitcher />
-      </li>
     </ul>
   );
 };

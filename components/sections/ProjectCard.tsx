@@ -38,7 +38,7 @@ export const ProjectCard: React.FC<{ project: IProject }> = ({ project }) => {
         </div>
       </div>
       <Dialog open={dialogOpened} onOpenChange={setDialogOpened}>
-        <DialogContent className="max-w-4xl">
+        <DialogContent className="m-4 max-w-4xl">
           <div className="grid gap-4 items-start">
             <div className="flex flex-col gap-4">
               <div>
@@ -53,7 +53,7 @@ export const ProjectCard: React.FC<{ project: IProject }> = ({ project }) => {
                 )}
               </div>
             </div>
-            <div>
+            <div className="max-h-[50vh] overflow-y-auto px-4">
               <div>
                 <Image
                   src={project.imageUrl}

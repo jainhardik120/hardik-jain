@@ -8,7 +8,7 @@ import {
 
 const AboutSection: React.FC = () => {
   return (
-    <section id="about" className="snap-start min-h-screen container mx-auto px-12 flex">
+    <section id="about" className=" min-h-screen container mx-auto px-12 flex">
       <div className="flex flex-col my-auto gap-12 mx-auto">
         <h2 className="text-center text-4xl font-bold">
           About Me

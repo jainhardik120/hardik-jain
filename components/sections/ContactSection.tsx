@@ -86,7 +86,7 @@ const ContactSection: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="snap-start h-screen flex flex-col">
+    <section id="contact" className=" h-screen flex flex-col">
       <div className="mx-auto container px-12 flex flex-col items-center flex-grow">
         <div className="my-auto flex flex-col gap-8">
           <div className="mx-auto max-w-3xl space-y-6 text-center">
