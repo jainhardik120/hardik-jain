@@ -101,19 +101,17 @@ const ContactSection: React.FC = () => {
             <div className="grid grid-cols-2 gap-4 w-full">
               {contactMethods.map((contact, index) => {
                 return (
-                  <>
-                    <a
-                      key={index}
-                      href={contact.href}
-                      target="_blank"
-                      className="group flex flex-col items-center justify-center space-y-2 rounded-lg bg-gray-100 p-4 transition-colors hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700"
-                    >
-                      {contact.icon}
-                      <span className="text-sm font-medium text-gray-900 group-hover:text-gray-700 dark:text-gray-50 dark:group-hover:text-gray-400">
-                        {contact.label}
-                      </span>
-                    </a>
-                  </>)
+                  <a
+                    key={index}
+                    href={contact.href}
+                    target="_blank"
+                    className="group flex flex-col items-center justify-center space-y-2 rounded-lg bg-gray-100 p-4 transition-colors hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700"
+                  >
+                    {contact.icon}
+                    <span className="text-sm font-medium text-gray-900 group-hover:text-gray-700 dark:text-gray-50 dark:group-hover:text-gray-400">
+                      {contact.label}
+                    </span>
+                  </a>)
               })}
             </div>
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 items-center">
