@@ -25,6 +25,23 @@ const columns: ColumnDef<IPost>[] = [
       );
     },
   },
+  {
+    id: 'delete',
+    header: 'Delete',
+    cell: (context) => {
+      const postId = context.row.original._id;
+      return (
+        <button onClick={async () => {
+          const response = await fetch(`/api/posts/${postId}`, { method: "DELETE" });
+          if (response.ok) {
+            window.location.reload();
+          }
+        }}>
+          Delete
+        </button>
+      );
+    },
+  },
 ];
 
 

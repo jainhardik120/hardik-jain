@@ -13,7 +13,7 @@ export async function PUT(request: Request, { params }: { params: { id: string }
     if (!updatedPost) {
       return ErrorResponse("Post not found", 404);
     }
-    revalidatePath("/(portfolio)",  "page")
+    revalidatePath("/(portfolio)", "page")
     return new Response(null, { status: 201 })
   });
 }
@@ -29,4 +29,16 @@ export async function GET(request: Request, { params }: { params: { id: string }
   } catch (error) {
     return ErrorResponse(error, 500);
   }
+}
+
+export async function DELETE(request: Request, { params }: { params: { id: string } }) {
+  return authMiddleware(request, async (userId) => {
+    await dbConnect();
+    const post = await Post.findByIdAndDelete({ _id: params.id, author: userId });
+    if (!post) {
+      return ErrorResponse("Post not found", 404);
+    }
+    revalidatePath("/(portfolio)", "page")
+    return new Response(null, { status: 200 })
+  });
 }

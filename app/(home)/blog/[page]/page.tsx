@@ -8,21 +8,19 @@ export default async function Page({ params }: { params: { page: number } }) {
       <div className="flex flex-col gap-4">
         {posts && posts.map((post, index) => {
           return (
-            <>
-              <div key={index} className="px-4 py-2 border border-border rounded-sm overflow-x-hidden">
-                <Link href={`/post/${post.id}`} prefetch={false}>
-                  <h1 className="text text-2xl cursor-pointer">
-                    {post.title}
-                  </h1>
-                  <p>
-                    {post.description}
-                  </p>
-                </Link>
+            <div key={index} className="px-4 py-2 overflow-x-hidden">
+              <Link href={`/post/${post.id}`} prefetch={false}>
+                <h3 className="text text-2xl cursor-pointer">
+                  {post.title}
+                </h3>
                 <p>
-                  {post.authorName}
+                  {post.description}
                 </p>
-              </div>
-            </>
+              </Link>
+              <p>
+                {post.authorName}
+              </p>
+            </div>
           )
         })}
       </div>

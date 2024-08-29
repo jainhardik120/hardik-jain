@@ -8,8 +8,9 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Hardik Jain | Android & Web Developer",
-  description: "Meet Hardik Jain, a passionate Android and Web Developer. With a strong foundation in C++, Kotlin, TypeScript, and more, he's crafted innovative projects and gained valuable experience. Explore his portfolio to see his work, learn about his skills and achievements, and connect to collaborate.",
+  description: "Meet Hardik Jain, a skilled Android & Web Dev. Explore his projects, skills, and connect to collaborate.",
 };
+
 
 export default function RootLayout({
   children,

@@ -38,10 +38,15 @@ import YouTube from '@tiptap/extension-youtube';
 export const getPostMetadata = async (id: string) => {
   await dbConnect();
   const { title, description } = await Post.findById(id).select('title description');
+
   if (!title || !description) {
     return null;
   }
-  return { title, description };
+
+  const websiteTitle = "Hardik Jain's Blog";
+  const fullTitle = `${title} | ${websiteTitle}`;
+
+  return { title: fullTitle, description };
 };
 
 export const getPostContent = async (id: string) => {
