@@ -21,6 +21,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <meta name="ahrefs-site-verification" content="3fd571154607516456a457bbc67c308bc1c1e82db7b0ae02c3ef0d20cfebbf7e" />
+        <meta name="google-site-verification" content="2UMpL0DOiAZPuJWyFgtSXWM49mkZ2jVdsX34ok6fDl0" />
       </head>
       <body className={cn(inter.className, "flex flex-col h-screen")}>
         <ThemeProvider
