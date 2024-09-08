@@ -1,12 +1,7 @@
-import Editor from "./editor";
+import dynamic from 'next/dynamic';
+
+const Editor = dynamic(() => import('./editor'), { ssr: false });
 
 export default function Page() {
-  if (typeof window === "undefined") return (
-    <h4>
-      Not available server side
-    </h4>
-  );
-  return (
-    <Editor />
-  )
+  return <Editor />;
 }

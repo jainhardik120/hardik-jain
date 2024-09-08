@@ -1,6 +1,6 @@
 import type { Config } from "tailwindcss";
-import colors from "tailwindcss/colors"
-import { fontFamily } from "tailwindcss/defaultTheme"
+import colors from "tailwindcss/colors";
+import { fontFamily } from "tailwindcss/defaultTheme";
 
 const svgToDataUri = require("mini-svg-data-uri");
 

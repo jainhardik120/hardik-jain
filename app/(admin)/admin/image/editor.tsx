@@ -6,6 +6,7 @@ import { Stage, Layer, Star, Text } from 'react-konva';
 
 const Editor = () => {
 
+
   function generateShapes() {
     return [...Array(10)].map((_, i) => ({
       id: i.toString(),
