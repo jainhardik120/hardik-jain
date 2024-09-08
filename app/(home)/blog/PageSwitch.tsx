@@ -27,25 +27,21 @@ const PageSwitch = ({ pageCount }: { pageCount: number }) => {
     setCurrentPage(parseInt(pageNumber))
   }, [pathname])
   return (
-    <div>
-      <Pagination>
-        <PaginationContent>
-          {
-            numbers.map((number) => {
-              return (
-                <>
-                  <PaginationItem>
-                    <PaginationLink href={`/blog/${number}`} isActive={number === currentPage}>
-                      {number}
-                    </PaginationLink>
-                  </PaginationItem>
-                </>
-              )
-            })
-          }
-        </PaginationContent>
-      </Pagination>
-    </div>
+    <Pagination className='mt-4'>
+      <PaginationContent>
+        {
+          numbers.map((number) => {
+            return (
+              <PaginationItem key={number}>
+                <PaginationLink href={`/blog/${number}`} isActive={number === currentPage}>
+                  {number}
+                </PaginationLink>
+              </PaginationItem>
+            )
+          })
+        }
+      </PaginationContent>
+    </Pagination>
   )
 }
 

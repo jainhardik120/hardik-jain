@@ -27,7 +27,7 @@ const projectSchema = z.object({
 type ProjectFormValues = z.infer<typeof projectSchema>;
 
 const EditProjectPage: React.FC<{ params: { id: string } }> = ({ params }) => {
-  
+
   const router = useRouter();
   const projectId = params.id;
   const [image, setImage] = useState<File | undefined>();
@@ -46,7 +46,7 @@ const EditProjectPage: React.FC<{ params: { id: string } }> = ({ params }) => {
         setValue("techStack", [""]);
       }
     }
-  }, [techStack]);
+  }, [techStack, setValue]);
 
   useEffect(() => {
     if (projectId === "new") return;

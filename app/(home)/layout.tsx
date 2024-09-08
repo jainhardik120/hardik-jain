@@ -6,9 +6,9 @@ export default function HomeLayout({ children }: { children: React.ReactNode }) 
     <Navbar navLinks={[
       { title: "Portfolio", path: "/" }
     ]} LogoPath="/blog/1" LogoText="Home" HideLogo={false} />
-    <div className="pt-20">
+    <main className="pt-20">
       {children}
-    </div>
+    </main>
     <Footer />
   </>
 }

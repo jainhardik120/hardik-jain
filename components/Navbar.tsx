@@ -39,7 +39,7 @@ const Navbar: React.FC<{
 	}, [HideLogo]);
 
 	return (
-		<nav className="fixed mx-auto top-0 left-0 right-0 z-10 bg-opacity-100 h-20 bg-background">
+		<nav className="fixed mx-auto top-0 left-0 right-0 z-100 bg-opacity-100 h-20 bg-background">
 			<div className="flex container lg:py-4 flex-wrap items-center justify-between mx-auto px-4 py-2 h-full">
 				<Link
 					id="nav-logo"
@@ -72,13 +72,13 @@ const Navbar: React.FC<{
 					)}
 				</div>
 				<div className="menu hidden lg:block lg:w-auto" id="navbar">
-					<ul className="flex p-4 lg:p-0 lg:flex-row lg:space-x-8 mt-0">
+					<menu className="flex p-4 lg:p-0 lg:flex-row lg:space-x-8 mt-0">
 						{navLinks.map((link, index) => (
 							<li key={index}>
 								<NavLink href={link.path} title={link.title} onClick={link.onClick} />
 							</li>
 						))}
-					</ul>
+					</menu>
 				</div>
 			</div>
 			{navbarOpen ? <MenuOverlay links={navLinks} onClick={async () => {

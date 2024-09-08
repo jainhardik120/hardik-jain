@@ -24,24 +24,20 @@ export default function Page({ params }: { params: { id: string } }) {
   }
 
   return (
-    <>
-      <div className="flex flex-row justify-center w-full">
-        <Editor initialValue={post.content ? JSON.parse(post.content) : defaultValue} initialDescription={post.description || ""} initialTitle={post.title || ""} onChange={
-          async (content: JSONContent, title, description) => {
-            await fetch(`/api/posts/${params.id}`, {
-              method: "PUT",
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                title: title,
-                content: JSON.stringify(content),
-                description: description
-              }),
-            })
-          }
-        } />
-      </div>
-    </>
+    <Editor initialValue={post.content ? JSON.parse(post.content) : defaultValue} initialDescription={post.description || ""} initialTitle={post.title || ""} onChange={
+      async (content: JSONContent, title, description) => {
+        await fetch(`/api/posts/${params.id}`, {
+          method: "PUT",
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            title: title,
+            content: JSON.stringify(content),
+            description: description
+          }),
+        })
+      }
+    } />
   )
 }

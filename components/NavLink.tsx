@@ -7,16 +7,14 @@ const NavLink: React.FC<{ href?: string, title: string, onClick?: () => Promise<
   return (
     <>
       {href ? (
-        <>
-          <Link href={href} onClick={async () => {
-            if (onClick) {
-              await onClick();
-            }
-          }}
-            className="block py-2 pl-3 pr-4 dark:text-[#ADB7BE] sm:text-xl rounded md:p-0 dark:hover:text-white" prefetch={false}>
-            {title}
-          </Link>
-        </>
+        <Link href={href} onClick={async () => {
+          if (onClick) {
+            await onClick();
+          }
+        }}
+          className="block py-2 pl-3 pr-4 dark:text-[#ADB7BE] sm:text-xl rounded md:p-0 dark:hover:text-white" prefetch={false}>
+          {title}
+        </Link>
       ) : (<>
         {onClick && (
           <button

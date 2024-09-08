@@ -170,7 +170,6 @@ const ContactSection: React.FC = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </section >
   );
 };
