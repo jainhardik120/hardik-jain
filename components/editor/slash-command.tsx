@@ -15,6 +15,7 @@ import {
 import { createSuggestionItems } from "novel/extensions";
 import { Command, renderItems } from "novel/extensions";
 import { uploadFn } from "./image-upload";
+import generateAIContent from "@/lib/actions/generateAIContent";
 
 export const suggestionItems = createSuggestionItems([
   {
@@ -150,11 +151,44 @@ export const suggestionItems = createSuggestionItems([
             alert("Please enter a correct Youtube Video Link");
           }
         }
-      }else{
+      } else {
         alert("Please enter a Youtube Video Link");
       }
     },
   },
+  {
+    title: "Generate with AI",
+    description: "Generate text with AI that fits with your current content",
+    searchTerms: ["ai", "gemini", "generative"],
+    icon: <Youtube size={18} />,
+    command: ({ editor, range }) => {
+      const generativeAI = async () => {
+        const ai_prompt = prompt("Enter what you want to write about:");
+        if (ai_prompt) {
+          // Get the entire document content
+          const beforeContent = editor.state.doc.textBetween(0, range.from);
+          const afterContent = editor.state.doc.textBetween(range.to, editor.state.doc.content.size);
+          
+          const response = await generateAIContent(
+            ai_prompt,
+            {
+              beforeText: beforeContent,
+              afterText: afterContent,
+              position: {
+                from: range.from,
+                to: range.to
+              }
+            }
+          );
+          
+          editor.chain().focus().deleteRange(range).insertContent(response).run();
+        } else {
+          alert("Enter a prompt to generate content");
+        }
+      }
+      generativeAI();
+    },
+  }
 ]);
 
 export const slashCommand = Command.configure({

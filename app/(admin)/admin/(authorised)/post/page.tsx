@@ -1,11 +1,11 @@
 "use client"
 
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
-import { DataTable } from "../../../../components/DataTable";
 import { IPost } from "@/models/Post";
 import { ColumnDef } from "@tanstack/react-table";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { DataTable } from "../../../../../components/DataTable";
 
 const columns: ColumnDef<IPost>[] = [
   {
@@ -64,18 +64,16 @@ const PostsPage: React.FC = () => {
   return (
     <div className="w-full">
       <DataTable columns={columns} data={posts} CreateButton={
-        <>
-          <Button onClick={async () => {
-            const response = await fetch("/api/posts/new", { method: "POST" });
-            if (response.ok) {
-              const json = await response.json();
-              const id = json.id;
-              router.push(`/admin/post/${id}`);
-            }
-          }}>
-            New Post
-          </Button>
-        </>
+        <Button onClick={async () => {
+          const response = await fetch("/api/posts/new", { method: "POST" });
+          if (response.ok) {
+            const json = await response.json();
+            const id = json.id;
+            router.push(`/admin/post/${id}`);
+          }
+        }}>
+          New Post
+        </Button>
       } filterOn='title' name='Posts' />
     </div>
   );

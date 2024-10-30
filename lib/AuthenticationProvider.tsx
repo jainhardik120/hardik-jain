@@ -3,6 +3,7 @@
 import { useContext, createContext, useEffect, useState } from "react";
 
 interface IAuthContext {
+  loading: boolean,
   isLoggedIn: boolean,
   logOut: () => Promise<void>,
   refresh: () => Promise<void>
@@ -17,24 +18,29 @@ export const useAuthContext = () => {
 }
 
 export const AuthenticationProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const getStatus = async () => {
+    setLoading(true);
     const response = await fetch("/api/auth/verify");
     if (response.ok) {
       setIsLoggedIn(true);
     } else {
       setIsLoggedIn(false);
     }
+    setLoading(false);
   }
   useEffect(() => {
     getStatus();
   }, [])
 
   const logout = async () => {
+    setLoading(true);
     const response = await fetch("/api/auth/logout");
     if (response.ok) {
       setIsLoggedIn(false);
     }
+    setLoading(false);
   }
 
   const refresh = async () => {
@@ -42,9 +48,10 @@ export const AuthenticationProvider: React.FC<{ children: React.ReactNode }> = (
   }
 
   const providerValue: IAuthContext = {
+    loading,
     isLoggedIn: isLoggedIn,
     logOut: logout,
-    refresh : refresh
+    refresh: refresh
   }
 
   return (

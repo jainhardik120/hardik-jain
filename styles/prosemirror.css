@@ -16,6 +16,9 @@
   pointer-events: none;
   height: 0;
 }
+.ProseMirror {
+  position: static !important;
+}
 
 /* Custom image styles */
 

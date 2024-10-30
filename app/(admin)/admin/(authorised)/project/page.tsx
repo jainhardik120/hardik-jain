@@ -1,10 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 "use client"
 
-import { useEffect, useState } from 'react';
 import { IProject } from '@/models/Project';
-import { ColumnDef } from "@tanstack/react-table"
-import { DataTable } from '../../../../components/DataTable';
+import { ColumnDef } from "@tanstack/react-table";
+import { useEffect, useState } from 'react';
+import { DataTable } from '../../../../../components/DataTable';
 
 const columns: ColumnDef<IProject>[] = [
   {

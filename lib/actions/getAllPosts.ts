@@ -28,7 +28,7 @@ export const getAllPosts = async (offset: number = 0, limit: number = 10) => {
         createdAt: rawPost.createdAt,
         authorName: rawPost.author.name,
         authorPic: rawPost.author.profilePic,
-        authorId : rawPost.author._id.toString()
+        authorId: rawPost.author._id.toString()
       }
     });
   return posts;

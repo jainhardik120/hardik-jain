@@ -47,43 +47,35 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col align-middle h-screen w-full items-center justify-center">
-      <div className="w-full max-w-md p-8">
-        {error && <p className="mb-4 text-red-500">{error}</p>}
-        <Card className="w-[350px]">
-          <form onSubmit={handleSubmit}>
-            <CardHeader>
-              <CardTitle>Login</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid w-full items-center gap-4">
-                <div className="flex flex-col space-y-1.5">
-                  <Label htmlFor="email">Email</Label>
-                  <Input
-                    name="email"
-                    type="email"
-                    value={email}
-                    placeholder=""
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                </div>
-                <div className="flex flex-col space-y-1.5">
-                  <Label htmlFor="password">Password</Label>
-                  <Input
-                    name="password"
-                    type="password"
-                    value={password}
-                    placeholder=""
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                </div>
-              </div>
-            </CardContent>
-            <CardFooter className="flex justify-between">
-              <Button type="submit">Login</Button>
-            </CardFooter>
-          </form>
-        </Card>
+    <div className="flex flex-col items-center justify-center h-[80vh]">
+      <div className="w-full max-w-md p-8 mx-auto">
+
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <div className="grid w-full items-center gap-4">
+            <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                name="email"
+                type="email"
+                value={email}
+                placeholder=""
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+            <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="password">Password</Label>
+              <Input
+                name="password"
+                type="password"
+                value={password}
+                placeholder=""
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+          </div>
+          {error && <p className="mb-4 text-red-500">{error}</p>}
+          <Button type="submit">Login</Button>
+        </form>
       </div>
     </div>
   );
