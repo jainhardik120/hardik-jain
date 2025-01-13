@@ -15,7 +15,7 @@ import {
 import { createSuggestionItems } from "novel/extensions";
 import { Command, renderItems } from "novel/extensions";
 import { uploadFn } from "./image-upload";
-import generateAIContent from "@/lib/actions/generateAIContent";
+import { client } from "@/trpc/react";
 
 export const suggestionItems = createSuggestionItems([
   {
@@ -33,7 +33,12 @@ export const suggestionItems = createSuggestionItems([
     searchTerms: ["p", "paragraph"],
     icon: <Text size={18} />,
     command: ({ editor, range }) => {
-      editor.chain().focus().deleteRange(range).toggleNode("paragraph", "paragraph").run();
+      editor
+        .chain()
+        .focus()
+        .deleteRange(range)
+        .toggleNode("paragraph", "paragraph")
+        .run();
     },
   },
   {
@@ -51,7 +56,12 @@ export const suggestionItems = createSuggestionItems([
     searchTerms: ["title", "big", "large"],
     icon: <Heading1 size={18} />,
     command: ({ editor, range }) => {
-      editor.chain().focus().deleteRange(range).setNode("heading", { level: 1 }).run();
+      editor
+        .chain()
+        .focus()
+        .deleteRange(range)
+        .setNode("heading", { level: 1 })
+        .run();
     },
   },
   {
@@ -60,7 +70,12 @@ export const suggestionItems = createSuggestionItems([
     searchTerms: ["subtitle", "medium"],
     icon: <Heading2 size={18} />,
     command: ({ editor, range }) => {
-      editor.chain().focus().deleteRange(range).setNode("heading", { level: 2 }).run();
+      editor
+        .chain()
+        .focus()
+        .deleteRange(range)
+        .setNode("heading", { level: 2 })
+        .run();
     },
   },
   {
@@ -69,7 +84,12 @@ export const suggestionItems = createSuggestionItems([
     searchTerms: ["subtitle", "small"],
     icon: <Heading3 size={18} />,
     command: ({ editor, range }) => {
-      editor.chain().focus().deleteRange(range).setNode("heading", { level: 3 }).run();
+      editor
+        .chain()
+        .focus()
+        .deleteRange(range)
+        .setNode("heading", { level: 3 })
+        .run();
     },
   },
   {
@@ -96,14 +116,21 @@ export const suggestionItems = createSuggestionItems([
     searchTerms: ["blockquote"],
     icon: <TextQuote size={18} />,
     command: ({ editor, range }) =>
-      editor.chain().focus().deleteRange(range).toggleNode("paragraph", "paragraph").toggleBlockquote().run(),
+      editor
+        .chain()
+        .focus()
+        .deleteRange(range)
+        .toggleNode("paragraph", "paragraph")
+        .toggleBlockquote()
+        .run(),
   },
   {
     title: "Code",
     description: "Capture a code snippet.",
     searchTerms: ["codeblock"],
     icon: <Code size={18} />,
-    command: ({ editor, range }) => editor.chain().focus().deleteRange(range).toggleCodeBlock().run(),
+    command: ({ editor, range }) =>
+      editor.chain().focus().deleteRange(range).toggleCodeBlock().run(),
   },
   {
     title: "Image",
@@ -165,30 +192,36 @@ export const suggestionItems = createSuggestionItems([
       const generativeAI = async () => {
         const ai_prompt = prompt("Enter what you want to write about:");
         if (ai_prompt) {
-          // Get the entire document content
           const beforeContent = editor.state.doc.textBetween(0, range.from);
-          const afterContent = editor.state.doc.textBetween(range.to, editor.state.doc.content.size);
-          
-          const response = await generateAIContent(
-            ai_prompt,
-            {
+          const afterContent = editor.state.doc.textBetween(
+            range.to,
+            editor.state.doc.content.size,
+          );
+
+          const response = await client.post.generateAIContent.query({
+            query: ai_prompt,
+            context: {
               beforeText: beforeContent,
               afterText: afterContent,
               position: {
                 from: range.from,
-                to: range.to
-              }
-            }
-          );
-          
-          editor.chain().focus().deleteRange(range).insertContent(response).run();
+                to: range.to,
+              },
+            },
+          });
+          editor
+            .chain()
+            .focus()
+            .deleteRange(range)
+            .insertContent(response)
+            .run();
         } else {
           alert("Enter a prompt to generate content");
         }
-      }
+      };
       generativeAI();
     },
-  }
+  },
 ]);
 
 export const slashCommand = Command.configure({
