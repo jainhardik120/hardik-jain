@@ -1,0 +1,7 @@
+node_modules
+build
+public
+prisma
+src/components/ui
+src/canva-client
+tailwind.config.ts
