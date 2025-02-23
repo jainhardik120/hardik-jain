@@ -87,6 +87,22 @@ export const data: AppSidebarProps = {
         },
       ],
     },
+    {
+      title: "Portfolio",
+      url: "/admin/project" as Route,
+      icon: SquareTerminal,
+      isActive: true,
+      items: [
+        {
+          title: "Projects",
+          url: "/admin/project" as Route,
+        },
+        {
+          title: "Skills",
+          url: "/admin/skill" as Route,
+        },
+      ],
+    },
   ],
   projects: [
     {

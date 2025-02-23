@@ -11,7 +11,7 @@ function extractPublicPath(url: string): string | null {
   return match ? match[1] : null;
 }
 
-const onUpload = async (file: File): Promise<string> => {
+export const onUpload = async (file: File): Promise<string> => {
   const currentDatetime = new Date().toISOString().replace(/[:.]/g, "-");
   const filenameWithDatetime = `${currentDatetime}_${file.name}`;
   const signedUrl = await client.files.signedUrlForPut.mutate({
