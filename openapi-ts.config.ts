@@ -1,17 +1,17 @@
-import { defineConfig } from "@hey-api/openapi-ts";
+import { defineConfig } from '@hey-api/openapi-ts';
 
 export default defineConfig({
-  input: "./canva-spec.yml",
-  client: "@hey-api/client-fetch",
+  input: './canva-spec.yml',
+  client: '@hey-api/client-fetch',
   output: {
-    path: "./src/canva-client",
-    format: "prettier",
-    lint: "eslint",
+    path: './src/canva-client',
+    format: 'prettier',
+    lint: 'eslint',
   },
   services: {
     asClass: true,
   },
   types: {
-    enums: "javascript",
+    enums: 'javascript',
   },
 });

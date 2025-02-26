@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   Table,
@@ -7,16 +7,16 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import React, { useEffect, useState } from "react";
-import { Design } from "@/canva-client";
-import { api } from "@/trpc/react";
-import { toast } from "sonner";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+} from '@/components/ui/table';
+import React, { useEffect, useState } from 'react';
+import type { Design } from '@/canva-client';
+import { api } from '@/trpc/react';
+import { toast } from 'sonner';
+import { z } from 'zod';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormField,
@@ -24,16 +24,13 @@ import {
   FormLabel,
   FormControl,
   FormMessage,
-} from "@/components/ui/form";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import Image from "next/image";
+} from '@/components/ui/form';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import Image from 'next/image';
 
 const OnGoingExportButton: React.FC<{ exportId: string }> = ({ exportId }) => {
   const mutation = api.canva.refreshExportStatus.useMutation();
+
   return (
     <Button
       onClick={async () => {
@@ -46,8 +43,8 @@ const OnGoingExportButton: React.FC<{ exportId: string }> = ({ exportId }) => {
 };
 
 const OnGoingExportsList: React.FC<{ designId: string }> = ({ designId }) => {
-  const { data, isFetching, refetch } =
-    api.canva.listExports.useQuery(designId);
+  const { data, isFetching, refetch } = api.canva.listExports.useQuery(designId);
+
   return (
     <div>
       <ul>
@@ -67,18 +64,14 @@ const OnGoingExportsList: React.FC<{ designId: string }> = ({ designId }) => {
         }}
         disabled={isFetching}
       >
-        {isFetching ? "Loading..." : "Refresh"}
+        {isFetching ? 'Loading...' : 'Refresh'}
       </Button>
     </div>
   );
 };
 
 const DesignExportButton: React.FC<{ designId: string }> = ({ designId }) => {
-  const mutation = api.canva.exportDesign.useMutation({
-    onSuccess: (response) => {
-      console.log(response);
-    },
-  });
+  const mutation = api.canva.exportDesign.useMutation();
 
   return (
     <Popover>
@@ -121,31 +114,27 @@ const DesignTable: React.FC<{ designs: Design[] }> = ({ designs }) => {
         {designs.map((design) => (
           <TableRow key={design.id}>
             <TableCell>{design.id}</TableCell>
-            <TableCell>{design.title || "Untitled"}</TableCell>
+            <TableCell>{design.title || 'Untitled'}</TableCell>
 
-            <TableCell>
-              {new Date(design.created_at * 1000).toLocaleString()}
-            </TableCell>
-            <TableCell>
-              {new Date(design.updated_at * 1000).toLocaleString()}
-            </TableCell>
+            <TableCell>{new Date(design.created_at * 1000).toLocaleString()}</TableCell>
+            <TableCell>{new Date(design.updated_at * 1000).toLocaleString()}</TableCell>
             <TableCell>
               {design.thumbnail ? (
                 <Image
                   src={design.thumbnail?.url}
-                  alt={`${design.title || "Untitled"} Thumbnail`}
+                  alt={`${design.title || 'Untitled'} Thumbnail`}
                   className="object-cover rounded-md"
                   width="64"
                   height="96"
                 />
               ) : (
-                "-"
+                '-'
               )}
             </TableCell>
-            <TableCell>{design.page_count || "-"}</TableCell>
+            <TableCell>{design.page_count || '-'}</TableCell>
             <TableCell>
               <Button
-                onClick={() => window.open(design.urls.edit_url, "_blank")}
+                onClick={() => window.open(design.urls.edit_url, '_blank')}
                 disabled={!design.urls.edit_url}
               >
                 Edit in Canva
@@ -162,17 +151,17 @@ const DesignTable: React.FC<{ designs: Design[] }> = ({ designs }) => {
 };
 
 const designSchema = z.object({
-  name: z.string().min(1, "Name is required").max(50, "Name is too long"),
+  name: z.string().min(1, 'Name is required').max(50, 'Name is too long'),
   height: z
     .string()
-    .regex(/^\d+$/, "Height must be a positive number")
+    .regex(/^\d+$/, 'Height must be a positive number')
     .transform(Number)
-    .refine((val) => val > 0, "Height must be greater than 0"),
+    .refine((val) => val > 0, 'Height must be greater than 0'),
   width: z
     .string()
-    .regex(/^\d+$/, "Width must be a positive number")
+    .regex(/^\d+$/, 'Width must be a positive number')
     .transform(Number)
-    .refine((val) => val > 0, "Width must be greater than 0"),
+    .refine((val) => val > 0, 'Width must be greater than 0'),
 });
 
 type DesignFormData = z.infer<typeof designSchema>;
@@ -183,7 +172,7 @@ const CreateDesignForm: React.FC<{
   const form = useForm<DesignFormData>({
     resolver: zodResolver(designSchema),
     defaultValues: {
-      name: "",
+      name: '',
       height: 0,
       width: 0,
     },
@@ -191,12 +180,12 @@ const CreateDesignForm: React.FC<{
 
   const { mutate: createDesign } = api.canva.createDesign.useMutation({
     onSuccess: (response) => {
-      toast.success("Design created successfully");
+      toast.success('Design created successfully');
       onUpdateDesigns(response.design);
       form.reset();
     },
     onError: (err) => {
-      toast.error(err.message || "Something went wrong");
+      toast.error(err.message || 'Something went wrong');
     },
   });
 
@@ -237,11 +226,7 @@ const CreateDesignForm: React.FC<{
                   <FormItem>
                     <FormLabel>Height</FormLabel>
                     <FormControl>
-                      <Input
-                        {...field}
-                        placeholder="Enter height"
-                        type="number"
-                      />
+                      <Input {...field} placeholder="Enter height" type="number" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -254,11 +239,7 @@ const CreateDesignForm: React.FC<{
                   <FormItem>
                     <FormLabel>Width</FormLabel>
                     <FormControl>
-                      <Input
-                        {...field}
-                        placeholder="Enter width"
-                        type="number"
-                      />
+                      <Input {...field} placeholder="Enter width" type="number" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -275,9 +256,7 @@ const CreateDesignForm: React.FC<{
 
 const DesignList = () => {
   const [designs, setDesigns] = useState<Design[]>([]);
-  const [continuation, setContinuation] = useState<string | undefined>(
-    undefined,
-  );
+  const [continuation, setContinuation] = useState<string | undefined>(undefined);
   const { data, isFetching, refetch } = api.canva.getUserDesigns.useQuery(
     { continuation },
     { enabled: false },
@@ -308,7 +287,7 @@ const DesignList = () => {
       {continuation && (
         <div className="flex justify-center">
           <Button onClick={() => refetch()} disabled={isFetching}>
-            {isFetching ? "Loading..." : "Load More"}
+            {isFetching ? 'Loading...' : 'Load More'}
           </Button>
         </div>
       )}

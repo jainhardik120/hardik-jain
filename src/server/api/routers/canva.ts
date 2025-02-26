@@ -1,13 +1,15 @@
-import { z } from "zod";
+import { z } from 'zod';
 
-import { DesignService, ExportService } from "@/canva-client";
-import { getAccessTokenForUser, getUserClient } from "@/lib/canva";
-import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
-import { TRPCError } from "@trpc/server";
-import { CanvaJobStatus, PrismaClient } from "@prisma/client";
+import { DesignService, ExportService } from '@/canva-client';
+import { getAccessTokenForUser, getUserClient } from '@/lib/canva';
+import { createTRPCRouter, protectedProcedure } from '@/server/api/trpc';
+import { TRPCError } from '@trpc/server';
+import type { PrismaClient } from '@prisma/client';
+import { CanvaJobStatus } from '@prisma/client';
 
 const canvaClientProcedure = protectedProcedure.use(async ({ ctx, next }) => {
   const client = await getClient(ctx.session.user.id, ctx.db);
+
   return next({
     ctx: {
       client: client,
@@ -25,65 +27,63 @@ export const canvaRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       const result = await DesignService.listDesigns({
         client: ctx.client,
-        query: { continuation: input.continuation },
+        query: { continuation: input.continuation || '' },
       });
       if (result.error || !result.data) {
         throw new TRPCError({
-          message: result.error?.toString() || "No data retreived",
-          code: "BAD_REQUEST",
+          message: result.error?.toString() || 'No data retreived',
+          code: 'BAD_REQUEST',
         });
       }
+
       return result.data;
     }),
-  listExports: protectedProcedure
-    .input(z.string())
-    .query(async ({ ctx, input }) => {
-      return await ctx.db.canvaExportJob.findMany({
-        where: { designId: input },
+  listExports: protectedProcedure.input(z.string()).query(async ({ ctx, input }) => {
+    return await ctx.db.canvaExportJob.findMany({
+      where: { designId: input },
+    });
+  }),
+  refreshExportStatus: canvaClientProcedure.input(z.string()).mutation(async ({ ctx, input }) => {
+    const result = await ExportService.getDesignExportJob({
+      client: ctx.client,
+      path: {
+        exportId: input,
+      },
+    });
+    if (result.error || !result.data) {
+      throw new TRPCError({
+        message: result.error?.toString() || 'No data retreived',
+        code: 'BAD_REQUEST',
       });
-    }),
-  refreshExportStatus: canvaClientProcedure
-    .input(z.string())
-    .mutation(async ({ ctx, input }) => {
-      const result = await ExportService.getDesignExportJob({
-        client: ctx.client,
-        path: {
-          exportId: input,
-        },
-      });
-      if (result.error || !result.data) {
+    }
+    switch (result.data.job.status) {
+      case 'in_progress':
+        break;
+      case 'failed':
+        await ctx.db.canvaExportJob.delete({
+          where: {
+            exportId: input,
+          },
+        });
         throw new TRPCError({
-          message: result.error?.toString() || "No data retreived",
-          code: "BAD_REQUEST",
+          message: result.data.job.error?.message || 'Export failed',
+          code: 'BAD_REQUEST',
         });
-      }
-      switch (result.data.job.status) {
-        case "in_progress":
-          break;
-        case "failed":
-          await ctx.db.canvaExportJob.delete({
-            where: {
-              exportId: input,
-            },
-          });
-          throw new TRPCError({
-            message: result.data.job.error?.message || "Export failed",
-            code: "BAD_REQUEST",
-          });
-        case "success":
-          await ctx.db.canvaExportJob.update({
-            where: {
-              exportId: input,
-            },
-            data: {
-              status: CanvaJobStatus.SUCCESS,
-              urls: result.data.job.urls,
-            },
-          });
-          break;
-      }
-      return result.data;
-    }),
+      case 'success':
+        await ctx.db.canvaExportJob.update({
+          where: {
+            exportId: input,
+          },
+          data: {
+            status: CanvaJobStatus.SUCCESS,
+            urls: result.data.job.urls || [],
+          },
+        });
+        break;
+    }
+
+    return result.data;
+  }),
   exportDesign: canvaClientProcedure
     .input(
       z.object({
@@ -96,24 +96,24 @@ export const canvaRouter = createTRPCRouter({
         body: {
           design_id: input.designId,
           format: {
-            type: "jpg",
+            type: 'jpg',
             quality: 100,
           },
         },
       });
       if (result.error || !result.data) {
         throw new TRPCError({
-          message: result.error?.toString() || "No data retreived",
-          code: "BAD_REQUEST",
+          message: result.error?.toString() || 'No data retreived',
+          code: 'BAD_REQUEST',
         });
       }
       const status: CanvaJobStatus = (() => {
         switch (result.data.job.status) {
-          case "in_progress":
+          case 'in_progress':
             return CanvaJobStatus.IN_PROGRESS;
-          case "failed":
+          case 'failed':
             return CanvaJobStatus.FAILED;
-          case "success":
+          case 'success':
             return CanvaJobStatus.SUCCESS;
         }
       })();
@@ -125,11 +125,12 @@ export const canvaRouter = createTRPCRouter({
             status: status,
           },
         });
+
         return exportJob;
       } else {
         throw new TRPCError({
-          message: "Export failed",
-          code: "BAD_REQUEST",
+          message: 'Export failed',
+          code: 'BAD_REQUEST',
         });
       }
     }),
@@ -146,7 +147,7 @@ export const canvaRouter = createTRPCRouter({
         client: ctx.client,
         body: {
           design_type: {
-            type: "custom",
+            type: 'custom',
             width: input.width,
             height: input.height,
           },
@@ -155,10 +156,11 @@ export const canvaRouter = createTRPCRouter({
       });
       if (result.error || !result.data) {
         throw new TRPCError({
-          message: result.error?.toString() || "No data retreived",
-          code: "BAD_REQUEST",
+          message: result.error?.toString() || 'No data retreived',
+          code: 'BAD_REQUEST',
         });
       }
+
       return result.data;
     }),
 });
@@ -170,8 +172,9 @@ const getClient = async (userId: string, db: PrismaClient) => {
   } catch (e) {
     throw new TRPCError({
       message: (e as Error).message,
-      code: "BAD_REQUEST",
+      code: 'BAD_REQUEST',
     });
   }
+
   return getUserClient(token);
 };

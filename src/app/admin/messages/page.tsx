@@ -1,7 +1,8 @@
-import { api } from "@/trpc/server";
+import { api } from '@/trpc/server';
 
 export default async function Page() {
   const messages = await api.contact.listMessages();
+
   return (
     <div>
       {messages.map((message) => {

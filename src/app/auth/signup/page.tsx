@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import * as z from "zod";
-import { Suspense, useState, useTransition } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import type * as z from 'zod';
+import { Suspense, useState, useTransition } from 'react';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -13,14 +13,14 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import FormSuccess from "@/components/form-success";
-import FormError from "@/components/form-error";
-import { Input } from "@/components/ui/input";
+} from '@/components/ui/form';
+import FormSuccess from '@/components/form-success';
+import FormError from '@/components/form-error';
+import { Input } from '@/components/ui/input';
 
-import { RegisterSchema } from "@/schemas";
-import { api } from "@/trpc/react";
-import { CardWrapper } from "@/components/auth/card-wrapper";
+import { RegisterSchema } from '@/schemas';
+import { api } from '@/trpc/react';
+import { CardWrapper } from '@/components/auth/card-wrapper';
 
 export default function RegisterPage() {
   return (
@@ -31,8 +31,8 @@ export default function RegisterPage() {
 }
 
 function RegisterForm() {
-  const [error, setError] = useState<string | undefined>("");
-  const [success, setSuccess] = useState<string | undefined>("");
+  const [error, setError] = useState<string | undefined>('');
+  const [success, setSuccess] = useState<string | undefined>('');
 
   const [isPending, startTransition] = useTransition();
 
@@ -50,8 +50,8 @@ function RegisterForm() {
   });
 
   const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
-    setError("");
-    setSuccess("");
+    setError('');
+    setSuccess('');
     startTransition(() => {
       registerMutation.mutate(values);
     });
@@ -74,11 +74,7 @@ function RegisterForm() {
                 <FormItem>
                   <FormLabel>Name</FormLabel>
                   <FormControl>
-                    <Input
-                      {...field}
-                      disabled={isPending}
-                      placeholder="John Doe"
-                    />
+                    <Input {...field} disabled={isPending} placeholder="John Doe" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -109,12 +105,7 @@ function RegisterForm() {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input
-                      {...field}
-                      disabled={isPending}
-                      placeholder="******"
-                      type="password"
-                    />
+                    <Input {...field} disabled={isPending} placeholder="******" type="password" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

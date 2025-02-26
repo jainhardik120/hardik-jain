@@ -1,13 +1,14 @@
-import dynamic from "next/dynamic";
-import { useEffect, useState } from "react";
-import Header from "@/components/sidebar/header";
-import { trpc } from "@/trpc/pages";
-import { ExcalidrawImportData, importExcalidraw } from "@/lib/excalidraw";
-import { SidebarLayout } from "@/components/sidebar/sidebar-layout";
-import { Skeleton } from "@/components/ui/skeleton";
+import dynamic from 'next/dynamic';
+import { useEffect, useState } from 'react';
+import Header from '@/components/sidebar/sidebar-header';
+import { trpc } from '@/trpc/pages';
+import type { ExcalidrawImportData } from '@/lib/excalidraw';
+import { importExcalidraw } from '@/lib/excalidraw';
+import { SidebarLayout } from '@/components/sidebar/sidebar-layout';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const ExcalidrawWrapper = dynamic(
-  async () => (await import("@/components/ExcalidrawWrapper")).default,
+  async () => (await import('@/components/excalidraw/ExcalidrawWrapper')).default,
   {
     ssr: false,
   },
@@ -15,6 +16,7 @@ const ExcalidrawWrapper = dynamic(
 
 export async function getServerSideProps(context: { params: { id: string } }) {
   const { id } = context.params;
+
   return {
     props: {
       id,
@@ -23,10 +25,7 @@ export async function getServerSideProps(context: { params: { id: string } }) {
 }
 
 export default function Page({ id }: { id: string }) {
-  const signedUrl = trpc.excalidraw.getSignedUrlDesign.useQuery(
-    { id },
-    { enabled: false },
-  );
+  const signedUrl = trpc.excalidraw.getSignedUrlDesign.useQuery({ id }, { enabled: false });
   const session = trpc.auth.sessionDetails.useQuery().data || null;
   const [initialExcalidrawData, setInitialExcalidrawData] = useState<
     ExcalidrawImportData | undefined
@@ -52,8 +51,18 @@ export default function Page({ id }: { id: string }) {
         setIsLoaded(true);
       });
   }, [signedUrl.data]);
+
   return (
-    <SidebarLayout session={session}>
+    <SidebarLayout
+      defaultOpen={true}
+      user={{
+        name: session?.user.name ?? '',
+        email: session?.user.email ?? '',
+        avatar:
+          session?.user.image ??
+          `https://api.dicebear.com/9.x/thumbs/svg?seed=${Math.floor(Math.random() * 100000) + 1}&randomizeIds=true`,
+      }}
+    >
       <Header>
         <div className="flex w-full flex-row justify-between items-center">
           <p>Excalidraw Diagram</p>

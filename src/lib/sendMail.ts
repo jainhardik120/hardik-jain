@@ -1,8 +1,11 @@
-import type { SendEmailCommandInput } from "@aws-sdk/client-ses";
-import { SES } from "@aws-sdk/client-ses";
-import { render } from "@react-email/components";
-import React from "react";
-import { config } from "./aws-config";
+'use server';
+
+import type { SendEmailCommandInput } from '@aws-sdk/client-ses';
+import { SES } from '@aws-sdk/client-ses';
+import { render } from '@react-email/components';
+import type React from 'react';
+import { config } from './aws-config';
+import { env } from '@/env';
 
 export const sendSESEmail = async (
   to: string[],
@@ -16,7 +19,7 @@ export const sendSESEmail = async (
   });
 
   const params: SendEmailCommandInput = {
-    Source: process.env.EMAIL_SENDER_ADDRESS,
+    Source: env.EMAIL_SENDER_ADDRESS,
     Destination: {
       ToAddresses: to,
     },

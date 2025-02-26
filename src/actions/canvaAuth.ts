@@ -1,24 +1,19 @@
-"use server";
+'use server';
 
-import { prisma } from "@/lib/prisma";
-import { auth } from "@/server/auth";
-import crypto from "crypto";
-import { redirect } from "next/navigation";
+import { prisma } from '@/lib/prisma';
+import { auth } from '@/server/auth';
+import crypto from 'crypto';
+import { redirect } from 'next/navigation';
+import { env } from '@/env';
 
 function generateCodeVerifierAndChallenge() {
-  const codeVerifier = crypto.randomBytes(32).toString("base64url");
-  const hash = crypto
-    .createHash("sha256")
-    .update(codeVerifier)
-    .digest("base64url");
+  const codeVerifier = crypto.randomBytes(32).toString('base64url');
+  const hash = crypto.createHash('sha256').update(codeVerifier).digest('base64url');
+
   return { codeVerifier, codeChallenge: hash };
 }
 
-async function saveSession(
-  sessionId: string,
-  codeVerifier: string,
-  userId: string,
-) {
+async function saveSession(sessionId: string, codeVerifier: string, userId: string) {
   await prisma.canvaSessionState.create({
     data: {
       sessionId,
@@ -36,20 +31,17 @@ export default async function canvaAuth() {
   }
   const userId = userSession.user.id;
   const { codeVerifier, codeChallenge } = generateCodeVerifierAndChallenge();
-  const sessionId = crypto.randomBytes(16).toString("hex");
+  const sessionId = crypto.randomBytes(16).toString('hex');
   await saveSession(sessionId, codeVerifier, userId);
-  const authUrl = new URL("https://www.canva.com/api/oauth/authorize");
+  const authUrl = new URL('https://www.canva.com/api/oauth/authorize');
+  authUrl.searchParams.append('client_id', env.CANVA_CLIENT_ID);
+  authUrl.searchParams.append('response_type', 'code');
   authUrl.searchParams.append(
-    "client_id",
-    process.env.CANVA_CLIENT_ID as string,
+    'scope',
+    'design:meta:read design:content:read design:content:write design:permission:read design:permission:write',
   );
-  authUrl.searchParams.append("response_type", "code");
-  authUrl.searchParams.append(
-    "scope",
-    "design:meta:read design:content:read design:content:write design:permission:read design:permission:write",
-  );
-  authUrl.searchParams.append("state", sessionId);
-  authUrl.searchParams.append("code_challenge", codeChallenge);
-  authUrl.searchParams.append("code_challenge_method", "S256");
+  authUrl.searchParams.append('state', sessionId);
+  authUrl.searchParams.append('code_challenge', codeChallenge);
+  authUrl.searchParams.append('code_challenge_method', 'S256');
   redirect(authUrl.toString());
 }

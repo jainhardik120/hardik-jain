@@ -1,35 +1,97 @@
-import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
+import { projectSchema } from '@/schemas';
+import { createTRPCRouter, protectedProcedure } from '@/server/api/trpc';
+import { z } from 'zod';
 
 export const portfolioRouter = createTRPCRouter({
-  getSkills: publicProcedure.query(async ({ ctx }) => {
-    const skills = await ctx.db.skill.findMany({
+  getAllProjects: protectedProcedure.query(({ ctx }) => {
+    return ctx.db.project.findMany();
+  }),
+  getProjectById: protectedProcedure.input(z.object({ id: z.string() })).query(({ ctx, input }) => {
+    return ctx.db.project.findUnique({
+      where: {
+        id: input.id,
+      },
+    });
+  }),
+  createProject: protectedProcedure.input(projectSchema).mutation(({ ctx, input }) => {
+    return ctx.db.project.create({
+      data: input,
+    });
+  }),
+  updateProject: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        data: projectSchema,
+      }),
+    )
+    .mutation(({ ctx, input }) => {
+      return ctx.db.project.update({
+        where: {
+          id: input.id,
+        },
+        data: input.data,
+      });
+    }),
+  getSkills: protectedProcedure.query(({ ctx }) => {
+    return ctx.db.skill.findMany({
       include: {
         skills: true,
       },
     });
-    return skills;
   }),
-  getProjectsGroupedByCategory: publicProcedure.query(async ({ ctx }) => {
-    const projectsGroupedByCategory = await ctx.db.project.groupBy({
-      by: ["category"],
-      _count: {
-        category: true,
-      },
-    });
+  createSkill: protectedProcedure
+    .input(
+      z.object({
+        name: z.string(),
+      }),
+    )
+    .mutation(({ ctx, input }) => {
+      return ctx.db.skill.create({
+        data: input,
+      });
+    }),
+  updateSkill: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        name: z.string(),
+        subskills: z.array(
+          z.object({
+            id: z.string().optional(),
+            name: z.string(),
+            level: z.string(),
+          }),
+        ),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { id, name, subskills } = input;
 
-    const projects = await ctx.db.project.findMany();
-    const groupedData = projectsGroupedByCategory.map((group) => ({
-      id: group.category,
-      projects: projects.filter(
-        (project) => project.category === group.category,
-      ),
-    }));
+      await ctx.db.skill.update({
+        where: { id },
+        data: {
+          name,
+          skills: {
+            deleteMany: {},
+            create: subskills.map((subskill) => ({
+              name: subskill.name,
+              level: subskill.level,
+            })),
+          },
+        },
+      });
 
-    const uniqueCategories = groupedData.map((group) => group.id);
+      return ctx.db.skill.findUnique({
+        where: { id },
+        include: { skills: true },
+      });
+    }),
+  deleteSkill: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      await ctx.db.skill.delete({ where: { id: input.id } });
 
-    return {
-      categories: uniqueCategories,
-      projectsByCategory: groupedData,
-    };
-  }),
+      return { success: true };
+    }),
 });

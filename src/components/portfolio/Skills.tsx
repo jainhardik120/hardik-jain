@@ -1,8 +1,7 @@
-import SkillCard, { SkillWithSubSkills } from "./SkillCard";
-import { api } from "@/trpc/server";
+import type { SkillWithSubSkills } from '@/types';
+import SkillCard from './SkillCard';
 
-export default async function SkillsSection() {
-  const skills: SkillWithSubSkills[] = await api.portfolio.getSkills();
+export default function SkillsSection({ skills }: { skills: SkillWithSubSkills[] }) {
   return (
     <section id="skills" className=" container mx-auto px-12 py-20">
       <h2 className="text-center text-4xl font-bold mb-12">Skills</h2>

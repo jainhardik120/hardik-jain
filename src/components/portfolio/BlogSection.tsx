@@ -1,25 +1,18 @@
-import { api } from "@/trpc/server";
-import { Post } from "@prisma/client";
-import { Route } from "next";
-import Link from "next/link";
+import type { BlogPostWithAuthor } from '@/types';
+import type { Route } from 'next';
+import Link from 'next/link';
 
-export default async function BlogSection() {
-  const blogs: Post[] = await api.post.getAllPosts();
+export default function BlogSection({ blogs }: { blogs: BlogPostWithAuthor[] }) {
   return (
-    <section
-      id="blog"
-      className=" min-h-screen mx-auto container px-12 flex flex-col"
-    >
+    <section id="blog" className=" min-h-screen mx-auto container px-12 flex flex-col">
       <div className="flex flex-col my-auto gap-12 items-center">
         <h2 className="text-center text-4xl font-bold">Blog</h2>
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 max-w-4xl">
           {blogs.map((blog) => (
-            <Link key={blog.id} href={`/post/${blog.id}` as Route}>
+            <Link key={blog.id} href={`/post/${blog.slug}` as Route}>
               <div className="flex flex-col h-full justify-between overflow-x-hidden">
                 <div>
-                  <h3 className="text-2xl font-bold tracking-tight">
-                    {blog.title}
-                  </h3>
+                  <h3 className="text-2xl font-bold tracking-tight">{blog.title}</h3>
                   <p className="mt-2 hidden sm:block text-gray-500 dark:text-gray-400">
                     {blog.description}
                   </p>

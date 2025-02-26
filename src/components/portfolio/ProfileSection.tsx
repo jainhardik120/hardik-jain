@@ -1,39 +1,19 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import { TypeAnimation } from "react-type-animation";
-import AchievementsSection from "./AchievementsSection";
-import {
-  GitHubLogoIcon,
-  LinkedInLogoIcon,
-  InstagramLogoIcon,
-  TwitterLogoIcon,
-  DownloadIcon,
-} from "@radix-ui/react-icons";
-import { Button } from "@/components/ui/button";
+import Image from 'next/image';
+import dynamic from 'next/dynamic';
+const TypeAnimation = dynamic(
+  () => import('react-type-animation').then((mod) => mod.TypeAnimation),
+  {
+    ssr: false,
+    loading: () => <span>Hardik Jain</span>,
+  },
+);
+import AchievementsSection from './AchievementsSection';
 
-const Socials = [
-  {
-    icon: <GitHubLogoIcon />,
-    href: "https://github.com/jainhardik120",
-    alt: "GitHub",
-  },
-  {
-    icon: <LinkedInLogoIcon />,
-    href: "https://linked.com/in/jainhardik120",
-    alt: "LinkedIn",
-  },
-  {
-    icon: <InstagramLogoIcon />,
-    href: "https://instagram.com/_.hardikj",
-    alt: "Instagram",
-  },
-  {
-    icon: <TwitterLogoIcon />,
-    href: "https://twitter.com/jainhardik17",
-    alt: "Twitter",
-  },
-];
+import { LinkIcon } from 'lucide-react';
+import { env } from '@/env';
+import { Socials } from '@/types';
 
 const HeroImage = () => {
   return (
@@ -51,20 +31,9 @@ const HeroImage = () => {
   );
 };
 
-const ResumeUrl =
-  "https://hardik-jain-blog-content.s3.eu-north-1.amazonaws.com/uploads/2024-06-05T13-56-13-118Z_Hardik%20Jain%20CV.pdf";
+const ResumeUrl = `${env.NEXT_PUBLIC_FILE_STORAGE_HOST}/Resume.pdf`;
 
 const ProfileSection: React.FC = () => {
-  const handleDownload = async () => {
-    const response = await (await fetch(ResumeUrl)).blob();
-    const url = URL.createObjectURL(response);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = "Hardik Jain CV.pdf";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
   return (
     <section
       id="profile"
@@ -78,19 +47,19 @@ const ProfileSection: React.FC = () => {
             id="hero_text"
           >
             <div className="w-full">
-              <h1 className="mb-4 text-4xl md:text-6xl xl:text-8xl xl:leading-normal font-extrabold xl:min-h-[432px] xl:w-[600px] md:min-h-[180px] w-[350px] md:w-[400px]">
+              <h1 className="mb-4 font-extrabold text-4xl w-[360px] min-h-[80px] md:text-6xl md:min-h-[180px] md:w-[400px] xl:leading-normal xl:text-8xl xl:min-h-[432px] xl:w-[600px]">
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-teal-500">
-                  Hello, I&apos;m{" "}
+                  Hello, I&apos;m{' '}
                 </span>
                 <br />
                 <span className="block">
                   <TypeAnimation
                     sequence={[
-                      "Hardik Jain",
+                      'Hardik Jain',
                       1000,
-                      "Web Developer",
+                      'Web Developer',
                       1000,
-                      "Android Developer",
+                      'Android Developer',
                       1000,
                     ]}
                     wrapper="span"
@@ -104,13 +73,14 @@ const ProfileSection: React.FC = () => {
               <HeroImage />
             </div>
             <div className="flex flex-col xl:flex-row gap-4 w-full items-center md:items-start">
-              <Button
-                className="h-12 rounded-full w-[240px] flex justify-center items-center px-4 gap-2"
-                onClick={handleDownload}
+              <a
+                className="bg-primary text-primary-foreground shadow hover:bg-primary/90 whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-12 rounded-full w-[240px] flex justify-center items-center px-4 gap-2"
+                href={ResumeUrl}
+                target="_blank"
               >
-                Download CV
-                <DownloadIcon />
-              </Button>
+                Open Resume
+                <LinkIcon />
+              </a>
               <div className="flex flex-row gap-4">
                 {Socials.map((value) => {
                   return (
@@ -118,9 +88,10 @@ const ProfileSection: React.FC = () => {
                       href={value.href}
                       key={value.alt}
                       aria-label={value.alt}
+                      target="_blank"
                       className="w-12 h-12 border-2 border-border rounded-full flex justify-center items-center"
                     >
-                      {value.icon}
+                      <value.icon />
                     </a>
                   );
                 })}

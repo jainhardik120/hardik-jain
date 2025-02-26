@@ -1,28 +1,20 @@
-"use client";
-
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import { AppSidebar, data } from "@/components/sidebar/app-sidebar";
-import { Session } from "next-auth";
+import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
+import { AppSidebar } from '@/components/sidebar/sidebar';
+import type { User } from '@/types';
+import { AppSidebarData } from '@/types';
 
 export function SidebarLayout({
   children,
-  session,
+  user,
+  defaultOpen,
 }: Readonly<{
   children: React.ReactNode;
-  session: Session | null;
+  user: User;
+  defaultOpen: boolean;
 }>) {
   return (
-    <SidebarProvider>
-      <AppSidebar
-        teams={data.teams}
-        user={{
-          name: session?.user.name ?? "",
-          email: session?.user.email ?? "",
-          avatar: session?.user.image ?? "",
-        }}
-        navItems={data.navItems}
-        projects={data.projects}
-      />
+    <SidebarProvider defaultOpen={defaultOpen}>
+      <AppSidebar teams={AppSidebarData.teams} user={user} />
       <SidebarInset>{children}</SidebarInset>
     </SidebarProvider>
   );

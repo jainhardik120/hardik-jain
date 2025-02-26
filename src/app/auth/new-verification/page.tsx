@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { Suspense, useCallback, useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 
-import FormSuccess from "@/components/form-success";
-import FormError from "@/components/form-error";
-import { api } from "@/trpc/react";
-import { CardWrapper } from "@/components/auth/card-wrapper";
+import FormSuccess from '@/components/form-success';
+import FormError from '@/components/form-error';
+import { api } from '@/trpc/react';
+import { CardWrapper } from '@/components/auth/card-wrapper';
 
 export default function NewVerificationPage() {
   return (
@@ -21,9 +21,9 @@ function NewVerificationForm() {
   const [success, setSuccess] = useState<string | undefined>();
 
   const searchParams = useSearchParams();
-  const token = searchParams?.get("token");
+  const token = searchParams?.get('token');
 
-  const mutation = api.auth.verifyEmail.useMutation({
+  const { mutate } = api.auth.verifyEmail.useMutation({
     onSuccess: (data) => {
       setSuccess(data.success);
     },
@@ -32,20 +32,18 @@ function NewVerificationForm() {
     },
   });
 
-  const onsubmit = useCallback(() => {
-    if (success || error) return;
-
-    if (!token) {
-      setError("Missing token!");
+  useEffect(() => {
+    if (success || error) {
       return;
     }
-    mutation.mutate({ token });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token, success, error]);
 
-  useEffect(() => {
-    onsubmit();
-  }, [onsubmit]);
+    if (!token) {
+      setError('Missing token!');
+
+      return;
+    }
+    mutate({ token });
+  }, [token, mutate, success, error]);
 
   return (
     <CardWrapper

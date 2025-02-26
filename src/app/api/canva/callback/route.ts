@@ -1,42 +1,38 @@
-import { OauthService } from "@/canva-client";
-import { getBasicAuthClient } from "@/lib/canva";
-import { prisma } from "@/lib/prisma";
-import { NextRequest, NextResponse } from "next/server";
+import { OauthService } from '@/canva-client';
+import { getBasicAuthClient } from '@/lib/canva';
+import { prisma } from '@/lib/prisma';
+import { redirect } from 'next/navigation';
+import type { NextRequest } from 'next/server';
+import { NextResponse } from 'next/server';
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
-  const code = searchParams.get("code");
-  const state = searchParams.get("state");
+  const code = searchParams.get('code');
+  const state = searchParams.get('state');
 
   if (!code || !state) {
-    return NextResponse.json(
-      { error: "Invalid callback parameters" },
-      { status: 400 },
-    );
+    return NextResponse.json({ error: 'Invalid callback parameters' }, { status: 400 });
   }
   const session = await prisma.canvaSessionState.findUnique({
     where: { sessionId: state },
   });
   if (!session || session.expires < new Date()) {
-    return NextResponse.json(
-      { error: "Invalid session state" },
-      { status: 400 },
-    );
+    return NextResponse.json({ error: 'Invalid session state' }, { status: 400 });
   }
   const userId = session.userId;
   const { codeVerifier } = session;
   try {
     const params = new URLSearchParams({
-      grant_type: "authorization_code",
+      grant_type: 'authorization_code',
       code_verifier: codeVerifier,
       code: code,
     });
     const result = await OauthService.exchangeAccessToken({
       client: getBasicAuthClient(),
       body: params,
-      bodySerializer: (params) => params.toString(),
+      bodySerializer: (params: URLSearchParams) => params.toString(),
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
+        'Content-Type': 'application/x-www-form-urlencoded',
       },
     });
     if (result.error) {
@@ -45,7 +41,7 @@ export async function GET(req: NextRequest) {
     const tokens = result.data;
     if (!tokens) {
       throw new Error(
-        "No token returned when exchanging oauth code for token, but no error was returned either.",
+        'No token returned when exchanging oauth code for token, but no error was returned either.',
       );
     }
     await prisma.canvaUserToken.create({
@@ -56,11 +52,8 @@ export async function GET(req: NextRequest) {
       },
     });
     await prisma.canvaSessionState.delete({ where: { sessionId: state } });
-    return Response.json({ success: true });
   } catch (error) {
-    return NextResponse.json(
-      { error: (error as Error).message },
-      { status: 500 },
-    );
+    return NextResponse.json({ error: (error as Error).message }, { status: 500 });
   }
+  redirect('/admin/media/images');
 }

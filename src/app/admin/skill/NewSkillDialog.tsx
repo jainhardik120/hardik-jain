@@ -1,41 +1,38 @@
-"use client";
+'use client';
 import {
   Dialog,
   DialogContent,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import React, { useEffect, useState } from "react";
-import { SkillWithSubSkills } from "@/components/portfolio/SkillCard";
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
+import React, { useEffect, useState } from 'react';
+import type { SkillWithSubSkills } from '@/types';
+import { api } from '@/trpc/react';
 
 export const NewSkillDialog: React.FC<{
   dialogOpened: boolean;
   setDialogOpened: (state: boolean) => void;
   addSkill: (skill: SkillWithSubSkills) => void;
-}> = ({ dialogOpened, setDialogOpened }) => {
-  const [newSkillName, setNewSkillName] = useState("");
+}> = ({ dialogOpened, setDialogOpened, addSkill }) => {
+  const [newSkillName, setNewSkillName] = useState('');
 
+  const createSkillMutation = api.portfolio.createSkill.useMutation();
   const onButtonClick = async () => {
-    const response = await fetch("/api/skills", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ name: newSkillName }),
-    });
-    if (response.ok) {
-      // const result = await response.json();
-      // addSkill({ id: result.id, name: newSkillName, skills: [] });
-      setDialogOpened(false);
-    }
+    const data = await createSkillMutation.mutateAsync({ name: newSkillName });
+    const newSkill: SkillWithSubSkills = {
+      ...data,
+      skills: [],
+    };
+    addSkill(newSkill);
+    setDialogOpened(false);
   };
 
   useEffect(() => {
-    setNewSkillName("");
+    setNewSkillName('');
   }, [dialogOpened]);
 
   return (

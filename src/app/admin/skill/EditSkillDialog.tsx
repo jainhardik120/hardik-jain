@@ -1,16 +1,15 @@
-"use client";
+'use client';
 
+import { useState, useEffect } from 'react';
 import {
   Dialog,
   DialogContent,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import React, { useEffect, useState } from "react";
-
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 import {
   Select,
   SelectContent,
@@ -19,9 +18,10 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { SkillWithSubSkills } from "@/components/portfolio/SkillCard";
-import { SubSkill } from "@prisma/client";
+} from '@/components/ui/select';
+import type { SubSkill } from '@prisma/client';
+import type { SkillWithSubSkills } from '@/types';
+import { api } from '@/trpc/react';
 
 export const EditSkillDialog: React.FC<{
   skill: SkillWithSubSkills | null;
@@ -30,7 +30,7 @@ export const EditSkillDialog: React.FC<{
   updateSkill: (updatedSkill: SkillWithSubSkills) => void;
   deleteSkill: (id: string) => void;
 }> = ({ skill, dialogOpened, setDialogOpened, updateSkill, deleteSkill }) => {
-  const [skillName, setSkillName] = useState(skill?.name || "");
+  const [skillName, setSkillName] = useState(skill?.name || '');
   const [subskills, setSubskills] = useState<SubSkill[]>(skill?.skills || []);
 
   useEffect(() => {
@@ -40,40 +40,43 @@ export const EditSkillDialog: React.FC<{
     }
   }, [skill]);
 
+  const updateSkillMutation = api.portfolio.updateSkill.useMutation();
+  const deleteSkillMutation = api.portfolio.deleteSkill.useMutation();
+
   const handleSave = async () => {
-    const updatedSkill = { ...skill, name: skillName, skills: subskills };
-    const response = await fetch(`/api/skills/${skill?.id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(updatedSkill),
-    });
-    if (response.ok) {
-      updateSkill((await response.json()).skill);
-      setDialogOpened(false);
+    if (!skill) {
+      return;
     }
+    const updatedSkill = {
+      id: skill.id,
+      name: skillName,
+      subskills: subskills.map(({ id, name, level }) => ({
+        id: id || undefined,
+        name,
+        level,
+      })),
+    };
+    const response = await updateSkillMutation.mutateAsync(updatedSkill);
+    if (response) {
+      updateSkill(response);
+    }
+    setDialogOpened(false);
   };
 
   const handleDelete = async () => {
-    const response = await fetch(`/api/skills/${skill?.id}`, {
-      method: "DELETE",
-    });
-    if (response.ok) {
-      deleteSkill(skill?.id as string);
-      setDialogOpened(false);
+    if (!skill) {
+      return;
     }
+    await deleteSkillMutation.mutateAsync({ id: skill.id });
+    deleteSkill(skill.id);
+    setDialogOpened(false);
   };
 
   const addSubskill = () => {
-    setSubskills([...subskills, { name: "", level: "", id : "", skillId : skill?.id || "" }]);
+    setSubskills([...subskills, { id: '', name: '', level: '', skillId: skill?.id || '' }]);
   };
 
-  const updateSubskill = (
-    index: number,
-    key: keyof SubSkill,
-    value: string,
-  ) => {
+  const updateSubskill = (index: number, key: keyof SubSkill, value: string) => {
     const updatedSubskills = subskills.map((subskill, i) =>
       i === index ? { ...subskill, [key]: value } : subskill,
     );
@@ -81,8 +84,7 @@ export const EditSkillDialog: React.FC<{
   };
 
   const deleteSubskill = (index: number) => {
-    const updatedSubskills = subskills.filter((_, i) => i !== index);
-    setSubskills(updatedSubskills);
+    setSubskills(subskills.filter((_, i) => i !== index));
   };
 
   return (
@@ -107,20 +109,16 @@ export const EditSkillDialog: React.FC<{
                   id={`subskill-name-${index}`}
                   className="col-span-2"
                   value={subskill.name}
-                  onChange={(e) =>
-                    updateSubskill(index, "name", e.target.value)
-                  }
+                  onChange={(e) => updateSubskill(index, 'name', e.target.value)}
                 />
               </div>
               <div className="col-span-2">
                 <Select
                   value={subskill.level}
-                  onValueChange={(value) =>
-                    updateSubskill(index, "level", value)
-                  }
+                  onValueChange={(value) => updateSubskill(index, 'level', value)}
                 >
                   <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Select a fruit" />
+                    <SelectValue placeholder="Select a level" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
@@ -132,10 +130,7 @@ export const EditSkillDialog: React.FC<{
                   </SelectContent>
                 </Select>
               </div>
-              <Button
-                variant="destructive"
-                onClick={() => deleteSubskill(index)}
-              >
+              <Button variant="destructive" onClick={() => deleteSubskill(index)}>
                 Delete
               </Button>
             </div>
@@ -145,11 +140,15 @@ export const EditSkillDialog: React.FC<{
           </div>
         </div>
         <DialogFooter>
-          <Button type="submit" onClick={handleSave}>
-            Save
+          <Button type="submit" onClick={handleSave} disabled={updateSkillMutation.isPending}>
+            {updateSkillMutation.isPending ? 'Saving...' : 'Save'}
           </Button>
-          <Button variant="destructive" onClick={handleDelete}>
-            Delete
+          <Button
+            variant="destructive"
+            onClick={handleDelete}
+            disabled={deleteSkillMutation.isPending}
+          >
+            {deleteSkillMutation.isPending ? 'Deleting...' : 'Delete'}
           </Button>
         </DialogFooter>
       </DialogContent>

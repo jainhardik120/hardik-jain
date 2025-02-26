@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import React from "react";
-import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { api } from "@/trpc/react";
+import React from 'react';
+import { useRouter } from 'next/navigation';
+import { Button } from '@/components/ui/button';
+import { api } from '@/trpc/react';
 
 const CreatePostButton = () => {
   const router = useRouter();
@@ -12,6 +12,7 @@ const CreatePostButton = () => {
       router.push(`/admin/post/${response}`);
     },
   });
+
   return (
     <Button
       onClick={async () => {

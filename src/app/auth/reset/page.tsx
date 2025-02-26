@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import * as z from "zod";
-import { Suspense, useState, useTransition } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import type * as z from 'zod';
+import { Suspense, useState, useTransition } from 'react';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -13,14 +13,14 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import FormSuccess from "@/components/form-success";
-import FormError from "@/components/form-error";
-import { Input } from "@/components/ui/input";
+} from '@/components/ui/form';
+import FormSuccess from '@/components/form-success';
+import FormError from '@/components/form-error';
+import { Input } from '@/components/ui/input';
 
-import { ResetSchema } from "@/schemas";
-import { api } from "@/trpc/react";
-import { CardWrapper } from "@/components/auth/card-wrapper";
+import { ResetSchema } from '@/schemas';
+import { api } from '@/trpc/react';
+import { CardWrapper } from '@/components/auth/card-wrapper';
 
 export default function ResetPage() {
   return (
@@ -31,14 +31,14 @@ export default function ResetPage() {
 }
 
 function ResetForm() {
-  const [error, setError] = useState<string | undefined>("");
-  const [success, setSuccess] = useState<string | undefined>("");
+  const [error, setError] = useState<string | undefined>('');
+  const [success, setSuccess] = useState<string | undefined>('');
 
   const [isPending, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof ResetSchema>>({
     resolver: zodResolver(ResetSchema),
-    defaultValues: { email: "" },
+    defaultValues: { email: '' },
   });
 
   const mutation = api.auth.resetPassword.useMutation({
@@ -51,8 +51,8 @@ function ResetForm() {
   });
 
   const onSubmit = (values: z.infer<typeof ResetSchema>) => {
-    setError("");
-    setSuccess("");
+    setError('');
+    setSuccess('');
 
     startTransition(() => {
       mutation.mutate(values);

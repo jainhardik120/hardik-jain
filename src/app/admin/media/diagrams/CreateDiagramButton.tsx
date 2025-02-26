@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
-import { api } from "@/trpc/react";
-import { Route } from "next";
-import { useRouter } from "next/navigation";
+import { Button } from '@/components/ui/button';
+import { api } from '@/trpc/react';
+import type { Route } from 'next';
+import { useRouter } from 'next/navigation';
 
 export const CreateDiagramButton = () => {
   const router = useRouter();
@@ -12,6 +12,7 @@ export const CreateDiagramButton = () => {
       router.push(`/admin/media/diagrams/${response}` as Route);
     },
   });
+
   return (
     <Button
       onClick={async () => {

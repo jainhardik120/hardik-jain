@@ -1,10 +1,10 @@
-import { DataTable } from "@/components/DataTable";
-import CreatePostButton from "./CreatePostButton";
-import { api } from "@/trpc/server";
-import { columns } from "./TableColumns";
+import { DataTable } from '@/components/DataTable';
+import CreatePostButton from './CreatePostButton';
+import { api } from '@/trpc/server';
+import { columns } from './TableColumns';
 
 const PostsPage = async () => {
-  const posts = await api.post.getAllPosts();
+  const posts = await api.post.getAllPosts({});
 
   return (
     <div className="w-full">

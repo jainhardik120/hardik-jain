@@ -1,6 +1,6 @@
-import { Tailwind, Button, Html } from "@react-email/components";
-import config from "../../tailwind.config";
-import React from "react";
+import { Tailwind, Button, Html } from '@react-email/components';
+import config from '../../tailwind.config';
+import React from 'react';
 
 const Email = ({ resetLink }: { resetLink: string }) => {
   return (

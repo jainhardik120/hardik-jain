@@ -3,11 +3,8 @@
 import * as React from "react";
 import * as RechartsPrimitive from "recharts";
 import {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   NameType,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   Payload,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   ValueType,
 } from "recharts/types/component/DefaultTooltipContent";
 
@@ -77,7 +74,6 @@ ChartContainer.displayName = "Chart";
 
 const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }) => {
   const colorConfig = Object.entries(config).filter(
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     ([_, config]) => config.theme || config.color,
   );
 
@@ -148,7 +144,7 @@ const ChartTooltipContent = React.forwardRef<
       }
 
       const [item] = payload;
-      const key = `${labelKey || item.dataKey || item.name || "value"}`;
+      const key = `${labelKey || item?.dataKey || item?.name || "value"}`;
       const itemConfig = getPayloadConfigFromPayload(config, item, key);
       const value =
         !labelKey && typeof label === "string"

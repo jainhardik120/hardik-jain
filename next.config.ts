@@ -1,24 +1,35 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
+import type { Configuration } from 'webpack';
 
 const nextConfig: NextConfig = {
   experimental: {
     typedRoutes: true,
   },
+  async redirects() {
+    return [
+      {
+        source: '/blog',
+        destination: '/blog/1',
+        permanent: true,
+      },
+      {
+        source: '/post',
+        destination: '/blog/1',
+        permanent: true,
+      },
+    ];
+  },
   images: {
     remotePatterns: [
       {
-        protocol: "https",
-        hostname: "document-export.canva.com",
+        protocol: 'https',
+        hostname: 'document-export.canva.com',
       },
     ],
   },
-  webpack: (
-    /** @type {import('webpack').Configuration & { externals: string[] }} */
-    config,
-    { isServer },
-  ) => {
+  webpack: (config: Configuration & { externals?: string[] }, { isServer }) => {
     if (isServer) {
-      config.externals.push("esbuild");
+      config.externals?.push('esbuild');
     }
 
     return config;

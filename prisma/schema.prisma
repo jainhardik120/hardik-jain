@@ -132,8 +132,8 @@ model Message {
 model Project {
   id               String   @id @default(cuid())
   name             String
-  githubLink       String?
-  demoLink         String?
+  githubLink       String
+  demoLink         String
   category         String
   imageUrl         String
   content          String

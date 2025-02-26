@@ -1,16 +1,15 @@
-import { config } from "@/lib/aws-config";
-import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
-import {
-  GetObjectCommand,
-  PutObjectCommand,
-  S3Client,
-} from "@aws-sdk/client-s3";
-import { z } from "zod";
-import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import { config } from '@/lib/aws-config';
+import { createTRPCRouter, protectedProcedure } from '@/server/api/trpc';
+import { GetObjectCommand, PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import { z } from 'zod';
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
+import { env } from '@/env';
+import type { ExcalidrawElement } from '@excalidraw/excalidraw/types/element/types';
 
 export const excalidrawRouter = createTRPCRouter({
   listDesigns: protectedProcedure.query(async ({ ctx }) => {
     const designs = await ctx.db.excalidrawDiagrams.findMany();
+
     return designs;
   }),
   createDesign: protectedProcedure.mutation(async ({ ctx }) => {
@@ -20,7 +19,7 @@ export const excalidrawRouter = createTRPCRouter({
       },
     });
     const s3Client = new S3Client(config);
-    const bucketName = process.env.S3_BUCKET_NAME_NEW;
+    const bucketName = env.S3_BUCKET_NAME_NEW;
     const baseKey = `excalidraw_diagrams/${newDesign.id}`;
     const elementsParams = {
       Bucket: bucketName,
@@ -40,13 +39,14 @@ export const excalidrawRouter = createTRPCRouter({
       s3Client.send(new PutObjectCommand(elementsParams)),
       s3Client.send(new PutObjectCommand(filesParams)),
     ]);
+
     return newDesign.id;
   }),
   getSignedUrlDesign: protectedProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ input }) => {
       const client = new S3Client(config);
-      const bucketName = process.env.S3_BUCKET_NAME_NEW;
+      const bucketName = env.S3_BUCKET_NAME_NEW;
       const baseKey = `excalidraw_diagrams/${input.id}`;
       const elementsParams = {
         Bucket: bucketName,
@@ -56,14 +56,9 @@ export const excalidrawRouter = createTRPCRouter({
         Bucket: bucketName,
         Key: `${baseKey}_files.json`,
       };
-      const elementsUrl = await getSignedUrl(
-        client,
-        new GetObjectCommand(elementsParams),
-      );
-      const filesUrl = await getSignedUrl(
-        client,
-        new GetObjectCommand(filesParams),
-      );
+      const elementsUrl = await getSignedUrl(client, new GetObjectCommand(elementsParams));
+      const filesUrl = await getSignedUrl(client, new GetObjectCommand(filesParams));
+
       return {
         elementsUrl,
         filesUrl,
@@ -73,18 +68,19 @@ export const excalidrawRouter = createTRPCRouter({
     .input(z.object({ id: z.string() }))
     .mutation(async ({ input }) => {
       const client = new S3Client(config);
-      const bucketName = process.env.S3_BUCKET_NAME_NEW;
+      const bucketName = env.S3_BUCKET_NAME_NEW;
       const key = `excalidraw_diagrams/${input.id}_files.json`;
 
       const command = new PutObjectCommand({
         Bucket: bucketName,
         Key: key,
-        ContentType: "application/json",
+        ContentType: 'application/json',
       });
 
       const signedUrl = await getSignedUrl(client, command, {
         expiresIn: 3600,
       });
+
       return signedUrl;
     }),
   updateElements: protectedProcedure
@@ -96,7 +92,7 @@ export const excalidrawRouter = createTRPCRouter({
     )
     .mutation(async ({ input }) => {
       const client = new S3Client(config);
-      const bucketName = process.env.S3_BUCKET_NAME_NEW;
+      const bucketName = env.S3_BUCKET_NAME_NEW;
       const key = `excalidraw_diagrams/${input.id}_elements.json`;
 
       try {
@@ -105,17 +101,15 @@ export const excalidrawRouter = createTRPCRouter({
         const command = new PutObjectCommand({
           Bucket: bucketName,
           Key: key,
-          Body: JSON.stringify({ elements: JSON.parse(input.elements) }),
-          ContentType: "application/json",
+          Body: JSON.stringify({ elements: JSON.parse(input.elements) as ExcalidrawElement[] }),
+          ContentType: 'application/json',
         });
 
         await client.send(command);
+
         return { success: true };
-      } catch (error) {
-        console.error("Error updating elements:", error);
-        throw new Error(
-          "Failed to update elements. Ensure the input is valid JSON.",
-        );
+      } catch {
+        throw new Error('Failed to update elements. Ensure the input is valid JSON.');
       }
     }),
 });

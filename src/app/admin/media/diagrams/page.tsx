@@ -1,17 +1,12 @@
-import { api } from "@/trpc/server";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { CreateDiagramButton } from "./CreateDiagramButton";
-import Link from "next/link";
-import { Route } from "next";
+import { api } from '@/trpc/server';
+import { Table, TableBody, TableCell, TableHeader, TableRow } from '@/components/ui/table';
+import { CreateDiagramButton } from './CreateDiagramButton';
+import Link from 'next/link';
+import type { Route } from 'next';
 
 export default async function DiagramsPage() {
   const designs = await api.excalidraw.listDesigns();
+
   return (
     <div>
       <CreateDiagramButton />
@@ -28,9 +23,7 @@ export default async function DiagramsPage() {
           {designs.map((design) => (
             <TableRow key={design.id}>
               <TableCell>
-                <Link href={`/admin/media/diagrams/${design.id}` as Route}>
-                  {design.id}
-                </Link>
+                <Link href={`/admin/media/diagrams/${design.id}` as Route}>{design.id}</Link>
               </TableCell>
               <TableCell>{design.createdAt.toLocaleString()}</TableCell>
               <TableCell>{design.lastModified.toLocaleString()}</TableCell>

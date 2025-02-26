@@ -1,4 +1,4 @@
 export const defaultValue = {
-  type: "doc",
+  type: 'doc',
   content: [],
 };

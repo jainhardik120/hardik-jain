@@ -1,9 +1,10 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { useState } from "react";
-import { Project } from "@prisma/client";
+import Image from 'next/image';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { useState } from 'react';
+import type { Project } from '@prisma/client';
+import { DialogTitle } from '@radix-ui/react-dialog';
 
 export const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
   const [dialogOpened, setDialogOpened] = useState(false);
@@ -18,7 +19,7 @@ export const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
         }}
       >
         <Image
-          src={imageUrl}
+          src={imageUrl.length > 0 ? imageUrl : '/images/project-default-image.jpg'}
           alt={name}
           className="transition-transform duration-300 group-hover:scale-110 w-full h-full object-cover"
           width={600}
@@ -29,14 +30,13 @@ export const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
         </div>
       </div>
       <Dialog open={dialogOpened} onOpenChange={setDialogOpened}>
+        <DialogTitle />
         <DialogContent className="m-4 max-w-4xl">
           <div className="grid gap-4 items-start">
             <div className="flex flex-col gap-4">
               <div>
                 <h2 className="text-2xl font-bold">{project.name}</h2>
-                <p className="text-gray-500 dark:text-gray-400">
-                  {project.shortDescription}
-                </p>
+                <p className="text-gray-500 dark:text-gray-400">{project.shortDescription}</p>
               </div>
               <div className="flex flex-wrap gap-2">
                 {project.techStack.map((techStack, index) => (
@@ -47,19 +47,21 @@ export const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
             <div className="max-h-[50vh] overflow-y-auto px-4">
               <div>
                 <Image
-                  src={project.imageUrl}
+                  src={
+                    project.imageUrl.length > 0
+                      ? project.imageUrl
+                      : '/images/project-default-image.jpg'
+                  }
                   width="400"
                   height="400"
                   alt="Project Screenshot"
                   className="rounded-lg overflow-hidden float-end ml-4 mb-1"
                 />
               </div>
-              <p className="text-justify text-gray-500 dark:text-gray-400">
-                {project.content}
-              </p>
+              <p className="text-justify text-gray-500 dark:text-gray-400">{project.content}</p>
             </div>
             <div className="flex gap-4">
-              {githubLink && (
+              {githubLink.length > 0 && (
                 <a
                   href={githubLink}
                   target="_blank"
@@ -69,7 +71,7 @@ export const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
                   Github
                 </a>
               )}
-              {demoLink && (
+              {demoLink.length > 0 && (
                 <a
                   href={demoLink}
                   target="_blank"

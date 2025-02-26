@@ -1,15 +1,17 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { FieldError, useForm } from "react-hook-form";
-import { z, ZodType } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Github, Instagram, Linkedin, MailIcon } from "lucide-react";
-import { api } from "@/trpc/react";
+import React, { useState } from 'react';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+import type { FieldError } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
+import type { ZodType } from 'zod';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { api } from '@/trpc/react';
+import { ContactMethods } from '@/types';
 
 type ContactForm = {
   email: string;
@@ -18,9 +20,9 @@ type ContactForm = {
 };
 
 const ContactSchema: ZodType<ContactForm> = z.object({
-  email: z.string().email("Enter a valid email address"),
-  subject: z.string().min(1, "Subject is required"),
-  message: z.string().min(50, "Message should be minimum 50 characters long"),
+  email: z.string().email('Enter a valid email address'),
+  subject: z.string().min(1, 'Subject is required'),
+  message: z.string().min(50, 'Message should be minimum 50 characters long'),
 });
 
 const FormError: React.FC<{ error?: FieldError }> = ({ error }) => {
@@ -34,37 +36,6 @@ const FormError: React.FC<{ error?: FieldError }> = ({ error }) => {
     </>
   );
 };
-
-const contactMethods = [
-  {
-    href: "mailto:jainhardik120@gmail.com",
-    label: "Mail",
-    icon: (
-      <MailIcon className="h-8 w-8 text-gray-900 group-hover:text-gray-700 dark:text-gray-50 dark:group-hover:text-gray-400" />
-    ),
-  },
-  {
-    href: "https://github.com/jainhardik120",
-    label: "GitHub",
-    icon: (
-      <Github className="h-8 w-8 text-gray-900 group-hover:text-gray-700 dark:text-gray-50 dark:group-hover:text-gray-400" />
-    ),
-  },
-  {
-    href: "https://instagram.com/_.hardikj",
-    label: "Instagram",
-    icon: (
-      <Instagram className="h-8 w-8 text-gray-900 group-hover:text-gray-700 dark:text-gray-50 dark:group-hover:text-gray-400" />
-    ),
-  },
-  {
-    href: "https://linked.com/in/jainhardik120",
-    label: "LinkedIn",
-    icon: (
-      <Linkedin className="h-8 w-8 text-gray-900 group-hover:text-gray-700 dark:text-gray-50 dark:group-hover:text-gray-400" />
-    ),
-  },
-];
 
 const ContactSection: React.FC = () => {
   const [emailSubmitted, setEmailSubmitted] = useState(false);
@@ -102,14 +73,14 @@ const ContactSection: React.FC = () => {
             <div className="space-y-3 text-center mb-3">
               <h2 className="text-4xl font-bold">Get in Touch</h2>
               <p className="sm:text-lg mx-auto text-gray-500 dark:text-gray-400">
-                Have a question or want to work together? Fill out the form or
-                reach out on your preferred platform.
+                Have a question or want to work together? Fill out the form or reach out on your
+                preferred platform.
               </p>
             </div>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="grid grid-cols-2 gap-4 w-full">
-              {contactMethods.map((contact, index) => {
+              {ContactMethods.map((contact, index) => {
                 return (
                   <a
                     key={index}
@@ -117,7 +88,7 @@ const ContactSection: React.FC = () => {
                     target="_blank"
                     className="group flex flex-col items-center justify-center space-y-2 rounded-lg bg-gray-100 p-4 transition-colors hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700"
                   >
-                    {contact.icon}
+                    <contact.icon className="h-8 w-8 text-gray-900 group-hover:text-gray-700 dark:text-gray-50 dark:group-hover:text-gray-400" />
                     <span className="text-sm font-medium text-gray-900 group-hover:text-gray-700 dark:text-gray-50 dark:group-hover:text-gray-400">
                       {contact.label}
                     </span>
@@ -125,40 +96,31 @@ const ContactSection: React.FC = () => {
                 );
               })}
             </div>
-            <form
-              onSubmit={handleSubmit(onSubmit)}
-              className="flex flex-col gap-4 items-center"
-            >
-              <div className="grid grid-cols-2 gap-4 w-full">
-                <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
-                  <Input
-                    id="email"
-                    placeholder="Enter your email"
-                    type="email"
-                    {...register("email")}
-                  />
-                  <FormError error={errors.email} />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="subject">Subject</Label>
-                  <Input
-                    id="subject"
-                    placeholder="Enter subject"
-                    {...register("subject")}
-                  />
-                  <FormError error={errors.subject} />
-                </div>
+            <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 items-center">
+              <div className="space-y-2 w-full">
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  placeholder="Enter your email"
+                  type="email"
+                  {...register('email')}
+                />
+                <FormError {...(errors.email ? { error: errors.email } : {})} />
+              </div>
+              <div className="space-y-2 w-full">
+                <Label htmlFor="subject">Subject</Label>
+                <Input id="subject" placeholder="Enter subject" {...register('subject')} />
+                <FormError {...(errors.subject ? { error: errors.subject } : {})} />
               </div>
               <div className="space-y-2 w-full">
                 <Label htmlFor="message">Message</Label>
                 <Textarea
                   id="message"
                   placeholder="Enter your message"
-                  {...register("message")}
+                  {...register('message')}
                   className="min-h-[100px]"
                 />
-                <FormError error={errors.message} />
+                <FormError {...(errors.message ? { error: errors.message } : {})} />
               </div>
               <Button type="submit" className="w-full" disabled={isLoading}>
                 {isLoading ? (
@@ -183,12 +145,10 @@ const ContactSection: React.FC = () => {
                     ></path>
                   </svg>
                 ) : (
-                  "Send Message"
+                  'Send Message'
                 )}
               </Button>
-              {emailSubmitted && (
-                <span className="text-green-500">Email sent successfully!</span>
-              )}
+              {emailSubmitted && <span className="text-green-500">Email sent successfully!</span>}
             </form>
           </div>
         </div>

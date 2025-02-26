@@ -1,10 +1,6 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Skill, SubSkill } from "@prisma/client";
-import { BadgeCheck } from "lucide-react";
-
-export interface SkillWithSubSkills extends Skill {
-  skills: SubSkill[];
-}
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import type { SkillWithSubSkills } from '@/types';
+import { BadgeCheck } from 'lucide-react';
 
 const SkillCard: React.FC<{ skill: SkillWithSubSkills }> = ({ skill }) => {
   return (

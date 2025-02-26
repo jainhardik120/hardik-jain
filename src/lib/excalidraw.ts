@@ -1,8 +1,5 @@
-import { ExcalidrawElement } from "@excalidraw/excalidraw/types/element/types";
-import {
-  BinaryFiles,
-  BinaryFileData,
-} from "@excalidraw/excalidraw/types/types";
+import type { ExcalidrawElement } from '@excalidraw/excalidraw/types/element/types';
+import type { BinaryFiles, BinaryFileData } from '@excalidraw/excalidraw/types/types';
 
 export const exportExcalidraw = async (
   elements: readonly ExcalidrawElement[],
@@ -14,9 +11,8 @@ export const exportExcalidraw = async (
 
   const excalidrawData = JSON.stringify({ elements, files: filesArray });
   try {
-    localStorage.setItem("excalidrawData", excalidrawData);
+    localStorage.setItem('excalidrawData', excalidrawData);
   } catch (error) {
-    console.error("Error saving data:", error);
     throw error;
   }
 };
@@ -31,30 +27,26 @@ export const importExcalidraw = async (
   filesUrl: string,
 ): Promise<ExcalidrawImportData> => {
   if (!elementsUrl || !filesUrl) {
-    throw new Error("Both elementsUrl and filesUrl are required.");
+    throw new Error('Both elementsUrl and filesUrl are required.');
   }
   try {
     const elementsResponse = await fetch(elementsUrl);
     if (!elementsResponse.ok) {
-      throw new Error(
-        `Failed to fetch elements file. Status: ${elementsResponse.status}`,
-      );
+      throw new Error(`Failed to fetch elements file. Status: ${elementsResponse.status}`);
     }
-    const elementsData = await elementsResponse.json();
+    const elementsData = (await elementsResponse.json()) as { elements?: ExcalidrawElement[] };
     const filesResponse = await fetch(filesUrl);
     if (!filesResponse.ok) {
-      throw new Error(
-        `Failed to fetch files file. Status: ${filesResponse.status}`,
-      );
+      throw new Error(`Failed to fetch files file. Status: ${filesResponse.status}`);
     }
-    const filesData = await filesResponse.json();
+    const filesData = (await filesResponse.json()) as { files?: BinaryFileData[] };
     const combinedData: ExcalidrawImportData = {
-      elements: elementsData.elements || [],
-      files: filesData.files || [],
+      elements: elementsData.elements ?? [],
+      files: filesData.files ?? [],
     };
+
     return combinedData;
-  } catch (error) {
-    console.error("Error fetching or parsing the JSON files:", error);
-    throw new Error("Failed to import Excalidraw data.");
+  } catch {
+    throw new Error('Failed to import Excalidraw data.');
   }
 };

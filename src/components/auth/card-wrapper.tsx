@@ -1,15 +1,10 @@
-"use client";
+'use client';
 
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from "@/components/ui/card";
-import { Social } from "@/components/auth/social";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Route } from "next";
+import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
+import { Social } from '@/components/auth/social';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import type { Route } from 'next';
 
 interface CardWrapperProps {
   children: React.ReactNode;
