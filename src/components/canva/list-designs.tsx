@@ -49,11 +49,19 @@ const OnGoingExportsList: React.FC<{ designId: string }> = ({ designId }) => {
     <div>
       <ul>
         {data &&
-          data.map((item) => {
+          data.jobs.map((item) => {
             return (
               <li key={item.exportId}>
                 <OnGoingExportButton exportId={item.exportId} />
                 {item.status}
+              </li>
+            );
+          })}
+        {data &&
+          data.exportedImages.map((item) => {
+            return (
+              <li key={item.id}>
+                <Image src={item.path} alt={item.id} height={64} width={64} />
               </li>
             );
           })}
@@ -100,9 +108,7 @@ const DesignTable: React.FC<{ designs: Design[] }> = ({ designs }) => {
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>ID</TableHead>
           <TableHead>Title</TableHead>
-          <TableHead>Created At</TableHead>
           <TableHead>Updated At</TableHead>
           <TableHead>Thumbnail</TableHead>
           <TableHead>Pages</TableHead>
@@ -113,16 +119,13 @@ const DesignTable: React.FC<{ designs: Design[] }> = ({ designs }) => {
       <TableBody>
         {designs.map((design) => (
           <TableRow key={design.id}>
-            <TableCell>{design.id}</TableCell>
-            <TableCell>{design.title || 'Untitled'}</TableCell>
-
-            <TableCell>{new Date(design.created_at * 1000).toLocaleString()}</TableCell>
+            <TableCell>{design.title ?? 'Untitled'}</TableCell>
             <TableCell>{new Date(design.updated_at * 1000).toLocaleString()}</TableCell>
             <TableCell>
               {design.thumbnail ? (
                 <Image
                   src={design.thumbnail?.url}
-                  alt={`${design.title || 'Untitled'} Thumbnail`}
+                  alt={`${design.title ?? 'Untitled'} Thumbnail`}
                   className="object-cover rounded-md"
                   width="64"
                   height="96"
@@ -131,14 +134,11 @@ const DesignTable: React.FC<{ designs: Design[] }> = ({ designs }) => {
                 '-'
               )}
             </TableCell>
-            <TableCell>{design.page_count || '-'}</TableCell>
+            <TableCell>{design.page_count ?? '-'}</TableCell>
             <TableCell>
-              <Button
-                onClick={() => window.open(design.urls.edit_url, '_blank')}
-                disabled={!design.urls.edit_url}
-              >
-                Edit in Canva
-              </Button>
+              <a href={design.urls.edit_url} target="_blank" rel="noopener noreferrer">
+                <Button>Edit in Canva</Button>
+              </a>
             </TableCell>
             <TableCell>
               <DesignExportButton designId={design.id} />
@@ -264,8 +264,8 @@ const DesignList = () => {
 
   useEffect(() => {
     if (data) {
-      setDesigns((prev) => [...prev, ...(data.items || [])]);
-      setContinuation(data.continuation || undefined);
+      setDesigns((prev) => [...prev, ...(data.items)]);
+      setContinuation(data.continuation ?? undefined);
     }
   }, [data]);
 
@@ -284,7 +284,7 @@ const DesignList = () => {
         />
       </div>
       <DesignTable designs={designs} />
-      {continuation && (
+      {continuation !== undefined && (
         <div className="flex justify-center">
           <Button onClick={() => refetch()} disabled={isFetching}>
             {isFetching ? 'Loading...' : 'Load More'}

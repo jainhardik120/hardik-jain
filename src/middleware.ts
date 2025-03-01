@@ -5,13 +5,12 @@ const { auth } = NextAuth({
   providers: [],
   callbacks: {
     session: async ({ token, session }) => {
-      if (session.user && token.sub) {
+      if (token.sub !== null && token.sub !== undefined) {
         session.user.id = token.sub;
       }
-      if (session.user && token.role) {
+      if (token.role !== null && token.role !== undefined) {
         session.user.role = token.role;
       }
-
       return session;
     },
   },

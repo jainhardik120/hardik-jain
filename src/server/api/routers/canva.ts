@@ -5,7 +5,11 @@ import { getAccessTokenForUser, getUserClient } from '@/lib/canva';
 import { createTRPCRouter, protectedProcedure } from '@/server/api/trpc';
 import { TRPCError } from '@trpc/server';
 import type { PrismaClient } from '@prisma/client';
-import { CanvaJobStatus } from '@prisma/client';
+import { CanvaJobStatus, ImageType } from '@prisma/client';
+import { createId } from '@paralleldrive/cuid2';
+import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import { config } from '@/lib/aws-config';
+import { env } from '@/env';
 
 const canvaClientProcedure = protectedProcedure.use(async ({ ctx, next }) => {
   const client = await getClient(ctx.session.user.id, ctx.db);
@@ -27,11 +31,13 @@ export const canvaRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       const result = await DesignService.listDesigns({
         client: ctx.client,
-        query: { continuation: input.continuation || '' },
+        query: {
+          ...(input.continuation !== undefined ? { continuation: input.continuation } : {}),
+        },
       });
-      if (result.error || !result.data) {
+      if (result.error !== undefined || !result.data) {
         throw new TRPCError({
-          message: result.error?.toString() || 'No data retreived',
+          message: result.error?.toString() ?? 'No data retreived',
           code: 'BAD_REQUEST',
         });
       }
@@ -39,9 +45,13 @@ export const canvaRouter = createTRPCRouter({
       return result.data;
     }),
   listExports: protectedProcedure.input(z.string()).query(async ({ ctx, input }) => {
-    return await ctx.db.canvaExportJob.findMany({
+    const jobs = await ctx.db.canvaExportJob.findMany({
       where: { designId: input },
     });
+    const exportedImages = await ctx.db.exportedImages.findMany({
+      where: { sourceId: input, imageType: ImageType.CANVA },
+    });
+    return { jobs, exportedImages };
   }),
   refreshExportStatus: canvaClientProcedure.input(z.string()).mutation(async ({ ctx, input }) => {
     const result = await ExportService.getDesignExportJob({
@@ -50,9 +60,9 @@ export const canvaRouter = createTRPCRouter({
         exportId: input,
       },
     });
-    if (result.error || !result.data) {
+    if (result.error !== undefined || !result.data) {
       throw new TRPCError({
-        message: result.error?.toString() || 'No data retreived',
+        message: result.error?.toString() ?? 'No data retreived',
         code: 'BAD_REQUEST',
       });
     }
@@ -66,11 +76,11 @@ export const canvaRouter = createTRPCRouter({
           },
         });
         throw new TRPCError({
-          message: result.data.job.error?.message || 'Export failed',
+          message: result.data.job.error?.message ?? 'Export failed',
           code: 'BAD_REQUEST',
         });
       case 'success':
-        await ctx.db.canvaExportJob.update({
+        const updatedJob = await ctx.db.canvaExportJob.update({
           where: {
             exportId: input,
           },
@@ -79,6 +89,37 @@ export const canvaRouter = createTRPCRouter({
             urls: result.data.job.urls || [],
           },
         });
+        try {
+          for (const url of result.data.job.urls || []) {
+            const imageId = createId();
+            const uploadedFile = await fetch(url);
+            const fileBuffer = await uploadedFile.arrayBuffer();
+            const contentType = uploadedFile.headers.get('Content-Type') ?? 'image/png';
+            const extension = contentType.split('/')[1] ?? 'png';
+            const fileName = `${ctx.session.user.id}/${updatedJob.designId}/${imageId}.${extension}`;
+            const client = new S3Client(config);
+            await client.send(
+              new PutObjectCommand({
+                Bucket: env.S3_BUCKET_NAME_NEW,
+                Key: `public/${fileName}`,
+                Body: Buffer.from(fileBuffer),
+                ContentType: contentType,
+              }),
+            );
+            const s3Url = `${env.NEXT_PUBLIC_FILE_STORAGE_HOST}/${fileName}`;
+            await ctx.db.exportedImages.create({
+              data: {
+                id: imageId,
+                sourceId: updatedJob.designId,
+                imageType: ImageType.CANVA,
+                path: s3Url,
+              },
+            });
+          }
+          await ctx.db.canvaExportJob.delete({
+            where: { exportId: input },
+          });
+        } catch {}
         break;
     }
 
@@ -101,9 +142,9 @@ export const canvaRouter = createTRPCRouter({
           },
         },
       });
-      if (result.error || !result.data) {
+      if (result.error !== undefined || !result.data) {
         throw new TRPCError({
-          message: result.error?.toString() || 'No data retreived',
+          message: result.error?.toString() ?? 'No data retreived',
           code: 'BAD_REQUEST',
         });
       }
@@ -154,15 +195,30 @@ export const canvaRouter = createTRPCRouter({
           title: input.name,
         },
       });
-      if (result.error || !result.data) {
+      if (result.error !== undefined || !result.data) {
         throw new TRPCError({
-          message: result.error?.toString() || 'No data retreived',
+          message: result.error?.toString() ?? 'No data retreived',
           code: 'BAD_REQUEST',
         });
       }
 
       return result.data;
     }),
+  isCanvaClientConnected: protectedProcedure.query(async ({ ctx }) => {
+    try {
+      const token = await getAccessTokenForUser(ctx.session.user.id, ctx.db);
+      return !!token;
+    } catch {
+      return false;
+    }
+  }),
+  disconnectCanvaClient: protectedProcedure.mutation(async ({ ctx }) => {
+    await ctx.db.canvaUserToken.deleteMany({
+      where: {
+        userId: ctx.session.user.id,
+      },
+    });
+  }),
 });
 
 const getClient = async (userId: string, db: PrismaClient) => {

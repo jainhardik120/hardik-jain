@@ -63,7 +63,7 @@ export const LinkSelector = ({ open, onOpenChange }: LinkSelectorProps) => {
             e.preventDefault();
             const input = target[0] as HTMLInputElement;
             const url = getUrlFromString(input.value);
-            if (url) {
+            if (url !== null) {
               editor.chain().focus().setLink({ href: url }).run();
             }
           }}
@@ -74,9 +74,9 @@ export const LinkSelector = ({ open, onOpenChange }: LinkSelectorProps) => {
             type="text"
             placeholder="Paste a link"
             className="flex-1 bg-background p-1 text-sm outline-none"
-            defaultValue={(editor.getAttributes('link')['href'] || '') as string}
+            defaultValue={(editor.getAttributes('link')['href'] ?? '') as string}
           />
-          {editor.getAttributes('link')['href'] ? (
+          {editor.getAttributes('link')['href'] !== undefined ? (
             <Button
               size="icon"
               variant="outline"

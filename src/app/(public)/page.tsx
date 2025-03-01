@@ -20,7 +20,7 @@ export default async function Home() {
       <ProjectsSection
         categories={categories}
         projectsByCategory={projectsByCategory}
-        initialCategory={categories && categories.length > 0 ? (categories[0] ?? '') : ''}
+        initialCategory={categories.length > 0 ? (categories[0] ?? '') : ''}
       />
       <BlogSection blogs={blogs} />
       <ContactSection />

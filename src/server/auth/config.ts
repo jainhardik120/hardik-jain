@@ -19,7 +19,7 @@ export enum ErrorCode {
 class CustomError extends CredentialsSignin {
   override code: ErrorCode;
   constructor(code: ErrorCode, message?: string) {
-    super(message || 'An error occurred during the sign-in process');
+    super(message ?? 'An error occurred during the sign-in process');
     this.code = code;
     this.name = 'CustomError';
   }
@@ -63,7 +63,7 @@ export const authOptions = {
         if (!existingUser || !existingUser.email) {
           throw new CustomError(ErrorCode.USER_NOT_FOUND);
         }
-        if (!existingUser.password) {
+        if (existingUser.password === undefined || existingUser.password === null) {
           throw new CustomError(ErrorCode.INVALID_CREDENTIALS);
         }
         if (!existingUser.emailVerified) {
@@ -87,7 +87,7 @@ export const authOptions = {
   events: {
     linkAccount: async ({ user }): Promise<void> => {
       await prisma.user.update({
-        where: { id: user.id || '', email: user.email || '' },
+        where: { id: user.id ?? '', email: user.email ?? '' },
         data: { emailVerified: new Date() },
       });
     },
@@ -107,7 +107,7 @@ export const authOptions = {
       return true;
     },
     jwt: async ({ token }): Promise<JWT> => {
-      if (!token.sub) {
+      if (token.sub === null || token.sub === undefined) {
         return token;
       }
       if (token.role) {
@@ -132,17 +132,16 @@ export const authOptions = {
       return token;
     },
     session: async ({ token, session }): Promise<Session> => {
-      if (session.user && token.sub) {
+      if (token.sub !== null && token.sub !== undefined) {
         session.user.id = token.sub;
       }
-      if (session.user && token.role) {
+      if (token.role !== null && token.role !== undefined) {
         session.user.role = token.role;
       }
-      if (session.user) {
-        session.user.name = token.name || null;
-        session.user.email = token.email as string;
+      if (token.name !== null && token.name !== undefined) {
+        session.user.name = token.name;
       }
-
+      session.user.email = token.email as string;
       return session;
     },
   },

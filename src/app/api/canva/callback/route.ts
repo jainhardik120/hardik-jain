@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
   const code = searchParams.get('code');
   const state = searchParams.get('state');
 
-  if (!code || !state) {
+  if (code === null || state === null) {
     return NextResponse.json({ error: 'Invalid callback parameters' }, { status: 400 });
   }
   const session = await prisma.canvaSessionState.findUnique({
@@ -35,7 +35,7 @@ export async function GET(req: NextRequest) {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
     });
-    if (result.error) {
+    if (result.error !== undefined) {
       return Response.json(result.error, { status: result.response.status });
     }
     const tokens = result.data;

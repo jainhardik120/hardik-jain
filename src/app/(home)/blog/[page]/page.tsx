@@ -34,36 +34,32 @@ export default async function Page({ params }: { params: Promise<{ page: string 
           <h1 className="text-3xl font-semibold mb-8">Latest Articles</h1>
 
           <section className="space-y-10">
-            {posts &&
-              posts.map((post, index) => (
-                <article key={index} className="border-b pb-8 last:border-b-0">
-                  <Link href={`/post/${post.slug}`} prefetch={false} className="group">
-                    <h2 className="text-2xl font-medium mb-3">{post.title}</h2>
+            {posts.map((post, index) => (
+              <article key={index} className="border-b pb-8 last:border-b-0">
+                <Link href={`/post/${post.slug}`} prefetch={false} className="group">
+                  <h2 className="text-2xl font-medium mb-3">{post.title}</h2>
 
-                    <div className="flex items-center text-sm mb-4">
-                      <div className="flex items-center mr-4">
-                        <UserIcon size={16} className="mr-1" />
-                        <span>{post.author.name}</span>
-                      </div>
-
-                      {post.createdAt && (
-                        <div className="flex items-center">
-                          <CalendarIcon size={16} className="mr-1" />
-                          <time dateTime={new Date(post.createdAt).toISOString()}>
-                            {formatDistanceToNow(new Date(post.createdAt), {
-                              addSuffix: true,
-                            })}
-                          </time>
-                        </div>
-                      )}
+                  <div className="flex items-center text-sm mb-4">
+                    <div className="flex items-center mr-4">
+                      <UserIcon size={16} className="mr-1" />
+                      <span>{post.author.name}</span>
                     </div>
+                    <div className="flex items-center">
+                      <CalendarIcon size={16} className="mr-1" />
+                      <time dateTime={new Date(post.createdAt).toISOString()}>
+                        {formatDistanceToNow(new Date(post.createdAt), {
+                          addSuffix: true,
+                        })}
+                      </time>
+                    </div>
+                  </div>
 
-                    <p className="leading-relaxed mb-4">{post.description}</p>
+                  <p className="leading-relaxed mb-4">{post.description}</p>
 
-                    <span className="inline-block text-sm font-medium">Read more →</span>
-                  </Link>
-                </article>
-              ))}
+                  <span className="inline-block text-sm font-medium">Read more →</span>
+                </Link>
+              </article>
+            ))}
           </section>
 
           {posts?.length === 0 && (

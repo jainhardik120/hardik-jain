@@ -22,12 +22,12 @@ const PageSwitch = ({ pageCount }: { pageCount: number }) => {
     setNumbers(nums);
   }, [pageCount]);
   useEffect(() => {
-    if (!pathname) {
+    if (pathname === null) {
       return;
     }
     const paths = pathname.split('/');
     const pageNumber = paths[paths.length - 1];
-    setCurrentPage(parseInt(pageNumber || '1'));
+    setCurrentPage(parseInt(pageNumber ?? '1'));
   }, [pathname]);
 
   return (

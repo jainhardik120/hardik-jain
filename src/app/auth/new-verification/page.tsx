@@ -33,11 +33,11 @@ function NewVerificationForm() {
   });
 
   useEffect(() => {
-    if (success || error) {
+    if (success !== undefined || error !== undefined) {
       return;
     }
 
-    if (!token) {
+    if (token === undefined || token === null) {
       setError('Missing token!');
 
       return;
@@ -53,7 +53,7 @@ function NewVerificationForm() {
     >
       <div className="flex w-full items-center justify-center">
         <FormSuccess message={success} />
-        {!success && <FormError message={error} />}
+        {success === undefined && <FormError message={error} />}
       </div>
     </CardWrapper>
   );

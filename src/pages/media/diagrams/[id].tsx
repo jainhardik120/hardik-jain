@@ -69,7 +69,7 @@ export default function Page({ id }: { id: string }) {
           <p>End title</p>
         </div>
       </Header>
-      {error && <div>{error}</div>}
+      {error !== undefined && <div>{error}</div>}
       {!isLoaded && <Skeleton className="w-full h-full" />}
       {isLoaded && initialExcalidrawData && (
         <ExcalidrawWrapper initialData={initialExcalidrawData} id={id} />

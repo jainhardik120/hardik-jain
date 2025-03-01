@@ -25,6 +25,10 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'document-export.canva.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'storage.hardikja.in',
+      },
     ],
   },
   webpack: (config: Configuration & { externals?: string[] }, { isServer }) => {

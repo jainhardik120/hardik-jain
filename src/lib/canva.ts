@@ -15,7 +15,7 @@ export async function getAccessTokenForUser(id: string, prisma: PrismaClient): P
   }
   const claims = jose.decodeJwt(storedToken.accessToken);
   const refreshBufferSeconds = 60 * 10;
-  if (claims.exp) {
+  if (claims.exp !== undefined) {
     const aBitBeforeExpirationSeconds = claims.exp - refreshBufferSeconds;
     const nowSeconds = Date.now() / 1000;
     if (nowSeconds < aBitBeforeExpirationSeconds) {
@@ -39,7 +39,7 @@ export async function getAccessTokenForUser(id: string, prisma: PrismaClient): P
     baseUrl: env.BASE_CANVA_CONNECT_API_URL,
   });
 
-  if (result.error) {
+  if (result.error !== undefined) {
     throw new Error(`Failed to refresh token ${result.error}`);
   }
   if (!result.data) {
@@ -70,20 +70,6 @@ export function getUserClient(token: string) {
     baseUrl: env.BASE_CANVA_CONNECT_API_URL,
   });
 
-  // localClient.interceptors.response.use((res) => {
-  //   const requestId = res.headers.get('x-request-id');
-  //   if (res.status >= 400) {
-  //     console.warn(
-  //       `Response status ${res.status} on ${res.url}: request id: ${requestId}}`,
-  //     );
-  //   } else {
-  //     console.log(
-  //       `Response status ${res.status} on ${res.url}: request id: ${requestId}`,
-  //     );
-  //   }
-  //   return res;
-  // });
-
   return localClient;
 }
 
@@ -96,20 +82,6 @@ export function getBasicAuthClient() {
     },
     baseUrl: env.BASE_CANVA_CONNECT_API_URL,
   });
-
-  // localClient.interceptors.response.use((res) => {
-  //   const requestId = res.headers.get('x-request-id');
-  //   if (res.status >= 400) {
-  //     console.warn(
-  //       `Response status ${res.status} on ${res.url}: request id: ${requestId}, ${res.body}`,
-  //     );
-  //   } else {
-  //     console.log(
-  //       `Response status ${res.status} on ${res.url}: request id: ${requestId}`,
-  //     );
-  //   }
-  //   return res;
-  // });
 
   return localClient;
 }

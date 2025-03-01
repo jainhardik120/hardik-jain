@@ -27,7 +27,7 @@ export function CardWrapper({
         <p className="text-center text-lg font-bold">{headerLabel}</p>
       </CardHeader>
       <CardContent>{children}</CardContent>
-      {showSocial && (
+      {showSocial !== undefined && showSocial && (
         <CardFooter>
           <Social />
         </CardFooter>

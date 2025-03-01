@@ -30,7 +30,7 @@ export const EditSkillDialog: React.FC<{
   updateSkill: (updatedSkill: SkillWithSubSkills) => void;
   deleteSkill: (id: string) => void;
 }> = ({ skill, dialogOpened, setDialogOpened, updateSkill, deleteSkill }) => {
-  const [skillName, setSkillName] = useState(skill?.name || '');
+  const [skillName, setSkillName] = useState(skill?.name ?? '');
   const [subskills, setSubskills] = useState<SubSkill[]>(skill?.skills || []);
 
   useEffect(() => {
@@ -73,7 +73,7 @@ export const EditSkillDialog: React.FC<{
   };
 
   const addSubskill = () => {
-    setSubskills([...subskills, { id: '', name: '', level: '', skillId: skill?.id || '' }]);
+    setSubskills([...subskills, { id: '', name: '', level: '', skillId: skill?.id ?? '' }]);
   };
 
   const updateSubskill = (index: number, key: keyof SubSkill, value: string) => {

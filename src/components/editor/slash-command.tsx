@@ -123,7 +123,7 @@ export const suggestionItems = createSuggestionItems([
       input.type = 'file';
       input.accept = 'image/*';
       input.onchange = async () => {
-        if (input.files?.length) {
+        if (input.files?.length !== undefined) {
           const file = input.files[0];
           const pos = editor.view.state.selection.from;
           if (file) {
@@ -145,7 +145,7 @@ export const suggestionItems = createSuggestionItems([
       const ytregex = new RegExp(
         /^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$/,
       );
-      if (videoLink) {
+      if (videoLink !== null) {
         if (ytregex.test(videoLink)) {
           editor
             .chain()
@@ -173,7 +173,7 @@ export const suggestionItems = createSuggestionItems([
     command: ({ editor, range }) => {
       const generativeAI = async () => {
         const ai_prompt = prompt('Enter what you want to write about:');
-        if (ai_prompt) {
+        if (ai_prompt !== null) {
           const beforeContent = editor.state.doc.textBetween(0, range.from);
           const afterContent = editor.state.doc.textBetween(
             range.to,

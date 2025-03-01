@@ -58,7 +58,7 @@ function NewPasswordForm() {
     setError('');
     setSuccess('');
     startTransition(() => {
-      mutation.mutate({ ...values, token: token || '' });
+      mutation.mutate({ ...values, token: token ?? '' });
     });
   };
 

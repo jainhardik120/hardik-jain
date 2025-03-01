@@ -34,7 +34,7 @@ export default function LoginPage() {
 
 function LoginForm() {
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams?.get('callbackUrl') || '/';
+  const callbackUrl = searchParams?.get('callbackUrl') ?? '/';
 
   const urlError: string | undefined = (() => {
     switch (searchParams?.get('error')) {
@@ -138,7 +138,7 @@ function LoginForm() {
               )}
             />
           </div>
-          <FormError message={error || urlError} />
+          <FormError message={error ?? urlError} />
           <FormSuccess message={success} />
           <Button disabled={isPending} type="submit" className="w-full">
             Login with password

@@ -93,7 +93,7 @@ export const reducer = (state: State, action: Action): State => {
 
       // ! Side effects ! - This could be extracted into a dismissToast() action,
       // but I'll keep it here for simplicity
-      if (toastId) {
+      if (toastId !== undefined) {
         addToRemoveQueue(toastId);
       } else {
         state.toasts.forEach((toast) => {
@@ -189,7 +189,7 @@ function useToast() {
   return {
     ...state,
     toast,
-    dismiss: (toastId?: string) => dispatch({ type: 'DISMISS_TOAST', toastId: toastId || '' }),
+    dismiss: (toastId?: string) => dispatch({ type: 'DISMISS_TOAST', toastId: toastId ?? '' }),
   };
 }
 

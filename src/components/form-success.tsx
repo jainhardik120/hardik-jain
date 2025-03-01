@@ -1,5 +1,5 @@
 export default function FormSuccess({ message }: { message: string | undefined }) {
-  if (!message) {
+  if (message === undefined) {
     return null;
   }
 
