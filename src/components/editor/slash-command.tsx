@@ -22,7 +22,7 @@ export const suggestionItems = createSuggestionItems([
     title: 'Send Feedback',
     description: 'Let us know how we can improve.',
     icon: <MessageSquarePlus size={18} />,
-    command: ({ editor, range }) => {
+    command: ({ editor, range }): void => {
       editor.chain().focus().deleteRange(range).run();
       window.open('/feedback', '_blank');
     },
@@ -32,7 +32,7 @@ export const suggestionItems = createSuggestionItems([
     description: 'Just start typing with plain text.',
     searchTerms: ['p', 'paragraph'],
     icon: <Text size={18} />,
-    command: ({ editor, range }) => {
+    command: ({ editor, range }): void => {
       editor.chain().focus().deleteRange(range).toggleNode('paragraph', 'paragraph').run();
     },
   },
@@ -41,7 +41,7 @@ export const suggestionItems = createSuggestionItems([
     description: 'Track tasks with a to-do list.',
     searchTerms: ['todo', 'task', 'list', 'check', 'checkbox'],
     icon: <CheckSquare size={18} />,
-    command: ({ editor, range }) => {
+    command: ({ editor, range }): void => {
       editor.chain().focus().deleteRange(range).toggleTaskList().run();
     },
   },
@@ -50,7 +50,7 @@ export const suggestionItems = createSuggestionItems([
     description: 'Big section heading.',
     searchTerms: ['title', 'big', 'large'],
     icon: <Heading1 size={18} />,
-    command: ({ editor, range }) => {
+    command: ({ editor, range }): void => {
       editor.chain().focus().deleteRange(range).setNode('heading', { level: 1 }).run();
     },
   },
@@ -59,7 +59,7 @@ export const suggestionItems = createSuggestionItems([
     description: 'Medium section heading.',
     searchTerms: ['subtitle', 'medium'],
     icon: <Heading2 size={18} />,
-    command: ({ editor, range }) => {
+    command: ({ editor, range }): void => {
       editor.chain().focus().deleteRange(range).setNode('heading', { level: 2 }).run();
     },
   },
@@ -68,7 +68,7 @@ export const suggestionItems = createSuggestionItems([
     description: 'Small section heading.',
     searchTerms: ['subtitle', 'small'],
     icon: <Heading3 size={18} />,
-    command: ({ editor, range }) => {
+    command: ({ editor, range }): void => {
       editor.chain().focus().deleteRange(range).setNode('heading', { level: 3 }).run();
     },
   },
@@ -77,7 +77,7 @@ export const suggestionItems = createSuggestionItems([
     description: 'Create a simple bullet list.',
     searchTerms: ['unordered', 'point'],
     icon: <List size={18} />,
-    command: ({ editor, range }) => {
+    command: ({ editor, range }): void => {
       editor.chain().focus().deleteRange(range).toggleBulletList().run();
     },
   },
@@ -86,7 +86,7 @@ export const suggestionItems = createSuggestionItems([
     description: 'Create a list with numbering.',
     searchTerms: ['ordered'],
     icon: <ListOrdered size={18} />,
-    command: ({ editor, range }) => {
+    command: ({ editor, range }): void => {
       editor.chain().focus().deleteRange(range).toggleOrderedList().run();
     },
   },
@@ -95,7 +95,7 @@ export const suggestionItems = createSuggestionItems([
     description: 'Capture a quote.',
     searchTerms: ['blockquote'],
     icon: <TextQuote size={18} />,
-    command: ({ editor, range }) =>
+    command: ({ editor, range }): boolean =>
       editor
         .chain()
         .focus()
@@ -109,7 +109,7 @@ export const suggestionItems = createSuggestionItems([
     description: 'Capture a code snippet.',
     searchTerms: ['codeblock'],
     icon: <Code size={18} />,
-    command: ({ editor, range }) =>
+    command: ({ editor, range }): boolean =>
       editor.chain().focus().deleteRange(range).toggleCodeBlock().run(),
   },
   {
@@ -117,12 +117,12 @@ export const suggestionItems = createSuggestionItems([
     description: 'Upload an image from your computer.',
     searchTerms: ['photo', 'picture', 'media'],
     icon: <ImageIcon size={18} />,
-    command: ({ editor, range }) => {
+    command: ({ editor, range }): void => {
       editor.chain().focus().deleteRange(range).run();
       const input = document.createElement('input');
       input.type = 'file';
       input.accept = 'image/*';
-      input.onchange = async () => {
+      input.onchange = async (): Promise<void> => {
         if (input.files?.length !== undefined) {
           const file = input.files[0];
           const pos = editor.view.state.selection.from;
@@ -139,10 +139,10 @@ export const suggestionItems = createSuggestionItems([
     description: 'Embed a Youtube video.',
     searchTerms: ['video', 'youtube', 'embed'],
     icon: <Youtube size={18} />,
-    command: ({ editor, range }) => {
+    command: ({ editor, range }): void => {
       const videoLink = prompt('Please enter Youtube Video Link');
-      // From https://regexr.com/3dj5t
       const ytregex = new RegExp(
+        // eslint-disable-next-line max-len
         /^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$/,
       );
       if (videoLink !== null) {
@@ -170,8 +170,8 @@ export const suggestionItems = createSuggestionItems([
     description: 'Generate text with AI that fits with your current content',
     searchTerms: ['ai', 'gemini', 'generative'],
     icon: <Youtube size={18} />,
-    command: ({ editor, range }) => {
-      const generativeAI = async () => {
+    command: ({ editor, range }): void => {
+      const generativeAI = async (): Promise<void> => {
         const ai_prompt = prompt('Enter what you want to write about:');
         if (ai_prompt !== null) {
           const beforeContent = editor.state.doc.textBetween(0, range.from);
@@ -196,7 +196,7 @@ export const suggestionItems = createSuggestionItems([
           alert('Enter a prompt to generate content');
         }
       };
-      generativeAI();
+      void generativeAI();
     },
   },
 ]);

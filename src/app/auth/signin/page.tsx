@@ -24,7 +24,7 @@ import { useSearchParams } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import { ErrorCode } from '@/server/auth/config';
 
-export default function LoginPage() {
+export default function LoginPage(): JSX.Element {
   return (
     <Suspense>
       <LoginForm />
@@ -32,11 +32,11 @@ export default function LoginPage() {
   );
 }
 
-function LoginForm() {
+function LoginForm(): JSX.Element {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams?.get('callbackUrl') ?? '/';
 
-  const urlError: string | undefined = (() => {
+  const urlError: string | undefined = ((): string | undefined => {
     switch (searchParams?.get('error')) {
       case 'OAuthAccountNotLinked':
         return 'Email already in use with a different provider';
@@ -73,11 +73,11 @@ function LoginForm() {
   const [success, setSuccess] = useState<string | undefined>('');
   const [isPending, startTransition] = useTransition();
 
-  const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
+  const onSubmit = async (values: z.infer<typeof LoginSchema>): Promise<void> => {
     setError('');
     setSuccess('');
     startTransition(() => {
-      signIn('credentials', {
+      void signIn('credentials', {
         email: values.email,
         password: values.password,
         redirectTo: callbackUrl,
@@ -85,12 +85,12 @@ function LoginForm() {
     });
   };
 
-  const emailSignin = async () => {
+  const emailSignin = async (): Promise<void> => {
     const isValid = await form.trigger('email');
     if (isValid) {
       setError('');
       startTransition(() => {
-        signIn('email', {
+        void signIn('email', {
           email: form.getValues('email'),
           redirectTo: callbackUrl,
         });

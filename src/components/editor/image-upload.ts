@@ -2,6 +2,7 @@ import { env } from '@/env';
 import { client } from '@/server/api/react';
 import { createImageUpload } from 'novel/plugins';
 import { toast } from 'sonner';
+import { useTextStore } from '../sidebar/useTextStore';
 
 const stripQueryParameters = (url: string): string => {
   return url.split('?')[0] ?? url;
@@ -14,6 +15,7 @@ function extractPublicPath(url: string): string | null {
 }
 
 export const onUpload = async (file: File): Promise<string> => {
+  useTextStore.getState().setText('Uploading Image...');
   const currentDatetime = new Date().toISOString().replace(/[:.]/g, '-');
   const filenameWithDatetime = `${currentDatetime}_${file.name}`;
   const signedUrl = await client.files.signedUrlForPut.mutate({
@@ -28,12 +30,14 @@ export const onUpload = async (file: File): Promise<string> => {
     throw new Error('Error occurred during file upload.');
   }
   const publicPath = extractPublicPath(stripQueryParameters(signedUrl));
-
+  useTextStore.getState().setText('');
   return `${env.NEXT_PUBLIC_FILE_STORAGE_HOST}/${publicPath}`;
 };
 
 export const uploadFn = createImageUpload({
-  onUpload,
+  onUpload: async (file) => {
+    return await onUpload(file);
+  },
   validateFn: (file) => {
     if (!file.type.includes('image/')) {
       toast.error('File type not supported.');

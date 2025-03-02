@@ -8,14 +8,14 @@ import { trpc } from '@/server/api/pages';
 // } from '@excalidraw/excalidraw/types/types';
 import React, { useEffect } from 'react';
 
-const ExportButton = ({ id }: { id: string }) => {
+const ExportButton = ({ id }: { id: string }): JSX.Element => {
   const { data, refetch } = trpc.excalidraw.getSignedUrlDesign.useQuery({ id }, { enabled: false });
 
   useEffect(() => {
     if (data === undefined) {
       return;
     }
-    importExcalidraw(data.elementsUrl, data.filesUrl)
+    void importExcalidraw(data.elementsUrl, data.filesUrl)
       .then
       // async (importedData) => {
       // const binaryFiles: BinaryFiles = importedData.files.reduce<
@@ -38,7 +38,7 @@ const ExportButton = ({ id }: { id: string }) => {
   return (
     <Button
       onClick={() => {
-        refetch();
+        void refetch();
       }}
     >
       Export

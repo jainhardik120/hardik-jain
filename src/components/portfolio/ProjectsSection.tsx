@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { ProjectCard } from './ProjectCard';
 import { ProjectTag } from './ProjectTag';
 import { cn } from '@/lib/utils';
@@ -23,9 +23,10 @@ const ProjectsSection: React.FC<UIProps> = ({
   initialCategory,
 }) => {
   const [category, setCategory] = useState<string>(initialCategory);
-  const handleCategoryChange = (tcategory: string) => {
+
+  const handleCategoryChange = useCallback((tcategory: string): void => {
     setCategory(tcategory);
-  };
+  }, []);
 
   return (
     <section id="projects" className=" mx-auto container px-12 py-20 flex flex-col items-center ">

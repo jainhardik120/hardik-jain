@@ -1,6 +1,12 @@
+import React from 'react';
+import '@/styles/globals.css';
+import '@/styles/prosemirror.css';
+import { TRPCReactProvider } from '@/server/api/react';
+import { ThemeProvider } from 'next-themes';
+import { Toaster } from '@/components/ui/toaster';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-import RootLayout from '@/components/root-layout';
 import type { Metadata } from 'next';
+import NextTopLoader from '@/components/top-loader';
 
 export const metadata: Metadata = {
   title: 'Hardik Jain | Android & Web Developer',
@@ -12,11 +18,27 @@ export default function Layout({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) {
+}>): JSX.Element {
   return (
-    <RootLayout>
-      {children}
-      <SpeedInsights />
-    </RootLayout>
+    <html lang="en" suppressHydrationWarning>
+      {/* <head>
+        <script src="https://unpkg.com/react-scan/dist/auto.global.js" async />
+      </head> */}
+      <body className="h-screen flex flex-col">
+        <TRPCReactProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <NextTopLoader />
+            {children}
+            <SpeedInsights />
+            <Toaster />
+          </ThemeProvider>
+        </TRPCReactProvider>
+      </body>
+    </html>
   );
 }

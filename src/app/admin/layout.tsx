@@ -2,7 +2,6 @@ import { cookies } from 'next/headers';
 import Header from '@/components/sidebar/sidebar-header';
 import { SidebarLayout } from '@/components/sidebar/sidebar-layout';
 import { auth } from '@/server/auth';
-import AppBreadcrumb from './AppBreadcrumb';
 
 export default async function MainLayout({
   children,
@@ -25,9 +24,7 @@ export default async function MainLayout({
           `https://api.dicebear.com/9.x/thumbs/svg?seed=${Math.floor(Math.random() * 100000) + 1}&randomizeIds=true`,
       }}
     >
-      <Header>
-        <AppBreadcrumb />
-      </Header>
+      <Header />
       <div className="flex flex-1 flex-col gap-4 p-4 w-full">{children}</div>
     </SidebarLayout>
   );

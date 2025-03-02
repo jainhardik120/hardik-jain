@@ -53,7 +53,7 @@ const AnimatedNumber = ({
         controls.stop();
         controls.set('hidden');
         setTimeout(() => {
-          controls.start('visible');
+          void controls.start('visible');
         }, 50);
       }
     }
@@ -87,7 +87,7 @@ const AnimatedNumber = ({
   React.useEffect(() => {
     if (isInView && numberHeight > 0) {
       setHasStartedAnimation(true);
-      controls.start('visible');
+      void controls.start('visible');
     }
   }, [isInView, numberHeight, controls]);
 
