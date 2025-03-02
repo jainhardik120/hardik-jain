@@ -29,15 +29,19 @@ export const importExcalidraw = async (
   if (!elementsUrl || !filesUrl) {
     throw new Error('Both elementsUrl and filesUrl are required.');
   }
+
   try {
     const elementsResponse = await fetch(elementsUrl);
     if (!elementsResponse.ok) {
-      throw new Error(`Failed to fetch elements file. Status: ${elementsResponse.status}`);
+      const errorText = await elementsResponse.text();
+      throw new Error(errorText);
     }
     const elementsData = (await elementsResponse.json()) as { elements?: ExcalidrawElement[] };
+
     const filesResponse = await fetch(filesUrl);
     if (!filesResponse.ok) {
-      throw new Error(`Failed to fetch files file. Status: ${filesResponse.status}`);
+      const errorText = await filesResponse.text();
+      throw new Error(errorText);
     }
     const filesData = (await filesResponse.json()) as { files?: BinaryFileData[] };
     const combinedData: ExcalidrawImportData = {
@@ -46,7 +50,10 @@ export const importExcalidraw = async (
     };
 
     return combinedData;
-  } catch {
-    throw new Error('Failed to import Excalidraw data.');
+  } catch (error) {
+    if (error instanceof TypeError) {
+      throw new Error(error.message);
+    }
+    throw error;
   }
 };

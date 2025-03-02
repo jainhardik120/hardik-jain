@@ -16,10 +16,14 @@ import _ from 'lodash';
 export default function ExcalidrawWrapper({
   id,
   initialData,
+  setMessage,
+  setError,
 }: {
   id: string;
   initialData: ExcalidrawImportData;
-}) {
+  setMessage: (message: string) => void;
+  setError: (error: string | undefined) => void;
+}): JSX.Element {
   const [excalidrawApi, setExcalidrawApi] = useState<ExcalidrawImperativeAPI | null>(null);
   const { resolvedTheme } = useTheme();
 
@@ -36,10 +40,13 @@ export default function ExcalidrawWrapper({
     if (!excalidrawApi) {
       return;
     }
+    setMessage('Loading initial data...');
     try {
       excalidrawApi.addFiles(initialData.files);
       excalidrawApi.updateScene({ elements: initialData.elements });
-    } catch {}
+    } catch (error) {
+      setError(`Error loading initial data: ${error}`);
+    }
 
     setDataLoaded(true);
 
@@ -48,6 +55,8 @@ export default function ExcalidrawWrapper({
     setPreviousElements(
       _.cloneDeep(excalidrawApi.getSceneElementsIncludingDeleted() as ExcalidrawElement[]),
     );
+    setMessage('');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [excalidrawApi, initialData]);
 
   const signedUrlForPut = trpc.excalidraw.getSignedUrlForPutFiles.useMutation();
@@ -55,6 +64,7 @@ export default function ExcalidrawWrapper({
   const updateElementsMutation = trpc.excalidraw.updateElements.useMutation();
 
   const handleFileChange = useDebouncedCallback(async (updatedFiles: BinaryFileData[]) => {
+    setMessage('Uploading files...');
     try {
       const signedUrl = await signedUrlForPut.mutateAsync({ id });
       await fetch(signedUrl ?? '', {
@@ -62,17 +72,26 @@ export default function ExcalidrawWrapper({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ files: updatedFiles }),
       });
-    } catch {}
+    } catch (error) {
+      setError(`Error uploading files: ${error}`);
+    } finally {
+      setMessage('');
+    }
   }, 1000);
 
   const handleElementsChange = useDebouncedCallback(
     async (updatedElements: ExcalidrawElement[]) => {
+      setMessage('Updating elements...');
       try {
         await updateElementsMutation.mutateAsync({
           id,
           elements: JSON.stringify(updatedElements),
         });
-      } catch {}
+      } catch (error) {
+        setError(`Error updating elements: ${error}`);
+      } finally {
+        setMessage('');
+      }
     },
     1000,
   );
@@ -85,12 +104,12 @@ export default function ExcalidrawWrapper({
       const newFiles: BinaryFileData[] = Object.values(files).map((file) => _.cloneDeep(file));
       if (!_.isEqual(newFiles, previousFiles)) {
         setPreviousFiles(newFiles);
-        handleFileChange(newFiles);
+        void handleFileChange(newFiles);
       }
       const newElements: ExcalidrawElement[] = _.cloneDeep(elements as ExcalidrawElement[]);
       if (!_.isEqual(newElements, previousElements)) {
         setPreviousElements(newElements);
-        handleElementsChange(newElements);
+        void handleElementsChange(newElements);
       }
     },
     500,
