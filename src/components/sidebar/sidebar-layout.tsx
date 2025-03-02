@@ -13,7 +13,7 @@ export function SidebarLayout({
   defaultOpen: boolean;
 }>): JSX.Element {
   return (
-    <SidebarProvider defaultOpen={defaultOpen}>
+    <SidebarProvider defaultOpen={defaultOpen} className="w-full">
       <AppSidebar teams={AppSidebarData.teams} user={user} />
       <SidebarInset>{children}</SidebarInset>
     </SidebarProvider>

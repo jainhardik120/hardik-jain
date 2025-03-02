@@ -1,6 +1,7 @@
 import { config } from '@/lib/aws-config';
 import { createTRPCRouter, protectedProcedure } from '@/server/api/trpc';
 import { ListObjectsV2Command, PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import type { _Object } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { z } from 'zod';
 import { env } from '@/env';
@@ -25,14 +26,15 @@ export const filesRouter = createTRPCRouter({
 
       return url;
     }),
-  listUserUploadedFiles: protectedProcedure.query(async ({ ctx }) => {
+  listUserUploadedFiles: protectedProcedure.input(z.string()).query(async ({ ctx, input }) => {
+    const path = `public/${ctx.session.user.id}${input.length !== 0 ? '/' : ''}${input}/`;
     const client = new S3Client(config);
     const params = {
       Bucket: env.S3_BUCKET_NAME_NEW,
-      Prefix: `public/${ctx.session.user.id}/`,
+      Prefix: path,
     };
     const data = await client.send(new ListObjectsV2Command(params));
-
-    return data.Contents;
+    const contents: _Object[] = data.Contents ?? [];
+    return contents;
   }),
 });
