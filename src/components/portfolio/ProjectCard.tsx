@@ -31,7 +31,7 @@ export const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
       </div>
       <Dialog open={dialogOpened} onOpenChange={setDialogOpened}>
         <DialogTitle />
-        <DialogContent className="m-4 max-w-4xl">
+        <DialogContent className="max-w-4xl">
           <div className="grid gap-4 items-start">
             <div className="flex flex-col gap-4">
               <div>
@@ -44,8 +44,8 @@ export const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
                 ))}
               </div>
             </div>
-            <div className="max-h-[50vh] overflow-y-auto px-4">
-              <div>
+            <div className="max-h-[50vh] overflow-y-auto">
+              <div className="w-full mb-4 flex items-center justify-center sm:w-auto sm:inline-block overflow-hidden sm:float-end sm:ml-4 sm:mb-1">
                 <Image
                   src={
                     project.imageUrl.length > 0
@@ -55,7 +55,7 @@ export const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
                   width="400"
                   height="400"
                   alt="Project Screenshot"
-                  className="rounded-lg overflow-hidden float-end ml-4 mb-1"
+                  className="rounded-lg"
                 />
               </div>
               <p className="text-justify text-gray-500 dark:text-gray-400">{project.content}</p>
