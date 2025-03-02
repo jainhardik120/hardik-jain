@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { api } from '@/server/api/react';
 import type { Route } from 'next';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/components/top-loader-router';
 
 export const CreateDiagramButton = () => {
   const router = useRouter();

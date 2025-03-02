@@ -4,6 +4,7 @@ import '@/styles/prosemirror.css';
 import { TRPCReactProvider } from '@/server/api/react';
 import { ThemeProvider } from 'next-themes';
 import { Toaster } from '@/components/ui/toaster';
+import TopLoader from './top-loader';
 
 export default function rootLayout({ children }: { children: React.ReactNode }): JSX.Element {
   return (
@@ -16,6 +17,7 @@ export default function rootLayout({ children }: { children: React.ReactNode }):
             enableSystem
             disableTransitionOnChange
           >
+            <TopLoader />
             {children}
             <Toaster />
           </ThemeProvider>

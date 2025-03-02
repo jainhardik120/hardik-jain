@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/components/top-loader-router';
 import { Button } from '@/components/ui/button';
 import { api } from '@/server/api/react';
 

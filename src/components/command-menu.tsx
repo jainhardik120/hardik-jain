@@ -2,7 +2,7 @@
 'use client';
 
 import * as React from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/components/top-loader-router';
 import { type DialogProps } from '@radix-ui/react-dialog';
 import { Circle, File, Laptop, Moon, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
