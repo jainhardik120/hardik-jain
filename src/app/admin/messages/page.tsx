@@ -1,19 +1,19 @@
+import { DataTable } from '@/components/DataTable';
 import { api } from '@/server/api/server';
+import { columns } from './columns';
 
-export default async function Page() {
+export default async function Page(): Promise<JSX.Element> {
   const messages = await api.contact.listMessages();
 
   return (
-    <div>
-      {messages.map((message) => {
-        return (
-          <div key={message.id}>
-            <h1>{message.subject}</h1>
-            <p>{message.email}</p>
-            <p>{message.message}</p>
-          </div>
-        );
-      })}
+    <div className="w-full">
+      <DataTable
+        columns={columns}
+        data={messages}
+        CreateButton={<></>}
+        filterOn="email"
+        name="Messages"
+      />
     </div>
   );
 }

@@ -28,17 +28,17 @@ export default function SkillsPage() {
     }
   }, [data]);
 
-  const addSkill = (newSkill: SkillWithSubSkills) => {
+  const addSkill = (newSkill: SkillWithSubSkills): void => {
     setSkills((prevSkills) => [...prevSkills, newSkill]);
   };
 
-  const updateSkill = (updatedSkill: SkillWithSubSkills) => {
+  const updateSkill = (updatedSkill: SkillWithSubSkills): void => {
     setSkills((prevSkills) =>
       prevSkills.map((skill) => (skill.id === updatedSkill.id ? updatedSkill : skill)),
     );
   };
 
-  const deleteSkill = (id: string) => {
+  const deleteSkill = (id: string): void => {
     setSkills((prevSkills) => prevSkills.filter((skill) => skill.id !== id));
   };
 
