@@ -1,6 +1,6 @@
 import '@/styles/globals.css';
 import '@/styles/prosemirror.css';
-import { trpc } from '@/trpc/pages';
+import { trpc } from '@/server/api/pages';
 import { ThemeProvider } from 'next-themes';
 import type { AppType } from 'next/app';
 

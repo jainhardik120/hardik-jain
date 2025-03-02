@@ -19,8 +19,8 @@ import FormSuccess from '@/components/form-success';
 import FormError from '@/components/form-error';
 import { Input } from '@/components/ui/input';
 
-import { NewPasswordSchema } from '@/schemas';
-import { api } from '@/trpc/react';
+import { NewPasswordSchema } from '@/types/schemas';
+import { api } from '@/server/api/react';
 import { CardWrapper } from '@/components/auth/card-wrapper';
 
 export default function NewPasswordPage() {

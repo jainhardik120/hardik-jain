@@ -35,6 +35,7 @@ import TaskList from '@tiptap/extension-task-list';
 import Text from '@tiptap/extension-text';
 import Underline from '@tiptap/extension-underline';
 import YouTube from '@tiptap/extension-youtube';
+import { revalidatePath } from 'next/cache';
 
 export const postRouter = createTRPCRouter({
   createNewPost: protectedProcedure.mutation(async ({ ctx }) => {
@@ -49,7 +50,8 @@ export const postRouter = createTRPCRouter({
         slug: generateSlug(),
       },
     });
-
+    revalidatePath('/');
+    revalidatePath(`/post/${post.slug}`);
     return post.id;
   }),
   deletePost: protectedProcedure
@@ -212,7 +214,8 @@ export const postRouter = createTRPCRouter({
           slug: input.slug,
         },
       });
-
+      revalidatePath('/');
+      revalidatePath(`/post/${input.slug}`);
       return true;
     }),
   generateAIContent: protectedProcedure

@@ -21,7 +21,7 @@ import {
 } from '@/components/ui/select';
 import type { SubSkill } from '@prisma/client';
 import type { SkillWithSubSkills } from '@/types';
-import { api } from '@/trpc/react';
+import { api } from '@/server/api/react';
 
 export const EditSkillDialog: React.FC<{
   skill: SkillWithSubSkills | null;

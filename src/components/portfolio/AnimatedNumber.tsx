@@ -27,9 +27,10 @@ const AnimatedNumber = ({
   const isInView = useInView(ref, { once: true });
 
   const controls = useAnimation();
-  const animateTonumberString = includeComma !== undefined
-    ? Math.abs(animateToNumber).toLocaleString(locale ?? 'en-US')
-    : String(Math.abs(animateToNumber));
+  const animateTonumberString =
+    includeComma !== undefined
+      ? Math.abs(animateToNumber).toLocaleString(locale ?? 'en-US')
+      : String(Math.abs(animateToNumber));
   const animateToNumbersArr = Array.from(animateTonumberString, Number).map((x, idx) =>
     isNaN(x) ? animateTonumberString[idx] : x,
   );

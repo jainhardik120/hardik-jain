@@ -10,8 +10,8 @@ import { useForm } from 'react-hook-form';
 import type { ZodType } from 'zod';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { api } from '@/trpc/react';
-import { ContactMethods } from '@/types';
+import { api } from '@/server/api/react';
+import { ContactMethods } from '@/types/constants';
 
 type ContactForm = {
   email: string;
@@ -26,15 +26,10 @@ const ContactSchema: ZodType<ContactForm> = z.object({
 });
 
 const FormError: React.FC<{ error?: FieldError }> = ({ error }) => {
-  return (
-    <>
-      {error && (
-        <>
-          <span className="text-red-700">{error.message}</span>
-        </>
-      )}
-    </>
-  );
+  if (!error) {
+    return <></>;
+  }
+  return <span className="text-red-700">{error.message}</span>;
 };
 
 const ContactSection: React.FC = () => {

@@ -1,17 +1,16 @@
 'use client';
 
 import { QueryClientProvider, type QueryClient } from '@tanstack/react-query';
-import { createTRPCClient, loggerLink, unstable_httpBatchStreamLink } from '@trpc/client';
+import { createTRPCClient } from '@trpc/client';
 import { createTRPCReact } from '@trpc/react-query';
 import { useState } from 'react';
-import SuperJSON from 'superjson';
 
 import { type AppRouter } from '@/server/api/root';
 import { createQueryClient } from './query-client';
-import { getBaseUrl } from '@/lib/getBaseUrl';
+import { links } from './pages';
 
 let clientQueryClientSingleton: QueryClient | undefined = undefined;
-const getQueryClient = () => {
+const getQueryClient = (): QueryClient => {
   if (typeof window === 'undefined') {
     return createQueryClient();
   }
@@ -22,28 +21,12 @@ const getQueryClient = () => {
 export const api = createTRPCReact<AppRouter>();
 
 const config = {
-  links: [
-    loggerLink({
-      enabled: (op) =>
-        process.env.NODE_ENV === 'development' ||
-        (op.direction === 'down' && op.result instanceof Error),
-    }),
-    unstable_httpBatchStreamLink({
-      transformer: SuperJSON,
-      url: getBaseUrl() + '/api/trpc',
-      headers: () => {
-        const headers = new Headers();
-        headers.set('x-trpc-source', 'nextjs-react');
-
-        return headers;
-      },
-    }),
-  ],
+  links: links,
 };
 
 export const client = createTRPCClient<AppRouter>(config);
 
-export function TRPCReactProvider(props: { children: React.ReactNode }) {
+export function TRPCReactProvider(props: { children: React.ReactNode }): JSX.Element {
   const queryClient = getQueryClient();
 
   const [trpcClient] = useState(() => api.createClient(config));

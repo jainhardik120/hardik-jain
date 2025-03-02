@@ -18,9 +18,9 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@/components/ui/sidebar';
-import { AppSidebarData } from '@/types';
+import { AppSidebarData } from '@/types/constants';
 
-export function NavProjects() {
+export function NavProjects(): JSX.Element {
   const { isMobile } = useSidebar();
 
   return (

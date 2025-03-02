@@ -1,4 +1,4 @@
-import { api } from '@/trpc/server';
+import { api } from '@/server/api/server';
 import { Table, TableBody, TableCell, TableHeader, TableRow } from '@/components/ui/table';
 import { CreateDiagramButton } from './CreateDiagramButton';
 import Link from 'next/link';

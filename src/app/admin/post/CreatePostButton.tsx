@@ -3,7 +3,7 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import { api } from '@/trpc/react';
+import { api } from '@/server/api/react';
 
 const CreatePostButton = () => {
   const router = useRouter();

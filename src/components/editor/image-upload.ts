@@ -1,5 +1,5 @@
 import { env } from '@/env';
-import { client } from '@/trpc/react';
+import { client } from '@/server/api/react';
 import { createImageUpload } from 'novel/plugins';
 import { toast } from 'sonner';
 

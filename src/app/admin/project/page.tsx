@@ -1,6 +1,6 @@
 import { DataTable } from '@/components/DataTable';
 import { columns } from './columns';
-import { api } from '@/trpc/server';
+import { api } from '@/server/api/server';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 

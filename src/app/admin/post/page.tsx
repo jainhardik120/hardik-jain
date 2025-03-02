@@ -1,6 +1,6 @@
 import { DataTable } from '@/components/DataTable';
 import CreatePostButton from './CreatePostButton';
-import { api } from '@/trpc/server';
+import { api } from '@/server/api/server';
 import { columns } from './TableColumns';
 
 const PostsPage = async () => {

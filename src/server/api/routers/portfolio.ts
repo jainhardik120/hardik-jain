@@ -1,6 +1,7 @@
-import { projectSchema } from '@/schemas';
+import { projectSchema } from '@/types/schemas';
 import { createTRPCRouter, protectedProcedure } from '@/server/api/trpc';
 import { z } from 'zod';
+import { revalidatePath } from 'next/cache';
 
 export const portfolioRouter = createTRPCRouter({
   getAllProjects: protectedProcedure.query(({ ctx }) => {
@@ -14,9 +15,11 @@ export const portfolioRouter = createTRPCRouter({
     });
   }),
   createProject: protectedProcedure.input(projectSchema).mutation(({ ctx, input }) => {
-    return ctx.db.project.create({
+    const project = ctx.db.project.create({
       data: input,
     });
+    revalidatePath('/');
+    return project;
   }),
   updateProject: protectedProcedure
     .input(
@@ -26,12 +29,14 @@ export const portfolioRouter = createTRPCRouter({
       }),
     )
     .mutation(({ ctx, input }) => {
-      return ctx.db.project.update({
+      const project = ctx.db.project.update({
         where: {
           id: input.id,
         },
         data: input.data,
       });
+      revalidatePath('/');
+      return project;
     }),
   getSkills: protectedProcedure.query(({ ctx }) => {
     return ctx.db.skill.findMany({
@@ -47,9 +52,11 @@ export const portfolioRouter = createTRPCRouter({
       }),
     )
     .mutation(({ ctx, input }) => {
-      return ctx.db.skill.create({
+      const skill = ctx.db.skill.create({
         data: input,
       });
+      revalidatePath('/');
+      return skill;
     }),
   updateSkill: protectedProcedure
     .input(
@@ -81,7 +88,7 @@ export const portfolioRouter = createTRPCRouter({
           },
         },
       });
-
+      revalidatePath('/');
       return ctx.db.skill.findUnique({
         where: { id },
         include: { skills: true },
@@ -91,7 +98,7 @@ export const portfolioRouter = createTRPCRouter({
     .input(z.object({ id: z.string() }))
     .mutation(async ({ ctx, input }) => {
       await ctx.db.skill.delete({ where: { id: input.id } });
-
+      revalidatePath('/');
       return { success: true };
     }),
 });

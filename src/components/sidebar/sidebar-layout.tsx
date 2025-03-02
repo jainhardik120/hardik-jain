@@ -1,7 +1,7 @@
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import { AppSidebar } from '@/components/sidebar/sidebar';
 import type { User } from '@/types';
-import { AppSidebarData } from '@/types';
+import { AppSidebarData } from '@/types/constants';
 
 export function SidebarLayout({
   children,
@@ -11,7 +11,7 @@ export function SidebarLayout({
   children: React.ReactNode;
   user: User;
   defaultOpen: boolean;
-}>) {
+}>): JSX.Element {
   return (
     <SidebarProvider defaultOpen={defaultOpen}>
       <AppSidebar teams={AppSidebarData.teams} user={user} />

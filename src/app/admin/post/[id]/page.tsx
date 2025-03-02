@@ -1,4 +1,4 @@
-import { api } from '@/trpc/server';
+import { api } from '@/server/api/server';
 import { PostEditor } from './PostEditor';
 
 export default async function PostPage({ params }: { params: Promise<{ id: string }> }) {

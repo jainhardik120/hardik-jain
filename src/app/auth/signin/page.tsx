@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import type { z } from 'zod';
 import { Suspense, useState, useTransition } from 'react';
 
-import { LoginSchema } from '@/schemas';
+import { LoginSchema } from '@/types/schemas';
 import {
   Form,
   FormControl,

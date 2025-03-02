@@ -13,7 +13,7 @@ import AchievementsSection from './AchievementsSection';
 
 import { LinkIcon } from 'lucide-react';
 import { env } from '@/env';
-import { Socials } from '@/types';
+import { Socials } from '@/types/constants';
 
 const HeroImage = () => {
   return (

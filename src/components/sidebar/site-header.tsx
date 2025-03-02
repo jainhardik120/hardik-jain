@@ -5,7 +5,7 @@ import { MainNav } from './site-main-nav';
 import { CommandMenu } from '../command-menu';
 import UserButton from './user-button';
 import type { Session } from 'next-auth';
-import { MainNavData } from '@/types';
+import { MainNavData } from '@/types/constants';
 
 const Header = ({ session }: { session: Session | null }) => {
   return (

@@ -14,7 +14,7 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
-import { api } from '@/trpc/react';
+import { api } from '@/server/api/react';
 
 export const columns: ColumnDef<{
   id: string;

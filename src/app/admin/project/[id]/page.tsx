@@ -20,8 +20,8 @@ import {
 import { onUpload } from '@/components/editor/image-upload';
 import { useParams } from 'next/navigation';
 import { toast } from 'sonner';
-import { api } from '@/trpc/react';
-import { projectSchema } from '@/schemas';
+import { api } from '@/server/api/react';
+import { projectSchema } from '@/types/schemas';
 import Image from 'next/image';
 
 type ProjectFormValues = z.infer<typeof projectSchema>;

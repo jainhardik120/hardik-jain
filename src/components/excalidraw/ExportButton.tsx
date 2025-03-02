@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { importExcalidraw } from '@/lib/excalidraw';
-import { trpc } from '@/trpc/pages';
+import { trpc } from '@/server/api/pages';
 // import { exportToBlob } from '@excalidraw/excalidraw';
 // import {
 //   BinaryFileData,

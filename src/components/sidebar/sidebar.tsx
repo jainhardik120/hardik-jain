@@ -11,11 +11,10 @@ import {
   SidebarRail,
 } from '@/components/ui/sidebar';
 import { NavMain } from './sidebar-nav-main';
-import { NavProjects } from './sidebar-projects';
 import { TeamSwitcher } from './sidebar-team-switcher';
 import type { AppSidebarProps } from '@/types';
 
-export function AppSidebar({ user, teams }: AppSidebarProps) {
+export function AppSidebar({ user, teams }: AppSidebarProps): JSX.Element {
   return (
     <Sidebar>
       <SidebarHeader className="h-16 border-b border-sidebar-border">
@@ -23,7 +22,6 @@ export function AppSidebar({ user, teams }: AppSidebarProps) {
       </SidebarHeader>
       <SidebarContent>
         <NavMain />
-        <NavProjects />
       </SidebarContent>
       <SidebarFooter>
         <SidebarMenu>

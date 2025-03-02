@@ -2,11 +2,12 @@ import type { Metadata } from 'next';
 import '@/styles/postcontent.css';
 
 import 'highlight.js/styles/atom-one-dark.css';
-import { api } from '@/trpc/server';
+import { api } from '@/server/api/server';
 import 'highlight.js/styles/atom-one-dark.css';
 import { getPostSlugs } from '@/actions/blog';
+import AppBreadcrumb from '@/app/admin/AppBreadcrumb';
 
-export async function generateStaticParams() {
+export async function generateStaticParams(): Promise<{ slug: string }[]> {
   const postSlugs = await getPostSlugs();
 
   return postSlugs;
@@ -25,16 +26,22 @@ export async function generateMetadata({
   );
 }
 
-export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<JSX.Element> {
   const postData = await api.post.getPostContentBySlug({
     slug: (await params).slug,
   });
   if (!postData) {
-    return <>Not Found</>;
+    return <div>Not Found</div>;
   }
 
   return (
-    <main className="w-full lg:max-w-5xl px-4 mx-auto my-12 gap-y-4 flex flex-col">
+    <main className="w-full lg:max-w-5xl p-4 mx-auto gap-y-4 flex flex-col">
+      <AppBreadcrumb pathname={`/blog/${(await params).slug}`} />
+
       <h1 className="text-3xl font-semibold">{postData.title}</h1>
       <h2 className="text-xl">{postData.description}</h2>
       <div className="flex flex-col sm:flex-row justify-between">

@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { api } from '@/trpc/react';
+import { api } from '@/server/api/react';
 import type { Route } from 'next';
 import { useRouter } from 'next/navigation';
 

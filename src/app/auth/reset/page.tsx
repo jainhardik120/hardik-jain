@@ -18,11 +18,11 @@ import FormSuccess from '@/components/form-success';
 import FormError from '@/components/form-error';
 import { Input } from '@/components/ui/input';
 
-import { ResetSchema } from '@/schemas';
-import { api } from '@/trpc/react';
+import { ResetSchema } from '@/types/schemas';
+import { api } from '@/server/api/react';
 import { CardWrapper } from '@/components/auth/card-wrapper';
 
-export default function ResetPage() {
+export default function ResetPage(): JSX.Element {
   return (
     <Suspense>
       <ResetForm />
@@ -30,7 +30,7 @@ export default function ResetPage() {
   );
 }
 
-function ResetForm() {
+function ResetForm(): JSX.Element {
   const [error, setError] = useState<string | undefined>('');
   const [success, setSuccess] = useState<string | undefined>('');
 

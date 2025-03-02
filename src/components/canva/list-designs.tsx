@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/table';
 import React, { useEffect, useState } from 'react';
 import type { Design } from '@/canva-client';
-import { api } from '@/trpc/react';
+import { api } from '@/server/api/react';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
@@ -264,7 +264,7 @@ const DesignList = () => {
 
   useEffect(() => {
     if (data) {
-      setDesigns((prev) => [...prev, ...(data.items)]);
+      setDesigns((prev) => [...prev, ...data.items]);
       setContinuation(data.continuation ?? undefined);
     }
   }, [data]);

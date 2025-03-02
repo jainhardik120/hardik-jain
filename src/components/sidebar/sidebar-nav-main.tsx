@@ -11,9 +11,9 @@ import {
   SidebarMenuSubItem,
 } from '@/components/ui/sidebar';
 import Link from 'next/link';
-import { AppSidebarData } from '@/types';
+import { AppSidebarData } from '@/types/constants';
 
-export function NavMain() {
+export function NavMain(): JSX.Element {
   return (
     <SidebarGroup>
       <SidebarGroupLabel>Platform</SidebarGroupLabel>

@@ -5,7 +5,7 @@ import Editor from '@/components/editor/advanced-editor';
 import { useRef, useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { api } from '@/trpc/react';
+import { api } from '@/server/api/react';
 import { useDebouncedCallback } from 'use-debounce';
 import type { Post } from '@prisma/client';
 import type { JSONContent } from 'novel';

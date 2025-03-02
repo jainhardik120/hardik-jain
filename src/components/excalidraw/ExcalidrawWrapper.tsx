@@ -9,7 +9,7 @@ import { Excalidraw } from '@excalidraw/excalidraw';
 import { useTheme } from 'next-themes';
 import type { ExcalidrawElement, Theme } from '@excalidraw/excalidraw/types/element/types';
 import type { ExcalidrawImportData } from '@/lib/excalidraw';
-import { trpc } from '@/trpc/pages';
+import { trpc } from '@/server/api/pages';
 import { useDebouncedCallback } from 'use-debounce';
 import _ from 'lodash';
 

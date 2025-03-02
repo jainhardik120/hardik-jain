@@ -12,7 +12,7 @@ import React, { useEffect, useState } from 'react';
 import { EditSkillDialog } from './EditSkillDialog';
 import { NewSkillDialog } from './NewSkillDialog';
 import type { SkillWithSubSkills } from '@/types';
-import { api } from '@/trpc/react';
+import { api } from '@/server/api/react';
 
 export default function SkillsPage() {
   const [dialogOpened, setDialogOpened] = useState(false);

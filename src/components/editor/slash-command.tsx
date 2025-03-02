@@ -15,7 +15,7 @@ import {
 import { createSuggestionItems } from 'novel/extensions';
 import { Command, renderItems } from 'novel/extensions';
 import { uploadFn } from './image-upload';
-import { client } from '@/trpc/react';
+import { client } from '@/server/api/react';
 
 export const suggestionItems = createSuggestionItems([
   {

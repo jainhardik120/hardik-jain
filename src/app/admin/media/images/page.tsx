@@ -2,7 +2,7 @@
 import DesignList from '@/components/canva/list-designs';
 import canvaAuth from '@/actions/canvaAuth';
 import { Button } from '@/components/ui/button';
-import { api } from '@/trpc/react';
+import { api } from '@/server/api/react';
 import React, { useEffect, useState } from 'react';
 
 export default function ImagePage() {

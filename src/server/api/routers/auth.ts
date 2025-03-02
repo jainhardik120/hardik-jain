@@ -1,5 +1,5 @@
 import { createTRPCRouter, publicProcedure } from '@/server/api/trpc';
-import { NewPasswordSchema, RegisterSchema, ResetSchema } from '@/schemas';
+import { NewPasswordSchema, RegisterSchema, ResetSchema } from '@/types/schemas';
 import { TRPCError } from '@trpc/server';
 import bcrypt from 'bcryptjs';
 import { default as ResetPasswordMail } from '@/emails/reset-password';

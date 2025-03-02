@@ -2,7 +2,7 @@ import { prisma } from '@/lib/prisma';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import { sendSESEmail } from '@/lib/sendMail';
 import { default as LoginRequestMail } from '@/emails/login-request';
-import { LoginSchema } from '@/schemas';
+import { LoginSchema } from '@/types/schemas';
 import Credentials from 'next-auth/providers/credentials';
 import bcrypt from 'bcryptjs';
 import type { Session } from 'next-auth';

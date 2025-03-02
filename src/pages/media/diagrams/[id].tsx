@@ -1,7 +1,7 @@
 import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
 import Header from '@/components/sidebar/sidebar-header';
-import { trpc } from '@/trpc/pages';
+import { trpc } from '@/server/api/pages';
 import type { ExcalidrawImportData } from '@/lib/excalidraw';
 import { importExcalidraw } from '@/lib/excalidraw';
 import { SidebarLayout } from '@/components/sidebar/sidebar-layout';

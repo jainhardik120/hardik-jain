@@ -11,7 +11,7 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import React, { useEffect, useState } from 'react';
 import type { SkillWithSubSkills } from '@/types';
-import { api } from '@/trpc/react';
+import { api } from '@/server/api/react';
 
 export const NewSkillDialog: React.FC<{
   dialogOpened: boolean;

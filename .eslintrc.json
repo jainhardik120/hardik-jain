@@ -14,11 +14,6 @@
     "@typescript-eslint/consistent-type-imports": "error",
     "@typescript-eslint/explicit-function-return-type": "warn",
     "@typescript-eslint/explicit-member-accessibility": ["warn", { "accessibility": "explicit" }],
-    "@typescript-eslint/naming-convention": [
-      "warn",
-      { "selector": "variableLike", "format": ["camelCase"] },
-      { "selector": "typeLike", "format": ["PascalCase"] }
-    ],
     "@typescript-eslint/no-explicit-any": "error",
     "@typescript-eslint/no-floating-promises": "warn",
     "@typescript-eslint/no-unused-vars": "error",
@@ -38,7 +33,6 @@
     "key-spacing": ["error", { "beforeColon": false, "afterColon": true }],
     "keyword-spacing": ["error", { "before": true, "after": true }],
     "max-len": ["warn", { "code": 100, "ignoreStrings": true, "ignoreComments": true }],
-    "newline-before-return": "warn",
     "no-console": "error",
     "no-constant-condition": "error",
     "no-debugger": "error",
@@ -46,11 +40,6 @@
     "no-trailing-spaces": "error",
     "no-unused-vars": "error",
     "object-curly-spacing": ["error", "always"],
-    "padding-line-between-statements": [
-      "warn",
-      { "blankLine": "always", "prev": "block", "next": "return" },
-      { "blankLine": "always", "prev": ["const", "let", "var"], "next": "return" }
-    ],
     "prettier/prettier": "warn",
     "quotes": ["error", "single"],
     "semi": ["error", "always"],
