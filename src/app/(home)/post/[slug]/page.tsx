@@ -3,7 +3,6 @@ import '@/styles/postcontent.css';
 
 import 'highlight.js/styles/atom-one-dark.css';
 import { api } from '@/server/api/server';
-import 'highlight.js/styles/atom-one-dark.css';
 import { getPostSlugs } from '@/actions/blog';
 import AppBreadcrumb from '@/app/admin/AppBreadcrumb';
 
