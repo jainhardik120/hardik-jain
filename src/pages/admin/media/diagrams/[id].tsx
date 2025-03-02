@@ -7,6 +7,14 @@ import { importExcalidraw } from '@/lib/excalidraw';
 import { SidebarLayout } from '@/components/sidebar/sidebar-layout';
 import { Skeleton } from '@/components/ui/skeleton';
 
+const ExcalidrawWrapper = dynamic(
+  async () => await import('@/components/excalidraw/ExcalidrawWrapper'),
+  {
+    ssr: false,
+    loading: () => <Skeleton className="w-full h-full" />,
+  },
+);
+
 export async function getServerSideProps(context: {
   params: { id: string };
 }): Promise<{ props: { id: string } }> {
@@ -55,27 +63,14 @@ export default function Page({ id }: { id: string }): JSX.Element {
       });
   }, [signedUrl.data]);
 
-  const ExcalidrawWrapper = dynamic(
-    async () => {
-      setMessage('Downloading Excalidraw editor...');
-      const excalidrawModule = await import('@/components/excalidraw/ExcalidrawWrapper');
-      setMessage('');
-      return excalidrawModule.default;
-    },
-    {
-      ssr: false,
-      loading: () => <Skeleton className="w-full h-full" />,
-    },
-  );
-
   return (
     <SidebarLayout
       defaultOpen={true}
       user={{
-        name: session?.user.name ?? '',
-        email: session?.user.email ?? '',
+        name: session?.user?.name ?? '',
+        email: session?.user?.email ?? '',
         avatar:
-          session?.user.image ??
+          session?.user?.image ??
           // eslint-disable-next-line max-len
           `https://api.dicebear.com/9.x/thumbs/svg?seed=${Math.floor(Math.random() * 100000) + 1}&randomizeIds=true`,
       }}
