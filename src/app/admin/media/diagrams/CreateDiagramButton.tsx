@@ -9,7 +9,7 @@ export const CreateDiagramButton = () => {
   const router = useRouter();
   const mutation = api.excalidraw.createDesign.useMutation({
     onSuccess: (response) => {
-      router.push(`/admin/media/diagrams/${response}` as Route);
+      router.push(`/media/diagrams/${response}` as Route);
     },
   });
 

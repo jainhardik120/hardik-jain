@@ -23,7 +23,7 @@ export default async function DiagramsPage() {
           {designs.map((design) => (
             <TableRow key={design.id}>
               <TableCell>
-                <Link href={`/admin/media/diagrams/${design.id}` as Route}>{design.id}</Link>
+                <Link href={`/media/diagrams/${design.id}` as Route}>{design.id}</Link>
               </TableCell>
               <TableCell>{design.createdAt.toLocaleString()}</TableCell>
               <TableCell>{design.lastModified.toLocaleString()}</TableCell>

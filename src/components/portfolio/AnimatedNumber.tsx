@@ -139,7 +139,13 @@ const AnimatedNumber = ({
                   },
                 }}
                 animate={controls}
-                transition={transitions?.(index)}
+                transition={
+                  transitions?.(index) ?? {
+                    type: 'spring',
+                    damping: 10,
+                    stiffness: 100,
+                  }
+                }
               >
                 {NUMBERS.map((number, idx) => (
                   <div
