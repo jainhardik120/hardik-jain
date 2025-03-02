@@ -10,12 +10,12 @@ const TypeAnimation = dynamic(
   },
 );
 import AchievementsSection from './AchievementsSection';
-
+import React from 'react';
 import { LinkIcon } from 'lucide-react';
 import { env } from '@/env';
 import { Socials } from '@/types/constants';
 
-const HeroImage = () => {
+const HeroImage = React.memo(() => {
   return (
     <div className="relative">
       <div className="absolute inset-0 h-full w-full bg-gradient-to-r from-blue-500 to-teal-500 transform scale-[0.80] bg-red-500 rounded-full blur-3xl" />
@@ -29,7 +29,8 @@ const HeroImage = () => {
       />
     </div>
   );
-};
+});
+HeroImage.displayName = 'HeroImage';
 
 const ResumeUrl = `${env.NEXT_PUBLIC_FILE_STORAGE_HOST}/Resume.pdf`;
 

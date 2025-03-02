@@ -1,17 +1,17 @@
 import dynamic from 'next/dynamic';
-import { useEffect, useState } from 'react';
-import Header from '@/components/sidebar/sidebar-header';
+import { useEffect, useState, useRef } from 'react';
 import { trpc } from '@/server/api/pages';
 import type { ExcalidrawImportData } from '@/lib/excalidraw';
 import { importExcalidraw } from '@/lib/excalidraw';
 import { SidebarLayout } from '@/components/sidebar/sidebar-layout';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useTextStore } from '@/components/sidebar/useTextStore';
 
 const ExcalidrawWrapper = dynamic(
   async () => await import('@/components/excalidraw/ExcalidrawWrapper'),
   {
     ssr: false,
-    loading: () => <Skeleton className="w-full h-full" />,
+    loading: () => <Skeleton className="w-full h-full rounded-none" />,
   },
 );
 
@@ -35,7 +35,12 @@ export default function Page({ id }: { id: string }): JSX.Element {
   >(undefined);
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
-  const [message, setMessage] = useState('');
+  const setMessage = useTextStore((state) => state.setText);
+  const defaultAvatarRef = useRef(
+    // eslint-disable-next-line max-len
+    `https://api.dicebear.com/9.x/thumbs/svg?seed=${Math.floor(Math.random() * 100000) + 1}&randomizeIds=true`,
+  );
+
   useEffect(() => {
     const fetchData = async (): Promise<void> => {
       setMessage('Fetching data url...');
@@ -69,22 +74,13 @@ export default function Page({ id }: { id: string }): JSX.Element {
       user={{
         name: session?.user?.name ?? '',
         email: session?.user?.email ?? '',
-        avatar:
-          session?.user?.image ??
-          // eslint-disable-next-line max-len
-          `https://api.dicebear.com/9.x/thumbs/svg?seed=${Math.floor(Math.random() * 100000) + 1}&randomizeIds=true`,
+        avatar: session?.user?.image ?? defaultAvatarRef.current,
       }}
     >
-      <Header>
-        <div className="flex w-full flex-row justify-between items-center">
-          <p>Excalidraw Diagram</p>
-          <p>{message}</p>
-        </div>
-      </Header>
       {error !== undefined ? (
         <div>{error}</div>
       ) : !(isLoaded && initialExcalidrawData !== undefined) ? (
-        <Skeleton className="w-full h-full" />
+        <Skeleton className="w-full h-full rounded-none" />
       ) : (
         <ExcalidrawWrapper
           initialData={initialExcalidrawData}

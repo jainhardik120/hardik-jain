@@ -1,3 +1,4 @@
+import MillionLint from '@million/lint';
 import type { NextConfig } from 'next';
 import type { Configuration } from 'webpack';
 
@@ -40,4 +41,6 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default MillionLint.next({
+  enabled: true,
+})(nextConfig);

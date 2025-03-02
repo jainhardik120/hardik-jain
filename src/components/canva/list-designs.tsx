@@ -68,7 +68,7 @@ const OnGoingExportsList: React.FC<{ designId: string }> = ({ designId }) => {
       </ul>
       <Button
         onClick={() => {
-          refetch();
+          void refetch();
         }}
         disabled={isFetching}
       >
@@ -270,7 +270,7 @@ const DesignList = () => {
   }, [data]);
 
   useEffect(() => {
-    refetch();
+    void refetch();
   }, [refetch]);
 
   return (

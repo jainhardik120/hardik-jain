@@ -12,7 +12,7 @@ export function Social() {
   const callbackUrl = searchParams?.get('callbackUrl');
 
   const onClick = (provider: 'google' | 'github') => {
-    signIn(provider, { callbackUrl: callbackUrl ?? '/' });
+    void signIn(provider, { callbackUrl: callbackUrl ?? '/' });
   };
 
   return (

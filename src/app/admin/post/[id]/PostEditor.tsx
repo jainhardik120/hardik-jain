@@ -9,12 +9,14 @@ import { api } from '@/server/api/react';
 import { useDebouncedCallback } from 'use-debounce';
 import type { Post } from '@prisma/client';
 import type { JSONContent } from 'novel';
+import { useTextStore } from '@/components/sidebar/useTextStore';
 
-export function PostEditor({ initData }: { initData: Post }) {
+export function PostEditor({ initData }: { initData: Post }): JSX.Element {
   const [title, setTitle] = useState(initData.title);
   const [description, setDescription] = useState(initData.description);
   const [slug, setSlug] = useState(initData.slug);
   const editorRef = useRef<EditorRef>(null);
+  const setText = useTextStore((state) => state.setText);
 
   const saveMutation = api.post.updatePostById.useMutation();
 
@@ -23,6 +25,7 @@ export function PostEditor({ initData }: { initData: Post }) {
       return;
     }
     const content = editorRef.current.getJSON();
+    setText('Saving...');
     await saveMutation.mutateAsync({
       id: initData.id,
       title,
@@ -30,13 +33,14 @@ export function PostEditor({ initData }: { initData: Post }) {
       description,
       slug,
     });
+    setText('');
   }, 500);
 
   const handleInputChange =
     (setter: React.Dispatch<React.SetStateAction<string>>) =>
-    (e: React.ChangeEvent<HTMLInputElement>) => {
+    (e: React.ChangeEvent<HTMLInputElement>): void => {
       setter(e.target.value);
-      debouncedSave();
+      void debouncedSave();
     };
 
   return (

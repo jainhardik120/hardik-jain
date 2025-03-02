@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import React, { memo } from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { VariantProps, cva } from "class-variance-authority";
 import { PanelLeft } from "lucide-react";
@@ -551,7 +551,7 @@ const sidebarMenuButtonVariants = cva(
   },
 );
 
-const SidebarMenuButton = React.forwardRef<
+const SidebarMenuButton = memo(React.forwardRef<
   HTMLButtonElement,
   Omit<React.ComponentProps<"button">, "ref"> & {
     asChild?: boolean;
@@ -595,7 +595,7 @@ const SidebarMenuButton = React.forwardRef<
       };
     }
 
-    return (
+    const memoizedTooltip = React.useMemo(() => (
       <Tooltip>
         <TooltipTrigger asChild>{button}</TooltipTrigger>
         <TooltipContent
@@ -605,9 +605,11 @@ const SidebarMenuButton = React.forwardRef<
           {...tooltip}
         />
       </Tooltip>
-    );
+    ), [button, tooltip, state, isMobile]);
+
+    return memoizedTooltip;
   },
-);
+));
 SidebarMenuButton.displayName = "SidebarMenuButton";
 
 const SidebarMenuAction = React.forwardRef<

@@ -45,12 +45,12 @@ const Editor = forwardRef<EditorRef, EditorProp>(({ initialValue, onChange }, re
   const [editorInstance, setEditorInstance] = useState<EditorInstance | null>(null);
 
   useImperativeHandle(ref, () => ({
-    setContent: (content: string) => {
+    setContent: (content: string): void => {
       if (editorInstance) {
         editorInstance.chain().clearContent().insertContent(content).run();
       }
     },
-    getJSON: () => {
+    getJSON: (): JSONContent | null => {
       if (editorInstance) {
         return editorInstance.getJSON();
       }

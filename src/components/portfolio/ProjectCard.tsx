@@ -2,13 +2,39 @@
 
 import Image from 'next/image';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import type { Project } from '@prisma/client';
 import { DialogTitle } from '@radix-ui/react-dialog';
 
 export const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
   const [dialogOpened, setDialogOpened] = useState(false);
   const { name, githubLink, demoLink, imageUrl } = project;
+
+  const memoizedImage1 = useMemo(
+    () => (
+      <Image
+        src={imageUrl.length > 0 ? imageUrl : '/images/project-default-image.jpg'}
+        alt={name}
+        className="transition-transform duration-300 group-hover:scale-110 w-full h-full object-cover"
+        width={600}
+        height={400}
+      />
+    ),
+    [imageUrl, name],
+  );
+
+  const memoizedImage2 = useMemo(
+    () => (
+      <Image
+        src={project.imageUrl.length > 0 ? project.imageUrl : '/images/project-default-image.jpg'}
+        width="400"
+        height="400"
+        alt="Project Screenshot"
+        className="rounded-lg"
+      />
+    ),
+    [project.imageUrl],
+  );
 
   return (
     <>
@@ -18,13 +44,7 @@ export const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
           setDialogOpened(true);
         }}
       >
-        <Image
-          src={imageUrl.length > 0 ? imageUrl : '/images/project-default-image.jpg'}
-          alt={name}
-          className="transition-transform duration-300 group-hover:scale-110 w-full h-full object-cover"
-          width={600}
-          height={400}
-        />
+        {memoizedImage1}
         <div className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-70 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           <h5 className="text-4xl font-semibold text-white mb-4">{name}</h5>
         </div>
@@ -46,17 +66,7 @@ export const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
             </div>
             <div className="max-h-[50vh] overflow-y-auto">
               <div className="w-full mb-4 flex items-center justify-center sm:w-auto sm:inline-block overflow-hidden sm:float-end sm:ml-4 sm:mb-1">
-                <Image
-                  src={
-                    project.imageUrl.length > 0
-                      ? project.imageUrl
-                      : '/images/project-default-image.jpg'
-                  }
-                  width="400"
-                  height="400"
-                  alt="Project Screenshot"
-                  className="rounded-lg"
-                />
+                {memoizedImage2}
               </div>
               <p className="text-justify text-gray-500 dark:text-gray-400">{project.content}</p>
             </div>
