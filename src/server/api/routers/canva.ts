@@ -96,6 +96,7 @@ export const canvaRouter = createTRPCRouter({
             const fileBuffer = await uploadedFile.arrayBuffer();
             const contentType = uploadedFile.headers.get('Content-Type') ?? 'image/png';
             const extension = contentType.split('/')[1] ?? 'png';
+            // eslint-disable-next-line max-len
             const fileName = `${ctx.session.user.id}/${updatedJob.designId}/${imageId}.${extension}`;
             const client = new S3Client(config);
             await client.send(

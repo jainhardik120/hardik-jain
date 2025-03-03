@@ -1,6 +1,4 @@
-'use client';
-
-import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Social } from '@/components/auth/social';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -20,25 +18,21 @@ export function CardWrapper({
   backButtonLabel,
   backButtonHref,
   showSocial,
-}: CardWrapperProps) {
+}: CardWrapperProps): JSX.Element {
   return (
-    <Card className="w-[400px]">
+    <Card className="w-[400px] sm:border border-0">
       <CardHeader>
         <p className="text-center text-lg font-bold">{headerLabel}</p>
       </CardHeader>
-      <CardContent>{children}</CardContent>
-      {showSocial !== undefined && showSocial && (
-        <CardFooter>
-          <Social />
-        </CardFooter>
-      )}
-      <CardFooter>
+      <CardContent className="flex flex-col gap-y-4">
+        {children}
+        {showSocial !== undefined && showSocial && <Social />}
         <Button variant="link" size="sm" className="w-full font-normal" asChild>
           <Link href={backButtonHref} className="text-sm text-muted-foreground">
             {backButtonLabel}
           </Link>
         </Button>
-      </CardFooter>
+      </CardContent>
     </Card>
   );
 }

@@ -3,7 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import type { z } from 'zod';
-import { Suspense, useState, useTransition } from 'react';
+import { Suspense, useMemo, useState } from 'react';
 
 import { LoginSchema } from '@/types/schemas';
 import {
@@ -16,8 +16,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import FormError from '@/components/form-error';
-import FormSuccess from '@/components/form-success';
+import ErrorSuccessMessage from '@/components/form-success';
 import Link from 'next/link';
 import { CardWrapper } from '@/components/auth/card-wrapper';
 import { useSearchParams } from 'next/navigation';
@@ -36,7 +35,7 @@ function LoginForm(): JSX.Element {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams?.get('callbackUrl') ?? '/';
 
-  const urlError: string | undefined = ((): string | undefined => {
+  const urlError: string | undefined = useMemo((): string | undefined => {
     switch (searchParams?.get('error')) {
       case 'OAuthAccountNotLinked':
         return 'Email already in use with a different provider';
@@ -59,7 +58,7 @@ function LoginForm(): JSX.Element {
       default:
         return undefined;
     }
-  })();
+  }, [searchParams]);
 
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
@@ -69,32 +68,40 @@ function LoginForm(): JSX.Element {
     },
   });
 
-  const [error, setError] = useState<string | undefined>('');
-  const [success, setSuccess] = useState<string | undefined>('');
-  const [isPending, startTransition] = useTransition();
+  const [error, setError] = useState<boolean>(urlError !== undefined);
+  const [message, setMessage] = useState<string | undefined>(urlError);
+
+  const [isPending, setIsPending] = useState(false);
 
   const onSubmit = async (values: z.infer<typeof LoginSchema>): Promise<void> => {
-    setError('');
-    setSuccess('');
-    startTransition(() => {
-      void signIn('credentials', {
+    setError(false);
+    setMessage('');
+    setIsPending(true);
+    try {
+      await signIn('credentials', {
         email: values.email,
         password: values.password,
         redirectTo: callbackUrl,
       });
-    });
+    } catch (error) {
+      setMessage((error as Error).message ?? 'An unknown credentials error occurred');
+      setError(true);
+    } finally {
+      setIsPending(false);
+    }
   };
 
   const emailSignin = async (): Promise<void> => {
     const isValid = await form.trigger('email');
     if (isValid) {
-      setError('');
-      startTransition(() => {
-        void signIn('email', {
-          email: form.getValues('email'),
-          redirectTo: callbackUrl,
-        });
+      setError(false);
+      setMessage('');
+      setIsPending(true);
+      await signIn('email', {
+        email: form.getValues('email'),
+        redirectTo: callbackUrl,
       });
+      setIsPending(false);
     }
   };
 
@@ -106,40 +113,37 @@ function LoginForm(): JSX.Element {
       showSocial
     >
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <div className="space-y-4">
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input disabled={isPending} placeholder="john.doe@example.com" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input type="password" disabled={isPending} {...field} />
-                  </FormControl>
-                  <Button size="sm" variant="link" className="px-0 font-normal">
-                    <Link href="/auth/reset">Forgot password?</Link>
-                  </Button>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <FormError message={error ?? urlError} />
-          <FormSuccess message={success} />
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input disabled={isPending} placeholder="john.doe@example.com" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Password</FormLabel>
+                <FormControl>
+                  <Input type="password" disabled={isPending} {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button size="sm" variant="link" className="px-0 font-normal">
+            <Link href="/auth/reset">Forgot password?</Link>
+          </Button>
+          <ErrorSuccessMessage message={message} isError={error} />
           <Button disabled={isPending} type="submit" className="w-full">
             Login with password
           </Button>

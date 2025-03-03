@@ -12,6 +12,7 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/h
 
 import Link from 'next/link';
 import type { _Object } from '@aws-sdk/client-s3';
+import Image from 'next/image';
 
 const isImage = (url: string) => {
   return /\.(jpg|jpeg|png|gif|webp|bmp|svg)$/i.test(url);
@@ -68,10 +69,12 @@ export const columns: ColumnDef<_Object>[] = [
                         </HoverCardTrigger>
                         <HoverCardContent className="w-48">
                           {isImage(item.href) ? (
-                            <img
+                            <Image
                               src={`https://storage.hardikja.in/${userId}/${item.href}`}
                               alt="Preview"
                               className="w-full h-auto"
+                              height={180}
+                              width={320}
                             />
                           ) : (
                             <span>No preview available</span>

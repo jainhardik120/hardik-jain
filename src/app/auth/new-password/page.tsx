@@ -15,8 +15,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import FormSuccess from '@/components/form-success';
-import FormError from '@/components/form-error';
+import ErrorSuccessMessage from '@/components/form-success';
 import { Input } from '@/components/ui/input';
 
 import { NewPasswordSchema } from '@/types/schemas';
@@ -34,9 +33,8 @@ export default function NewPasswordPage() {
 function NewPasswordForm() {
   const searchParams = useSearchParams();
   const token = searchParams?.get('token');
-
-  const [error, setError] = useState<string | undefined>('');
-  const [success, setSuccess] = useState<string | undefined>('');
+  const [error, setError] = useState<boolean>(false);
+  const [message, setMessage] = useState<string | undefined>('');
 
   const [isPending, startTransition] = useTransition();
 
@@ -46,17 +44,18 @@ function NewPasswordForm() {
   });
 
   const mutation = api.auth.newPassword.useMutation({
-    onSuccess: (data) => {
-      setSuccess(data.success);
+    onSuccess: async (values) => {
+      setMessage(values.success);
     },
-    onError: (data) => {
-      setError(data.message);
+    onError: async (values) => {
+      setMessage(values.message);
+      setError(true);
     },
   });
 
   const onSubmit = (values: z.infer<typeof NewPasswordSchema>) => {
-    setError('');
-    setSuccess('');
+    setError(false);
+    setMessage('');
     startTransition(() => {
       mutation.mutate({ ...values, token: token ?? '' });
     });
@@ -69,24 +68,21 @@ function NewPasswordForm() {
       backButtonHref="/auth/signin"
     >
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <div className="space-y-4">
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input {...field} disabled={isPending} placeholder="******" type="password" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <FormError message={error} />
-          <FormSuccess message={success} />
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Password</FormLabel>
+                <FormControl>
+                  <Input {...field} disabled={isPending} placeholder="******" type="password" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <ErrorSuccessMessage message={message} isError={error} />
           <Button disabled={isPending} type="submit" className="w-full">
             Reset password
           </Button>

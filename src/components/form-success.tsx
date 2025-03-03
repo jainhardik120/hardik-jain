@@ -1,10 +1,18 @@
-export default function FormSuccess({ message }: { message: string | undefined }) {
-  if (message === undefined) {
-    return null;
-  }
+import { cn } from '@/lib/utils';
 
+export default function FormMessage({
+  message,
+  isError,
+}: {
+  message: string | undefined;
+  isError?: boolean;
+}): JSX.Element {
   return (
-    <div className="flex items-center gap-x-2 text-sm text-emerald-500">
+    <div
+      className={cn(
+        `flex items-center gap-x-2 text-sm ${isError === true ? 'text-destructive' : 'text-emerald-500'}`,
+      )}
+    >
       <p>{message}</p>
     </div>
   );

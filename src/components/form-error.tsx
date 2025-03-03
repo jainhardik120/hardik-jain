@@ -4,7 +4,7 @@ export default function FormError({ message }: { message: string | undefined }) 
   }
 
   return (
-    <div className="flex items-center gap-x-2 text-sm text-destructive">
+    <div className="flex items-center gap-x-2 text-sm ">
       <p>{message}</p>
     </div>
   );

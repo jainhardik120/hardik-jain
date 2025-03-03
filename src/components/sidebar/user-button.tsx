@@ -17,6 +17,7 @@ export default function UserButton({ session }: { session: Session | null }) {
     email: session?.user.email ?? '',
     avatar:
       session?.user.image ??
+      // eslint-disable-next-line max-len
       `https://api.dicebear.com/9.x/thumbs/svg?seed=${Math.floor(Math.random() * 100000) + 1}&randomizeIds=true`,
   };
 

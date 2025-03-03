@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+
 import model from '@/lib/geminiModel';
 import { createTRPCRouter, protectedProcedure, publicProcedure } from '@/server/api/trpc';
 import { z } from 'zod';

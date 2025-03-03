@@ -18,8 +18,8 @@ export enum ErrorCode {
 }
 
 class CustomError extends CredentialsSignin {
-  override code: ErrorCode;
-  constructor(code: ErrorCode, message?: string) {
+  public override code: ErrorCode;
+  public constructor(code: ErrorCode, message?: string) {
     super(message ?? 'An error occurred during the sign-in process');
     this.code = code;
     this.name = 'CustomError';

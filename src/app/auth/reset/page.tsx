@@ -14,8 +14,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import FormSuccess from '@/components/form-success';
-import FormError from '@/components/form-error';
+import ErrorSuccessMessage from '@/components/form-success';
 import { Input } from '@/components/ui/input';
 
 import { ResetSchema } from '@/types/schemas';
@@ -31,8 +30,8 @@ export default function ResetPage(): JSX.Element {
 }
 
 function ResetForm(): JSX.Element {
-  const [error, setError] = useState<string | undefined>('');
-  const [success, setSuccess] = useState<string | undefined>('');
+  const [error, setError] = useState<boolean>(false);
+  const [message, setMessage] = useState<string | undefined>('');
 
   const [isPending, startTransition] = useTransition();
 
@@ -42,17 +41,18 @@ function ResetForm(): JSX.Element {
   });
 
   const mutation = api.auth.resetPassword.useMutation({
-    onSuccess: (data) => {
-      setSuccess(data.success);
+    onSuccess: async (values) => {
+      setMessage(values.success);
     },
-    onError: (data) => {
-      setError(data.message);
+    onError: async (values) => {
+      setMessage(values.message);
+      setError(true);
     },
   });
 
   const onSubmit = (values: z.infer<typeof ResetSchema>) => {
-    setError('');
-    setSuccess('');
+    setError(false);
+    setMessage('');
 
     startTransition(() => {
       mutation.mutate(values);
@@ -66,29 +66,26 @@ function ResetForm(): JSX.Element {
       backButtonHref="/auth/signin"
     >
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <div className="space-y-4">
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      disabled={isPending}
-                      placeholder="john.doe@example.com"
-                      type="email"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <FormError message={error} />
-          <FormSuccess message={success} />
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    disabled={isPending}
+                    placeholder="john.doe@example.com"
+                    type="email"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <ErrorSuccessMessage message={message} isError={error} />
           <Button disabled={isPending} type="submit" className="w-full">
             Send reset email
           </Button>
