@@ -90,7 +90,7 @@ function LoginForm(): JSX.Element {
     if (isValid) {
       setError('');
       startTransition(() => {
-        signIn('email', {
+        void signIn('email', {
           email: form.getValues('email'),
           redirectTo: callbackUrl,
         });
