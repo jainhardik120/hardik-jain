@@ -4,14 +4,16 @@ import type { LucideIcon } from 'lucide-react';
 
 export type SidebarNavItem = {
   title: string;
-  url: Route;
-  icon?: LucideIcon;
-  isActive?: boolean;
-  items?: {
-    title: string;
-    url: Route;
-  }[];
-};
+  icon: LucideIcon;
+} & (
+  | { url: Route }
+  | {
+      items: {
+        title: string;
+        url: Route;
+      }[];
+    }
+);
 
 export type Project = {
   name: string;

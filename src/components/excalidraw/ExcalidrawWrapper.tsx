@@ -5,7 +5,7 @@ import type {
   ExcalidrawImperativeAPI,
 } from '@excalidraw/excalidraw/types/types';
 import { useEffect, useState } from 'react';
-import { Excalidraw } from '@excalidraw/excalidraw';
+import { Excalidraw, MainMenu } from '@excalidraw/excalidraw';
 import { useTheme } from 'next-themes';
 import type { ExcalidrawElement, Theme } from '@excalidraw/excalidraw/types/element/types';
 import type { ExcalidrawImportData } from '@/lib/excalidraw';
@@ -122,6 +122,14 @@ export default function ExcalidrawWrapper({
         debouncedUpdates(elements, files);
       }}
       theme={resolvedTheme as Theme}
-    />
+    >
+      <MainMenu>
+        <MainMenu.DefaultItems.Export />
+        <MainMenu.DefaultItems.SaveAsImage />
+        <MainMenu.DefaultItems.ClearCanvas />
+        <MainMenu.DefaultItems.LoadScene />
+        <MainMenu.DefaultItems.ChangeCanvasBackground />
+      </MainMenu>
+    </Excalidraw>
   );
 }

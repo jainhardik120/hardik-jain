@@ -7,6 +7,7 @@ import { excalidrawRouter } from '@/server/api/routers/excalidraw';
 import { filesRouter } from '@/server/api/routers/files';
 import { contactRouter } from '@/server/api/routers/contact';
 import { portfolioRouter } from '@/server/api/routers/portfolio';
+import { userRouter } from './routers/user';
 
 export const appRouter = createTRPCRouter({
   post: postRouter,
@@ -16,6 +17,7 @@ export const appRouter = createTRPCRouter({
   excalidraw: excalidrawRouter,
   files: filesRouter,
   portfolio: portfolioRouter,
+  user: userRouter,
 });
 
 export type AppRouter = typeof appRouter;
