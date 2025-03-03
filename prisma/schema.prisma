@@ -19,7 +19,7 @@ model User {
   emailVerified     DateTime?
   image             String?
   password          String?
-  role              UserRole            @default(USER)
+  role              UserRole[]          @default([USER])
   accounts          Account[]
   sessions          Session[]
   canvaSessionState CanvaSessionState[]
@@ -27,6 +27,14 @@ model User {
   createdAt         DateTime            @default(now())
   updatedAt         DateTime            @updatedAt
   posts             Post[]
+  RefreshToken      RefreshToken[]
+}
+
+model RefreshToken {
+  id        String   @id @default(cuid())
+  userId    String
+  expiresAt DateTime
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Account {
