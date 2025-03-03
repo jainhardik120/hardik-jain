@@ -150,6 +150,7 @@ const NextTopLoader = ({ showForHashAnchor = true }): JSX.Element => {
       window.removeEventListener('pagehide', handlePageHide);
       window.removeEventListener('popstate', handleBackAndForth);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return styles;
