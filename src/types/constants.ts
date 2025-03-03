@@ -1,4 +1,15 @@
-import { Github, Instagram, Linkedin, MailIcon, Frame, SquareTerminal } from 'lucide-react';
+import {
+  Github,
+  Instagram,
+  Linkedin,
+  MailIcon,
+  Frame,
+  Image,
+  Briefcase,
+  FileText,
+  Mail,
+  Users,
+} from 'lucide-react';
 
 import {
   GitHubLogoIcon,
@@ -7,7 +18,7 @@ import {
   TwitterLogoIcon,
 } from '@radix-ui/react-icons';
 import type { Route } from 'next';
-import type { MainNavItem } from '.';
+import type { MainNavItem, Team, Project, SidebarNavItem } from '.';
 
 export const AchievementsList = [
   {
@@ -83,7 +94,11 @@ export const MainNavData: MainNavItem[] = [
   },
 ];
 
-export const AppSidebarData = {
+export const AppSidebarData: {
+  teams: Team[];
+  navItems: SidebarNavItem[];
+  projects: Project[];
+} = {
   teams: [
     {
       name: 'Acme Inc',
@@ -101,9 +116,7 @@ export const AppSidebarData = {
   navItems: [
     {
       title: 'Media',
-      url: '/admin/media' as Route,
-      icon: SquareTerminal,
-      isActive: true,
+      icon: Image,
       items: [
         {
           title: 'Canva Designs',
@@ -120,34 +133,8 @@ export const AppSidebarData = {
       ],
     },
     {
-      title: 'Blog',
-      url: '/admin/posts' as Route,
-      icon: SquareTerminal,
-      isActive: true,
-      items: [
-        {
-          title: 'Posts',
-          url: '/admin/post' as Route,
-        },
-      ],
-    },
-    {
-      title: 'Messages',
-      url: '/admin/messages' as Route,
-      icon: SquareTerminal,
-      isActive: true,
-      items: [
-        {
-          title: 'Contact Messages',
-          url: '/admin/messages' as Route,
-        },
-      ],
-    },
-    {
       title: 'Portfolio',
-      url: '/admin/project' as Route,
-      icon: SquareTerminal,
-      isActive: true,
+      icon: Briefcase,
       items: [
         {
           title: 'Projects',
@@ -158,6 +145,21 @@ export const AppSidebarData = {
           url: '/admin/skill' as Route,
         },
       ],
+    },
+    {
+      title: 'Posts',
+      url: '/admin/posts' as Route,
+      icon: FileText,
+    },
+    {
+      title: 'Messages',
+      url: '/admin/messages' as Route,
+      icon: Mail,
+    },
+    {
+      title: 'Users',
+      url: '/admin/users' as Route,
+      icon: Users,
     },
   ],
   projects: [

@@ -6,6 +6,7 @@ import { importExcalidraw } from '@/lib/excalidraw';
 import { SidebarLayout } from '@/components/sidebar/sidebar-layout';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useTextStore } from '@/components/sidebar/useTextStore';
+import Header from '@/components/sidebar/sidebar-header';
 
 const ExcalidrawWrapper = dynamic(
   async () => await import('@/components/excalidraw/ExcalidrawWrapper'),
@@ -66,6 +67,7 @@ export default function Page({ id }: { id: string }): JSX.Element {
         setMessage('');
         setIsLoaded(true);
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [signedUrl.data]);
 
   return (
@@ -77,6 +79,7 @@ export default function Page({ id }: { id: string }): JSX.Element {
         avatar: session?.user?.image ?? defaultAvatarRef.current,
       }}
     >
+      <Header />
       {error !== undefined ? (
         <div>{error}</div>
       ) : !(isLoaded && initialExcalidrawData !== undefined) ? (
