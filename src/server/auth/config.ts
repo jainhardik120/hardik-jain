@@ -124,7 +124,7 @@ export const authOptions = {
       const existingAccount = await prisma.account.findFirst({
         where: { userId: existingUser.id },
       });
-      token.role = existingUser.role;
+      token.role = existingUser.role[0] ?? 'USER';
       token.name = existingUser.name;
       token.email = existingUser.email;
       token.isOAuth = !!existingAccount;
