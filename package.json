@@ -12,6 +12,7 @@
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,mdx}\" --cache",
     "format:write": "prettier --write \"**/*.{ts,tsx,js,jsx,mdx}\" --cache",
     "lint": "next lint",
+    "million:lint": "cross-env NEXT_PUBLIC_MILLION_LINT_ENABLED=true next dev",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
@@ -115,6 +116,7 @@
     "@types/webpack": "^5.28.5",
     "@typescript-eslint/eslint-plugin": "^8.25.0",
     "@typescript-eslint/parser": "^8.25.0",
+    "cross-env": "^7.0.3",
     "eslint": "^8.57.1",
     "eslint-config-next": "15.0.3",
     "eslint-config-prettier": "^10.0.2",

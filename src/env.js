@@ -20,6 +20,7 @@ export const env = createEnv({
     NEXT_PUBLIC_FILE_STORAGE_HOST: z.string().url(),
     NEXT_PUBLIC_BASE_URL: z.string().optional(),
     NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL: z.string().optional(),
+    NEXT_PUBLIC_MILLION_LINT_ENABLED: z.enum(['true', 'false']).default('false'),
   },
   runtimeEnv: {
     AUTH_SECRET: process.env.AUTH_SECRET,
@@ -38,6 +39,7 @@ export const env = createEnv({
     S3_BUCKET_NAME_NEW: process.env.S3_BUCKET_NAME_NEW,
     NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL:
       process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL,
+    NEXT_PUBLIC_MILLION_LINT_ENABLED: process.env.NEXT_PUBLIC_MILLION_LINT_ENABLED,
   },
   skipValidation: process.env.SKIP_ENV_VALIDATION !== undefined && process.env.SKIP_ENV_VALIDATION,
   emptyStringAsUndefined: true,

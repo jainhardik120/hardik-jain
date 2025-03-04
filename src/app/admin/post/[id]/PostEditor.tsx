@@ -1,7 +1,7 @@
 'use client';
 
 import type { EditorRef } from '@/components/editor/advanced-editor';
-import Editor from '@/components/editor/advanced-editor';
+import dynamic from 'next/dynamic';
 import { useRef, useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -10,6 +10,7 @@ import { useDebouncedCallback } from 'use-debounce';
 import type { Post } from '@prisma/client';
 import type { JSONContent } from 'novel';
 import { useTextStore } from '@/components/sidebar/useTextStore';
+const Editor = dynamic(() => import('@/components/editor/advanced-editor'), { ssr: false });
 
 export function PostEditor({ initData }: { initData: Post }): JSX.Element {
   const [title, setTitle] = useState(initData.title);
