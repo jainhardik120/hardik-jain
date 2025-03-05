@@ -111,7 +111,7 @@ export const authOptions = {
       if (token.sub === null || token.sub === undefined) {
         return token;
       }
-      if (token.role.length > 0) {
+      if (token.role !== undefined && token.role !== null && token.role.length > 0) {
         return token;
       }
       const existingUser = await prisma.user.findUnique({
