@@ -33,3 +33,23 @@ export const projectSchema = z.object({
   shortDescription: z.string().min(1, 'Short description is required'),
   techStack: z.array(z.string()).nonempty('At least one tech stack item is required'),
 });
+
+export const designSchema = z.object({
+  name: z.string().min(1, 'Name is required').max(50, 'Name is too long'),
+  height: z
+    .string()
+    .regex(/^\d+$/, 'Height must be a positive number')
+    .transform(Number)
+    .refine((val) => val > 0, 'Height must be greater than 0'),
+  width: z
+    .string()
+    .regex(/^\d+$/, 'Width must be a positive number')
+    .transform(Number)
+    .refine((val) => val > 0, 'Width must be greater than 0'),
+});
+
+export const ContactSchema = z.object({
+  email: z.string().email('Enter a valid email address'),
+  subject: z.string().min(1, 'Subject is required'),
+  message: z.string().min(50, 'Message should be minimum 50 characters long'),
+});

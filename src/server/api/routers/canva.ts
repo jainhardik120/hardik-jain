@@ -4,12 +4,14 @@ import { DesignService, ExportService } from '@/canva-client';
 import { getAccessTokenForUser, getUserClient } from '@/lib/canva';
 import { createTRPCRouter, protectedProcedure } from '@/server/api/trpc';
 import { TRPCError } from '@trpc/server';
-import type { PrismaClient } from '@prisma/client';
-import { CanvaJobStatus, ImageType } from '@prisma/client';
+import type { CanvaExportJob, PrismaClient } from '@prisma/client';
+import { CanvaJobStatus } from '@prisma/client';
 import { createId } from '@paralleldrive/cuid2';
-import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import { ListObjectsV2Command, PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { config } from '@/lib/aws-config';
 import { env } from '@/env';
+import type { Client } from '@hey-api/client-fetch';
+import type { Session } from 'next-auth';
 
 const canvaClientProcedure = protectedProcedure.use(async ({ ctx, next }) => {
   const client = await getClient(ctx.session.user.id, ctx.db);
@@ -20,6 +22,76 @@ const canvaClientProcedure = protectedProcedure.use(async ({ ctx, next }) => {
     },
   });
 });
+
+const uploadCanvaImagesToS3 = async (
+  updatedJob: CanvaExportJob,
+  userId: string,
+  db: PrismaClient,
+) => {
+  try {
+    for (const url of updatedJob.urls) {
+      const imageId = createId();
+      const uploadedFile = await fetch(url);
+      const fileBuffer = await uploadedFile.arrayBuffer();
+      const contentType = uploadedFile.headers.get('Content-Type') ?? 'image/png';
+      const extension = contentType.split('/')[1] ?? 'png';
+      const fileName = `${userId}/${updatedJob.designId}/${imageId}.${extension}`;
+      const client = new S3Client(config);
+      await client.send(
+        new PutObjectCommand({
+          Bucket: env.S3_BUCKET_NAME_NEW,
+          Key: `public/${fileName}`,
+          Body: Buffer.from(fileBuffer),
+          ContentType: contentType,
+        }),
+      );
+    }
+    await db.canvaExportJob.delete({
+      where: { exportId: updatedJob.exportId },
+    });
+  } catch {}
+};
+
+const refreshJob = async (
+  job: CanvaExportJob,
+  client: Client,
+  db: PrismaClient,
+  session: Session,
+) => {
+  const result = await ExportService.getDesignExportJob({
+    client: client,
+    path: {
+      exportId: job.exportId,
+    },
+  });
+  if (result.error !== undefined || !result.data) {
+    return;
+  }
+  switch (result.data.job.status) {
+    case 'in_progress':
+      break;
+    case 'failed':
+      await db.canvaExportJob.delete({
+        where: {
+          exportId: job.exportId,
+        },
+      });
+    case 'success':
+      const updatedJob = await db.canvaExportJob.update({
+        where: {
+          exportId: job.exportId,
+        },
+        data: {
+          status: CanvaJobStatus.SUCCESS,
+          urls: result.data.job.urls || [],
+        },
+      });
+      await uploadCanvaImagesToS3(updatedJob, session.user.id, db);
+      break;
+  }
+
+  return result.data;
+};
 
 export const canvaRouter = createTRPCRouter({
   getUserDesigns: canvaClientProcedure
@@ -44,87 +116,37 @@ export const canvaRouter = createTRPCRouter({
 
       return result.data;
     }),
-  listExports: protectedProcedure.input(z.string()).query(async ({ ctx, input }) => {
+  listExports: canvaClientProcedure.input(z.string()).query(async ({ ctx, input }) => {
+    const jobsToRefreshStatus = await ctx.db.canvaExportJob.findMany({
+      where: { designId: input, status: 'IN_PROGRESS' },
+    });
+    if (jobsToRefreshStatus.length > 0) {
+      await Promise.all(
+        jobsToRefreshStatus.map((job) => refreshJob(job, ctx.client, ctx.db, ctx.session)),
+      );
+    }
+    const jobsToUploadToS3 = await ctx.db.canvaExportJob.findMany({
+      where: { designId: input, status: 'SUCCESS' },
+    });
+    if (jobsToUploadToS3.length > 0) {
+      await Promise.all(
+        jobsToUploadToS3.map((job) => uploadCanvaImagesToS3(job, ctx.session.user.id, ctx.db)),
+      );
+    }
     const jobs = await ctx.db.canvaExportJob.findMany({
       where: { designId: input },
     });
-    const exportedImages = await ctx.db.exportedImages.findMany({
-      where: { sourceId: input, imageType: ImageType.CANVA },
-    });
+    const client = new S3Client(config);
+    const exportedImages =
+      (
+        await client.send(
+          new ListObjectsV2Command({
+            Bucket: env.S3_BUCKET_NAME_NEW,
+            Prefix: `public/${ctx.session.user.id}/${input}/`,
+          }),
+        )
+      ).Contents ?? [];
     return { jobs, exportedImages };
-  }),
-  refreshExportStatus: canvaClientProcedure.input(z.string()).mutation(async ({ ctx, input }) => {
-    const result = await ExportService.getDesignExportJob({
-      client: ctx.client,
-      path: {
-        exportId: input,
-      },
-    });
-    if (result.error !== undefined || !result.data) {
-      throw new TRPCError({
-        message: result.error?.toString() ?? 'No data retreived',
-        code: 'BAD_REQUEST',
-      });
-    }
-    switch (result.data.job.status) {
-      case 'in_progress':
-        break;
-      case 'failed':
-        await ctx.db.canvaExportJob.delete({
-          where: {
-            exportId: input,
-          },
-        });
-        throw new TRPCError({
-          message: result.data.job.error?.message ?? 'Export failed',
-          code: 'BAD_REQUEST',
-        });
-      case 'success':
-        const updatedJob = await ctx.db.canvaExportJob.update({
-          where: {
-            exportId: input,
-          },
-          data: {
-            status: CanvaJobStatus.SUCCESS,
-            urls: result.data.job.urls || [],
-          },
-        });
-        try {
-          for (const url of result.data.job.urls || []) {
-            const imageId = createId();
-            const uploadedFile = await fetch(url);
-            const fileBuffer = await uploadedFile.arrayBuffer();
-            const contentType = uploadedFile.headers.get('Content-Type') ?? 'image/png';
-            const extension = contentType.split('/')[1] ?? 'png';
-            // eslint-disable-next-line max-len
-            const fileName = `${ctx.session.user.id}/${updatedJob.designId}/${imageId}.${extension}`;
-            const client = new S3Client(config);
-            await client.send(
-              new PutObjectCommand({
-                Bucket: env.S3_BUCKET_NAME_NEW,
-                Key: `public/${fileName}`,
-                Body: Buffer.from(fileBuffer),
-                ContentType: contentType,
-              }),
-            );
-            const s3Url = `${env.NEXT_PUBLIC_FILE_STORAGE_HOST}/${fileName}`;
-            await ctx.db.exportedImages.create({
-              data: {
-                id: imageId,
-                sourceId: updatedJob.designId,
-                imageType: ImageType.CANVA,
-                path: s3Url,
-              },
-            });
-          }
-          await ctx.db.canvaExportJob.delete({
-            where: { exportId: input },
-          });
-        } catch {}
-        break;
-    }
-
-    return result.data;
   }),
   exportDesign: canvaClientProcedure
     .input(

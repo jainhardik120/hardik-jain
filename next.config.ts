@@ -1,4 +1,3 @@
-import { env } from '@/env';
 import MillionLint from '@million/lint';
 import type { NextConfig } from 'next';
 import type { Configuration } from 'webpack';
@@ -43,5 +42,5 @@ const nextConfig: NextConfig = {
 };
 
 export default MillionLint.next({
-  enabled: env.NEXT_PUBLIC_MILLION_LINT_ENABLED === 'true',
+  enabled: false,
 })(nextConfig);

@@ -8,7 +8,7 @@ import bcrypt from 'bcryptjs';
 import type { Session } from 'next-auth';
 import { CredentialsSignin, type NextAuthConfig } from 'next-auth';
 import type { JWT } from 'next-auth/jwt';
-import { ACCESS_TOKEN_AGE, obtainRefreshTokenForUser, refreshAccessToken } from './token';
+// import { ACCESS_TOKEN_AGE, obtainRefreshTokenForUser, refreshAccessToken } from './token';
 
 export enum ErrorCode {
   INVALID_CREDENTIALS = 'invalid_credentials',
@@ -107,30 +107,30 @@ export const authOptions = {
 
       return true;
     },
-    jwt: async ({ token, user }): Promise<JWT> => {
-      if (user !== undefined) {
-        const userId = token.sub as string;
-        const existingUser = await prisma.user.findUnique({
-          where: { id: userId },
-        });
-        if (!existingUser) {
-          return token;
-        }
-        const existingAccount = await prisma.account.findFirst({
-          where: { userId: existingUser.id },
-        });
-        token.role = existingUser.role;
-        token.name = existingUser.name;
-        token.email = existingUser.email;
-        token.refreshToken = (await obtainRefreshTokenForUser(userId)).id;
-        token['expiresAt'] = new Date(Date.now() + ACCESS_TOKEN_AGE);
-        token.isOAuth = !!existingAccount;
-      }
-      const expiresAt = token['expiresAt'] as Date;
-      if (expiresAt < new Date()) {
+    jwt: async ({ token }): Promise<JWT> => {
+      if (token.sub === null || token.sub === undefined) {
         return token;
       }
-      return refreshAccessToken(token);
+      if (token.role.length > 0) {
+        return token;
+      }
+      const existingUser = await prisma.user.findUnique({
+        where: { id: token.sub },
+      });
+
+      if (!existingUser) {
+        return token;
+      }
+
+      const existingAccount = await prisma.account.findFirst({
+        where: { userId: existingUser.id },
+      });
+      token.role = existingUser.role;
+      token.name = existingUser.name;
+      token.email = existingUser.email;
+      token.isOAuth = !!existingAccount;
+
+      return token;
     },
     session: async ({ token, session }): Promise<Session> => {
       if (token.sub !== null && token.sub !== undefined) {
