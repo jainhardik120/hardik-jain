@@ -13,6 +13,7 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/h
 import Link from 'next/link';
 import type { _Object } from '@aws-sdk/client-s3';
 import Image from 'next/image';
+import { env } from '@/env';
 
 const isImage = (url: string) => {
   return /\.(jpg|jpeg|png|gif|webp|bmp|svg)$/i.test(url);
@@ -60,7 +61,7 @@ export const columns: ColumnDef<_Object>[] = [
                       <HoverCard>
                         <HoverCardTrigger asChild>
                           <a
-                            href={`https://storage.hardikja.in/${userId}/${item.href}`}
+                            href={`${env.NEXT_PUBLIC_FILE_STORAGE_HOST}/${userId}/${item.href}`}
                             target="_blank"
                             rel="noreferrer noopener"
                           >
@@ -70,7 +71,7 @@ export const columns: ColumnDef<_Object>[] = [
                         <HoverCardContent className="w-48">
                           {isImage(item.href) ? (
                             <Image
-                              src={`https://storage.hardikja.in/${userId}/${item.href}`}
+                              src={`${env.NEXT_PUBLIC_FILE_STORAGE_HOST}/${userId}/${item.href}`}
                               alt="Preview"
                               className="w-full h-auto"
                               height={180}

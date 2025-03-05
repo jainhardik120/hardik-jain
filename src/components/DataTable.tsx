@@ -61,6 +61,7 @@ interface DataTableProps<TData, TValue> {
   CreateButton: ReactNode;
   name: string;
   filterOn: string;
+  TableFooter?: ReactNode | undefined;
 }
 
 const LOCAL_STORAGE_KEY = 'paginationSize';
@@ -71,6 +72,7 @@ export function DataTable<TData, TValue>({
   CreateButton,
   name,
   filterOn,
+  TableFooter,
 }: DataTableProps<TData, TValue>): JSX.Element {
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
@@ -120,8 +122,8 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="w-full mx-auto">
-      <div className="flex justify-between items-center mb-6">
-        <div className="flex items-center gap-4">
+      <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
+        <div className="grid grid-cols-2 sm:flex justify-between sm:justify-start items-center gap-4 w-full sm:w-auto order-1 sm:order-none">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline">
@@ -149,17 +151,15 @@ export function DataTable<TData, TValue>({
                 })}
             </DropdownMenuContent>
           </DropdownMenu>
-        </div>
-        <div className="flex items-center gap-4">
-          <Input
-            className="px-4 py-2"
-            placeholder={`Search ${name.toLowerCase()}...`}
-            value={(table.getColumn(filterOn)?.getFilterValue() as string) ?? ''}
-            onChange={(event) => table.getColumn(filterOn)?.setFilterValue(event.target.value)}
-            type="text"
-          />
           {CreateButton}
         </div>
+        <Input
+          className="px-4 py-2 sm:w-auto order-0 sm:order-none w-full"
+          placeholder={`Search ${name.toLowerCase()}...`}
+          value={(table.getColumn(filterOn)?.getFilterValue() as string) ?? ''}
+          onChange={(event) => table.getColumn(filterOn)?.setFilterValue(event.target.value)}
+          type="text"
+        />
       </div>
       <div className="rounded-md border w-full">
         <div className="overflow-x-auto w-full">
@@ -222,6 +222,7 @@ export function DataTable<TData, TValue>({
             </SelectContent>
           </Select>
         </div>
+        {TableFooter !== undefined && <div>{TableFooter}</div>}
         <div className="flex items-center space-x-2">
           <div className="flex w-[100px] items-center justify-center text-sm font-medium">
             Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}

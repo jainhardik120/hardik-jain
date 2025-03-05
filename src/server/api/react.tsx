@@ -4,10 +4,14 @@ import { QueryClientProvider, type QueryClient } from '@tanstack/react-query';
 import { createTRPCClient } from '@trpc/client';
 import { createTRPCReact } from '@trpc/react-query';
 import { useState } from 'react';
+import { type inferRouterInputs, type inferRouterOutputs } from '@trpc/server';
 
 import { type AppRouter } from '@/server/api/root';
 import { createQueryClient } from './query-client';
 import { links } from './pages';
+
+export type RouterInputs = inferRouterInputs<AppRouter>;
+export type RouterOutputs = inferRouterOutputs<AppRouter>;
 
 let clientQueryClientSingleton: QueryClient | undefined = undefined;
 const getQueryClient = (): QueryClient => {

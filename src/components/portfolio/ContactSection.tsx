@@ -7,23 +7,13 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import type { FieldError } from 'react-hook-form';
 import { useForm } from 'react-hook-form';
-import type { ZodType } from 'zod';
-import { z } from 'zod';
+import type { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { api } from '@/server/api/react';
 import { ContactMethods } from '@/types/constants';
+import { ContactSchema } from '@/types/schemas';
 
-type ContactForm = {
-  email: string;
-  subject: string;
-  message: string;
-};
-
-const ContactSchema: ZodType<ContactForm> = z.object({
-  email: z.string().email('Enter a valid email address'),
-  subject: z.string().min(1, 'Subject is required'),
-  message: z.string().min(50, 'Message should be minimum 50 characters long'),
-});
+type ContactForm = z.infer<typeof ContactSchema>;
 
 const FormError: React.FC<{ error?: FieldError }> = ({ error }) => {
   if (!error) {

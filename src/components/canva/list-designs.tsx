@@ -1,260 +1,85 @@
 'use client';
 
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
+import type { ColumnDef } from '@tanstack/react-table';
 import React, { useEffect, useState } from 'react';
 import type { Design } from '@/canva-client';
 import { api } from '@/server/api/react';
-import { toast } from 'sonner';
-import { z } from 'zod';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import {
-  Form,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormMessage,
-} from '@/components/ui/form';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import Image from 'next/image';
+import { CreateDesignForm } from './create-design-form';
+import { DesignExportButton } from './export-button';
+import { DataTable } from '../DataTable';
 
-const OnGoingExportButton: React.FC<{ exportId: string }> = ({ exportId }) => {
-  const mutation = api.canva.refreshExportStatus.useMutation();
-
-  return (
-    <Button
-      onClick={async () => {
-        await mutation.mutate(exportId);
-      }}
-    >
-      Refresh Status
-    </Button>
-  );
-};
-
-const OnGoingExportsList: React.FC<{ designId: string }> = ({ designId }) => {
-  const { data, isFetching, refetch } = api.canva.listExports.useQuery(designId);
-
-  return (
-    <div>
-      <ul>
-        {data &&
-          data.jobs.map((item) => {
-            return (
-              <li key={item.exportId}>
-                <OnGoingExportButton exportId={item.exportId} />
-                {item.status}
-              </li>
-            );
-          })}
-        {data &&
-          data.exportedImages.map((item) => {
-            return (
-              <li key={item.id}>
-                <Image src={item.path} alt={item.id} height={64} width={64} />
-              </li>
-            );
-          })}
-      </ul>
-      <Button
-        onClick={() => {
-          void refetch();
-        }}
-        disabled={isFetching}
-      >
-        {isFetching ? 'Loading...' : 'Refresh'}
-      </Button>
-    </div>
-  );
-};
-
-const DesignExportButton: React.FC<{ designId: string }> = ({ designId }) => {
-  const mutation = api.canva.exportDesign.useMutation();
-
-  return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <Button variant="outline">Exports</Button>
-      </PopoverTrigger>
-      <PopoverContent>
-        <div>
-          {/* Display list of previous exports, stored in S3 Bucket as images */}
-          <OnGoingExportsList designId={designId} />
-          <Button
-            onClick={async () => {
-              mutation.mutate({ designId });
-            }}
-          >
-            Create new Export
-          </Button>
-        </div>
-      </PopoverContent>
-    </Popover>
-  );
-};
-
-const DesignTable: React.FC<{ designs: Design[] }> = ({ designs }) => {
-  return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead>Title</TableHead>
-          <TableHead>Updated At</TableHead>
-          <TableHead>Thumbnail</TableHead>
-          <TableHead>Pages</TableHead>
-          <TableHead>Edit</TableHead>
-          <TableHead>Export</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {designs.map((design) => (
-          <TableRow key={design.id}>
-            <TableCell>{design.title ?? 'Untitled'}</TableCell>
-            <TableCell>{new Date(design.updated_at * 1000).toLocaleString()}</TableCell>
-            <TableCell>
-              {design.thumbnail ? (
-                <Image
-                  src={design.thumbnail?.url}
-                  alt={`${design.title ?? 'Untitled'} Thumbnail`}
-                  className="object-cover rounded-md"
-                  width="64"
-                  height="96"
-                />
-              ) : (
-                '-'
-              )}
-            </TableCell>
-            <TableCell>{design.page_count ?? '-'}</TableCell>
-            <TableCell>
-              <a href={design.urls.edit_url} target="_blank" rel="noopener noreferrer">
-                <Button>Edit in Canva</Button>
-              </a>
-            </TableCell>
-            <TableCell>
-              <DesignExportButton designId={design.id} />
-            </TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
-  );
-};
-
-const designSchema = z.object({
-  name: z.string().min(1, 'Name is required').max(50, 'Name is too long'),
-  height: z
-    .string()
-    .regex(/^\d+$/, 'Height must be a positive number')
-    .transform(Number)
-    .refine((val) => val > 0, 'Height must be greater than 0'),
-  width: z
-    .string()
-    .regex(/^\d+$/, 'Width must be a positive number')
-    .transform(Number)
-    .refine((val) => val > 0, 'Width must be greater than 0'),
-});
-
-type DesignFormData = z.infer<typeof designSchema>;
-
-const CreateDesignForm: React.FC<{
-  onUpdateDesigns: (design: Design) => void;
-}> = ({ onUpdateDesigns }) => {
-  const form = useForm<DesignFormData>({
-    resolver: zodResolver(designSchema),
-    defaultValues: {
-      name: '',
-      height: 0,
-      width: 0,
+export const columns: ColumnDef<Design>[] = [
+  {
+    id: 'Title',
+    header: 'Title',
+    accessorKey: 'title',
+    cell: (context) => context.getValue() ?? 'Untitled',
+  },
+  {
+    id: 'UpdatedAt',
+    header: 'Updated At',
+    accessorKey: 'updated_at',
+    cell: (context) => {
+      const timestamp = context.getValue() as number;
+      return new Date(timestamp * 1000).toLocaleString();
     },
-  });
-
-  const { mutate: createDesign } = api.canva.createDesign.useMutation({
-    onSuccess: (response) => {
-      toast.success('Design created successfully');
-      onUpdateDesigns(response.design);
-      form.reset();
+  },
+  {
+    id: 'Thumbnail',
+    header: 'Thumbnail',
+    accessorKey: 'thumbnail',
+    cell: (context) => {
+      const thumbnail = context.getValue() as { url: string } | null;
+      return thumbnail ? (
+        <Image
+          src={thumbnail.url}
+          alt="Design Thumbnail"
+          className="object-cover rounded-md"
+          width="64"
+          height="96"
+        />
+      ) : (
+        '-'
+      );
     },
-    onError: (err) => {
-      toast.error(err.message || 'Something went wrong');
+  },
+  {
+    id: 'PageCount',
+    header: 'Pages',
+    accessorKey: 'page_count',
+    cell: (context) => context.getValue() ?? '-',
+  },
+  {
+    id: 'Edit',
+    header: 'Edit',
+    cell: (context) => {
+      const design = context.row.original;
+      return (
+        <a href={design.urls.edit_url} target="_blank" rel="noopener noreferrer">
+          <Button>Edit in Canva</Button>
+        </a>
+      );
     },
-  });
+  },
+  {
+    id: 'Export',
+    header: 'Export',
+    cell: (context) => {
+      const design = context.row.original;
+      return <DesignExportButton designId={design.id} />;
+    },
+  },
+];
 
-  const onSubmit = (data: DesignFormData) => {
-    createDesign({
-      name: data.name,
-      height: data.height,
-      width: data.width,
-    });
-  };
-
-  return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <Button variant="outline">Create new design</Button>
-      </PopoverTrigger>
-      <PopoverContent>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <div className="grid gap-4">
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Name</FormLabel>
-                    <FormControl>
-                      <Input {...field} placeholder="Enter design name" />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="height"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Height</FormLabel>
-                    <FormControl>
-                      <Input {...field} placeholder="Enter height" type="number" />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="width"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Width</FormLabel>
-                    <FormControl>
-                      <Input {...field} placeholder="Enter width" type="number" />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Button type="submit">Create</Button>
-            </div>
-          </form>
-        </Form>
-      </PopoverContent>
-    </Popover>
-  );
-};
-
-const DesignList = () => {
+const DesignList = ({
+  onDisconnect,
+  disconnectButtonDisabled,
+}: {
+  onDisconnect: () => Promise<void>;
+  disconnectButtonDisabled: boolean;
+}) => {
   const [designs, setDesigns] = useState<Design[]>([]);
   const [continuation, setContinuation] = useState<string | undefined>(undefined);
   const { data, isFetching, refetch } = api.canva.getUserDesigns.useQuery(
@@ -270,28 +95,40 @@ const DesignList = () => {
   }, [data]);
 
   useEffect(() => {
+    setDesigns([]);
+    setContinuation(undefined);
+  }, []);
+
+  useEffect(() => {
     void refetch();
   }, [refetch]);
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex justify-between items-center">
-        <h2>Designs</h2>
+    <DataTable
+      columns={columns}
+      data={designs}
+      name="Designs"
+      filterOn="Title"
+      CreateButton={
         <CreateDesignForm
           onUpdateDesigns={(design) => {
             setDesigns([design, ...designs]);
           }}
         />
-      </div>
-      <DesignTable designs={designs} />
-      {continuation !== undefined && (
+      }
+      TableFooter={
         <div className="flex justify-center">
-          <Button onClick={() => refetch()} disabled={isFetching}>
-            {isFetching ? 'Loading...' : 'Load More'}
+          {continuation !== undefined ? (
+            <Button onClick={() => refetch()} disabled={isFetching}>
+              {isFetching ? 'Loading...' : 'Load More'}
+            </Button>
+          ) : null}
+          <Button onClick={onDisconnect} disabled={disconnectButtonDisabled}>
+            {disconnectButtonDisabled ? 'Loading...' : 'Disconnect'}
           </Button>
         </div>
-      )}
-    </div>
+      }
+    />
   );
 };
 
