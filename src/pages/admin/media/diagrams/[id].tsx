@@ -1,11 +1,11 @@
 import dynamic from 'next/dynamic';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { trpc } from '@/server/api/pages';
 import type { ExcalidrawImportData } from '@/lib/excalidraw';
 import { importExcalidraw } from '@/lib/excalidraw';
 import { SidebarLayout } from '@/components/sidebar/sidebar-layout';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useTextStore } from '@/components/sidebar/useTextStore';
+import { useTextStore } from '@/hooks/useTextStore';
 import Header from '@/components/sidebar/sidebar-header';
 
 const ExcalidrawWrapper = dynamic(
@@ -37,10 +37,6 @@ export default function Page({ id }: { id: string }): JSX.Element {
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
   const setMessage = useTextStore((state) => state.setText);
-  const defaultAvatarRef = useRef(
-    // eslint-disable-next-line max-len
-    `https://api.dicebear.com/9.x/thumbs/svg?seed=${Math.floor(Math.random() * 100000) + 1}&randomizeIds=true`,
-  );
 
   useEffect(() => {
     const fetchData = async (): Promise<void> => {
@@ -71,14 +67,7 @@ export default function Page({ id }: { id: string }): JSX.Element {
   }, [signedUrl.data]);
 
   return (
-    <SidebarLayout
-      defaultOpen={true}
-      user={{
-        name: session?.user?.name ?? '',
-        email: session?.user?.email ?? '',
-        avatar: session?.user?.image ?? defaultAvatarRef.current,
-      }}
-    >
+    <SidebarLayout defaultOpen={true} user={session?.user ?? null}>
       <Header />
       {error !== undefined ? (
         <div>{error}</div>

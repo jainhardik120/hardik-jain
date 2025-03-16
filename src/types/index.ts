@@ -6,6 +6,7 @@ import type { z } from 'zod';
 
 import type { DataTableConfig } from '@/config/data-table';
 import type { filterSchema } from '@/lib/parsers';
+import type { User } from 'next-auth';
 
 export type Prettify<T> = {
   [K in keyof T]: T[K];
@@ -82,12 +83,6 @@ export type Team = {
   plan: string;
 };
 
-export type User = {
-  name: string;
-  email: string;
-  avatar: string;
-};
-
 export interface SkillWithSubSkills extends Skill {
   skills: SubSkill[];
 }
@@ -106,7 +101,7 @@ export interface BlogPostWithAuthor {
 
 export interface AppSidebarProps {
   teams: Team[];
-  user: User;
+  user: User | null;
 }
 
 export interface MainNavItem {

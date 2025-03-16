@@ -5,6 +5,7 @@ import 'highlight.js/styles/atom-one-dark.css';
 import { api } from '@/server/api/server';
 import { getPostSlugs } from '@/actions/blog';
 import AppBreadcrumb from '@/app/admin/AppBreadcrumb';
+import { notFound } from 'next/navigation';
 
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
   const postSlugs = await getPostSlugs();
@@ -34,7 +35,7 @@ export default async function Page({
     slug: (await params).slug,
   });
   if (!postData) {
-    return <div>Not Found</div>;
+    notFound();
   }
 
   return (

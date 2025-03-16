@@ -9,7 +9,7 @@ import { api } from '@/server/api/react';
 import { useDebouncedCallback } from 'use-debounce';
 import type { Post } from '@prisma/client';
 import type { JSONContent } from 'novel';
-import { useTextStore } from '@/components/sidebar/useTextStore';
+import { useTextStore } from '@/hooks/useTextStore';
 const Editor = dynamic(() => import('@/components/editor/advanced-editor'), { ssr: false });
 
 export function PostEditor({ initData }: { initData: Post }): JSX.Element {
