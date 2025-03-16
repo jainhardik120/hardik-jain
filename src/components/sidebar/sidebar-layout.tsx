@@ -1,7 +1,7 @@
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import { AppSidebar } from '@/components/sidebar/sidebar';
-import type { User } from '@/types';
 import { AppSidebarData } from '@/types/constants';
+import type { User } from 'next-auth';
 
 export function SidebarLayout({
   children,
@@ -9,7 +9,7 @@ export function SidebarLayout({
   defaultOpen,
 }: Readonly<{
   children: React.ReactNode;
-  user: User;
+  user: User | null;
   defaultOpen: boolean;
 }>): JSX.Element {
   return (

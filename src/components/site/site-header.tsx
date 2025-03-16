@@ -1,13 +1,13 @@
-import { ModeToggle } from '@/components/sidebar/theme-toggle';
+import { ModeToggle } from '@/components/site/theme-toggle';
 import React from 'react';
 import { MobileNav } from './site-nav-mobile';
 import { MainNav } from './site-main-nav';
 import { CommandMenu } from '../command-menu';
 import UserButton from './user-button';
-import type { Session } from 'next-auth';
 import { MainNavData } from '@/types/constants';
+import type { User } from 'next-auth';
 
-const Header = ({ session }: { session: Session | null }) => {
+const Header = ({ loading, user }: { loading: boolean; user: User | null }) => {
   return (
     <>
       <header className="fixed top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:border-border">
@@ -18,7 +18,7 @@ const Header = ({ session }: { session: Session | null }) => {
             <div className="w-full flex-1 md:w-auto md:flex-none">
               <CommandMenu />
             </div>
-            <UserButton session={session} />
+            <UserButton loading={loading} user={user} />
             <ModeToggle />
           </div>
         </div>

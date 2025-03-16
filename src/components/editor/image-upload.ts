@@ -2,7 +2,7 @@ import { env } from '@/env';
 import { client } from '@/server/api/react';
 import { createImageUpload } from 'novel/plugins';
 import { toast } from 'sonner';
-import { useTextStore } from '../sidebar/useTextStore';
+import { useTextStore } from '../../hooks/useTextStore';
 
 const stripQueryParameters = (url: string): string => {
   return url.split('?')[0] ?? url;

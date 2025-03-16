@@ -1,4 +1,4 @@
-import Footer from '@/components/sidebar/site-footer';
+import Footer from '@/components/site/site-footer';
 
 export default function PublicLayout({
   children,

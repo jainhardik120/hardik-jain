@@ -4,7 +4,7 @@ import { SidebarTrigger } from '@/components/ui/sidebar';
 import { Separator } from '@/components/ui/separator';
 import React from 'react';
 import AppBreadcrumb from '@/app/admin/AppBreadcrumb';
-import { useTextStore } from './useTextStore';
+import { useTextStore } from '@/hooks/useTextStore';
 
 export default function Header(): JSX.Element {
   const text = useTextStore((state) => state.text);
