@@ -81,9 +81,7 @@ export default function ProjectPage({ data }: { data: Project }): JSX.Element {
 
   return (
     <div className="container mx-auto px-4 mt-1 gap-2">
-      <h2 className="text-3xl">
-        {data?.id === 'new' ? 'Create New Project' : 'Edit Project Details'}
-      </h2>
+      <h2>{data?.id === 'new' ? 'Create New Project' : 'Edit Project Details'}</h2>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="grid gap-4">

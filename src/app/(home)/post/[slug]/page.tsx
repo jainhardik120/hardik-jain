@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import '@/styles/postcontent.css';
 
 import 'highlight.js/styles/atom-one-dark.css';
 import { api } from '@/server/api/server';
@@ -42,8 +41,8 @@ export default async function Page({
     <main className="w-full lg:max-w-5xl p-4 mx-auto gap-y-4 flex flex-col">
       <AppBreadcrumb pathname={`/blog/${(await params).slug}`} />
 
-      <h1 className="text-3xl font-semibold">{postData.title}</h1>
-      <h2 className="text-xl">{postData.description}</h2>
+      <h1>{postData.title}</h1>
+      <h3>{postData.description}</h3>
       <div className="flex flex-col sm:flex-row justify-between">
         <span>
           By <span className="font-bold">{postData.authorName}</span>
