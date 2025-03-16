@@ -6,6 +6,7 @@ import PageSwitch from './PageSwitch';
 import type { Metadata } from 'next';
 import { getPageCount } from '@/actions/blog';
 import AppBreadcrumb from '@/app/admin/AppBreadcrumb';
+import { notFound } from 'next/navigation';
 
 export const metadata: Metadata = {
   // eslint-disable-next-line quotes
@@ -31,17 +32,20 @@ export default async function Page({
   const posts = await api.post.getAllPosts({
     offset: (parseInt((await params).page) - 1) * 10,
   });
+  if (posts.length === 0) {
+    notFound();
+  }
 
   return (
     <>
       <main className="w-full lg:max-w-5xl p-4 mx-auto gap-y-4 flex flex-col">
         <AppBreadcrumb pathname="/blog" />
-        <h1 className="text-3xl font-semibold">Latest Articles</h1>
+        <h1>Latest Articles</h1>
         <section className="space-y-10">
           {posts.map((post, index) => (
             <article key={index} className="border-b pb-8 last:border-b-0">
               <Link href={`/post/${post.slug}`} prefetch={false} className="group">
-                <h2 className="text-2xl font-medium mb-3">{post.title}</h2>
+                <h2 className="mb-3">{post.title}</h2>
 
                 <div className="flex items-center text-sm mb-4">
                   <div className="flex items-center mr-4">
@@ -65,12 +69,6 @@ export default async function Page({
             </article>
           ))}
         </section>
-
-        {posts?.length === 0 && (
-          <div className="text-center py-20">
-            <p className="text-xl text-gray-600">No posts found.</p>
-          </div>
-        )}
       </main>
       <div className="py-4">
         <PageSwitch pageCount={pageCount} />

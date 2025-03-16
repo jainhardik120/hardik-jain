@@ -46,7 +46,7 @@ export const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
       >
         {memoizedImage1}
         <div className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-70 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <h5 className="text-4xl font-semibold text-white mb-4">{name}</h5>
+          <h3 className="text-white mb-4">{name}</h3>
         </div>
       </div>
       <Dialog open={dialogOpened} onOpenChange={setDialogOpened}>
@@ -55,7 +55,7 @@ export const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
           <div className="grid gap-4 items-start">
             <div className="flex flex-col gap-4">
               <div>
-                <h2 className="text-2xl font-bold">{project.name}</h2>
+                <h2>{project.name}</h2>
                 <p className="text-gray-500 dark:text-gray-400">{project.shortDescription}</p>
               </div>
               <div className="flex flex-wrap gap-2">

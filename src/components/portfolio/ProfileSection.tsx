@@ -36,10 +36,7 @@ const ResumeUrl = `${env.NEXT_PUBLIC_FILE_STORAGE_HOST}/Resume.pdf`;
 
 const ProfileSection: React.FC = () => {
   return (
-    <section
-      id="profile"
-      className="h-screen sm:px-12 container mx-auto flex flex-col items-center min-h-screen"
-    >
+    <section id="profile" className="profile-section sm:px-12">
       <div className="absolute inset-0 dark:bg-grid-white/[0.06] bg-grid-black/[0.04] [mask-image:linear-gradient(to_bottom,white_5%,transparent_40%)] pointer-events-none select-none"></div>
       <div className="my-auto flex flex-col gap-8 z-10">
         <div className="grid grid-cols-1 md:grid-cols-12">

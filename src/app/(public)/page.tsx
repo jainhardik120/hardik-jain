@@ -5,7 +5,6 @@ import ContactSection from '@/components/portfolio/ContactSection';
 import ProfileSection from '@/components/portfolio/ProfileSection';
 import ProjectsSection from '@/components/portfolio/ProjectsSection';
 import SkillsSection from '@/components/portfolio/Skills';
-import '@/styles/portfolio.css';
 
 export default async function Home() {
   const { categories, projectsByCategory } = await getProjectsGroupedByCategory();

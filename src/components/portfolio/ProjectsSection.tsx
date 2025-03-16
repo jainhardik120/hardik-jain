@@ -29,8 +29,8 @@ const ProjectsSection: React.FC<UIProps> = ({
   }, []);
 
   return (
-    <section id="projects" className=" mx-auto container px-12 py-20 flex flex-col items-center ">
-      <h2 className="text-center text-4xl font-bold mb-12">My Projects</h2>
+    <section id="projects" className="mx-auto container px-12 py-20 flex flex-col items-center ">
+      <h2 className="text-center mb-12">My Projects</h2>
       <div className={cn('grid  md:grid-cols-3 justify-center items-center gap-4 mb-12')}>
         {categories.map((tcategory) => (
           <ProjectTag
