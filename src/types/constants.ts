@@ -161,6 +161,11 @@ export const AppSidebarData: {
       url: '/admin/users' as Route,
       icon: Users,
     },
+    {
+      title: 'Snippets',
+      url: '/admin/snippets' as Route,
+      icon: FileText,
+    },
   ],
   projects: [
     {
