@@ -10,18 +10,15 @@ export function MainNav({ links }: { links: MainNavItem[] }) {
       <nav className="flex gap-4 items-center xl:gap-6">
         {links
           .filter((item) => item.href !== '/')
-          .map(
-            (item) =>
-              item.href && (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="transition-colors hover:text-foreground/80 text-foreground/80"
-                >
-                  {item.title}
-                </Link>
-              ),
-          )}
+          .map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="transition-colors hover:text-foreground/80 text-foreground/80"
+            >
+              {item.title}
+            </Link>
+          ))}
       </nav>
     </div>
   );

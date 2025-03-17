@@ -38,14 +38,11 @@ export function MobileNav({ links }: { links: MainNavItem[] }) {
       <DrawerContent className="max-h-[60svh] p-0">
         <div className="overflow-auto p-6">
           <div className="flex flex-col space-y-3">
-            {links.map(
-              (item) =>
-                item.href && (
-                  <MobileLink key={item.href} href={item.href} onOpenChange={setOpen}>
-                    {item.title}
-                  </MobileLink>
-                ),
-            )}
+            {links.map((item) => (
+              <MobileLink key={item.href} href={item.href} onOpenChange={setOpen}>
+                {item.title}
+              </MobileLink>
+            ))}
           </div>
         </div>
       </DrawerContent>
