@@ -28,6 +28,7 @@ model User {
   updatedAt         DateTime            @updatedAt
   posts             Post[]
   RefreshToken      RefreshToken[]
+  Snippet           Snippet[]
 }
 
 model RefreshToken {
@@ -191,4 +192,17 @@ model Post {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   description String   @default("")
+}
+
+model Snippet {
+  id          String   @id @default(cuid())
+  title       String
+  description String   @default("")
+  code        String
+  language    String
+  tags        String[]
+  authorId    String
+  author      User     @relation(fields: [authorId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }

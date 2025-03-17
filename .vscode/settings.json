@@ -3,6 +3,7 @@
     "*.css": "tailwindcss"
   },
   "conventionalCommits.scopes": [
-    "Dev Tools"
+    "Dev Tools",
+    "Snippets"
   ]
 }
