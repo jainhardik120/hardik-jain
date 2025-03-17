@@ -148,7 +148,7 @@ export const AppSidebarData: {
     },
     {
       title: 'Posts',
-      url: '/admin/posts' as Route,
+      url: '/admin/post' as Route,
       icon: FileText,
     },
     {

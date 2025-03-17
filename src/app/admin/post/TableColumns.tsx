@@ -27,7 +27,6 @@ export const columns: ColumnDef<{
   },
   {
     id: 'edit',
-    header: 'Edit',
     cell: (context) => {
       const postId = context.row.original.id;
 
@@ -40,7 +39,6 @@ export const columns: ColumnDef<{
   },
   {
     id: 'delete',
-    header: 'Delete',
     cell: (context) => {
       const postId = context.row.original.id;
       const mutation = api.post.deletePost.useMutation();
