@@ -1,5 +1,8 @@
 {
   "files.associations": {
     "*.css": "tailwindcss"
-  }
+  },
+  "conventionalCommits.scopes": [
+    "Dev Tools"
+  ]
 }
