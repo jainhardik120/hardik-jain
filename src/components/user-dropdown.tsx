@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import type { User } from 'next-auth';
 import RandomAvatarImage from '@/lib/avatar-image';
+import Link from 'next/link';
 // import { serverSignOut } from './auth-actions';
 
 export default function UserDropDown({ user }: { user: User | null }) {
@@ -30,9 +31,11 @@ export default function UserDropDown({ user }: { user: User | null }) {
       </DropdownMenuLabel>
       <DropdownMenuSeparator />
       <DropdownMenuGroup>
-        <DropdownMenuItem>
-          <BadgeCheck />
-          Account
+        <DropdownMenuItem asChild>
+          <Link href="/admin/account">
+            <BadgeCheck />
+            Account
+          </Link>
         </DropdownMenuItem>
       </DropdownMenuGroup>
       <DropdownMenuSeparator />
