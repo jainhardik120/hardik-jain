@@ -19,10 +19,10 @@ const AppBreadcrumb = ({ pathname }: { pathname?: string | null }): JSX.Element 
     pathname = path;
   }
   const getBreadcrumbItems = (): { label: string; href: Route }[] => {
-    const items = [];
+    const items: { label: string; href: Route }[] = [];
     let path = '';
 
-    items.push({ label: 'Home', href: '/' as Route });
+    items.push({ label: 'Home', href: '/' });
     const segments = pathname?.split('/').filter(Boolean);
     segments?.forEach((segment) => {
       path += `/${segment}`;
