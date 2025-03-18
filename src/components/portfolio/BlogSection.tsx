@@ -1,5 +1,4 @@
 import type { BlogPostWithAuthor } from '@/types';
-import type { Route } from 'next';
 import Link from 'next/link';
 
 export default function BlogSection({ blogs }: { blogs: BlogPostWithAuthor[] }) {
@@ -9,7 +8,7 @@ export default function BlogSection({ blogs }: { blogs: BlogPostWithAuthor[] }) 
         <h2 className="text-center">Blog</h2>
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 max-w-4xl">
           {blogs.map((blog) => (
-            <Link key={blog.id} href={`/post/${blog.slug}` as Route}>
+            <Link key={blog.id} href={`/post/${blog.slug}`}>
               <div className="flex flex-col h-full justify-between overflow-x-hidden">
                 <div>
                   <h3 className="tracking-tight">{blog.title}</h3>

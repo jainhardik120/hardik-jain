@@ -30,6 +30,8 @@ PaginationItem.displayName = 'PaginationItem';
 
 type PaginationLinkProps = {
   isActive?: boolean;
+  className?: string;
+  children?: React.ReactNode;
 } & Pick<ButtonProps, 'size'> &
   LinkProps<any>;
 

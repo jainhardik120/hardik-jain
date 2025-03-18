@@ -90,7 +90,11 @@ export const MainNavData: MainNavItem[] = [
   },
   {
     title: 'Blog',
-    href: '/blog/1' as Route,
+    href: '/blog',
+  },
+  {
+    title: 'Snippets',
+    href: '/snippets',
   },
 ];
 
@@ -120,11 +124,11 @@ export const AppSidebarData: {
       items: [
         {
           title: 'Canva Designs',
-          url: '/admin/media/images' as Route,
+          url: '/admin/media/images',
         },
         {
           title: 'Diagrams',
-          url: '/admin/media/diagrams' as Route,
+          url: '/admin/media/diagrams',
         },
         {
           title: 'Uploaded Media',
@@ -138,32 +142,32 @@ export const AppSidebarData: {
       items: [
         {
           title: 'Projects',
-          url: '/admin/project' as Route,
+          url: '/admin/project',
         },
         {
           title: 'Skills',
-          url: '/admin/skill' as Route,
+          url: '/admin/skill',
         },
       ],
     },
     {
       title: 'Posts',
-      url: '/admin/post' as Route,
+      url: '/admin/post',
       icon: FileText,
     },
     {
       title: 'Messages',
-      url: '/admin/messages' as Route,
+      url: '/admin/messages',
       icon: Mail,
     },
     {
       title: 'Users',
-      url: '/admin/users' as Route,
+      url: '/admin/users',
       icon: Users,
     },
     {
       title: 'Snippets',
-      url: '/admin/snippets' as Route,
+      url: '/admin/snippets',
       icon: FileText,
     },
   ],
