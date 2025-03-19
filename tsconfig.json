@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "ES2017",
     "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
+    "allowJs": false,
     "skipLibCheck": true,
     "strict": true,
     "exactOptionalPropertyTypes": true,
@@ -24,6 +24,17 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noErrorTruncation": true,
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "checkJs": false,
+    "downlevelIteration": false,
+    "useDefineForClassFields": true,
     "plugins": [
       {
         "name": "next"

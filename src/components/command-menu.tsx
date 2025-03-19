@@ -1,10 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-vars, no-unused-vars */
 'use client';
 
 import * as React from 'react';
-import { useRouter } from '@/components/top-loader-router';
 import { type DialogProps } from '@radix-ui/react-dialog';
-import { Circle, File, Laptop, Moon, Sun } from 'lucide-react';
+import { Laptop, Moon, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
 
 import { cn } from '@/lib/utils';
@@ -20,7 +18,6 @@ import {
 } from '@/components/ui/command';
 
 export function CommandMenu({ ...props }: DialogProps) {
-  const router = useRouter();
   const [open, setOpen] = React.useState(false);
   const { setTheme } = useTheme();
 
@@ -70,40 +67,6 @@ export function CommandMenu({ ...props }: DialogProps) {
         <CommandInput placeholder="Type a command or search..." />
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
-          <CommandGroup heading="Links">
-            {/* {docsConfig.mainNav
-              .filter((navitem) => !navitem.external)
-              .map((navItem) => (
-                <CommandItem
-                  key={navItem.href}
-                  value={navItem.title}
-                  onSelect={() => {
-                    runCommand(() => router.push(navItem.href as string))
-                  }}
-                >
-                  <File />
-                  {navItem.title}
-                </CommandItem>
-              ))} */}
-          </CommandGroup>
-          {/* {docsConfig.sidebarNav.map((group) => (
-            <CommandGroup key={group.title} heading={group.title}>
-              {group.items.map((navItem) => (
-                <CommandItem
-                  key={navItem.href}
-                  value={navItem.title}
-                  onSelect={() => {
-                    runCommand(() => router.push(navItem.href as string))
-                  }}
-                >
-                  <div className='mr-2 flex h-4 w-4 items-center justify-center'>
-                    <Circle className='h-3 w-3' />
-                  </div>
-                  {navItem.title}
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          ))} */}
           <CommandSeparator />
           <CommandGroup heading="Theme">
             <CommandItem onSelect={() => runCommand(() => setTheme('light'))}>

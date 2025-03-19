@@ -17,18 +17,16 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { onUpload } from '@/components/editor/image-upload';
 import { toast } from 'sonner';
 import { api } from '@/server/api/react';
 import { projectSchema } from '@/types/schemas';
-import Image from 'next/image';
 import type { Project } from '@prisma/client';
+import ImageUpload from './ImageUpload';
 
 type ProjectFormValues = z.infer<typeof projectSchema>;
 
 export default function ProjectPage({ data }: { data: Project }): JSX.Element {
   const router = useRouter();
-  const [image, setImage] = useState<File | undefined>();
   const [techStack, setTechStack] = useState(data?.techStack?.join(', '));
 
   const form = useForm<ProjectFormValues>({
@@ -81,7 +79,6 @@ export default function ProjectPage({ data }: { data: Project }): JSX.Element {
 
   return (
     <div className="container mx-auto px-4 mt-1 gap-2">
-      <h2>{data?.id === 'new' ? 'Create New Project' : 'Edit Project Details'}</h2>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="grid gap-4">
@@ -164,49 +161,7 @@ export default function ProjectPage({ data }: { data: Project }): JSX.Element {
                   <FormItem>
                     <FormLabel>Image</FormLabel>
                     <FormControl>
-                      <div>
-                        {field.value && (
-                          <Image
-                            src={field.value}
-                            alt="Uploaded"
-                            style={{ maxWidth: '100%' }}
-                            width={320}
-                            height={180}
-                          />
-                        )}
-                        <div className="flex items-center gap-2">
-                          <Input
-                            type="file"
-                            onChange={(e) => {
-                              if (e.target.files && e.target.files[0]) {
-                                setImage(e.target.files[0]);
-                              }
-                            }}
-                          />
-                          <Button
-                            variant="outline"
-                            type="button"
-                            onClick={async () => {
-                              if (image !== undefined) {
-                                try {
-                                  const url = await onUpload(image);
-                                  field.onChange(url);
-                                } catch (error) {
-                                  if (error instanceof Error) {
-                                    toast.error(error.message);
-                                  } else {
-                                    toast.error(
-                                      'An unknown error occurred while uploading the image',
-                                    );
-                                  }
-                                }
-                              }
-                            }}
-                          >
-                            Upload
-                          </Button>
-                        </div>
-                      </div>
+                      <ImageUpload imageUrl={field.value} setImageUrl={field.onChange} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

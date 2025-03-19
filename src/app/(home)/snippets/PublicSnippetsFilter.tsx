@@ -65,10 +65,10 @@ export const PublicSnippetsFilter = ({ initialSnippets }: { initialSnippets: Sni
   };
 
   return (
-    <div className="bg-card border rounded-lg p-4 mb-8">
+    <div className="bg-card border rounded-lg p-4">
       <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <div className="md:col-span-2 relative">
+        <div className="grid grid-cols-1 gap-4">
+          <div className="relative">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               value={query}
@@ -109,7 +109,7 @@ export const PublicSnippetsFilter = ({ initialSnippets }: { initialSnippets: Sni
           </div>
         </div>
 
-        <div className="flex justify-between items-center">
+        <div className="flex flex-col justify-between items-center gap-4">
           <div className="flex flex-wrap gap-2">
             {(query || language || tag) && (
               <div className="flex flex-wrap gap-2">
