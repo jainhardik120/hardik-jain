@@ -76,6 +76,7 @@ const refreshJob = async (
           exportId: job.exportId,
         },
       });
+      break;
     case 'success':
       const updatedJob = await db.canvaExportJob.update({
         where: {
