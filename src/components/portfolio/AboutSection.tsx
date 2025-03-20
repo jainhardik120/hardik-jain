@@ -30,22 +30,18 @@ const AboutSection: React.FC = () => {
     <section id="about" className="profile-section px-12">
       <div className="flex flex-col my-auto gap-12 mx-auto">
         <h2 className="text-center">About Me</h2>
-        <ol className="relative border-s border-gray-200 dark:border-gray-700">
+        <ol className="relative border-s border-border">
           {experiences.map((experience, index) => (
             <li key={index} className={`ms-6 ${index !== experiences.length - 1 ? 'mb-10' : ''}`}>
               <span className="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
                 <CalendarDays className="w-4 h-4 text-blue-800 dark:text-blue-300" />
               </span>
-              <p className="flex items-center mb-1 text-lg font-bold text-gray-900 dark:text-white">
-                {experience.company}
-              </p>
-              <p className="flex items-center mb-1 text-md font-semibold text-gray-900 dark:text-white">
-                {experience.title}
-              </p>
-              <time className="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">
+              <p className="flex items-center mb-1 text-lg font-bold">{experience.company}</p>
+              <p className="flex items-center mb-1 text-md font-semibold ">{experience.title}</p>
+              <time className="block mb-2 text-sm font-normal leading-none text-muted-foreground">
                 {experience.period}
               </time>
-              <p className="text-base font-normal text-gray-500 dark:text-gray-400">
+              <p className="text-base font-normal text-secondary-foreground">
                 {experience.description}
               </p>
             </li>

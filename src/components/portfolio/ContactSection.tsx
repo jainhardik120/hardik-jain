@@ -57,7 +57,7 @@ const ContactSection: React.FC = () => {
           <div className="mx-auto max-w-3xl space-y-6 text-center">
             <div className="space-y-3 text-center mb-3">
               <h2>Get in Touch</h2>
-              <p className="sm:text-lg mx-auto text-gray-500 dark:text-gray-400">
+              <p className="sm:text-lg mx-auto text-secondary-foreground">
                 Have a question or want to work together? Fill out the form or reach out on your
                 preferred platform.
               </p>
@@ -71,10 +71,10 @@ const ContactSection: React.FC = () => {
                     key={index}
                     href={contact.href}
                     target="_blank"
-                    className="group flex flex-col items-center justify-center space-y-2 rounded-lg bg-gray-100 p-4 transition-colors hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700"
+                    className="group flex flex-col items-center justify-center space-y-2 rounded-lg p-4 bg-secondary"
                   >
-                    <contact.icon className="h-8 w-8 text-gray-900 group-hover:text-gray-700 dark:text-gray-50 dark:group-hover:text-gray-400" />
-                    <span className="text-sm font-medium text-gray-900 group-hover:text-gray-700 dark:text-gray-50 dark:group-hover:text-gray-400">
+                    <contact.icon className="h-8 w-8 text-secondary-foreground" />
+                    <span className="text-sm font-medium text-secondary-foreground">
                       {contact.label}
                     </span>
                   </a>

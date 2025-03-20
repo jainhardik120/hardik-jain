@@ -21,7 +21,7 @@ const ImageUpload = ({
     <div>
       {imageUrl !== null && imageUrl !== undefined && imageUrl?.length > 0 ? (
         <>
-          <div className="relative mb-4 rounded-md overflow-hidden border border-gray-200">
+          <div className="relative mb-4 rounded-md overflow-hidden border border-border">
             <Image
               src={imageUrl}
               alt="Uploaded"
@@ -31,14 +31,14 @@ const ImageUpload = ({
             />
           </div>
           <div className="mb-4">
-            <Input value={imageUrl} readOnly className="font-mono text-sm bg-gray-50" />
+            <Input value={imageUrl} readOnly className="font-mono text-sm bg-muted" />
           </div>
         </>
       ) : (
-        <div className="flex items-center justify-center h-40 mb-4 border-2 border-dashed rounded-md border-gray-200">
+        <div className="flex items-center justify-center h-40 mb-4 border-2 border-dashed rounded-md border-border">
           <div className="text-center">
-            <ImageIcon className="mx-auto h-12 w-12 text-gray-400" />
-            <div className="mt-2 text-sm text-gray-500">No image selected</div>
+            <ImageIcon className="mx-auto h-12 w-12 text-muted-foreground" />
+            <div className="mt-2 text-sm text-muted-foreground">No image selected</div>
           </div>
         </div>
       )}
@@ -110,7 +110,7 @@ const ImageUpload = ({
         )}
       </div>
 
-      {image && <p className="mt-2 text-sm text-gray-500">Selected: {image.name}</p>}
+      {image && <p className="mt-2 text-sm text-muted-foreground">Selected: {image.name}</p>}
     </div>
   );
 };

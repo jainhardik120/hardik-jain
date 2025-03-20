@@ -31,7 +31,7 @@ export const PreviousImages = ({ setImageUrl }: { setImageUrl: (url: string) => 
       <div className="p-4 border-b flex items-center justify-between">
         <div>
           <h4 className="font-medium">Previously Uploaded Images</h4>
-          <p className="text-sm text-gray-500">Select from your existing images</p>
+          <p className="text-sm text-muted-foreground">Select from your existing images</p>
         </div>
         <Button
           variant="ghost"
@@ -49,8 +49,8 @@ export const PreviousImages = ({ setImageUrl }: { setImageUrl: (url: string) => 
         {(images.isLoading || images.isFetching) && (
           <div className="flex justify-center items-center h-[30vh]">
             <div className="text-center">
-              <RefreshCw className="mx-auto h-6 w-6 text-gray-400 animate-spin" />
-              <div className="mt-2 text-sm text-gray-500">Loading images...</div>
+              <RefreshCw className="mx-auto h-6 w-6 text-muted-foreground animate-spin" />
+              <div className="mt-2 text-sm text-muted-foreground">Loading images...</div>
             </div>
           </div>
         )}
@@ -58,8 +58,8 @@ export const PreviousImages = ({ setImageUrl }: { setImageUrl: (url: string) => 
         {!images.isLoading && !images.isFetching && previousImages.length === 0 && (
           <div className="flex justify-center items-center h-[30vh]">
             <div className="text-center">
-              <ImageIcon className="mx-auto h-6 w-6 text-gray-400" />
-              <div className="mt-2 text-sm text-gray-500">No images found</div>
+              <ImageIcon className="mx-auto h-6 w-6 text-muted-foreground" />
+              <div className="mt-2 text-sm text-muted-foreground">No images found</div>
             </div>
           </div>
         )}
