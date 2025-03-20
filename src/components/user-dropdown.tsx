@@ -1,7 +1,6 @@
 'use client';
 
-import { BadgeCheck } from 'lucide-react';
-// import { BadgeCheck, LogOut } from 'lucide-react';
+import { BadgeCheck, LogOut } from 'lucide-react';
 
 import { Avatar } from '@/components/ui/avatar';
 import {
@@ -13,7 +12,7 @@ import {
 import type { User } from 'next-auth';
 import RandomAvatarImage from '@/lib/avatar-image';
 import Link from 'next/link';
-// import { serverSignOut } from './auth-actions';
+import { signOut } from 'next-auth/react';
 
 export default function UserDropDown({ user }: { user: User | null }) {
   return (
@@ -39,14 +38,14 @@ export default function UserDropDown({ user }: { user: User | null }) {
         </DropdownMenuItem>
       </DropdownMenuGroup>
       <DropdownMenuSeparator />
-      {/* <DropdownMenuItem
+      <DropdownMenuItem
         onClick={async () => {
-          await serverSignOut();
+          await signOut();
         }}
       >
         <LogOut />
         Log out
-      </DropdownMenuItem> */}
+      </DropdownMenuItem>
     </>
   );
 }

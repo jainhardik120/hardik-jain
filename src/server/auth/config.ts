@@ -8,14 +8,11 @@ import bcrypt from 'bcryptjs';
 import type { Session } from 'next-auth';
 import { CredentialsSignin, type NextAuthConfig } from 'next-auth';
 import type { JWT } from 'next-auth/jwt';
+import GithubProvider from 'next-auth/providers/github';
+import GoogleProvider from 'next-auth/providers/google';
+import { env } from '@/env';
+import { ErrorCode } from './ErrorCode';
 // import { ACCESS_TOKEN_AGE, obtainRefreshTokenForUser, refreshAccessToken } from './token';
-
-export enum ErrorCode {
-  INVALID_CREDENTIALS = 'invalid_credentials',
-  USER_NOT_FOUND = 'user_not_found',
-  EMAIL_NOT_VERIFIED = 'email_not_verified',
-  INVALID_REQUEST = 'invalid_request',
-}
 
 class CustomError extends CredentialsSignin {
   public override code: ErrorCode;
@@ -42,6 +39,16 @@ export const authOptions = {
         );
       },
     },
+    GithubProvider({
+      clientId: env.GITHUB_CLIENT_ID,
+      clientSecret: env.GITHUB_CLIENT_SECRET,
+      allowDangerousEmailAccountLinking: true,
+    }),
+    GoogleProvider({
+      clientId: env.GOOGLE_OAUTH_CLIENT_ID,
+      clientSecret: env.GOOGLE_OAUTH_CLIENT_SECRET,
+      allowDangerousEmailAccountLinking: true,
+    }),
     Credentials({
       name: 'Credentials',
       credentials: {

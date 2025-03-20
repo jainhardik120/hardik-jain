@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { serverSignIn } from './auth-actions';
+import { signIn } from 'next-auth/react';
 
 export function SignIn({
   provider,
@@ -10,7 +10,7 @@ export function SignIn({
   return (
     <form
       action={async () => {
-        await serverSignIn(provider);
+        await signIn(provider);
       }}
     >
       <Button {...props}>Sign In</Button>

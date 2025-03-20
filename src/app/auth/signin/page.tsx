@@ -21,7 +21,7 @@ import Link from 'next/link';
 import { CardWrapper } from '@/components/auth/card-wrapper';
 import { useSearchParams } from 'next/navigation';
 import { signIn } from 'next-auth/react';
-import { ErrorCode } from '@/server/auth/config';
+import { ErrorCode } from '@/server/auth/ErrorCode';
 
 export default function LoginPage(): JSX.Element {
   return (
