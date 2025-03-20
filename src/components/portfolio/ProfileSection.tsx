@@ -14,6 +14,7 @@ import React from 'react';
 import { LinkIcon } from 'lucide-react';
 import { env } from '@/env';
 import { Socials } from '@/types/constants';
+import { Button } from '../ui/button';
 
 const HeroImage = React.memo(() => {
   return (
@@ -36,7 +37,7 @@ const ResumeUrl = `${env.NEXT_PUBLIC_FILE_STORAGE_HOST}/Resume.pdf`;
 
 const ProfileSection: React.FC = () => {
   return (
-    <section id="profile" className="profile-section sm:px-12">
+    <section id="profile" className="profile-section sm:px-12 items-center">
       <div className="absolute inset-0 dark:bg-grid-white/[0.06] bg-grid-black/[0.04] [mask-image:linear-gradient(to_bottom,white_5%,transparent_40%)] pointer-events-none select-none"></div>
       <div className="my-auto flex flex-col gap-8 z-10">
         <div className="grid grid-cols-1 md:grid-cols-12">
@@ -67,30 +68,30 @@ const ProfileSection: React.FC = () => {
                 </span>
               </h1>
             </div>
-            <div className="md:hidden rounded-full w-[250px] h-[250px] xl:w-[400px] xl:h-[400px] my-10">
+            <div className="md:hidden rounded-full w-full h-full max-w-[250px] max-h-[250px] my-10">
               <HeroImage />
             </div>
             <div className="flex flex-col xl:flex-row gap-4 w-full items-center md:items-start">
-              <a
-                className="bg-primary text-primary-foreground shadow hover:bg-primary/90 whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-12 rounded-full w-[240px] flex justify-center items-center px-4 gap-2"
-                href={ResumeUrl}
-                target="_blank"
-              >
-                Open Resume
-                <LinkIcon />
+              <a href={ResumeUrl} target="_blank">
+                <Button className="h-12 rounded-full w-[240px] flex justify-center items-center px-4 gap-2">
+                  Open Resume
+                  <LinkIcon />
+                </Button>
               </a>
               <div className="flex flex-row gap-4">
                 {Socials.map((value) => {
                   return (
-                    <a
-                      href={value.href}
-                      key={value.alt}
-                      aria-label={value.alt}
-                      target="_blank"
-                      className="w-12 h-12 border-2 border-border rounded-full flex justify-center items-center"
+                    <Button
+                      key={value.href}
+                      asChild
+                      className="w-12 h-12 rounded-full"
+                      variant="outline"
+                      size="icon"
                     >
-                      <value.icon />
-                    </a>
+                      <a href={value.href} aria-label={value.alt} target="_blank">
+                        <value.icon />
+                      </a>
+                    </Button>
                   );
                 })}
               </div>

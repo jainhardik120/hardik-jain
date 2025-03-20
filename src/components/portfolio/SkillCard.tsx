@@ -16,10 +16,8 @@ const SkillCard: React.FC<{ skill: SkillWithSubSkills }> = ({ skill }) => {
             <div key={index} className="flex items-center my-2">
               <BadgeCheck className="w-6 h-6 mr-4" />
               <div>
-                <p>{subskill.name}</p>
-                <span className="text-tsecondary-light dark:text-tsecondary-dark">
-                  {subskill.level}
-                </span>
+                <p className="text-secondary-foreground">{subskill.name}</p>
+                <span className="text-muted-foreground">{subskill.level}</span>
               </div>
             </div>
           );

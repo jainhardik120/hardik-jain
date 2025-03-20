@@ -4,8 +4,8 @@ export const ProjectTag: React.FC<{
   isSelected: boolean;
 }> = ({ name, onClick, isSelected, ...props }) => {
   const buttonStyles = isSelected
-    ? 'border-primary-500 dark:border-primary-300'
-    : 'border-slate-600 hover:border-black dark:text-[#6B7280] dark:border-gray-500 dark:hover:border-gray-300';
+    ? 'border-primary'
+    : 'border-border text-muted-foreground hover:border-secondary-foreground';
 
   return (
     <button
