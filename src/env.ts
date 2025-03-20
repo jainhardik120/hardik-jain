@@ -15,6 +15,10 @@ export const env = createEnv({
     GEMINI_API_KEY: z.string(),
     NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
     S3_BUCKET_NAME_NEW: z.string(),
+    GITHUB_CLIENT_ID: z.string(),
+    GITHUB_CLIENT_SECRET: z.string(),
+    GOOGLE_OAUTH_CLIENT_ID: z.string(),
+    GOOGLE_OAUTH_CLIENT_SECRET: z.string(),
   },
   client: {
     NEXT_PUBLIC_FILE_STORAGE_HOST: z.string().url(),
@@ -40,6 +44,10 @@ export const env = createEnv({
     NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL:
       process.env['NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL'],
     NEXT_PUBLIC_MILLION_LINT_ENABLED: process.env['NEXT_PUBLIC_MILLION_LINT_ENABLED'],
+    GITHUB_CLIENT_ID: process.env['GITHUB_CLIENT_ID'],
+    GITHUB_CLIENT_SECRET: process.env['GITHUB_CLIENT_SECRET'],
+    GOOGLE_OAUTH_CLIENT_ID: process.env['GOOGLE_OAUTH_CLIENT_ID'],
+    GOOGLE_OAUTH_CLIENT_SECRET: process.env['GOOGLE_OAUTH_CLIENT_SECRET'],
   },
   skipValidation:
     process.env['SKIP_ENV_VALIDATION'] !== undefined &&
