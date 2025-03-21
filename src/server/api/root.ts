@@ -9,12 +9,14 @@ import { contactRouter } from '@/server/api/routers/contact';
 import { portfolioRouter } from '@/server/api/routers/portfolio';
 import { userRouter } from './routers/user';
 import { snippetRouter } from './routers/snippet';
+import { EmailRouter } from './routers/email';
 
 export const appRouter = createTRPCRouter({
   post: postRouter,
   auth: authRouter,
   canva: canvaRouter,
   contact: contactRouter,
+  email: EmailRouter,
   excalidraw: excalidrawRouter,
   files: filesRouter,
   portfolio: portfolioRouter,
