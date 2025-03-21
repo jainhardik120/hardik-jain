@@ -29,6 +29,7 @@ model User {
   posts             Post[]
   RefreshToken      RefreshToken[]
   Snippet           Snippet[]
+  EmailTemplate     EmailTemplate[]
 }
 
 model RefreshToken {
@@ -205,4 +206,26 @@ model Snippet {
   author      User     @relation(fields: [authorId], references: [id])
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+
+model Task {
+  id          String    @id @default(cuid())
+  title       String
+  description String?
+  status      String    @default("todo")
+  priority    String    @default("medium")
+  assignee    String?
+  dueDate     DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model EmailTemplate {
+  id        String   @id @default(cuid())
+  title     String
+  creatorId String
+  variables String[]
+  creator   User     @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
