@@ -31,8 +31,13 @@ export const ComponentMap: {
 export interface LayoutItem<T extends ComponentType = ComponentType> {
   id: string;
   type: T;
+  editDisabled: boolean;
   props: Components[T] extends ComponentDefinition<infer P> ? P : never;
   children?: LayoutItem[];
 }
 
-export type Layout = { items: LayoutItem[] };
+export type RootProps = {
+  editDisabled: boolean;
+};
+
+export type Layout = { items: LayoutItem[]; props: RootProps };

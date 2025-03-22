@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { useDrag } from 'react-dnd';
 import { ComponentMap, type LayoutItem } from '../types';
 import RenderComponentList from './RenderComponentList';
+import { useLayout } from '../ContextProvider';
 
 export const isItemContainer = (item: LayoutItem): boolean => {
   return item.type === 'section' || item.type === 'row' || item.type === 'column';
@@ -19,17 +20,27 @@ const RenderEditableComponent = ({
   const [{ isDragging }, drag] = useDrag(() => ({
     type: 'component',
     item: { ...item },
+    canDrag: () => !item.editDisabled,
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
     }),
   }));
   drag(ref);
+  const { setSelectedComponentId } = useLayout();
+  let className = `${item.editDisabled ? '' : 'cursor-move'}`;
 
-  const className = `cursor-move border border-dashed p-1 ${isDragging ? 'opacity-50' : ''}`;
+  if (!item.editDisabled) {
+    className += ` border border-dashed p-4 ${isDragging ? 'opacity-50' : ''}`;
+  }
+
+  const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.stopPropagation();
+    setSelectedComponentId(item.id);
+  };
 
   if (item.type === 'column') {
     return (
-      <td ref={ref} className={className}>
+      <td ref={ref} className={className} onClick={handleClick}>
         <div>
           <RenderComponentList
             items={item.children}
@@ -44,7 +55,7 @@ const RenderEditableComponent = ({
 
   if (isItemContainer(item)) {
     return (
-      <div ref={ref} className={className}>
+      <div ref={ref} className={className} onClick={handleClick}>
         <Component key={item.id} input={item.props}>
           <RenderComponentList
             items={item.children}
@@ -58,7 +69,7 @@ const RenderEditableComponent = ({
   }
 
   return (
-    <div ref={ref} className={className}>
+    <div ref={ref} className={className} onClick={handleClick}>
       <Component key={item.id} input={item.props} />
     </div>
   );

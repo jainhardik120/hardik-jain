@@ -5,7 +5,7 @@ import { isItemContainer } from '../../components/RenderEditableComponent';
 import RenderComponentList from '../../components/RenderComponentList';
 
 const DragDropEditor = () => {
-  const { layout, updateLayout } = useLayout();
+  const { layout, updateLayout, setSelectedComponentId } = useLayout();
 
   const handleDrop = (item: LayoutItem, parentId: string, index: number) => {
     if (item.id === 'new-component') {
@@ -15,6 +15,7 @@ const DragDropEditor = () => {
           component: {
             id: '',
             type: item.type,
+            editDisabled: false,
             props: {},
             ...(isItemContainer(item) ? { children: [] } : {}),
           },
@@ -35,7 +36,7 @@ const DragDropEditor = () => {
   };
 
   return (
-    <div className="w-full h-full border">
+    <div className="w-full h-full border" onClick={() => setSelectedComponentId('root')}>
       <RenderComponentList items={layout.items} type="root" parentId="root" onDrop={handleDrop} />
     </div>
   );

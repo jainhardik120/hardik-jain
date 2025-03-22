@@ -1,11 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import {
-  type Layout,
-  type ComponentType,
-  type Components,
-  type ComponentDefinition,
-  type LayoutItem,
-} from './types';
+import type { RootProps, Layout, LayoutItem } from './types';
 import { renderLayoutToHtml } from './components/DynamicEmailComponent';
 
 const generateId = () => `id-${Math.random().toString(36).substr(2, 9)}`;
@@ -18,12 +12,12 @@ type LayoutAction =
 interface LayoutContextType {
   layout: Layout;
   html: string;
-  updateComponentProps: <T extends ComponentType>(
-    id: string,
-    props: Partial<Components[T] extends ComponentDefinition<infer P> ? P : never>,
-    type: T,
-  ) => void;
+  updateSelectedComponentProps: (layoutItem: LayoutItem) => void;
+  updateRootProps: (newProps: RootProps) => void;
   updateLayout: (action: LayoutAction) => void;
+  selectedComponentId: string;
+  setSelectedComponentId: (id: string) => void;
+  selectedComponent: LayoutItem | null;
 }
 
 const LayoutContext = createContext<LayoutContextType | null>(null);
@@ -101,24 +95,61 @@ const addItemToParent = (
   return newItems;
 };
 
+const updateDisabledProp = (items: LayoutItem[], disabled: boolean) => {
+  for (let i = 0; i < items.length; i++) {
+    const item = items[i];
+    if (!item) {
+      continue;
+    }
+    item.editDisabled = disabled;
+    if (item.children && Array.isArray(item.children)) {
+      updateDisabledProp(item.children, disabled);
+    }
+  }
+};
+
 export const LayoutProvider = ({ children }: { children: React.ReactNode }) => {
   const [layout, setLayout] = useState<Layout>({
     items: [],
+    props: {
+      editDisabled: false,
+    },
   });
+
+  const [selectedComponentId, setSelectedComponentId] = useState<string>('root');
+  const [selectedComponent, setSelectedComponent] = useState<LayoutItem | null>(null);
+
+  useEffect(() => {
+    if (selectedComponentId === 'root') {
+      return;
+    }
+    const { item } = findItemById(layout.items, selectedComponentId);
+    setSelectedComponent(item);
+  }, [layout.items, selectedComponentId]);
 
   const [html, setHtml] = useState('');
 
-  const updateComponentProps = <T extends ComponentType>(
-    id: string,
-    props: Partial<Components[T] extends ComponentDefinition<infer P> ? P : never>,
-    type: T,
-  ) => {
+  const updateRootProps = (newProps: RootProps) => {
     setLayout((prevLayout) => {
       const newLayout = cloneLayout(prevLayout);
-      const { item } = findItemById(newLayout.items, id);
+      if (newLayout.props.editDisabled !== newProps.editDisabled) {
+        updateDisabledProp(newLayout.items, newProps.editDisabled);
+      }
+      newLayout.props = newProps;
+      return newLayout;
+    });
+  };
 
-      if (item && item.type === type) {
-        item.props = { ...item.props, ...props };
+  const updateSelectedComponentProps = (layout: LayoutItem) => {
+    setLayout((prevLayout) => {
+      const newLayout = cloneLayout(prevLayout);
+      const { item } = findItemById(newLayout.items, selectedComponentId);
+      if (item && item.editDisabled !== layout.editDisabled && item.children !== undefined) {
+        updateDisabledProp(item.children, layout.editDisabled);
+      }
+      if (item) {
+        item.props = { ...layout.props };
+        item.editDisabled = layout.editDisabled;
       }
 
       return newLayout;
@@ -176,8 +207,12 @@ export const LayoutProvider = ({ children }: { children: React.ReactNode }) => {
   const contextValue: LayoutContextType = {
     layout,
     html,
-    updateComponentProps,
+    updateRootProps,
+    updateSelectedComponentProps,
     updateLayout,
+    selectedComponentId,
+    setSelectedComponentId,
+    selectedComponent,
   };
 
   return <LayoutContext.Provider value={contextValue}>{children}</LayoutContext.Provider>;
