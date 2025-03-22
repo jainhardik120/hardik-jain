@@ -9,6 +9,8 @@ import {
   FileText,
   Mail,
   Users,
+  CalendarIcon,
+  MailsIcon,
 } from 'lucide-react';
 
 import {
@@ -169,6 +171,16 @@ export const AppSidebarData: {
       title: 'Snippets',
       url: '/admin/snippets',
       icon: FileText,
+    },
+    {
+      title: 'Emails',
+      url: '/admin/email',
+      icon: MailsIcon,
+    },
+    {
+      title: 'Tasks',
+      url: '/admin/tasks',
+      icon: CalendarIcon,
     },
   ],
   projects: [
