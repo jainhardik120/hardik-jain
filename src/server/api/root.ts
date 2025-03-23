@@ -10,6 +10,7 @@ import { portfolioRouter } from '@/server/api/routers/portfolio';
 import { userRouter } from './routers/user';
 import { snippetRouter } from './routers/snippet';
 import { EmailRouter } from './routers/email';
+import { tasksRouter } from './routers/tasks';
 
 export const appRouter = createTRPCRouter({
   post: postRouter,
@@ -22,6 +23,7 @@ export const appRouter = createTRPCRouter({
   portfolio: portfolioRouter,
   user: userRouter,
   snippet: snippetRouter,
+  tasks: tasksRouter,
 });
 
 export type AppRouter = typeof appRouter;

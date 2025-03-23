@@ -8,9 +8,8 @@ import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { useTasksData } from '@/lib/use-tasks-data';
 import type { Task } from '@prisma/client';
-import { updateTaskStatus } from '@/actions/tasks';
+import { api } from '@/server/api/react';
 
 const statusColumns = [
   { id: 'todo', name: 'To Do' },
@@ -123,62 +122,42 @@ const TaskColumn = ({ status, name, tasks, onTaskClick, onDropTask }: TaskColumn
   );
 };
 
-export function KanbanBoard() {
+export function KanbanBoard({ tasks }: { tasks: Task[] }) {
   const router = useRouter();
-  const { tasks, isLoading, error } = useTasksData();
-  const [localTasks, setLocalTasks] = useState<Task[]>([]);
+  const [localTasks, setLocalTasks] = useState<Task[]>(tasks);
 
-  // Initialize local tasks when data loads
   useEffect(() => {
-    if (tasks && tasks.length > 0) {
-      setLocalTasks(tasks);
-    }
+    setLocalTasks(tasks);
   }, [tasks]);
-
-  if (isLoading) {
-    return (
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 h-[500px]">
-        {statusColumns.map((column) => (
-          <div key={column.id} className="bg-muted animate-pulse rounded-md h-full"></div>
-        ))}
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="p-4 border border-destructive text-destructive rounded-md">
-        Error loading tasks: {error.message}
-      </div>
-    );
-  }
 
   const handleTaskClick = (taskId: string) => {
     router.push(`/admin/tasks/${taskId}`);
   };
 
-  const handleDropTask = async (taskId: string, newStatus: string) => {
-    const newTasks = [...localTasks];
-    const taskIndex = newTasks.findIndex((task) => task.id === taskId);
+  const updateTaskStatus = api.tasks.updateTaskStatus.useMutation();
 
+  const handleDropTask = async (taskId: string, newStatus: string) => {
+    const currentTasks = localTasks.length > 0 ? localTasks : tasks;
+    const taskIndex = currentTasks.findIndex((task) => task.id === taskId);
     if (
       taskIndex !== -1 &&
-      newTasks[taskIndex] !== undefined &&
-      newTasks[taskIndex].status !== newStatus
+      currentTasks[taskIndex] !== undefined &&
+      currentTasks[taskIndex].status !== newStatus
     ) {
+      const newTasks = [...currentTasks];
+      if (newTasks[taskIndex] === undefined) {
+        return;
+      }
       newTasks[taskIndex] = {
         ...newTasks[taskIndex],
         status: newStatus,
       };
       setLocalTasks(newTasks);
-
-      // Update in the database
       try {
-        await updateTaskStatus(taskId, newStatus);
+        await updateTaskStatus.mutateAsync({ id: taskId, status: newStatus });
         router.refresh();
       } catch {
-        // Revert to original tasks on error
-        setLocalTasks(tasks || []);
+        setLocalTasks(tasks);
       }
     }
   };

@@ -1,7 +1,7 @@
-import { createTRPCRouter, protectedProcedure } from '@/server/api/trpc';
+import { createTRPCRouter, permissionCheckProcedure } from '@/server/api/trpc';
 
 export const userRouter = createTRPCRouter({
-  listUsers: protectedProcedure.query(({ ctx }) => {
+  listUsers: permissionCheckProcedure('users', 'list').query(async ({ ctx }) => {
     return ctx.db.user.findMany();
   }),
 });

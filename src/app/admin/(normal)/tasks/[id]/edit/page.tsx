@@ -4,7 +4,7 @@ import { ChevronLeft } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { TaskForm } from '@/components/task-manager/task-form';
-import { getTask } from '@/actions/tasks';
+import { api } from '@/server/api/server';
 
 interface EditTaskPageProps {
   params: Promise<{
@@ -13,7 +13,7 @@ interface EditTaskPageProps {
 }
 
 export default async function EditTaskPage({ params }: EditTaskPageProps) {
-  const task = await getTask((await params).id);
+  const task = await api.tasks.getTaskById({ id: (await params).id });
 
   if (!task) {
     notFound();

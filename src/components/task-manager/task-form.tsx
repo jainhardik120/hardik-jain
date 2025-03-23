@@ -27,22 +27,14 @@ import {
 } from '@/components/ui/form';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
-import { createTask, updateTask } from '@/actions/tasks';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
+import type { z } from 'zod';
 import type { Task } from '@prisma/client';
+import { taskSchema } from '@/server/api/routers/tasks';
+import { api } from '@/server/api/react';
 
-const taskFormSchema = z.object({
-  title: z.string().min(1, 'Title is required'),
-  description: z.string().optional(),
-  status: z.string().default('todo'),
-  priority: z.string().default('medium'),
-  assignee: z.string().optional(),
-  dueDate: z.date().optional().nullable(),
-});
-
-type TaskFormValues = z.infer<typeof taskFormSchema>;
+type TaskFormValues = z.infer<typeof taskSchema>;
 
 interface TaskFormProps {
   task?: Task;
@@ -53,7 +45,7 @@ export function TaskForm({ task }: TaskFormProps = {}) {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<TaskFormValues>({
-    resolver: zodResolver(taskFormSchema),
+    resolver: zodResolver(taskSchema),
     defaultValues: {
       title: task?.title ?? '',
       description: task?.description ?? '',
@@ -64,14 +56,17 @@ export function TaskForm({ task }: TaskFormProps = {}) {
     },
   });
 
+  const createTaskMutation = api.tasks.createTask.useMutation();
+  const updateTaskMutation = api.tasks.updateTask.useMutation();
+
   const onSubmit = async (values: TaskFormValues) => {
     setIsSubmitting(true);
     try {
       if (task) {
-        await updateTask(task.id, values);
+        await updateTaskMutation.mutateAsync({ id: task.id, data: values });
         router.push(`/admin/tasks/${task.id}`);
       } else {
-        const newTaskId = await createTask(values);
+        const newTaskId = await createTaskMutation.mutateAsync(values);
         router.push(`/admin/tasks/${newTaskId}`);
       }
       router.refresh();

@@ -1,4 +1,4 @@
-import { createTRPCRouter, protectedProcedure, publicProcedure } from '@/server/api/trpc';
+import { createTRPCRouter, permissionCheckProcedure, publicProcedure } from '@/server/api/trpc';
 import { z } from 'zod';
 
 export const contactRouter = createTRPCRouter({
@@ -19,7 +19,11 @@ export const contactRouter = createTRPCRouter({
         },
       });
     }),
-  listMessages: protectedProcedure.query(async ({ ctx }) => {
-    return await ctx.db.message.findMany();
+  listMessages: permissionCheckProcedure('messages', 'list').query(async ({ ctx }) => {
+    return await ctx.db.message.findMany({
+      where: {
+        ...(ctx.permission.whereInput ? { AND: ctx.permission.whereInput } : {}),
+      },
+    });
   }),
 });
