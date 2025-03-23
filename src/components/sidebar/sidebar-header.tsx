@@ -3,7 +3,7 @@
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import { Separator } from '@/components/ui/separator';
 import React from 'react';
-import AppBreadcrumb from '@/app/admin/AppBreadcrumb';
+import AppBreadcrumb from '@/components/AppBreadcrumb';
 import { useTextStore } from '@/hooks/useTextStore';
 
 export default function Header(): JSX.Element {

@@ -11,6 +11,8 @@ import { LayoutProvider } from './ContextProvider';
 import type { Layout } from './types';
 import { api } from '@/server/api/react';
 import type { EmailTemplate } from '@prisma/client';
+import { useTextStore } from '@/hooks/useTextStore';
+import { useDebouncedCallback } from 'use-debounce';
 
 const EmailEditor = ({
   initialLayout,
@@ -19,20 +21,25 @@ const EmailEditor = ({
   initialLayout: Layout;
   emailTemplate: EmailTemplate;
 }) => {
+  const setText = useTextStore((state) => state.setText);
   const [leftCollapsed, setLeftCollapsed] = React.useState(false);
   const [rightCollapsed, setRightCollapsed] = React.useState(false);
   const updateLayoutInDb = api.email.updateEmailTemplate.useMutation();
-
+  const debouncedSave = useDebouncedCallback(async (content: Layout) => {
+    setText('Saving...');
+    await updateLayoutInDb.mutateAsync({
+      id: emailTemplate.id,
+      title: emailTemplate.title,
+      layout: JSON.stringify(content),
+    });
+    setText('');
+  }, 500);
   return (
     <DndProvider backend={HTML5Backend}>
       <LayoutProvider
         initialLayout={initialLayout}
         updateLayoutInDb={async (layout) => {
-          await updateLayoutInDb.mutateAsync({
-            id: emailTemplate.id,
-            title: emailTemplate.title,
-            layout: JSON.stringify(layout),
-          });
+          await debouncedSave(layout);
         }}
       >
         <div className="h-full w-full">

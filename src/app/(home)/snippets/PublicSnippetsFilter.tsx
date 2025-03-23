@@ -1,4 +1,3 @@
-// src/app/public/snippets/PublicSnippetsFilter.tsx
 'use client';
 
 import { useMemo, useState } from 'react';
