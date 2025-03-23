@@ -1,7 +1,12 @@
 /* eslint-disable max-len */
 
 import model from '@/lib/geminiModel';
-import { createTRPCRouter, protectedProcedure, publicProcedure } from '@/server/api/trpc';
+import {
+  createTRPCRouter,
+  permissionCheckProcedure,
+  protectedProcedure,
+  publicProcedure,
+} from '@/server/api/trpc';
 import { z } from 'zod';
 import { generateSlug } from 'random-word-slugs';
 
@@ -40,7 +45,7 @@ import YouTube from '@tiptap/extension-youtube';
 import { revalidatePath } from 'next/cache';
 
 export const postRouter = createTRPCRouter({
-  createNewPost: protectedProcedure.mutation(async ({ ctx }) => {
+  createNewPost: permissionCheckProcedure('post', 'create').mutation(async ({ ctx }) => {
     const post = await ctx.db.post.create({
       data: {
         authorId: ctx.session.user.id,
@@ -56,12 +61,13 @@ export const postRouter = createTRPCRouter({
     revalidatePath(`/post/${post.slug}`);
     return post.id;
   }),
-  deletePost: protectedProcedure
+  deletePost: permissionCheckProcedure('post', 'delete')
     .input(z.object({ id: z.string() }))
     .mutation(async ({ ctx, input }) => {
       await ctx.db.post.delete({
         where: {
           id: input.id,
+          ...(ctx.permission.whereInput ? { AND: ctx.permission.whereInput } : {}),
         },
       });
     }),
@@ -178,7 +184,7 @@ export const postRouter = createTRPCRouter({
         authorId: post.author.id,
       };
     }),
-  getPostById: protectedProcedure
+  getPostById: permissionCheckProcedure('post', 'read')
     .input(
       z.object({
         id: z.string(),
@@ -188,12 +194,13 @@ export const postRouter = createTRPCRouter({
       const post = await ctx.db.post.findUnique({
         where: {
           id: input.id,
+          ...(ctx.permission.whereInput ? { AND: ctx.permission.whereInput } : {}),
         },
       });
 
       return post;
     }),
-  updatePostById: protectedProcedure
+  updatePostById: permissionCheckProcedure('post', 'update')
     .input(
       z.object({
         id: z.string(),
@@ -207,7 +214,7 @@ export const postRouter = createTRPCRouter({
       await ctx.db.post.update({
         where: {
           id: input.id,
-          authorId: ctx.session.user.id,
+          ...(ctx.permission.whereInput ? { AND: ctx.permission.whereInput } : {}),
         },
         data: {
           title: input.title,

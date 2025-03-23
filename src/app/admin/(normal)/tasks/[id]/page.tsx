@@ -1,4 +1,4 @@
-import { notFound, redirect } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { Calendar, ChevronLeft, Edit, Trash2 } from 'lucide-react';
 
@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { getTask, deleteTask } from '@/actions/tasks';
+import { api } from '@/server/api/server';
 
 interface TaskPageProps {
   params: Promise<{
@@ -15,7 +15,7 @@ interface TaskPageProps {
 }
 
 export default async function TaskPage({ params }: TaskPageProps) {
-  const task = await getTask((await params).id);
+  const task = await api.tasks.getTaskById({ id: (await params).id });
 
   if (!task) {
     notFound();
@@ -32,12 +32,6 @@ export default async function TaskPage({ params }: TaskPageProps) {
     high: 'bg-destructive text-destructive-foreground',
     medium: 'bg-warning text-warning-foreground',
     low: 'bg-secondary text-secondary-foreground',
-  };
-
-  const handleDelete = async () => {
-    'use server';
-    await deleteTask((await params).id);
-    redirect('/admin/tasks');
   };
 
   return (
@@ -121,7 +115,7 @@ export default async function TaskPage({ params }: TaskPageProps) {
                   Edit
                 </Link>
               </Button>
-              <form action={handleDelete}>
+              <form>
                 <Button variant="destructive" type="submit">
                   <Trash2 className="mr-2 h-4 w-4" />
                   Delete

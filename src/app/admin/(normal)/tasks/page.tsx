@@ -1,17 +1,18 @@
 'use client';
 
-import { Suspense } from 'react';
+import { useState } from 'react';
 import { PlusCircle } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { ViewToggle } from '@/components/task-manager/view-toggle';
-import { TaskFilters } from '@/components/task-manager/task-filters';
 import { KanbanBoard } from '@/components/task-manager/kanban-board';
 import { TaskTable } from '@/components/task-manager/task-table';
-import { useQueryState } from '@/lib/use-query-state';
 import Link from 'next/link';
+import { api } from '@/server/api/react';
 
 export default function TasksPage() {
+  const [view, setView] = useState<'kanban' | 'table'>('kanban');
+  const tasks = api.tasks.getTasks.useQuery();
   return (
     <div className="container mx-auto py-6 space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -28,26 +29,13 @@ export default function TasksPage() {
       </div>
 
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <Suspense fallback={<div className="h-10 w-[200px] bg-muted animate-pulse rounded-md" />}>
-          <TaskFilters />
-        </Suspense>
-        <Suspense fallback={<div className="h-10 w-[100px] bg-muted animate-pulse rounded-md" />}>
-          <ViewToggle />
-        </Suspense>
+        <ViewToggle view={view} setView={setView} />
       </div>
-
-      <Suspense fallback={<div className="h-[500px] w-full bg-muted animate-pulse rounded-md" />}>
-        <TasksView />
-      </Suspense>
+      {view === 'kanban' ? (
+        <KanbanBoard tasks={tasks.data ?? []} />
+      ) : (
+        <TaskTable tasks={tasks.data ?? []} />
+      )}
     </div>
   );
-}
-
-function TasksView() {
-  const [view] = useQueryState('view', {
-    defaultValue: 'kanban',
-    parse: (value) => (value === 'table' ? 'table' : 'kanban'),
-  });
-
-  return view === 'kanban' ? <KanbanBoard /> : <TaskTable />;
 }

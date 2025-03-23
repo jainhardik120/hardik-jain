@@ -4,6 +4,8 @@ import { ZodError } from 'zod';
 
 import { auth } from '@/server/auth';
 import { prisma as db } from '@/lib/prisma';
+import { type Permissions, withPermission } from '../auth/permissions-helper';
+import { type ExtendedUser } from '@/types/next-auth';
 
 export const createTRPCContext = async (opts: { headers: Headers }) => {
   return {
@@ -43,7 +45,6 @@ export const publicProcedure = t.procedure.use(timingMiddleware).use(async ({ ct
   return next({
     ctx: {
       ...ctx,
-      checkAuth: false,
     },
   });
 });
@@ -58,8 +59,34 @@ export const protectedProcedure = t.procedure.use(timingMiddleware).use(async ({
   return next({
     ctx: {
       ...ctx,
-      checkAuth: true,
       session: { ...session, user: session.user },
     },
   });
 });
+
+export const permissionCheckProcedure = <Resource extends keyof Permissions>(
+  resource: Resource,
+  action: Permissions[Resource]['action'],
+) => {
+  return protectedProcedure.use(async ({ ctx, next }) => {
+    const { hasPermission, whereInput } = withPermission(
+      ctx.session.user as ExtendedUser,
+      resource,
+      action,
+    );
+    if (!hasPermission && whereInput === undefined) {
+      throw new TRPCError({
+        code: 'FORBIDDEN',
+        message: `You don't have permission to ${action} this ${String(resource)}`,
+      });
+    }
+    return next({
+      ctx: {
+        ...ctx,
+        permission: {
+          whereInput,
+        },
+      },
+    });
+  });
+};
