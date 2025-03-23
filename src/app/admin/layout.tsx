@@ -14,7 +14,7 @@ export default async function MainLayout({
   return (
     <SidebarLayout defaultOpen={defaultOpen} user={session?.user ?? null}>
       <Header />
-      <div className="flex flex-1 flex-col gap-4 w-full">{children}</div>
+      {children}
     </SidebarLayout>
   );
 }

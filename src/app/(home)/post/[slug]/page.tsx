@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import 'highlight.js/styles/atom-one-dark.css';
 import { api } from '@/server/api/server';
 import { getPostSlugs } from '@/actions/blog';
-import AppBreadcrumb from '@/app/admin/AppBreadcrumb';
+import AppBreadcrumb from '@/components/AppBreadcrumb';
 import { notFound } from 'next/navigation';
 
 export async function generateStaticParams(): Promise<{ slug: string }[]> {

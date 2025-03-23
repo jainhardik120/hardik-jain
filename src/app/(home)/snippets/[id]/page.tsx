@@ -1,4 +1,3 @@
-// src/app/snippets/[id]/page.tsx
 import { api } from '@/server/api/server';
 import { notFound } from 'next/navigation';
 import { Badge } from '@/components/ui/badge';

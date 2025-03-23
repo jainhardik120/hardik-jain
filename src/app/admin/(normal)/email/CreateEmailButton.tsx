@@ -2,17 +2,20 @@
 
 import { useRouter } from '@/components/top-loader-router';
 import { Button } from '@/components/ui/button';
+import { useTextStore } from '@/hooks/useTextStore';
 import { api } from '@/server/api/react';
 import React from 'react';
 
 const CreateEmailButton = () => {
   const router = useRouter();
   const mutation = api.email.createNewEmailTemplate.useMutation();
-
+  const setText = useTextStore((state) => state.setText);
   return (
     <Button
       onClick={async () => {
+        setText('Creating...');
         const data = await mutation.mutateAsync('New Email Template');
+        setText('');
         router.push(`/admin/email/${data}`);
       }}
     >
