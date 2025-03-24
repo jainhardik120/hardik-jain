@@ -13,23 +13,28 @@ enum UserRole {
 }
 
 model User {
-  id                String              @id @default(cuid())
-  name              String?
-  email             String              @unique
-  emailVerified     DateTime?
-  image             String?
-  password          String?
-  role              UserRole[]          @default([USER])
-  accounts          Account[]
-  sessions          Session[]
-  canvaSessionState CanvaSessionState[]
-  CanvaUserToken    CanvaUserToken[]
-  createdAt         DateTime            @default(now())
-  updatedAt         DateTime            @updatedAt
-  posts             Post[]
-  RefreshToken      RefreshToken[]
-  Snippet           Snippet[]
-  EmailTemplate     EmailTemplate[]
+  id                 String               @id @default(cuid())
+  name               String?
+  email              String               @unique
+  emailVerified      DateTime?
+  image              String?
+  bio                String               @default("")
+  twitter            String?
+  linkedin           String?
+  website            String?
+  password           String?
+  role               UserRole[]           @default([USER])
+  accounts           Account[]
+  canvaSessionState  CanvaSessionState[]
+  CanvaUserToken     CanvaUserToken[]
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+  posts              Post[]
+  RefreshToken       RefreshToken[]
+  Snippet            Snippet[]
+  EmailTemplate      EmailTemplate[]
+  ExcalidrawDiagrams ExcalidrawDiagrams[]
+  CanvaExportJob     CanvaExportJob[]
 }
 
 model RefreshToken {
@@ -51,23 +56,11 @@ model Account {
   scope             String?
   id_token          String?
   session_state     String?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([provider, providerAccountId])
-}
-
-model Session {
-  sessionToken String   @unique
-  userId       String
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
 
 model VerificationToken {
@@ -123,6 +116,8 @@ model CanvaExportJob {
   designId String
   status   CanvaJobStatus
   urls     String[]
+  userId   String
+  user     User           @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 enum ImageType {
@@ -130,18 +125,12 @@ enum ImageType {
   EXCALIDRAW
 }
 
-model ExportedImages {
-  id        String    @id @default(cuid())
-  sourceId  String
-  imageType ImageType
-  path      String
-  createdAt DateTime  @default(now())
-}
-
 model ExcalidrawDiagrams {
   id           String   @id @default(cuid())
   createdAt    DateTime @default(now())
   lastModified DateTime
+  creatorId    String
+  creator      User     @relation(fields: [creatorId], references: [id], onDelete: Cascade)
 }
 
 model Message {
@@ -188,8 +177,11 @@ model Post {
   id          String   @id @default(cuid())
   title       String
   content     String
+  coverImage  String   @default("")
   slug        String   @unique
   tags        String[]
+  keywords    String[]
+  readingTime String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   description String   @default("")
@@ -208,6 +200,7 @@ model Snippet {
   updatedAt   DateTime @updatedAt
 }
 
+// UserId Missing
 model Task {
   id          String    @id @default(cuid())
   title       String

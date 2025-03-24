@@ -47,7 +47,7 @@ const uploadCanvaImagesToS3 = async (
       );
     }
     await db.canvaExportJob.delete({
-      where: { exportId: updatedJob.exportId },
+      where: { exportId: updatedJob.exportId, userId: userId },
     });
   } catch {}
 };
@@ -74,6 +74,7 @@ const refreshJob = async (
       await db.canvaExportJob.delete({
         where: {
           exportId: job.exportId,
+          userId: session.user.id,
         },
       });
       break;
@@ -81,6 +82,7 @@ const refreshJob = async (
       const updatedJob = await db.canvaExportJob.update({
         where: {
           exportId: job.exportId,
+          userId: session.user.id,
         },
         data: {
           status: CanvaJobStatus.SUCCESS,
@@ -119,7 +121,7 @@ export const canvaRouter = createTRPCRouter({
     }),
   listExports: canvaClientProcedure.input(z.string()).query(async ({ ctx, input }) => {
     const jobsToRefreshStatus = await ctx.db.canvaExportJob.findMany({
-      where: { designId: input, status: 'IN_PROGRESS' },
+      where: { designId: input, status: 'IN_PROGRESS', userId: ctx.session.user.id },
     });
     if (jobsToRefreshStatus.length > 0) {
       await Promise.all(
@@ -127,7 +129,7 @@ export const canvaRouter = createTRPCRouter({
       );
     }
     const jobsToUploadToS3 = await ctx.db.canvaExportJob.findMany({
-      where: { designId: input, status: 'SUCCESS' },
+      where: { designId: input, status: 'SUCCESS', userId: ctx.session.user.id },
     });
     if (jobsToUploadToS3.length > 0) {
       await Promise.all(
@@ -135,7 +137,7 @@ export const canvaRouter = createTRPCRouter({
       );
     }
     const jobs = await ctx.db.canvaExportJob.findMany({
-      where: { designId: input },
+      where: { designId: input, userId: ctx.session.user.id },
     });
     const client = new S3Client(config);
     const exportedImages =
@@ -185,6 +187,7 @@ export const canvaRouter = createTRPCRouter({
       if (status !== CanvaJobStatus.FAILED) {
         const exportJob = await ctx.db.canvaExportJob.create({
           data: {
+            userId: ctx.session.user.id,
             exportId: result.data.job.id,
             designId: input.designId,
             status: status,
