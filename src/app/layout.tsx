@@ -21,9 +21,6 @@ export default function Layout({
 }>): JSX.Element {
   return (
     <html lang="en" suppressHydrationWarning>
-      {/* <head>
-        <script src="https://unpkg.com/react-scan/dist/auto.global.js" async />
-      </head> */}
       <body className="h-screen flex flex-col">
         <TRPCReactProvider>
           <ThemeProvider

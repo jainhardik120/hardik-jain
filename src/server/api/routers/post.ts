@@ -84,16 +84,12 @@ export const postRouter = createTRPCRouter({
         skip: offset,
         take: limit,
         orderBy: { createdAt: 'desc' },
-        select: {
-          id: true,
-          title: true,
-          description: true,
-          createdAt: true,
-          slug: true,
+        include: {
           author: {
             select: {
               id: true,
               name: true,
+              image: true,
             },
           },
         },
@@ -114,6 +110,37 @@ export const postRouter = createTRPCRouter({
 
       return data;
     }),
+  getRelatedPosts: publicProcedure
+    .input(
+      z.object({
+        currentSlug: z.string(),
+        tags: z.array(z.string()),
+        limit: z.number().optional().default(3),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const { currentSlug, tags, limit } = input;
+      const postsWithTags = await ctx.db.post.findMany({
+        where: {
+          slug: { not: currentSlug },
+          tags: { hasSome: tags },
+        },
+        include: {
+          author: {
+            select: {
+              name: true,
+              image: true,
+            },
+          },
+        },
+      });
+      const sortedPosts = postsWithTags.sort((a, b) => {
+        const aMatches = a.tags.filter((tag) => tags.includes(tag)).length;
+        const bMatches = b.tags.filter((tag) => tags.includes(tag)).length;
+        return bMatches - aMatches;
+      });
+      return sortedPosts.slice(0, limit);
+    }),
   getPostContentBySlug: publicProcedure
     .input(z.object({ slug: z.string() }))
     .query(async ({ ctx, input }) => {
@@ -121,16 +148,15 @@ export const postRouter = createTRPCRouter({
 
       const post = await ctx.db.post.findUnique({
         where: { slug },
-        select: {
-          id: true,
-          title: true,
-          content: true,
-          description: true,
-          createdAt: true,
+        include: {
           author: {
             select: {
-              id: true,
               name: true,
+              image: true,
+              twitter: true,
+              linkedin: true,
+              website: true,
+              bio: true,
             },
           },
         },
@@ -174,15 +200,7 @@ export const postRouter = createTRPCRouter({
         YouTube,
       ]);
 
-      return {
-        id: post.id,
-        title: post.title,
-        content: renderedContent,
-        description: post.description,
-        createdAt: post.createdAt,
-        authorName: post.author.name,
-        authorId: post.author.id,
-      };
+      return { ...post, content: renderedContent };
     }),
   getPostById: permissionCheckProcedure('post', 'read')
     .input(

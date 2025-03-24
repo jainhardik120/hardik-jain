@@ -8,7 +8,9 @@ import type { ExcalidrawElement } from '@excalidraw/excalidraw/types/element/typ
 
 export const excalidrawRouter = createTRPCRouter({
   listDesigns: protectedProcedure.query(async ({ ctx }) => {
-    const designs = await ctx.db.excalidrawDiagrams.findMany();
+    const designs = await ctx.db.excalidrawDiagrams.findMany({
+      where: { creatorId: ctx.session.user.id },
+    });
 
     return designs;
   }),
@@ -16,6 +18,7 @@ export const excalidrawRouter = createTRPCRouter({
     const newDesign = await ctx.db.excalidrawDiagrams.create({
       data: {
         lastModified: new Date(Date.now()),
+        creatorId: ctx.session.user.id,
       },
     });
     const s3Client = new S3Client(config);
@@ -44,7 +47,13 @@ export const excalidrawRouter = createTRPCRouter({
   }),
   getSignedUrlDesign: protectedProcedure
     .input(z.object({ id: z.string() }))
-    .query(async ({ input }) => {
+    .query(async ({ ctx, input }) => {
+      const diagram = await ctx.db.excalidrawDiagrams.findUnique({
+        where: { id: input.id, creatorId: ctx.session.user.id },
+      });
+      if (!diagram) {
+        throw new Error('Design not found');
+      }
       const client = new S3Client(config);
       const bucketName = env.S3_BUCKET_NAME_NEW;
       const baseKey = `excalidraw_diagrams/${input.id}`;
@@ -66,7 +75,13 @@ export const excalidrawRouter = createTRPCRouter({
     }),
   getSignedUrlForPutFiles: protectedProcedure
     .input(z.object({ id: z.string() }))
-    .mutation(async ({ input }) => {
+    .mutation(async ({ ctx, input }) => {
+      const diagram = await ctx.db.excalidrawDiagrams.findUnique({
+        where: { id: input.id, creatorId: ctx.session.user.id },
+      });
+      if (!diagram) {
+        throw new Error('Design not found');
+      }
       const client = new S3Client(config);
       const bucketName = env.S3_BUCKET_NAME_NEW;
       const key = `excalidraw_diagrams/${input.id}_files.json`;
@@ -90,7 +105,13 @@ export const excalidrawRouter = createTRPCRouter({
         elements: z.string(),
       }),
     )
-    .mutation(async ({ input }) => {
+    .mutation(async ({ ctx, input }) => {
+      const diagram = await ctx.db.excalidrawDiagrams.findUnique({
+        where: { id: input.id, creatorId: ctx.session.user.id },
+      });
+      if (!diagram) {
+        throw new Error('Design not found');
+      }
       const client = new S3Client(config);
       const bucketName = env.S3_BUCKET_NAME_NEW;
       const key = `excalidraw_diagrams/${input.id}_elements.json`;
@@ -106,7 +127,12 @@ export const excalidrawRouter = createTRPCRouter({
         });
 
         await client.send(command);
-
+        await ctx.db.excalidrawDiagrams.update({
+          where: { id: input.id, creatorId: ctx.session.user.id },
+          data: {
+            lastModified: new Date(Date.now()),
+          },
+        });
         return { success: true };
       } catch {
         throw new Error('Failed to update elements. Ensure the input is valid JSON.');
