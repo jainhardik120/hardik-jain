@@ -2,7 +2,7 @@
 
 import type { ColumnDef } from '@tanstack/react-table';
 import React, { useEffect, useState } from 'react';
-import type { Design } from '@/canva-client';
+import type { Design, GetListDesignResponse } from '@/canva-client';
 import { api } from '@/server/api/react';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
@@ -73,15 +73,9 @@ export const columns: ColumnDef<Design>[] = [
   },
 ];
 
-const DesignList = ({
-  onDisconnect,
-  disconnectButtonDisabled,
-}: {
-  onDisconnect: () => Promise<void>;
-  disconnectButtonDisabled: boolean;
-}) => {
-  const [designs, setDesigns] = useState<Design[]>([]);
-  const [continuation, setContinuation] = useState<string | undefined>(undefined);
+const DesignList = ({ initialData }: { initialData: GetListDesignResponse }) => {
+  const [designs, setDesigns] = useState<Design[]>(initialData.items);
+  const [continuation, setContinuation] = useState<string | undefined>(initialData.continuation);
   const { data, isFetching, refetch } = api.canva.getUserDesigns.useQuery(
     { continuation },
     { enabled: false },
@@ -93,15 +87,6 @@ const DesignList = ({
       setContinuation(data.continuation ?? undefined);
     }
   }, [data]);
-
-  useEffect(() => {
-    setDesigns([]);
-    setContinuation(undefined);
-  }, []);
-
-  useEffect(() => {
-    void refetch();
-  }, [refetch]);
 
   return (
     <DataTable
@@ -123,9 +108,6 @@ const DesignList = ({
               {isFetching ? 'Loading...' : 'Load More'}
             </Button>
           ) : null}
-          <Button onClick={onDisconnect} disabled={disconnectButtonDisabled}>
-            {disconnectButtonDisabled ? 'Loading...' : 'Disconnect'}
-          </Button>
         </div>
       }
     />
