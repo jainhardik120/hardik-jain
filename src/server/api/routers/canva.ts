@@ -13,6 +13,20 @@ import { env } from '@/env';
 import type { Client } from '@hey-api/client-fetch';
 import type { Session } from 'next-auth';
 
+const getClient = async (userId: string, db: PrismaClient) => {
+  let token: string;
+  try {
+    token = await getAccessTokenForUser(userId, db);
+  } catch (e) {
+    throw new TRPCError({
+      message: (e as Error).message,
+      code: 'BAD_REQUEST',
+    });
+  }
+
+  return getUserClient(token);
+};
+
 const canvaClientProcedure = protectedProcedure.use(async ({ ctx, next }) => {
   const client = await getClient(ctx.session.user.id, ctx.db);
 
@@ -247,17 +261,3 @@ export const canvaRouter = createTRPCRouter({
     });
   }),
 });
-
-const getClient = async (userId: string, db: PrismaClient) => {
-  let token: string;
-  try {
-    token = await getAccessTokenForUser(userId, db);
-  } catch (e) {
-    throw new TRPCError({
-      message: (e as Error).message,
-      code: 'BAD_REQUEST',
-    });
-  }
-
-  return getUserClient(token);
-};
