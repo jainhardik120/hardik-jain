@@ -1,70 +1,164 @@
 import { createTRPCRouter, protectedProcedure } from '../trpc';
 import { z } from 'zod';
 
-export const taskSchema = z.object({
-  title: z.string().min(1),
-  description: z.string().optional(),
-  status: z.string().default('todo'),
-  priority: z.string().default('medium'),
-  assignee: z.string().optional(),
-  dueDate: z.date().optional().nullable(),
-});
-
 export const tasksRouter = createTRPCRouter({
-  getTasks: protectedProcedure.query(async ({ ctx }) => {
-    return ctx.db.task.findMany();
-  }),
-  getTaskById: protectedProcedure
-    .input(z.object({ id: z.string() }))
-    .query(async ({ ctx, input }) => {
-      return ctx.db.task.findUnique({
-        where: { id: input.id },
-      });
-    }),
-  createTask: protectedProcedure.input(taskSchema).mutation(async ({ ctx, input }) => {
-    const task = await ctx.db.task.create({
+  createTaskBoard: protectedProcedure.input(z.string()).mutation(async ({ ctx, input }) => {
+    const taskBoard = await ctx.db.taskBoard.create({
       data: {
-        title: input.title,
-        description: input.description ?? '',
-        status: input.status,
-        priority: input.priority,
-        assignee: input.assignee ?? null,
-        dueDate: input.dueDate || null,
+        title: input,
+        creatorId: ctx.session.user.id,
       },
     });
-    return task.id;
+
+    return taskBoard.id;
   }),
-  updateTask: protectedProcedure
-    .input(z.object({ id: z.string(), data: taskSchema }))
+  getAllTaskBoards: protectedProcedure.query(async ({ ctx }) => {
+    const taskBoards = await ctx.db.taskBoard.findMany({
+      where: {
+        creatorId: ctx.session.user.id,
+      },
+    });
+    return taskBoards;
+  }),
+  deleteTaskBoard: protectedProcedure.input(z.string()).mutation(async ({ ctx, input }) => {
+    const taskBoard = await ctx.db.taskBoard.delete({
+      where: {
+        id: input,
+        creatorId: ctx.session.user.id,
+      },
+    });
+    return taskBoard;
+  }),
+  updateTaskBoard: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        title: z.string(),
+      }),
+    )
     .mutation(async ({ ctx, input }) => {
-      const task = await ctx.db.task.update({
-        where: { id: input.id },
+      const taskBoard = await ctx.db.taskBoard.update({
+        where: {
+          id: input.id,
+          creatorId: ctx.session.user.id,
+        },
         data: {
-          title: input.data.title,
-          description: input.data.description ?? '',
-          status: input.data.status,
-          priority: input.data.priority,
-          assignee: input.data.assignee ?? null,
-          dueDate: input.data.dueDate || null,
+          title: input.title,
         },
       });
-      return task;
+      return taskBoard;
     }),
+  updateColumnTitle: protectedProcedure
+    .input(z.object({ id: z.string(), title: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const updatedColumn = await ctx.db.taskColumn.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          title: input.title,
+        },
+      });
+      return updatedColumn;
+    }),
+  addTask: protectedProcedure
+    .input(z.object({ columnId: z.string(), title: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const newTask = await ctx.db.task.create({
+        data: {
+          title: input.title,
+          taskColumnId: input.columnId,
+          order: 0,
+        },
+      });
+      return newTask;
+    }),
+  getKanbanData: protectedProcedure.input(z.string()).query(async ({ ctx, input }) => {
+    const kanbanData = await ctx.db.taskBoard.findUnique({
+      where: {
+        id: input,
+      },
+      include: {
+        columns: {
+          orderBy: {
+            order: 'asc',
+          },
+          include: {
+            tasks: {
+              orderBy: {
+                order: 'asc',
+              },
+            },
+          },
+        },
+      },
+    });
+    return kanbanData;
+  }),
+  deleteColumn: protectedProcedure.input(z.string()).mutation(async ({ ctx, input }) => {
+    await ctx.db.taskColumn.delete({
+      where: {
+        id: input,
+      },
+    });
+  }),
+  getAllTags: protectedProcedure.query(async ({ ctx }) => {
+    const tags = await ctx.db.tag.findMany();
+    return tags;
+  }),
+  addColumn: protectedProcedure
+    .input(z.object({ taskBoardId: z.string(), title: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const newColumn = await ctx.db.taskColumn.create({
+        data: {
+          title: input.title,
+          taskBoardId: input.taskBoardId,
+          order: 0,
+        },
+      });
+      return newColumn;
+    }),
+  updateTaskDetails: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        title: z.string(),
+        description: z.string().optional(),
+        dueDate: z.date().optional(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const updatedTask = await ctx.db.task.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          title: input.title,
+          description: input.description ?? null,
+          dueDate: input.dueDate ?? null,
+        },
+      });
+      return updatedTask;
+    }),
+  deleteTask: protectedProcedure.input(z.string()).mutation(async ({ ctx, input }) => {
+    await ctx.db.task.delete({
+      where: {
+        id: input,
+      },
+    });
+  }),
   updateTaskStatus: protectedProcedure
-    .input(z.object({ id: z.string(), status: z.string() }))
+    .input(z.object({ id: z.string(), columnId: z.string(), order: z.number() }))
     .mutation(async ({ ctx, input }) => {
-      await ctx.db.task.update({
-        where: { id: input.id },
-        data: { status: input.status },
+      const updatedTask = await ctx.db.task.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          taskColumnId: input.columnId,
+          order: input.order,
+        },
       });
-      return input.id;
-    }),
-  deleteTask: protectedProcedure
-    .input(z.object({ id: z.string() }))
-    .mutation(async ({ ctx, input }) => {
-      await ctx.db.task.delete({
-        where: { id: input.id },
-      });
-      return input.id;
+      return updatedTask;
     }),
 });

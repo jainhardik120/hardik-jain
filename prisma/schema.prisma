@@ -24,17 +24,19 @@ model User {
   website            String?
   password           String?
   role               UserRole[]           @default([USER])
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
   accounts           Account[]
   canvaSessionState  CanvaSessionState[]
   CanvaUserToken     CanvaUserToken[]
-  createdAt          DateTime             @default(now())
-  updatedAt          DateTime             @updatedAt
   posts              Post[]
   RefreshToken       RefreshToken[]
   Snippet            Snippet[]
   EmailTemplate      EmailTemplate[]
   ExcalidrawDiagrams ExcalidrawDiagrams[]
   CanvaExportJob     CanvaExportJob[]
+  TaskBoard          TaskBoard[]
+  memberOfTaskBoards TaskBoard[]          @relation("TaskBoardMembers")
 }
 
 model RefreshToken {
@@ -200,17 +202,57 @@ model Snippet {
   updatedAt   DateTime @updatedAt
 }
 
-// UserId Missing
-model Task {
+model TaskBoard {
+  id        String       @id @default(cuid())
+  title     String
+  columns   TaskColumn[]
+  creatorId String
+  creator   User         @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+  members   User[]       @relation("TaskBoardMembers")
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+}
+
+model TaskColumn {
   id          String    @id @default(cuid())
   title       String
-  description String?
-  status      String    @default("todo")
-  priority    String    @default("medium")
-  assignee    String?
-  dueDate     DateTime?
+  tasks       Task[]
+  order       Int
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
+  TaskBoard   TaskBoard @relation(fields: [taskBoardId], references: [id])
+  taskBoardId String
+}
+
+model Task {
+  id           String     @id @default(cuid())
+  title        String
+  description  String?
+  priority     String     @default("medium")
+  dueDate      DateTime?
+  order        Int
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  TaskColumn   TaskColumn @relation(fields: [taskColumnId], references: [id])
+  taskColumnId String
+  TaskTag      TaskTag[]
+}
+
+model Tag {
+  id        String    @id @default(cuid())
+  name      String    @unique
+  color     String
+  createdAt DateTime  @default(now())
+  tasks     TaskTag[]
+}
+
+model TaskTag {
+  id     String @id @default(cuid())
+  taskId String
+  tagId  String
+  task   Task   @relation(fields: [taskId], references: [id])
+  tag    Tag    @relation(fields: [tagId], references: [id])
+  @@unique([taskId, tagId])
 }
 
 model EmailTemplate {
