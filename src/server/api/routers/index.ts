@@ -10,6 +10,7 @@ import { snippetRouter } from './snippet';
 import { EmailRouter } from './email';
 import { tasksRouter } from './tasks';
 import { createCallerFactory, createTRPCRouter } from '@/server/api/trpc';
+import { sharesRouter } from './shares';
 
 export const appRouter = createTRPCRouter({
   post: postRouter,
@@ -23,6 +24,7 @@ export const appRouter = createTRPCRouter({
   user: userRouter,
   snippet: snippetRouter,
   tasks: tasksRouter,
+  shares: sharesRouter,
 });
 
 export type AppRouter = typeof appRouter;
