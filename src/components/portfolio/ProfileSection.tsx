@@ -23,8 +23,8 @@ const HeroImage = React.memo(() => {
       <Image
         src="/images/hero-image.jpg"
         alt="hero image"
-        width={800}
-        height={800}
+        width={400}
+        height={400}
         className="relative rounded-full shadow-xl"
         priority={true}
       />

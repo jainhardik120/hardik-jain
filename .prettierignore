@@ -18,6 +18,4 @@ package-lock.json
 pnpm-lock.yaml
 yarn.lock
 
-src/components/ui/
-src/canva-client/
 tailwind.config.ts

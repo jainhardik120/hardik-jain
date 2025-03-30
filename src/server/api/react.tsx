@@ -6,10 +6,8 @@ import { createTRPCReact } from '@trpc/react-query';
 import { useState } from 'react';
 import { type inferRouterInputs, type inferRouterOutputs } from '@trpc/server';
 
-import { type AppRouter } from '@/server/api/root';
-import { createQueryClient } from './query-client';
-import { links } from './pages';
-
+import { createQueryClient, links } from '@/server/api';
+import { type AppRouter } from '@/server/api/routers';
 export type RouterInputs = inferRouterInputs<AppRouter>;
 export type RouterOutputs = inferRouterOutputs<AppRouter>;
 
