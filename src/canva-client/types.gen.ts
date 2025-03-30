@@ -153,13 +153,13 @@ export type AssetSummary = {
 /**
  * Type of an asset.
  */
-export type AssetType = "image";
+export type AssetType = 'image';
 
 /**
  * Type of an asset.
  */
 export const AssetType = {
-  IMAGE: "image",
+  IMAGE: 'image',
 } as const;
 
 /**
@@ -175,16 +175,16 @@ export type ImportStatus = {
  * State of the import job for an uploaded asset.
  * @deprecated
  */
-export type ImportStatusState = "failed" | "in_progress" | "success";
+export type ImportStatusState = 'failed' | 'in_progress' | 'success';
 
 /**
  * State of the import job for an uploaded asset.
  * @deprecated
  */
 export const ImportStatusState = {
-  FAILED: "failed",
-  IN_PROGRESS: "in_progress",
-  SUCCESS: "success",
+  FAILED: 'failed',
+  IN_PROGRESS: 'in_progress',
+  SUCCESS: 'success',
 } as const;
 
 /**
@@ -204,7 +204,7 @@ export type ImportError = {
  *
  * @deprecated
  */
-export type ImportErrorCode = "file_too_big" | "import_failed";
+export type ImportErrorCode = 'file_too_big' | 'import_failed';
 
 /**
  * A short string indicating why the upload failed. This field can be used to handle errors programmatically.
@@ -212,8 +212,8 @@ export type ImportErrorCode = "file_too_big" | "import_failed";
  * @deprecated
  */
 export const ImportErrorCode = {
-  FILE_TOO_BIG: "file_too_big",
-  IMPORT_FAILED: "import_failed",
+  FILE_TOO_BIG: 'file_too_big',
+  IMPORT_FAILED: 'import_failed',
 } as const;
 
 export type CreateAssetUploadJobResponse = {
@@ -240,15 +240,15 @@ export type AssetUploadJob = {
 /**
  * Status of the asset upload job.
  */
-export type AssetUploadStatus = "failed" | "in_progress" | "success";
+export type AssetUploadStatus = 'failed' | 'in_progress' | 'success';
 
 /**
  * Status of the asset upload job.
  */
 export const AssetUploadStatus = {
-  FAILED: "failed",
-  IN_PROGRESS: "in_progress",
-  SUCCESS: "success",
+  FAILED: 'failed',
+  IN_PROGRESS: 'in_progress',
+  SUCCESS: 'success',
 } as const;
 
 /**
@@ -266,15 +266,15 @@ export type AssetUploadError = {
  * A short string indicating why the upload failed. This field can be used to handle errors
  * programmatically.
  */
-export type AssetUploadErrorCode = "file_too_big" | "import_failed";
+export type AssetUploadErrorCode = 'file_too_big' | 'import_failed';
 
 /**
  * A short string indicating why the upload failed. This field can be used to handle errors
  * programmatically.
  */
 export const AssetUploadErrorCode = {
-  FILE_TOO_BIG: "file_too_big",
-  IMPORT_FAILED: "import_failed",
+  FILE_TOO_BIG: 'file_too_big',
+  IMPORT_FAILED: 'import_failed',
 } as const;
 
 /**
@@ -320,10 +320,7 @@ export type CreateDesignAutofillJobResponse = {
 /**
  * The data field to autofill.
  */
-export type DatasetValue =
-  | DatasetImageValue
-  | DatasetTextValue
-  | DatasetChartValue;
+export type DatasetValue = DatasetImageValue | DatasetTextValue | DatasetChartValue;
 
 /**
  * Data object containing the data fields and values to autofill.
@@ -336,7 +333,7 @@ export type Dataset = {
  * If the data field is an image field.
  */
 export type DatasetImageValue = {
-  type: "image";
+  type: 'image';
   /**
    * `asset_id` of the image to insert into the template element.
    */
@@ -347,7 +344,7 @@ export type DatasetImageValue = {
  * If the data field is a text field.
  */
 export type DatasetTextValue = {
-  type: "text";
+  type: 'text';
   /**
    * Text to insert into the template element.
    */
@@ -360,7 +357,7 @@ export type DatasetTextValue = {
  * WARNING: Chart data fields are a [preview feature](https://www.canva.dev/docs/connect/#preview-apis). There might be unannounced breaking changes to this feature which won't produce a new API version.
  */
 export type DatasetChartValue = {
-  type: "chart";
+  type: 'chart';
   chart_data: DataTable;
 };
 
@@ -390,33 +387,33 @@ export type DesignAutofillJobResult = CreateDesignAutofillJobResult;
  * Design has been created and saved to user's root folder.
  */
 export type CreateDesignAutofillJobResult = {
-  type: "create_design";
+  type: 'create_design';
   design: DesignSummary;
 };
 
 /**
  * Status of the design autofill job.
  */
-export type DesignAutofillStatus = "in_progress" | "success" | "failed";
+export type DesignAutofillStatus = 'in_progress' | 'success' | 'failed';
 
 /**
  * Status of the design autofill job.
  */
 export const DesignAutofillStatus = {
-  IN_PROGRESS: "in_progress",
-  SUCCESS: "success",
-  FAILED: "failed",
+  IN_PROGRESS: 'in_progress',
+  SUCCESS: 'success',
+  FAILED: 'failed',
 } as const;
 
 export type AutofillErrorCode =
-  | "autofill_error"
-  | "thumbnail_generation_error"
-  | "create_design_error";
+  | 'autofill_error'
+  | 'thumbnail_generation_error'
+  | 'create_design_error';
 
 export const AutofillErrorCode = {
-  AUTOFILL_ERROR: "autofill_error",
-  THUMBNAIL_GENERATION_ERROR: "thumbnail_generation_error",
-  CREATE_DESIGN_ERROR: "create_design_error",
+  AUTOFILL_ERROR: 'autofill_error',
+  THUMBNAIL_GENERATION_ERROR: 'thumbnail_generation_error',
+  CREATE_DESIGN_ERROR: 'create_design_error',
 } as const;
 
 /**
@@ -430,12 +427,12 @@ export type AutofillError = {
   message: string;
 };
 
-export type DatasetFilter = "any" | "non_empty" | "empty";
+export type DatasetFilter = 'any' | 'non_empty' | 'empty';
 
 export const DatasetFilter = {
-  ANY: "any",
-  NON_EMPTY: "non_empty",
-  EMPTY: "empty",
+  ANY: 'any',
+  NON_EMPTY: 'non_empty',
+  EMPTY: 'empty',
 } as const;
 
 export type ListBrandTemplatesResponse = {
@@ -524,14 +521,14 @@ export type DataField = ImageDataField | TextDataField | ChartDataField;
  * An image for a brand template. You can autofill the brand template with an image by providing its `asset_id`.
  */
 export type ImageDataField = {
-  type: "image";
+  type: 'image';
 };
 
 /**
  * Some text for a brand template. You can autofill the brand template with this value.
  */
 export type TextDataField = {
-  type: "text";
+  type: 'text';
 };
 
 /**
@@ -540,7 +537,7 @@ export type TextDataField = {
  * WARNING: Chart data fields are a [preview feature](https://www.canva.dev/docs/connect/#preview-apis). There might be unannounced breaking changes to this feature which won't produce a new API version.
  */
 export type ChartDataField = {
-  type: "chart";
+  type: 'chart';
 };
 
 export type CreateCommentRequest = {
@@ -596,7 +593,7 @@ export type Comment = ParentComment | ReplyComment;
  * the object (such as a design) the comment is attached to.
  */
 export type ParentComment = {
-  type: "parent";
+  type: 'parent';
   /**
    * The ID of the comment.
    *
@@ -635,7 +632,7 @@ export type ParentComment = {
  * the object (such as a design) the comment is attached to.
  */
 export type ReplyComment = {
-  type: "reply";
+  type: 'reply';
   /**
    * The ID of the comment.
    */
@@ -679,7 +676,7 @@ export type CommentObject = DesignCommentObject;
  * If the comment is attached to a Canva Design.
  */
 export type DesignCommentObject = {
-  type: "design";
+  type: 'design';
   /**
    * The ID of the design this comment is attached to.
    */
@@ -696,7 +693,7 @@ export type CommentObjectInput = DesignCommentObjectInput;
  * If the comment is attached to a Canva Design.
  */
 export type DesignCommentObjectInput = {
-  type: "design";
+  type: 'design';
   /**
    * The ID of the design you want to attach this comment to.
    */
@@ -721,22 +718,17 @@ export type Mentions = {
 /**
  * The type of comment event.
  */
-export type CommentEventType =
-  | "comment"
-  | "reply"
-  | "mention"
-  | "assign"
-  | "resolve";
+export type CommentEventType = 'comment' | 'reply' | 'mention' | 'assign' | 'resolve';
 
 /**
  * The type of comment event.
  */
 export const CommentEventType = {
-  COMMENT: "comment",
-  REPLY: "reply",
-  MENTION: "mention",
-  ASSIGN: "assign",
-  RESOLVE: "resolve",
+  COMMENT: 'comment',
+  REPLY: 'reply',
+  MENTION: 'mention',
+  ASSIGN: 'assign',
+  RESOLVE: 'resolve',
 } as const;
 
 export type GetSigningPublicKeysResponse = {
@@ -827,7 +819,7 @@ export type DataTableCell =
  * A string tabular data cell.
  */
 export type StringDataTableCell = {
-  type: "string";
+  type: 'string';
   value?: string;
 };
 
@@ -835,7 +827,7 @@ export type StringDataTableCell = {
  * A number tabular data cell.
  */
 export type NumberDataTableCell = {
-  type: "number";
+  type: 'number';
   value?: number;
 };
 
@@ -843,7 +835,7 @@ export type NumberDataTableCell = {
  * A boolean tabular data cell.
  */
 export type BooleanDataTableCell = {
-  type: "boolean";
+  type: 'boolean';
   value?: boolean;
 };
 
@@ -853,31 +845,31 @@ export type BooleanDataTableCell = {
  * Specified as a Unix timestamp (in seconds since the Unix Epoch).
  */
 export type DateDataTableCell = {
-  type: "date";
+  type: 'date';
   value?: number;
 };
 
 export type SortByType =
-  | "relevance"
-  | "modified_descending"
-  | "modified_ascending"
-  | "title_descending"
-  | "title_ascending";
+  | 'relevance'
+  | 'modified_descending'
+  | 'modified_ascending'
+  | 'title_descending'
+  | 'title_ascending';
 
 export const SortByType = {
-  RELEVANCE: "relevance",
-  MODIFIED_DESCENDING: "modified_descending",
-  MODIFIED_ASCENDING: "modified_ascending",
-  TITLE_DESCENDING: "title_descending",
-  TITLE_ASCENDING: "title_ascending",
+  RELEVANCE: 'relevance',
+  MODIFIED_DESCENDING: 'modified_descending',
+  MODIFIED_ASCENDING: 'modified_ascending',
+  TITLE_DESCENDING: 'title_descending',
+  TITLE_ASCENDING: 'title_ascending',
 } as const;
 
-export type OwnershipType = "any" | "owned" | "shared";
+export type OwnershipType = 'any' | 'owned' | 'shared';
 
 export const OwnershipType = {
-  ANY: "any",
-  OWNED: "owned",
-  SHARED: "shared",
+  ANY: 'any',
+  OWNED: 'owned',
+  SHARED: 'shared',
 } as const;
 
 export type GetListDesignResponse = {
@@ -1075,15 +1067,15 @@ export type DesignImportJob = {
 /**
  * The status of the design import job.
  */
-export type DesignImportStatus = "failed" | "in_progress" | "success";
+export type DesignImportStatus = 'failed' | 'in_progress' | 'success';
 
 /**
  * The status of the design import job.
  */
 export const DesignImportStatus = {
-  FAILED: "failed",
-  IN_PROGRESS: "in_progress",
-  SUCCESS: "success",
+  FAILED: 'failed',
+  IN_PROGRESS: 'in_progress',
+  SUCCESS: 'success',
 } as const;
 
 /**
@@ -1102,22 +1094,22 @@ export type DesignImportError = {
  * programmatically.
  */
 export type DesignImportErrorCode =
-  | "design_creation_throttled"
-  | "design_import_throttled"
-  | "duplicate_import"
-  | "internal_error"
-  | "invalid_file";
+  | 'design_creation_throttled'
+  | 'design_import_throttled'
+  | 'duplicate_import'
+  | 'internal_error'
+  | 'invalid_file';
 
 /**
  * A short string about why the import failed. This field can be used to handle errors
  * programmatically.
  */
 export const DesignImportErrorCode = {
-  DESIGN_CREATION_THROTTLED: "design_creation_throttled",
-  DESIGN_IMPORT_THROTTLED: "design_import_throttled",
-  DUPLICATE_IMPORT: "duplicate_import",
-  INTERNAL_ERROR: "internal_error",
-  INVALID_FILE: "invalid_file",
+  DESIGN_CREATION_THROTTLED: 'design_creation_throttled',
+  DESIGN_IMPORT_THROTTLED: 'design_import_throttled',
+  DUPLICATE_IMPORT: 'duplicate_import',
+  INTERNAL_ERROR: 'internal_error',
+  INVALID_FILE: 'invalid_file',
 } as const;
 
 export type DesignImportJobResult = {
@@ -1141,7 +1133,7 @@ export type DesignTypeInput = PresetDesignTypeInput | CustomDesignTypeInput;
  * Provide the common design type.
  */
 export type PresetDesignTypeInput = {
-  type: "preset";
+  type: 'preset';
   name: PresetDesignTypeName;
 };
 
@@ -1152,7 +1144,7 @@ export type PresetDesignTypeInput = {
  * - `whiteboard`: A [whiteboard](https://www.canva.com/online-whiteboard/); a design which gives you infinite space to collaborate.
  * - `presentation`: A [presentation](https://www.canva.com/presentations/); lets you create and collaborate for presenting to an audience.
  */
-export type PresetDesignTypeName = "doc" | "whiteboard" | "presentation";
+export type PresetDesignTypeName = 'doc' | 'whiteboard' | 'presentation';
 
 /**
  * The name of the design type. This can be one of the following:
@@ -1162,16 +1154,16 @@ export type PresetDesignTypeName = "doc" | "whiteboard" | "presentation";
  * - `presentation`: A [presentation](https://www.canva.com/presentations/); lets you create and collaborate for presenting to an audience.
  */
 export const PresetDesignTypeName = {
-  DOC: "doc",
-  WHITEBOARD: "whiteboard",
-  PRESENTATION: "presentation",
+  DOC: 'doc',
+  WHITEBOARD: 'whiteboard',
+  PRESENTATION: 'presentation',
 } as const;
 
 /**
  * Provide the width and height to define a custom design type.
  */
 export type CustomDesignTypeInput = {
-  type: "custom";
+  type: 'custom';
   /**
    * The width of the design (in pixels). Minimum 40px, maximum 8000px.
    */
@@ -1203,118 +1195,118 @@ export type OauthError = {
  *
  */
 export type ErrorCode =
-  | "internal_error"
-  | "invalid_field"
-  | "invalid_header_value"
-  | "permission_denied"
-  | "too_many_requests"
-  | "not_found"
-  | "bad_request_body"
-  | "bad_http_method"
-  | "bad_request_params"
-  | "bad_query_params"
-  | "endpoint_not_found"
-  | "unsupported_version"
-  | "invalid_access_token"
-  | "revoked_access_token"
-  | "missing_field"
-  | "missing_scope"
-  | "invalid_grant"
-  | "invalid_request"
-  | "invalid_client"
-  | "unauthorized_client"
-  | "unsupported_grant_type"
-  | "invalid_scope"
-  | "invalid_basic_header"
-  | "invalid_file_format"
-  | "quota_exceeded"
-  | "unsupported_content_type"
-  | "request_too_large"
-  | "folder_not_found"
-  | "item_in_multiple_folders"
-  | "asset_not_found"
-  | "max_limit_reached"
-  | "permission_not_found"
-  | "permission_exists"
-  | "unauthorized_user"
-  | "user_not_found"
-  | "group_not_found"
-  | "app_not_found"
-  | "content_not_found"
-  | "doctype_not_found"
-  | "design_not_found"
-  | "offset_too_large"
-  | "page_not_found"
-  | "design_or_comment_not_found"
-  | "design_type_not_found"
-  | "team_not_found"
-  | "comment_not_found"
-  | "too_many_comments"
-  | "too_many_replies"
-  | "message_too_long"
-  | "design_not_fillable"
-  | "autofill_data_invalid"
-  | "feature_not_available"
-  | "license_required";
+  | 'internal_error'
+  | 'invalid_field'
+  | 'invalid_header_value'
+  | 'permission_denied'
+  | 'too_many_requests'
+  | 'not_found'
+  | 'bad_request_body'
+  | 'bad_http_method'
+  | 'bad_request_params'
+  | 'bad_query_params'
+  | 'endpoint_not_found'
+  | 'unsupported_version'
+  | 'invalid_access_token'
+  | 'revoked_access_token'
+  | 'missing_field'
+  | 'missing_scope'
+  | 'invalid_grant'
+  | 'invalid_request'
+  | 'invalid_client'
+  | 'unauthorized_client'
+  | 'unsupported_grant_type'
+  | 'invalid_scope'
+  | 'invalid_basic_header'
+  | 'invalid_file_format'
+  | 'quota_exceeded'
+  | 'unsupported_content_type'
+  | 'request_too_large'
+  | 'folder_not_found'
+  | 'item_in_multiple_folders'
+  | 'asset_not_found'
+  | 'max_limit_reached'
+  | 'permission_not_found'
+  | 'permission_exists'
+  | 'unauthorized_user'
+  | 'user_not_found'
+  | 'group_not_found'
+  | 'app_not_found'
+  | 'content_not_found'
+  | 'doctype_not_found'
+  | 'design_not_found'
+  | 'offset_too_large'
+  | 'page_not_found'
+  | 'design_or_comment_not_found'
+  | 'design_type_not_found'
+  | 'team_not_found'
+  | 'comment_not_found'
+  | 'too_many_comments'
+  | 'too_many_replies'
+  | 'message_too_long'
+  | 'design_not_fillable'
+  | 'autofill_data_invalid'
+  | 'feature_not_available'
+  | 'license_required';
 
 /**
  * A short string indicating what failed. This field can be used to handle errors programmatically.
  *
  */
 export const ErrorCode = {
-  INTERNAL_ERROR: "internal_error",
-  INVALID_FIELD: "invalid_field",
-  INVALID_HEADER_VALUE: "invalid_header_value",
-  PERMISSION_DENIED: "permission_denied",
-  TOO_MANY_REQUESTS: "too_many_requests",
-  NOT_FOUND: "not_found",
-  BAD_REQUEST_BODY: "bad_request_body",
-  BAD_HTTP_METHOD: "bad_http_method",
-  BAD_REQUEST_PARAMS: "bad_request_params",
-  BAD_QUERY_PARAMS: "bad_query_params",
-  ENDPOINT_NOT_FOUND: "endpoint_not_found",
-  UNSUPPORTED_VERSION: "unsupported_version",
-  INVALID_ACCESS_TOKEN: "invalid_access_token",
-  REVOKED_ACCESS_TOKEN: "revoked_access_token",
-  MISSING_FIELD: "missing_field",
-  MISSING_SCOPE: "missing_scope",
-  INVALID_GRANT: "invalid_grant",
-  INVALID_REQUEST: "invalid_request",
-  INVALID_CLIENT: "invalid_client",
-  UNAUTHORIZED_CLIENT: "unauthorized_client",
-  UNSUPPORTED_GRANT_TYPE: "unsupported_grant_type",
-  INVALID_SCOPE: "invalid_scope",
-  INVALID_BASIC_HEADER: "invalid_basic_header",
-  INVALID_FILE_FORMAT: "invalid_file_format",
-  QUOTA_EXCEEDED: "quota_exceeded",
-  UNSUPPORTED_CONTENT_TYPE: "unsupported_content_type",
-  REQUEST_TOO_LARGE: "request_too_large",
-  FOLDER_NOT_FOUND: "folder_not_found",
-  ITEM_IN_MULTIPLE_FOLDERS: "item_in_multiple_folders",
-  ASSET_NOT_FOUND: "asset_not_found",
-  MAX_LIMIT_REACHED: "max_limit_reached",
-  PERMISSION_NOT_FOUND: "permission_not_found",
-  PERMISSION_EXISTS: "permission_exists",
-  UNAUTHORIZED_USER: "unauthorized_user",
-  USER_NOT_FOUND: "user_not_found",
-  GROUP_NOT_FOUND: "group_not_found",
-  APP_NOT_FOUND: "app_not_found",
-  CONTENT_NOT_FOUND: "content_not_found",
-  DOCTYPE_NOT_FOUND: "doctype_not_found",
-  DESIGN_NOT_FOUND: "design_not_found",
-  OFFSET_TOO_LARGE: "offset_too_large",
-  PAGE_NOT_FOUND: "page_not_found",
-  DESIGN_OR_COMMENT_NOT_FOUND: "design_or_comment_not_found",
-  DESIGN_TYPE_NOT_FOUND: "design_type_not_found",
-  TEAM_NOT_FOUND: "team_not_found",
-  COMMENT_NOT_FOUND: "comment_not_found",
-  TOO_MANY_COMMENTS: "too_many_comments",
-  TOO_MANY_REPLIES: "too_many_replies",
-  MESSAGE_TOO_LONG: "message_too_long",
-  DESIGN_NOT_FILLABLE: "design_not_fillable",
-  AUTOFILL_DATA_INVALID: "autofill_data_invalid",
-  FEATURE_NOT_AVAILABLE: "feature_not_available",
-  LICENSE_REQUIRED: "license_required",
+  INTERNAL_ERROR: 'internal_error',
+  INVALID_FIELD: 'invalid_field',
+  INVALID_HEADER_VALUE: 'invalid_header_value',
+  PERMISSION_DENIED: 'permission_denied',
+  TOO_MANY_REQUESTS: 'too_many_requests',
+  NOT_FOUND: 'not_found',
+  BAD_REQUEST_BODY: 'bad_request_body',
+  BAD_HTTP_METHOD: 'bad_http_method',
+  BAD_REQUEST_PARAMS: 'bad_request_params',
+  BAD_QUERY_PARAMS: 'bad_query_params',
+  ENDPOINT_NOT_FOUND: 'endpoint_not_found',
+  UNSUPPORTED_VERSION: 'unsupported_version',
+  INVALID_ACCESS_TOKEN: 'invalid_access_token',
+  REVOKED_ACCESS_TOKEN: 'revoked_access_token',
+  MISSING_FIELD: 'missing_field',
+  MISSING_SCOPE: 'missing_scope',
+  INVALID_GRANT: 'invalid_grant',
+  INVALID_REQUEST: 'invalid_request',
+  INVALID_CLIENT: 'invalid_client',
+  UNAUTHORIZED_CLIENT: 'unauthorized_client',
+  UNSUPPORTED_GRANT_TYPE: 'unsupported_grant_type',
+  INVALID_SCOPE: 'invalid_scope',
+  INVALID_BASIC_HEADER: 'invalid_basic_header',
+  INVALID_FILE_FORMAT: 'invalid_file_format',
+  QUOTA_EXCEEDED: 'quota_exceeded',
+  UNSUPPORTED_CONTENT_TYPE: 'unsupported_content_type',
+  REQUEST_TOO_LARGE: 'request_too_large',
+  FOLDER_NOT_FOUND: 'folder_not_found',
+  ITEM_IN_MULTIPLE_FOLDERS: 'item_in_multiple_folders',
+  ASSET_NOT_FOUND: 'asset_not_found',
+  MAX_LIMIT_REACHED: 'max_limit_reached',
+  PERMISSION_NOT_FOUND: 'permission_not_found',
+  PERMISSION_EXISTS: 'permission_exists',
+  UNAUTHORIZED_USER: 'unauthorized_user',
+  USER_NOT_FOUND: 'user_not_found',
+  GROUP_NOT_FOUND: 'group_not_found',
+  APP_NOT_FOUND: 'app_not_found',
+  CONTENT_NOT_FOUND: 'content_not_found',
+  DOCTYPE_NOT_FOUND: 'doctype_not_found',
+  DESIGN_NOT_FOUND: 'design_not_found',
+  OFFSET_TOO_LARGE: 'offset_too_large',
+  PAGE_NOT_FOUND: 'page_not_found',
+  DESIGN_OR_COMMENT_NOT_FOUND: 'design_or_comment_not_found',
+  DESIGN_TYPE_NOT_FOUND: 'design_type_not_found',
+  TEAM_NOT_FOUND: 'team_not_found',
+  COMMENT_NOT_FOUND: 'comment_not_found',
+  TOO_MANY_COMMENTS: 'too_many_comments',
+  TOO_MANY_REPLIES: 'too_many_replies',
+  MESSAGE_TOO_LONG: 'message_too_long',
+  DESIGN_NOT_FILLABLE: 'design_not_fillable',
+  AUTOFILL_DATA_INVALID: 'autofill_data_invalid',
+  FEATURE_NOT_AVAILABLE: 'feature_not_available',
+  LICENSE_REQUIRED: 'license_required',
 } as const;
 
 /**
@@ -1344,7 +1336,7 @@ export type ExportFormat =
  * Export the design as a PDF. Providing a paper size is optional. The default paper size is A4.
  */
 export type PdfExportFormat = {
-  type: "pdf";
+  type: 'pdf';
   export_quality?: ExportQuality;
   size?: ExportPageSize;
   /**
@@ -1361,7 +1353,7 @@ export type PdfExportFormat = {
  * will always be maintained.
  */
 export type GifExportFormat = {
-  type: "gif";
+  type: 'gif';
   export_quality?: ExportQuality;
   /**
    * Specify the height in pixels of the exported image. If only one of height or width is
@@ -1392,7 +1384,7 @@ export type GifExportFormat = {
  * If the user is on the Canva Free plan, the export height and width for a fixed-dimension design can't be upscaled by more than a factor of `1.125`.
  */
 export type JpgExportFormat = {
-  type: "jpg";
+  type: 'jpg';
   export_quality?: ExportQuality;
   /**
    * For the `jpg` type, the `quality` of the exported JPEG determines how compressed the exported file should be. A _low_ `quality` value (minimum `1`) will create a file with a smaller file size, but the resulting file will have pixelated artifacts when compared to a file created with a _high_ `quality` value (maximum `100`).
@@ -1428,7 +1420,7 @@ export type JpgExportFormat = {
  * If the user is on the Canva Free plan, the export height and width for a fixed-dimension design can't be upscaled by more than a factor of `1.125`.
  */
 export type PngExportFormat = {
-  type: "png";
+  type: 'png';
   export_quality?: ExportQuality;
   /**
    * Specify the height in pixels of the exported image. If only one of height or width is
@@ -1466,7 +1458,7 @@ export type PngExportFormat = {
  * Export the design as a PPTX.
  */
 export type PptxExportFormat = {
-  type: "pptx";
+  type: 'pptx';
   /**
    * To specify which pages to export in a multi-page design, provide the page numbers as
    * an array. The first page in a design is page `1`.
@@ -1479,7 +1471,7 @@ export type PptxExportFormat = {
  * Export the design as an MP4. You must specify the quality of the exported video.
  */
 export type Mp4ExportFormat = {
-  type: "mp4";
+  type: 'mp4';
   export_quality?: ExportQuality;
   quality: Mp4ExportQuality;
   /**
@@ -1518,32 +1510,32 @@ export type ExportJob = {
 /**
  * The paper size of the export PDF file. The `size` attribute is only supported for Documents (Canva Docs).
  */
-export type ExportPageSize = "a4" | "a3" | "letter" | "legal";
+export type ExportPageSize = 'a4' | 'a3' | 'letter' | 'legal';
 
 /**
  * The paper size of the export PDF file. The `size` attribute is only supported for Documents (Canva Docs).
  */
 export const ExportPageSize = {
-  A4: "a4",
-  A3: "a3",
-  LETTER: "letter",
-  LEGAL: "legal",
+  A4: 'a4',
+  A3: 'a3',
+  LETTER: 'letter',
+  LEGAL: 'legal',
 } as const;
 
 /**
  * The export status of the job. A newly created job will be `in_progress` and will eventually
  * become `success` or `failed`.
  */
-export type DesignExportStatus = "failed" | "in_progress" | "success";
+export type DesignExportStatus = 'failed' | 'in_progress' | 'success';
 
 /**
  * The export status of the job. A newly created job will be `in_progress` and will eventually
  * become `success` or `failed`.
  */
 export const DesignExportStatus = {
-  FAILED: "failed",
-  IN_PROGRESS: "in_progress",
-  SUCCESS: "success",
+  FAILED: 'failed',
+  IN_PROGRESS: 'in_progress',
+  SUCCESS: 'success',
 } as const;
 
 /**
@@ -1567,28 +1559,28 @@ export type ExportWidth = number;
  * `vertical`, and resolution is one of `480p`, `720p`, `1080p` or `4k`.
  */
 export type Mp4ExportQuality =
-  | "horizontal_480p"
-  | "horizontal_720p"
-  | "horizontal_1080p"
-  | "horizontal_4k"
-  | "vertical_480p"
-  | "vertical_720p"
-  | "vertical_1080p"
-  | "vertical_4k";
+  | 'horizontal_480p'
+  | 'horizontal_720p'
+  | 'horizontal_1080p'
+  | 'horizontal_4k'
+  | 'vertical_480p'
+  | 'vertical_720p'
+  | 'vertical_1080p'
+  | 'vertical_4k';
 
 /**
  * The orientation and resolution of the exported video. Orientation is either `horizontal` or
  * `vertical`, and resolution is one of `480p`, `720p`, `1080p` or `4k`.
  */
 export const Mp4ExportQuality = {
-  HORIZONTAL_480P: "horizontal_480p",
-  HORIZONTAL_720P: "horizontal_720p",
-  HORIZONTAL_1080P: "horizontal_1080p",
-  HORIZONTAL_4K: "horizontal_4k",
-  VERTICAL_480P: "vertical_480p",
-  VERTICAL_720P: "vertical_720p",
-  VERTICAL_1080P: "vertical_1080p",
-  VERTICAL_4K: "vertical_4k",
+  HORIZONTAL_480P: 'horizontal_480p',
+  HORIZONTAL_720P: 'horizontal_720p',
+  HORIZONTAL_1080P: 'horizontal_1080p',
+  HORIZONTAL_4K: 'horizontal_4k',
+  VERTICAL_480P: 'vertical_480p',
+  VERTICAL_720P: 'vertical_720p',
+  VERTICAL_1080P: 'vertical_1080p',
+  VERTICAL_4K: 'vertical_4k',
 } as const;
 
 /**
@@ -1608,7 +1600,7 @@ export type ExportError = {
  * - `license_required`: The design contains [premium elements](https://www.canva.com/help/premium-elements/) that haven't been purchased. You can either buy the elements or upgrade to a Canva plan (such as Canva Pro) that has premium features, then try again. Alternatively, you can set `export_quality` to `regular` to export your document in regular quality.
  * - `internal_failure`: The service encountered an error when exporting your design.
  */
-export type ExportErrorCode = "license_required" | "internal_failure";
+export type ExportErrorCode = 'license_required' | 'internal_failure';
 
 /**
  * If the export failed, this specifies the reason why it failed. This can be one of the following:
@@ -1617,8 +1609,8 @@ export type ExportErrorCode = "license_required" | "internal_failure";
  * - `internal_failure`: The service encountered an error when exporting your design.
  */
 export const ExportErrorCode = {
-  LICENSE_REQUIRED: "license_required",
-  INTERNAL_FAILURE: "internal_failure",
+  LICENSE_REQUIRED: 'license_required',
+  INTERNAL_FAILURE: 'internal_failure',
 } as const;
 
 /**
@@ -1628,7 +1620,7 @@ export const ExportErrorCode = {
  *
  * NOTE: A `pro` export might fail if the design contains [premium elements](https://www.canva.com/help/premium-elements/) and the calling user either hasn't purchased the elements or isn't on a Canva plan (such as Canva Pro) that has premium features.
  */
-export type ExportQuality = "pro" | "regular";
+export type ExportQuality = 'pro' | 'regular';
 
 /**
  * Specifies the export quality of the design. This can be one of the following:
@@ -1638,33 +1630,33 @@ export type ExportQuality = "pro" | "regular";
  * NOTE: A `pro` export might fail if the design contains [premium elements](https://www.canva.com/help/premium-elements/) and the calling user either hasn't purchased the elements or isn't on a Canva plan (such as Canva Pro) that has premium features.
  */
 export const ExportQuality = {
-  PRO: "pro",
-  REGULAR: "regular",
+  PRO: 'pro',
+  REGULAR: 'regular',
 } as const;
 
 export type FolderItemSortBy =
-  | "created_ascending"
-  | "created_descending"
-  | "modified_ascending"
-  | "modified_descending"
-  | "title_ascending"
-  | "title_descending";
+  | 'created_ascending'
+  | 'created_descending'
+  | 'modified_ascending'
+  | 'modified_descending'
+  | 'title_ascending'
+  | 'title_descending';
 
 export const FolderItemSortBy = {
-  CREATED_ASCENDING: "created_ascending",
-  CREATED_DESCENDING: "created_descending",
-  MODIFIED_ASCENDING: "modified_ascending",
-  MODIFIED_DESCENDING: "modified_descending",
-  TITLE_ASCENDING: "title_ascending",
-  TITLE_DESCENDING: "title_descending",
+  CREATED_ASCENDING: 'created_ascending',
+  CREATED_DESCENDING: 'created_descending',
+  MODIFIED_ASCENDING: 'modified_ascending',
+  MODIFIED_DESCENDING: 'modified_descending',
+  TITLE_ASCENDING: 'title_ascending',
+  TITLE_DESCENDING: 'title_descending',
 } as const;
 
-export type FolderItemType = "design" | "folder" | "image";
+export type FolderItemType = 'design' | 'folder' | 'image';
 
 export const FolderItemType = {
-  DESIGN: "design",
-  FOLDER: "folder",
-  IMAGE: "image",
+  DESIGN: 'design',
+  FOLDER: 'folder',
+  IMAGE: 'image',
 } as const;
 
 /**
@@ -1747,7 +1739,7 @@ export type FolderItemSummary = FolderItem | DesignItem | ImageItem;
  * Details about the folder.
  */
 export type FolderItem = {
-  type: "folder";
+  type: 'folder';
   folder: Folder;
 };
 
@@ -1755,7 +1747,7 @@ export type FolderItem = {
  * Details about the design.
  */
 export type DesignItem = {
-  type: "design";
+  type: 'design';
   design: DesignSummary;
 };
 
@@ -1763,7 +1755,7 @@ export type DesignItem = {
  * Details about the image asset.
  */
 export type ImageItem = {
-  type: "image";
+  type: 'image';
   image: AssetSummary;
 };
 
@@ -1850,15 +1842,13 @@ export type Group = {
   external: boolean;
 };
 
-export type ExchangeAccessTokenRequest =
-  | ExchangeAuthCodeRequest
-  | ExchangeRefreshTokenRequest;
+export type ExchangeAccessTokenRequest = ExchangeAuthCodeRequest | ExchangeRefreshTokenRequest;
 
 export type ExchangeAuthCodeRequest = {
   /**
    * For exchanging an authorization code for an access token.
    */
-  grant_type: "authorization_code";
+  grant_type: 'authorization_code';
   /**
    * The `code_verifier` value that you generated when creating the user authorization URL.
    */
@@ -1894,7 +1884,7 @@ export type ExchangeRefreshTokenRequest = {
   /**
    * For generating an access token using a refresh token.
    */
-  grant_type: "refresh_token";
+  grant_type: 'refresh_token';
   /**
    * Your integration's unique ID, for authenticating the request.
    *
@@ -2203,7 +2193,7 @@ export type NotificationContent =
  * The notification content for when someone shares a design.
  */
 export type ShareDesignNotificationContent = {
-  type: "share_design";
+  type: 'share_design';
   triggering_user: User;
   receiving_team_user: TeamUser;
   design: DesignSummary;
@@ -2218,7 +2208,7 @@ export type ShareDesignNotificationContent = {
  * The notification content for when someone shares a folder.
  */
 export type ShareFolderNotificationContent = {
-  type: "share_folder";
+  type: 'share_folder';
   triggering_user: User;
   receiving_team_user: TeamUser;
   folder: FolderSummary;
@@ -2229,7 +2219,7 @@ export type ShareFolderNotificationContent = {
  * The notification content for when someone comments on a design.
  */
 export type CommentNotificationContent = {
-  type: "comment";
+  type: 'comment';
   triggering_user: User;
   receiving_team_user: TeamUser;
   design: DesignSummary;
@@ -2244,7 +2234,7 @@ export type CommentNotificationContent = {
  * The notification content for when someone requests access to a design.
  */
 export type DesignAccessRequestedNotificationContent = {
-  type: "design_access_requested";
+  type: 'design_access_requested';
   triggering_user: TeamUser;
   receiving_team_user: TeamUser;
   design: DesignSummary;
@@ -2260,7 +2250,7 @@ export type DesignAccessRequestedNotificationContent = {
  * [approve a design](https://www.canva.com/help/get-approval/).
  */
 export type DesignApprovalRequestedNotificationContent = {
-  type: "design_approval_requested";
+  type: 'design_approval_requested';
   triggering_user: User;
   initial_requesting_user: TeamUser;
   receiving_team_user: TeamUser;
@@ -2278,7 +2268,7 @@ export type DesignApprovalRequestedNotificationContent = {
  * The notification content for when someone approves a design or gives feeback.
  */
 export type DesignApprovalResponseNotificationContent = {
-  type: "design_approval_response";
+  type: 'design_approval_response';
   triggering_user: User;
   receiving_team_user: TeamUser;
   initial_requesting_user: TeamUser;
@@ -2291,7 +2281,7 @@ export type DesignApprovalResponseNotificationContent = {
  * The notification content for when a reviewer in a design is invalidated.
  */
 export type DesignApprovalReviewerInvalidatedNotificationContent = {
-  type: "design_approval_reviewer_invalidated";
+  type: 'design_approval_reviewer_invalidated';
   receiving_team_user: TeamUserSummary;
   design: DesignSummary;
 };
@@ -2303,7 +2293,7 @@ export type DesignApprovalReviewerInvalidatedNotificationContent = {
  * the recipient of the notification.
  */
 export type DesignMentionNotificationContent = {
-  type: "design_mention";
+  type: 'design_mention';
   triggering_user: User;
   receiving_team_user: TeamUser;
   design: DesignSummary;
@@ -2314,7 +2304,7 @@ export type DesignMentionNotificationContent = {
  * [Canva team](https://www.canva.com/help/about-canva-for-teams/).
  */
 export type TeamInviteNotificationContent = {
-  type: "team_invite";
+  type: 'team_invite';
   triggering_user: User;
   receiving_user: User;
   inviting_team: Team;
@@ -2324,7 +2314,7 @@ export type TeamInviteNotificationContent = {
  * The notification content for when someone requests access to a folder.
  */
 export type FolderAccessRequestedNotificationContent = {
-  type: "folder_access_requested";
+  type: 'folder_access_requested';
   triggering_user: TeamUser;
   receiving_team_user: TeamUser;
   folder: Folder;
@@ -2455,7 +2445,7 @@ export type CreateAssetUploadJobData = {
    */
   body: Blob | File;
   headers: {
-    "Asset-Upload-Metadata": AssetUploadMetadata;
+    'Asset-Upload-Metadata': AssetUploadMetadata;
   };
 };
 
@@ -2712,7 +2702,7 @@ export type CreateDesignImportJobData = {
    */
   body: Blob | File;
   headers: {
-    "Import-Metadata": DesignImportMetadata;
+    'Import-Metadata': DesignImportMetadata;
   };
 };
 
@@ -2882,14 +2872,14 @@ export type GetUserProfileResponse = UserProfileResponse;
 export type GetUserProfileError = unknown;
 
 export type $OpenApiTs = {
-  "/v1/apps/{appId}/jwks": {
+  '/v1/apps/{appId}/jwks': {
     get: {
       req: GetAppJwksData;
       res: {
         /**
          * OK
          */
-        "200": GetAppJwksResponse;
+        '200': GetAppJwksResponse;
         /**
          * Error Response
          */
@@ -2897,14 +2887,14 @@ export type $OpenApiTs = {
       };
     };
   };
-  "/v1/assets/{assetId}": {
+  '/v1/assets/{assetId}': {
     delete: {
       req: DeleteAssetData;
       res: {
         /**
          * OK
          */
-        "204": void;
+        '204': void;
         /**
          * Error Response
          */
@@ -2917,7 +2907,7 @@ export type $OpenApiTs = {
         /**
          * OK
          */
-        "200": GetAssetResponse;
+        '200': GetAssetResponse;
         /**
          * Error Response
          */
@@ -2930,7 +2920,7 @@ export type $OpenApiTs = {
         /**
          * OK
          */
-        "200": UpdateAssetResponse;
+        '200': UpdateAssetResponse;
         /**
          * Error Response
          */
@@ -2938,14 +2928,14 @@ export type $OpenApiTs = {
       };
     };
   };
-  "/v1/asset-uploads": {
+  '/v1/asset-uploads': {
     post: {
       req: CreateAssetUploadJobData;
       res: {
         /**
          * OK
          */
-        "200": CreateAssetUploadJobResponse;
+        '200': CreateAssetUploadJobResponse;
         /**
          * Error Response
          */
@@ -2953,14 +2943,14 @@ export type $OpenApiTs = {
       };
     };
   };
-  "/v1/asset-uploads/{jobId}": {
+  '/v1/asset-uploads/{jobId}': {
     get: {
       req: GetAssetUploadJobData;
       res: {
         /**
          * OK
          */
-        "200": GetAssetUploadJobResponse;
+        '200': GetAssetUploadJobResponse;
         /**
          * Error Response
          */
@@ -2968,14 +2958,14 @@ export type $OpenApiTs = {
       };
     };
   };
-  "/v1/autofills": {
+  '/v1/autofills': {
     post: {
       req: CreateDesignAutofillJobData;
       res: {
         /**
          * OK
          */
-        "200": CreateDesignAutofillJobResponse;
+        '200': CreateDesignAutofillJobResponse;
         /**
          * Error Response
          */
@@ -2983,14 +2973,14 @@ export type $OpenApiTs = {
       };
     };
   };
-  "/v1/autofills/{jobId}": {
+  '/v1/autofills/{jobId}': {
     get: {
       req: GetDesignAutofillJobData;
       res: {
         /**
          * OK
          */
-        "200": GetDesignAutofillJobResponse;
+        '200': GetDesignAutofillJobResponse;
         /**
          * Error Response
          */
@@ -2998,14 +2988,14 @@ export type $OpenApiTs = {
       };
     };
   };
-  "/v1/brand-templates": {
+  '/v1/brand-templates': {
     get: {
       req: ListBrandTemplatesData;
       res: {
         /**
          * OK
          */
-        "200": ListBrandTemplatesResponse;
+        '200': ListBrandTemplatesResponse;
         /**
          * Error Response
          */
@@ -3013,14 +3003,14 @@ export type $OpenApiTs = {
       };
     };
   };
-  "/v1/brand-templates/{brandTemplateId}": {
+  '/v1/brand-templates/{brandTemplateId}': {
     get: {
       req: GetBrandTemplateData;
       res: {
         /**
          * OK
          */
-        "200": GetBrandTemplateResponse;
+        '200': GetBrandTemplateResponse;
         /**
          * Error Response
          */
@@ -3028,14 +3018,14 @@ export type $OpenApiTs = {
       };
     };
   };
-  "/v1/brand-templates/{brandTemplateId}/dataset": {
+  '/v1/brand-templates/{brandTemplateId}/dataset': {
     get: {
       req: GetBrandTemplateDatasetData;
       res: {
         /**
          * OK
          */
-        "200": GetBrandTemplateDatasetResponse;
+        '200': GetBrandTemplateDatasetResponse;
         /**
          * Error Response
          */
@@ -3043,14 +3033,14 @@ export type $OpenApiTs = {
       };
     };
   };
-  "/v1/comments": {
+  '/v1/comments': {
     post: {
       req: CreateCommentData;
       res: {
         /**
          * OK
          */
-        "200": CreateCommentResponse;
+        '200': CreateCommentResponse;
         /**
          * Error Response
          */
@@ -3058,14 +3048,14 @@ export type $OpenApiTs = {
       };
     };
   };
-  "/v1/comments/{commentId}/replies": {
+  '/v1/comments/{commentId}/replies': {
     post: {
       req: CreateReplyData;
       res: {
         /**
          * OK
          */
-        "200": CreateReplyResponse;
+        '200': CreateReplyResponse;
         /**
          * Error Response
          */
@@ -3073,14 +3063,14 @@ export type $OpenApiTs = {
       };
     };
   };
-  "/v1/designs/{designId}/comments/{commentId}": {
+  '/v1/designs/{designId}/comments/{commentId}': {
     get: {
       req: GetCommentData;
       res: {
         /**
          * OK
          */
-        "200": GetCommentResponse;
+        '200': GetCommentResponse;
         /**
          * Error Response
          */
@@ -3088,13 +3078,13 @@ export type $OpenApiTs = {
       };
     };
   };
-  "/v1/connect/keys": {
+  '/v1/connect/keys': {
     get: {
       res: {
         /**
          * OK
          */
-        "200": GetSigningPublicKeysResponse;
+        '200': GetSigningPublicKeysResponse;
         /**
          * Error Response
          */
@@ -3102,14 +3092,14 @@ export type $OpenApiTs = {
       };
     };
   };
-  "/v1/designs": {
+  '/v1/designs': {
     get: {
       req: ListDesignsData;
       res: {
         /**
          * OK
          */
-        "200": GetListDesignResponse;
+        '200': GetListDesignResponse;
         /**
          * Error Response
          */
@@ -3122,7 +3112,7 @@ export type $OpenApiTs = {
         /**
          * OK
          */
-        "200": CreateDesignResponse;
+        '200': CreateDesignResponse;
         /**
          * Error Response
          */
@@ -3130,14 +3120,14 @@ export type $OpenApiTs = {
       };
     };
   };
-  "/v1/designs/{designId}": {
+  '/v1/designs/{designId}': {
     get: {
       req: GetDesignData;
       res: {
         /**
          * OK
          */
-        "200": GetDesignResponse;
+        '200': GetDesignResponse;
         /**
          * Error Response
          */
@@ -3145,14 +3135,14 @@ export type $OpenApiTs = {
       };
     };
   };
-  "/v1/designs/{designId}/pages": {
+  '/v1/designs/{designId}/pages': {
     get: {
       req: GetDesignPagesData;
       res: {
         /**
          * OK
          */
-        "200": GetDesignPagesResponse;
+        '200': GetDesignPagesResponse;
         /**
          * Error Response
          */
@@ -3160,14 +3150,14 @@ export type $OpenApiTs = {
       };
     };
   };
-  "/v1/imports": {
+  '/v1/imports': {
     post: {
       req: CreateDesignImportJobData;
       res: {
         /**
          * OK
          */
-        "200": CreateDesignImportJobResponse;
+        '200': CreateDesignImportJobResponse;
         /**
          * Error Response
          */
@@ -3175,14 +3165,14 @@ export type $OpenApiTs = {
       };
     };
   };
-  "/v1/imports/{jobId}": {
+  '/v1/imports/{jobId}': {
     get: {
       req: GetDesignImportJobData;
       res: {
         /**
          * OK
          */
-        "200": GetDesignImportJobResponse;
+        '200': GetDesignImportJobResponse;
         /**
          * Error Response
          */
@@ -3190,14 +3180,14 @@ export type $OpenApiTs = {
       };
     };
   };
-  "/v1/exports": {
+  '/v1/exports': {
     post: {
       req: CreateDesignExportJobData;
       res: {
         /**
          * OK
          */
-        "200": CreateDesignExportJobResponse;
+        '200': CreateDesignExportJobResponse;
         /**
          * Error Response
          */
@@ -3205,14 +3195,14 @@ export type $OpenApiTs = {
       };
     };
   };
-  "/v1/exports/{exportId}": {
+  '/v1/exports/{exportId}': {
     get: {
       req: GetDesignExportJobData;
       res: {
         /**
          * OK
          */
-        "200": GetDesignExportJobResponse;
+        '200': GetDesignExportJobResponse;
         /**
          * Error Response
          */
@@ -3220,14 +3210,14 @@ export type $OpenApiTs = {
       };
     };
   };
-  "/v1/folders/{folderId}": {
+  '/v1/folders/{folderId}': {
     delete: {
       req: DeleteFolderData;
       res: {
         /**
          * OK
          */
-        "204": void;
+        '204': void;
         /**
          * Error Response
          */
@@ -3240,7 +3230,7 @@ export type $OpenApiTs = {
         /**
          * OK
          */
-        "200": GetFolderResponse;
+        '200': GetFolderResponse;
         /**
          * Error Response
          */
@@ -3253,7 +3243,7 @@ export type $OpenApiTs = {
         /**
          * OK
          */
-        "200": UpdateFolderResponse;
+        '200': UpdateFolderResponse;
         /**
          * Error Response
          */
@@ -3261,14 +3251,14 @@ export type $OpenApiTs = {
       };
     };
   };
-  "/v1/folders/{folderId}/items": {
+  '/v1/folders/{folderId}/items': {
     get: {
       req: ListFolderItemsData;
       res: {
         /**
          * OK
          */
-        "200": ListFolderItemsResponse;
+        '200': ListFolderItemsResponse;
         /**
          * Error Response
          */
@@ -3276,14 +3266,14 @@ export type $OpenApiTs = {
       };
     };
   };
-  "/v1/folders/move": {
+  '/v1/folders/move': {
     post: {
       req: MoveFolderItemData;
       res: {
         /**
          * OK
          */
-        "204": void;
+        '204': void;
         /**
          * Error Response
          */
@@ -3291,14 +3281,14 @@ export type $OpenApiTs = {
       };
     };
   };
-  "/v1/folders": {
+  '/v1/folders': {
     post: {
       req: CreateFolderData;
       res: {
         /**
          * OK
          */
-        "200": CreateFolderResponse;
+        '200': CreateFolderResponse;
         /**
          * Error Response
          */
@@ -3306,14 +3296,14 @@ export type $OpenApiTs = {
       };
     };
   };
-  "/v1/oauth/token": {
+  '/v1/oauth/token': {
     post: {
       req: ExchangeAccessTokenData;
       res: {
         /**
          * OK
          */
-        "200": ExchangeAccessTokenResponse;
+        '200': ExchangeAccessTokenResponse;
         /**
          * Error Response
          */
@@ -3321,14 +3311,14 @@ export type $OpenApiTs = {
       };
     };
   };
-  "/v1/oauth/introspect": {
+  '/v1/oauth/introspect': {
     post: {
       req: IntrospectTokenData;
       res: {
         /**
          * OK
          */
-        "200": IntrospectTokenResponse;
+        '200': IntrospectTokenResponse;
         /**
          * Error Response
          */
@@ -3336,14 +3326,14 @@ export type $OpenApiTs = {
       };
     };
   };
-  "/v1/oauth/revoke": {
+  '/v1/oauth/revoke': {
     post: {
       req: RevokeTokensData;
       res: {
         /**
          * OK
          */
-        "200": RevokeTokensResponse;
+        '200': RevokeTokensResponse;
         /**
          * Error Response
          */
@@ -3351,13 +3341,13 @@ export type $OpenApiTs = {
       };
     };
   };
-  "/v1/users/me": {
+  '/v1/users/me': {
     get: {
       res: {
         /**
          * OK
          */
-        "200": UsersMeResponse;
+        '200': UsersMeResponse;
         /**
          * Error Response
          */
@@ -3365,13 +3355,13 @@ export type $OpenApiTs = {
       };
     };
   };
-  "/v1/users/me/profile": {
+  '/v1/users/me/profile': {
     get: {
       res: {
         /**
          * OK
          */
-        "200": UserProfileResponse;
+        '200': UserProfileResponse;
         /**
          * Error Response
          */

@@ -240,7 +240,7 @@ function Sortable<T>(props: SortableProps<T>) {
 
   return (
     <SortableRootContext.Provider value={contextValue as SortableRootContextValue<unknown>}>
-       {/* @ts-expect-error */}
+      {/* @ts-expect-error */}
       <DndContext
         id={id}
         modifiers={modifiers ?? config.modifiers}
@@ -342,12 +342,16 @@ const SortableItem = React.forwardRef<HTMLDivElement, SortableItemProps>((props,
     transform,
     transition,
     isDragging,
-  } = useSortable({ id: value, disabled : disabled ?? false });
+  } = useSortable({ id: value, disabled: disabled ?? false });
 
   const composedRef = useComposedRefs(forwardedRef, (node) => {
-    if (disabled) return;
+    if (disabled) {
+      return;
+    }
     setNodeRef(node);
-    if (asHandle) setActivatorNodeRef(node);
+    if (asHandle) {
+      setActivatorNodeRef(node);
+    }
   });
 
   const composedStyle = React.useMemo<React.CSSProperties>(() => {
@@ -365,7 +369,7 @@ const SortableItem = React.forwardRef<HTMLDivElement, SortableItemProps>((props,
       listeners,
       setActivatorNodeRef,
       isDragging,
-      disabled : disabled ?? false,
+      disabled: disabled ?? false,
     }),
     [id, attributes, listeners, setActivatorNodeRef, isDragging, disabled],
   );
@@ -417,7 +421,9 @@ const SortableItemHandle = React.forwardRef<HTMLButtonElement, SortableItemHandl
     const isDisabled = disabled ?? itemContext.disabled;
 
     const composedRef = useComposedRefs(forwardedRef, (node) => {
-      if (!isDisabled) return;
+      if (!isDisabled) {
+        return;
+      }
       itemContext.setActivatorNodeRef(node);
     });
 
@@ -472,7 +478,9 @@ function SortableOverlay(props: SortableOverlayProps) {
 
   const container = containerProp ?? (mounted ? globalThis.document?.body : null);
 
-  if (!container) return null;
+  if (!container) {
+    return null;
+  }
 
   return ReactDOM.createPortal(
     <DragOverlay

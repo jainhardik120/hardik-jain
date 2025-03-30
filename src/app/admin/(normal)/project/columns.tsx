@@ -56,7 +56,7 @@ export const columns: ColumnDef<Project>[] = [
 
       return (
         <Image
-          src={value.length > 0 ? value : '/images/project-default-image.jpg'}
+          src={value}
           alt="Project"
           style={{
             maxHeight: '50px',

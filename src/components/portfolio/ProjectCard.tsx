@@ -14,7 +14,7 @@ export const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
   const memoizedImage1 = useMemo(
     () => (
       <Image
-        src={imageUrl.length > 0 ? imageUrl : '/images/project-default-image.jpg'}
+        src={imageUrl}
         alt={name}
         className="transition-transform duration-300 group-hover:scale-110 w-full h-full object-cover"
         width={600}
@@ -27,7 +27,7 @@ export const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
   const memoizedImage2 = useMemo(
     () => (
       <Image
-        src={project.imageUrl.length > 0 ? project.imageUrl : '/images/project-default-image.jpg'}
+        src={project.imageUrl}
         width="400"
         height="400"
         alt="Project Screenshot"
