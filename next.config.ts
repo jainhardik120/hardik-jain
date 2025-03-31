@@ -1,4 +1,5 @@
 import { next } from '@million/lint';
+import nextBundleAnalyzer from '@next/bundle-analyzer';
 
 import type { NextConfig } from 'next';
 import type { Configuration } from 'webpack';
@@ -42,6 +43,12 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default next({
-  enabled: false,
-})(nextConfig);
+const withBundleAnalyzer = nextBundleAnalyzer({
+  enabled: process.env['ANALYZE'] === 'true',
+})(
+  next({
+    enabled: false,
+  })(nextConfig),
+);
+
+export default withBundleAnalyzer;
