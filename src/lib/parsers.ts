@@ -23,9 +23,7 @@ export const getSortingStateParser = <TData>(originalRow?: Row<TData>['original'
   return createParser<ExtendedSortingState<TData>>({
     parse: (value) => {
       try {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        const parsed = JSON.parse(value);
-        const result = z.array(sortingItemSchema).safeParse(parsed);
+        const result = z.array(sortingItemSchema).safeParse(JSON.parse(value));
 
         if (!result.success) {
           return null;
@@ -67,9 +65,7 @@ export const getFiltersStateParser = <T>(originalRow?: Row<T>['original']) => {
   return createParser<Filter<T>[]>({
     parse: (value) => {
       try {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        const parsed = JSON.parse(value);
-        const result = z.array(filterSchema).safeParse(parsed);
+        const result = z.array(filterSchema).safeParse(JSON.parse(value));
 
         if (!result.success) {
           return null;

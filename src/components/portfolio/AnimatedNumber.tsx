@@ -43,14 +43,12 @@ const AnimatedNumber = ({
 
   const numberDivRef = useRef<HTMLDivElement>(null);
 
-  // Function to update dimensions
   const updateDimensions = useCallback(() => {
     const rect = numberDivRef.current?.getClientRects()?.[0];
     if (rect) {
       setNumberHeight(rect.height);
       setNumberWidth(rect.width);
 
-      // Reset animation if it has already started and dimensions change
       if (hasStartedAnimation) {
         controls.stop();
         controls.set('hidden');
@@ -61,12 +59,10 @@ const AnimatedNumber = ({
     }
   }, [controls, hasStartedAnimation]);
 
-  // Initial measurement
   useEffect(() => {
     updateDimensions();
   }, [updateDimensions]);
 
-  // Add resize listener with debounce
   useEffect(() => {
     let resizeTimer: NodeJS.Timeout;
 
@@ -74,12 +70,11 @@ const AnimatedNumber = ({
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(() => {
         updateDimensions();
-      }, 100); // Debounce resize events
+      }, 100);
     };
 
     window.addEventListener('resize', handleResize);
 
-    // Clean up
     return () => {
       window.removeEventListener('resize', handleResize);
       clearTimeout(resizeTimer);
@@ -93,7 +88,6 @@ const AnimatedNumber = ({
     }
   }, [isInView, numberHeight, controls]);
 
-  // Key for forcing re-render when dimensions change
   const dimensionKey = `${numberHeight}_${numberWidth}`;
 
   return (

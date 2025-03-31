@@ -15,8 +15,6 @@ import { ErrorCode } from './ErrorCode';
 
 import type { JWT } from 'next-auth/jwt';
 
-// import { ACCESS_TOKEN_AGE, obtainRefreshTokenForUser, refreshAccessToken } from './token';
-
 class CustomError extends CredentialsSignin {
   public override code: ErrorCode;
   public constructor(code: ErrorCode, message?: string) {

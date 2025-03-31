@@ -27,7 +27,6 @@ export const PublicSnippetsFilter = ({ initialSnippets }: { initialSnippets: Sni
   const [language, setLanguage] = useState(searchParams?.get('language') ?? '');
   const [tag, setTag] = useState(searchParams?.get('tag') ?? '');
 
-  // Extract unique languages and tags from snippets
   const languages = useMemo(
     () => Array.from(new Set(initialSnippets.map((s) => s.language))),
     [initialSnippets],
@@ -37,7 +36,6 @@ export const PublicSnippetsFilter = ({ initialSnippets }: { initialSnippets: Sni
     [initialSnippets],
   );
 
-  // Update URL with filters
   const updateFilters = () => {
     const params = new URLSearchParams();
     if (query) {
@@ -53,13 +51,11 @@ export const PublicSnippetsFilter = ({ initialSnippets }: { initialSnippets: Sni
     router.push(`/snippets?${params.toString()}`);
   };
 
-  // Handle form submission
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     updateFilters();
   };
 
-  // Clear all filters
   const clearFilters = () => {
     setQuery('');
     setLanguage('');

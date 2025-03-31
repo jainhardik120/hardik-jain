@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { useState, useEffect } from 'react';
 
 const MOBILE_BREAKPOINT = 768;

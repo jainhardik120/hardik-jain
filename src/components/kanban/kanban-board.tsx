@@ -32,7 +32,6 @@ export function KanbanBoard() {
       return;
     }
 
-    // Find the task in the source column
     const sourceColumn = filteredColumns.find((col) => col.id === sourceColumnId);
     if (!sourceColumn) {
       return;
@@ -90,8 +89,7 @@ export function KanbanBoard() {
     //   const headers = Object.keys(data[0]).join(',');
     //   const rows = data.map((row) => Object.values(row).join(','));
     //   const csv = [headers, ...rows].join('\n');
-    //   // Create a blob and download
-    //   const blob = new Blob([csv], { type: 'text/csv' });
+    //    //   const blob = new Blob([csv], { type: 'text/csv' });
     //   const url = URL.createObjectURL(blob);
     //   const a = document.createElement('a');
     //   a.href = url;

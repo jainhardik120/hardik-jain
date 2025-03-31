@@ -519,7 +519,6 @@ export default function TypographyToolsPage() {
                         Sample Text
                       </div>
 
-                      {/* This is a simplified contrast estimate - real implementation would use proper calculations */}
                       <div className="flex items-center justify-between mt-2">
                         <span>Estimated contrast ratio:</span>
                         <span
@@ -658,8 +657,6 @@ export default function TypographyToolsPage() {
                     <Button
                       onClick={() => {
                         if (customFontName && customFontUrl) {
-                          // In a real implementation, we would dynamically load the font
-                          // For demo purposes, we'll just alert
                           alert(`Font ${customFontName} would be loaded from ${customFontUrl}`);
                         }
                       }}

@@ -16,7 +16,6 @@ export default function TableOfContents() {
   const [activeId, setActiveId] = useState<string>('');
 
   useEffect(() => {
-    // Find all headings in the article content
     const article = document.querySelector('article');
     if (!article) {
       return;
@@ -26,7 +25,6 @@ export default function TableOfContents() {
     const tocItems: TOCItem[] = [];
 
     headings.forEach((heading) => {
-      // Ensure all headings have IDs for linking
       if (!heading.id) {
         const id =
           heading.textContent
@@ -46,7 +44,6 @@ export default function TableOfContents() {
 
     setToc(tocItems);
 
-    // Set up intersection observer to highlight active section
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {

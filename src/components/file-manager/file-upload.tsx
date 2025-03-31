@@ -32,7 +32,6 @@ export default function FileUpload({ currentPath, onUploadComplete }: FileUpload
     setUploadProgress(0);
 
     try {
-      // Upload each file
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
         if (file === undefined) {
@@ -41,7 +40,6 @@ export default function FileUpload({ currentPath, onUploadComplete }: FileUpload
         const fileName = file.name;
         const fileKey = currentPath ? `${currentPath}${fileName}` : fileName;
 
-        // Get a pre-signed URL for uploading
         const { url, fields } = await getUploadUrlMutation.mutateAsync({
           fileName: fileKey,
           contentType: file.type,
@@ -51,17 +49,14 @@ export default function FileUpload({ currentPath, onUploadComplete }: FileUpload
           throw new Error('Failed to get upload URL');
         }
 
-        // Create form data for the upload
         const formData = new FormData();
         Object.entries(fields).forEach(([key, value]) => {
           formData.append(key, value as string);
         });
         formData.append('file', file);
 
-        // Upload the file directly to S3
         const xhr = new XMLHttpRequest();
 
-        // Track upload progress
         xhr.upload.addEventListener('progress', (event) => {
           if (event.lengthComputable) {
             const percentComplete = Math.round((event.loaded / event.total) * 100);
@@ -69,10 +64,8 @@ export default function FileUpload({ currentPath, onUploadComplete }: FileUpload
           }
         });
 
-        // Handle completion
         xhr.addEventListener('load', () => {
           if (xhr.status >= 200 && xhr.status < 300) {
-            // Success
             if (i === files.length - 1) {
               setIsUploading(false);
               onUploadComplete();
@@ -86,12 +79,10 @@ export default function FileUpload({ currentPath, onUploadComplete }: FileUpload
           }
         });
 
-        // Handle errors
         xhr.addEventListener('error', () => {
           throw new Error('Upload failed');
         });
 
-        // Send the request
         xhr.open('POST', url);
         xhr.send(formData);
       }
@@ -104,7 +95,6 @@ export default function FileUpload({ currentPath, onUploadComplete }: FileUpload
       });
     }
 
-    // Reset the file input
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }

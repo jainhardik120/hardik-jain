@@ -112,7 +112,6 @@ export default function FileList({
 
   const handleRename = (key: string) => {
     setItemToRename(key);
-    // Extract the file/folder name from the key
     const name = key.split('/').filter(Boolean).pop() ?? '';
     setNewName(name);
     setIsRenaming(true);
@@ -136,7 +135,6 @@ export default function FileList({
     const isFolder = itemToRename.endsWith('/');
     const parentPath = currentPath;
 
-    // For folders, we need to ensure the trailing slash
     const newKey = isFolder ? `${parentPath}${newName}/` : `${parentPath}${newName}`;
 
     renameMutation.mutate({
@@ -172,7 +170,7 @@ export default function FileList({
       <table className="w-full">
         <thead>
           <tr className="border-b">
-            <th className="w-8 p-3">{/* Checkbox for select all could go here */}</th>
+            <th className="w-8 p-3"></th>
             <th className="text-left p-3">Name</th>
             <th className="text-left p-3 hidden md:table-cell">Size</th>
             <th className="text-left p-3 hidden md:table-cell">Modified</th>
@@ -188,7 +186,6 @@ export default function FileList({
             </tr>
           ) : (
             files.map((file) => {
-              // Extract the display name from the key
               const displayName = file.key.split('/').filter(Boolean).pop() ?? file.key;
 
               return (
@@ -265,7 +262,6 @@ export default function FileList({
         </tbody>
       </table>
 
-      {/* Rename Dialog */}
       <Dialog open={isRenaming} onOpenChange={setIsRenaming}>
         <DialogContent>
           <DialogHeader>
@@ -300,7 +296,6 @@ export default function FileList({
         </DialogContent>
       </Dialog>
 
-      {/* Delete Confirmation Dialog */}
       <Dialog open={isDeleting} onOpenChange={setIsDeleting}>
         <DialogContent>
           <DialogHeader>

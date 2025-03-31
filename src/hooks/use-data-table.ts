@@ -55,12 +55,10 @@ interface UseDataTableProps<TData>
    * @type { label: string, value: keyof TData, placeholder?: string, options?: { label: string, value: string, icon?: React.ComponentType<{ className?: string }> }[] }[]
    * @example
    * ```ts
-   * // Render a search filter
-   * const filterFields = [
+   *   * const filterFields = [
    *   { label: "Title", value: "title", placeholder: "Search titles" }
    * ];
-   * // Render a faceted filter
-   * const filterFields = [
+   *   * const filterFields = [
    *   {
    *     label: "Status",
    *     value: "status",
@@ -132,7 +130,6 @@ interface UseDataTableProps<TData>
   enableAdvancedFilter?: boolean;
 
   initialState?: Omit<Partial<TableState>, 'sorting'> & {
-    // Extend to make the sorting id typesafe
     sorting?: ExtendedSortingState<TData>;
   };
 }
@@ -188,14 +185,11 @@ export function useDataTable<TData>({
       .withDefault(initialState?.sorting ?? []),
   );
 
-  // Create parsers for each filter field
   const filterParsers = useMemo(() => {
     return filterFields.reduce<Record<string, Parser<string> | Parser<string[]>>>((acc, field) => {
       if (field.options) {
-        // Faceted filter
         acc[field.id] = parseAsArrayOf(parseAsString, ',').withOptions(queryStateOptions);
       } else {
-        // Search filter
         acc[field.id] = parseAsString.withOptions(queryStateOptions);
       }
       return acc;
@@ -209,9 +203,8 @@ export function useDataTable<TData>({
     void setFilterValues(values);
   }, debounceMs);
 
-  // Paginate
   const pagination: PaginationState = {
-    pageIndex: page - 1, // zero-based index -> one-based index
+    pageIndex: page - 1,
     pageSize: perPage,
   };
 
@@ -226,7 +219,6 @@ export function useDataTable<TData>({
     }
   }
 
-  // Sort
   function onSortingChange(updaterOrValue: Updater<SortingState>) {
     if (typeof updaterOrValue === 'function') {
       const newSorting = updaterOrValue(sorting) as ExtendedSortingState<TData>;
@@ -234,7 +226,6 @@ export function useDataTable<TData>({
     }
   }
 
-  // Filter
   const initialColumnFilters: ColumnFiltersState = useMemo(() => {
     return enableAdvancedFilter
       ? []
@@ -251,7 +242,6 @@ export function useDataTable<TData>({
 
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(initialColumnFilters);
 
-  // Memoize computation of searchableColumns and filterableColumns
   const { searchableColumns, filterableColumns } = useMemo(() => {
     return enableAdvancedFilter
       ? { searchableColumns: [], filterableColumns: [] }
@@ -263,7 +253,6 @@ export function useDataTable<TData>({
 
   const onColumnFiltersChange = useCallback(
     (updaterOrValue: Updater<ColumnFiltersState>) => {
-      // Don't process filters if advanced filtering is enabled
       if (enableAdvancedFilter) {
         return;
       }
@@ -274,10 +263,8 @@ export function useDataTable<TData>({
         const filterUpdates = next.reduce<Record<string, string | string[] | null>>(
           (acc, filter) => {
             if (searchableColumns.find((col) => col.id === filter.id)) {
-              // For search filters, use the value directly
               acc[filter.id] = filter.value as string;
             } else if (filterableColumns.find((col) => col.id === filter.id)) {
-              // For faceted filters, use the array of values
               acc[filter.id] = filter.value as string[];
             }
             return acc;
