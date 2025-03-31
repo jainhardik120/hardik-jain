@@ -26,7 +26,7 @@ const HeroImage = memo(() => {
     <div className="relative">
       <div className="absolute inset-0 h-full w-full bg-gradient-to-r from-blue-500 to-teal-500 transform scale-[0.80] bg-red-500 rounded-full blur-3xl" />
       <Image
-        src="/images/hero-image.jpg"
+        src={`${env.NEXT_PUBLIC_FILE_STORAGE_HOST}/hero-image.jpg`}
         alt="hero image"
         width={400}
         height={400}
