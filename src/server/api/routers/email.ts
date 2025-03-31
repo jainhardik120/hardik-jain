@@ -1,9 +1,10 @@
-import { config } from '@/lib/aws-config';
-import { createTRPCRouter, protectedProcedure } from '@/server/api/trpc';
 import { GetObjectCommand, PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { z } from 'zod';
-import { env } from '@/env';
+
 import { type Layout, defaultLayout } from '@/components/email-editor/types';
+import { env } from '@/env';
+import { config } from '@/lib/aws-config';
+import { createTRPCRouter, protectedProcedure } from '@/server/api/trpc';
 
 export const EmailRouter = createTRPCRouter({
   createNewEmailTemplate: protectedProcedure.input(z.string()).mutation(async ({ ctx, input }) => {

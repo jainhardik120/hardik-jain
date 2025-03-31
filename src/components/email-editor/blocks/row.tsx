@@ -1,5 +1,6 @@
-import { Row as EmailRow } from '@react-email/components';
 import React from 'react';
+
+import { Row as EmailRow } from '@react-email/components';
 import { z } from 'zod';
 
 const RowPropsSchema = z.object({}).optional().default({});

@@ -1,7 +1,7 @@
-import { Heading, type HeadingProps } from './blocks/heading';
-import { Section, type SectionProps } from './blocks/section';
-import { Row, type RowProps } from './blocks/row';
 import { Column, type ColumnProps } from './blocks/column';
+import { Heading, type HeadingProps } from './blocks/heading';
+import { Row, type RowProps } from './blocks/row';
+import { Section, type SectionProps } from './blocks/section';
 
 export interface ComponentDefinition<TProps> {
   component: React.FC<{ props: TProps }>;

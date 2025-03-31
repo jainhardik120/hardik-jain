@@ -1,7 +1,18 @@
 'use client';
 
-import Image from 'next/image';
+import React, { memo } from 'react';
+
 import dynamic from 'next/dynamic';
+import Image from 'next/image';
+
+import { LinkIcon } from 'lucide-react';
+
+import { Button } from '@/components/ui/button';
+import { env } from '@/env';
+import { Socials } from '@/types/constants';
+
+import AchievementsSection from './AchievementsSection';
+
 const TypeAnimation = dynamic(
   () => import('react-type-animation').then((mod) => mod.TypeAnimation),
   {
@@ -9,14 +20,8 @@ const TypeAnimation = dynamic(
     loading: () => <span>Hardik Jain</span>,
   },
 );
-import AchievementsSection from './AchievementsSection';
-import React from 'react';
-import { LinkIcon } from 'lucide-react';
-import { env } from '@/env';
-import { Socials } from '@/types/constants';
-import { Button } from '../ui/button';
 
-const HeroImage = React.memo(() => {
+const HeroImage = memo(() => {
   return (
     <div className="relative">
       <div className="absolute inset-0 h-full w-full bg-gradient-to-r from-blue-500 to-teal-500 transform scale-[0.80] bg-red-500 rounded-full blur-3xl" />

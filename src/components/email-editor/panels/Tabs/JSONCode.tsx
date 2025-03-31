@@ -1,8 +1,11 @@
 import React, { useEffect, useRef } from 'react';
+
 import hljs from 'highlight.js';
+
 import 'highlight.js/styles/atom-one-dark.css';
-import { useLayout } from '../../ContextProvider';
-import { type Layout } from '../../types';
+
+import { useLayout } from '@/components/email-editor/ContextProvider';
+import { type Layout } from '@/components/email-editor/types';
 
 const JSONCode = () => {
   const { layout } = useLayout();

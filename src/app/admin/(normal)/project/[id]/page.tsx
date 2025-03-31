@@ -1,5 +1,7 @@
 import { api } from '@/server/api/server';
+
 import ProjectPage from './ProjectPage';
+
 import type { Project } from '@prisma/client';
 
 const defaultProject: Project = {

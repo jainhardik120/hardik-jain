@@ -1,6 +1,7 @@
-import { loggerLink, unstable_httpBatchStreamLink } from '@trpc/client';
 import { defaultShouldDehydrateQuery, QueryClient } from '@tanstack/react-query';
-import SuperJSON from 'superjson';
+import { loggerLink, unstable_httpBatchStreamLink } from '@trpc/client';
+import { SuperJSON } from 'superjson';
+
 import { getBaseUrl } from '@/lib/getBaseUrl';
 
 export const createQueryClient = (): QueryClient =>

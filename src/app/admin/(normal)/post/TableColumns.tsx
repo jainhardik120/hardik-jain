@@ -1,7 +1,7 @@
 'use client';
 
-import type { ColumnDef } from '@tanstack/react-table';
 import Link from 'next/link';
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -15,6 +15,8 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import { api } from '@/server/api/react';
+
+import type { ColumnDef } from '@tanstack/react-table';
 
 export const columns: ColumnDef<{
   id: string;

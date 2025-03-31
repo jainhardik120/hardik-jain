@@ -1,8 +1,9 @@
-import { env } from '@/env';
-import { client } from '@/server/api/react';
 import { createImageUpload } from 'novel/plugins';
 import { toast } from 'sonner';
-import { useTextStore } from '../../hooks/useTextStore';
+
+import { env } from '@/env';
+import { useTextStore } from '@/hooks/useTextStore';
+import { client } from '@/server/api/react';
 
 const stripQueryParameters = (url: string): string => {
   return url.split('?')[0] ?? url;

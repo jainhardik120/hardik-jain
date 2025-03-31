@@ -1,5 +1,5 @@
-import { KanbanProvider } from '@/components/kanban/kanban-context';
 import { KanbanBoard } from '@/components/kanban/kanban-board';
+import { KanbanProvider } from '@/components/kanban/kanban-context';
 import { api } from '@/server/api/server';
 
 export default async function Home({ params }: { params: Promise<{ id: string }> }) {

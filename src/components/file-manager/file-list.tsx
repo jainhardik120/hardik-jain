@@ -1,16 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import { File, Folder, MoreHorizontal, Download, Trash, Edit, Share, Loader2 } from 'lucide-react';
+
 import { formatDistanceToNow } from 'date-fns';
+import { File, Folder, MoreHorizontal, Download, Trash, Edit, Share, Loader2 } from 'lucide-react';
+
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import {
   Dialog,
   DialogContent,
@@ -18,10 +14,17 @@ import {
   DialogTitle,
   DialogFooter,
 } from '@/components/ui/dialog';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
-import ShareDialog from './share-dialog';
-import { api } from '@/server/api/react';
 import { toast } from '@/hooks/use-toast';
+import { api } from '@/server/api/react';
+
+import ShareDialog from './share-dialog';
 
 interface FileListProps {
   files: Array<{

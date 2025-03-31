@@ -1,4 +1,5 @@
 import Footer from '@/components/site/site-footer';
+
 import ClientNavBar from './client-navbar';
 
 export default async function HomeLayout({ children }: { children: React.ReactNode }) {

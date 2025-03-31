@@ -1,18 +1,11 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { Slider } from '@/components/ui/slider';
-import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
+
+import Head from 'next/head';
+
+import { Info, Type, Eye, UploadCloud } from 'lucide-react';
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -24,12 +17,23 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { Info, Type, Eye, UploadCloud } from 'lucide-react';
-import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
-import type * as CSS from 'csstype';
-import Head from 'next/head';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Separator } from '@/components/ui/separator';
+import { Slider } from '@/components/ui/slider';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+
+import type { Property } from 'csstype';
 
 type ColorPalette = {
   primary: string;
@@ -100,8 +104,8 @@ export default function TypographyToolsPage() {
   const [fontContrast, setFontContrast] = useState(1);
   const [customFontUrl, setCustomFontUrl] = useState('');
   const [customFontName, setCustomFontName] = useState('');
-  const [textAlign, setTextAlign] = useState<CSS.Property.TextAlign>('left');
-  const [textTransform, setTextTransform] = useState<CSS.Property.TextTransform>('none');
+  const [textAlign, setTextAlign] = useState<Property.TextAlign>('left');
+  const [textTransform, setTextTransform] = useState<Property.TextTransform>('none');
   const [wordSpacing, setWordSpacing] = useState(0);
   const [paragraphSpacing, setParagraphSpacing] = useState(1);
 
@@ -754,7 +758,7 @@ export default function TypographyToolsPage() {
                       <Label htmlFor="text-align">Text Alignment</Label>
                       <Select
                         value={textAlign}
-                        onValueChange={(value) => setTextAlign(value as CSS.Property.TextAlign)}
+                        onValueChange={(value) => setTextAlign(value as Property.TextAlign)}
                       >
                         <SelectTrigger id="text-align">
                           <SelectValue placeholder="Select alignment" />
@@ -772,9 +776,7 @@ export default function TypographyToolsPage() {
                       <Label htmlFor="text-transform">Text Transformation</Label>
                       <Select
                         value={textTransform}
-                        onValueChange={(value) =>
-                          setTextTransform(value as CSS.Property.TextTransform)
-                        }
+                        onValueChange={(value) => setTextTransform(value as Property.TextTransform)}
                       >
                         <SelectTrigger id="text-transform">
                           <SelectValue placeholder="Select transformation" />

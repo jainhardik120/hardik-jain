@@ -1,4 +1,41 @@
-/* eslint-disable max-len */
+/* eslint-disable max-len, import/max-dependencies */
+
+import { revalidatePath } from 'next/cache';
+
+import { Blockquote } from '@tiptap/extension-blockquote';
+import { Bold } from '@tiptap/extension-bold';
+import { BubbleMenu } from '@tiptap/extension-bubble-menu';
+import { BulletList } from '@tiptap/extension-bullet-list';
+import { CharacterCount } from '@tiptap/extension-character-count';
+import { Code } from '@tiptap/extension-code';
+import { CodeBlockLowlight } from '@tiptap/extension-code-block-lowlight';
+import { Color } from '@tiptap/extension-color';
+import { Document } from '@tiptap/extension-document';
+import { Dropcursor } from '@tiptap/extension-dropcursor';
+import { FloatingMenu } from '@tiptap/extension-floating-menu';
+import { Gapcursor } from '@tiptap/extension-gapcursor';
+import { HardBreak } from '@tiptap/extension-hard-break';
+import { Heading } from '@tiptap/extension-heading';
+import { Highlight } from '@tiptap/extension-highlight';
+import { History } from '@tiptap/extension-history';
+import { HorizontalRule } from '@tiptap/extension-horizontal-rule';
+import { Image } from '@tiptap/extension-image';
+import { Italic } from '@tiptap/extension-italic';
+import { Link } from '@tiptap/extension-link';
+import { ListItem } from '@tiptap/extension-list-item';
+import { OrderedList } from '@tiptap/extension-ordered-list';
+import { Paragraph } from '@tiptap/extension-paragraph';
+import { Placeholder } from '@tiptap/extension-placeholder';
+import { Strike } from '@tiptap/extension-strike';
+import { TaskItem } from '@tiptap/extension-task-item';
+import { TaskList } from '@tiptap/extension-task-list';
+import { Text } from '@tiptap/extension-text';
+import { TextStyle } from '@tiptap/extension-text-style';
+import { Underline } from '@tiptap/extension-underline';
+import YouTube from '@tiptap/extension-youtube';
+import { generateHTML } from '@tiptap/html';
+import { generateSlug } from 'random-word-slugs';
+import { z } from 'zod';
 
 import model from '@/lib/geminiModel';
 import {
@@ -7,42 +44,6 @@ import {
   protectedProcedure,
   publicProcedure,
 } from '@/server/api/trpc';
-import { z } from 'zod';
-import { generateSlug } from 'random-word-slugs';
-
-import { generateHTML } from '@tiptap/html';
-import Blockquote from '@tiptap/extension-blockquote';
-import Bold from '@tiptap/extension-bold';
-import BubbleMenu from '@tiptap/extension-bubble-menu';
-import BulletList from '@tiptap/extension-bullet-list';
-import ListItem from '@tiptap/extension-list-item';
-import OrderedList from '@tiptap/extension-ordered-list';
-import TextStyle from '@tiptap/extension-text-style';
-import CharacterCount from '@tiptap/extension-character-count';
-import Code from '@tiptap/extension-code';
-import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
-import Color from '@tiptap/extension-color';
-import Document from '@tiptap/extension-document';
-import Dropcursor from '@tiptap/extension-dropcursor';
-import FloatingMenu from '@tiptap/extension-floating-menu';
-import Gapcursor from '@tiptap/extension-gapcursor';
-import HardBreak from '@tiptap/extension-hard-break';
-import Heading from '@tiptap/extension-heading';
-import Highlight from '@tiptap/extension-highlight';
-import History from '@tiptap/extension-history';
-import HorizontalRule from '@tiptap/extension-horizontal-rule';
-import Image from '@tiptap/extension-image';
-import Italic from '@tiptap/extension-italic';
-import Link from '@tiptap/extension-link';
-import Paragraph from '@tiptap/extension-paragraph';
-import Placeholder from '@tiptap/extension-placeholder';
-import Strike from '@tiptap/extension-strike';
-import TaskItem from '@tiptap/extension-task-item';
-import TaskList from '@tiptap/extension-task-list';
-import Text from '@tiptap/extension-text';
-import Underline from '@tiptap/extension-underline';
-import YouTube from '@tiptap/extension-youtube';
-import { revalidatePath } from 'next/cache';
 
 export const postRouter = createTRPCRouter({
   createNewPost: permissionCheckProcedure('post', 'create').mutation(async ({ ctx }) => {

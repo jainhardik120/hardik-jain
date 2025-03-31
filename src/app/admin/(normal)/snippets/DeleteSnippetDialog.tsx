@@ -1,9 +1,10 @@
 'use client';
 
 import React from 'react';
+
+import { TrashIcon } from 'lucide-react';
+
 import { useRouter } from '@/components/top-loader-router';
-import { api } from '@/server/api/react';
-import { Button } from '@/components/ui/button';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -15,7 +16,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-import { TrashIcon } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { api } from '@/server/api/react';
 
 export const DeleteSnippetDialog = ({ snippetId }: { snippetId: string }) => {
   const router = useRouter();

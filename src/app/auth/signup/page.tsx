@@ -1,10 +1,12 @@
 'use client';
 
-import type * as z from 'zod';
 import { Suspense, useState, useTransition } from 'react';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 
+import { CardWrapper } from '@/components/auth/card-wrapper';
+import ErrorSuccessMessage from '@/components/form-success';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -14,12 +16,11 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import ErrorSuccessMessage from '@/components/form-success';
 import { Input } from '@/components/ui/input';
-
-import { RegisterSchema } from '@/types/schemas';
 import { api } from '@/server/api/react';
-import { CardWrapper } from '@/components/auth/card-wrapper';
+import { RegisterSchema } from '@/types/schemas';
+
+import type { z } from 'zod';
 
 export default function RegisterPage() {
   return (

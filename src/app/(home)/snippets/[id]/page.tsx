@@ -1,9 +1,11 @@
-import { api } from '@/server/api/server';
+import Link from 'next/link';
 import { notFound } from 'next/navigation';
+
+import { ArrowLeft } from 'lucide-react';
+
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
+import { api } from '@/server/api/server';
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
   const snippet = await api.snippet.getSnippetById({ id: (await params).id });

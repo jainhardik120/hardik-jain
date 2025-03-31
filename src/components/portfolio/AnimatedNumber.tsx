@@ -1,6 +1,8 @@
-import React from 'react';
-import type { Transition } from 'motion/react';
+import React, { useState, useEffect, useRef, useCallback, memo } from 'react';
+
 import { motion, useAnimation, useInView } from 'motion/react';
+
+import type { Transition } from 'motion/react';
 
 const NUMBERS = [
   0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
@@ -23,7 +25,7 @@ const AnimatedNumber = ({
   includeComma,
   locale,
 }: Props) => {
-  const ref = React.useRef(null);
+  const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
 
   const controls = useAnimation();
@@ -35,14 +37,14 @@ const AnimatedNumber = ({
     isNaN(x) ? animateTonumberString[idx] : x,
   );
 
-  const [numberHeight, setNumberHeight] = React.useState(0);
-  const [numberWidth, setNumberWidth] = React.useState(0);
-  const [hasStartedAnimation, setHasStartedAnimation] = React.useState(false);
+  const [numberHeight, setNumberHeight] = useState(0);
+  const [numberWidth, setNumberWidth] = useState(0);
+  const [hasStartedAnimation, setHasStartedAnimation] = useState(false);
 
-  const numberDivRef = React.useRef<HTMLDivElement>(null);
+  const numberDivRef = useRef<HTMLDivElement>(null);
 
   // Function to update dimensions
-  const updateDimensions = React.useCallback(() => {
+  const updateDimensions = useCallback(() => {
     const rect = numberDivRef.current?.getClientRects()?.[0];
     if (rect) {
       setNumberHeight(rect.height);
@@ -60,12 +62,12 @@ const AnimatedNumber = ({
   }, [controls, hasStartedAnimation]);
 
   // Initial measurement
-  React.useEffect(() => {
+  useEffect(() => {
     updateDimensions();
   }, [updateDimensions]);
 
   // Add resize listener with debounce
-  React.useEffect(() => {
+  useEffect(() => {
     let resizeTimer: NodeJS.Timeout;
 
     const handleResize = () => {
@@ -84,7 +86,7 @@ const AnimatedNumber = ({
     };
   }, [updateDimensions]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (isInView && numberHeight > 0) {
       setHasStartedAnimation(true);
       void controls.start('visible');
@@ -162,7 +164,7 @@ const AnimatedNumber = ({
   );
 };
 
-const Enhanced = React.memo(AnimatedNumber, (prevProps, nextProps) => {
+const Enhanced = memo(AnimatedNumber, (prevProps, nextProps) => {
   return (
     prevProps.animateToNumber === nextProps.animateToNumber &&
     prevProps.fontStyle === nextProps.fontStyle &&

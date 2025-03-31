@@ -1,9 +1,11 @@
 'use client';
 
-import type { ColumnDef } from '@tanstack/react-table';
 import { Badge } from '@/components/ui/badge';
-import { EditSnippetDialog } from './EditSnippetDialog';
+
 import { DeleteSnippetDialog } from './DeleteSnippetDialog';
+import { EditSnippetDialog } from './EditSnippetDialog';
+
+import type { ColumnDef } from '@tanstack/react-table';
 
 export const columns: ColumnDef<{
   id: string;

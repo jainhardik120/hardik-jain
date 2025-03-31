@@ -1,13 +1,15 @@
 'use client';
 
 import React from 'react';
+
 import { Tabs, TabsContent } from '@/components/ui/tabs';
-import { TabLists } from './Tabs/TabLists';
+
+import DesktopPreview from './Tabs/DesktopPreview';
+import DragDropEditor from './Tabs/DragDropEditor';
 import HTMLCode from './Tabs/HTMLCode';
 import JSONCode from './Tabs/JSONCode';
 import MobilePreview from './Tabs/MobilePreview';
-import DesktopPreview from './Tabs/DesktopPreview';
-import DragDropEditor from './Tabs/DragDropEditor';
+import { TabLists } from './Tabs/TabLists';
 
 const MiddlePanel = () => {
   return (

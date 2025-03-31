@@ -1,10 +1,12 @@
 'use client';
 
 import React from 'react';
+
+import { Plus } from 'lucide-react';
+
+import { useRouter } from '@/components/top-loader-router';
 import { Button } from '@/components/ui/button';
 import { api } from '@/server/api/react';
-import { useRouter } from '@/components/top-loader-router';
-import { Plus } from 'lucide-react';
 
 const CreateSnippetButton = () => {
   const router = useRouter();

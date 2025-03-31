@@ -1,4 +1,5 @@
 import NextAuth from 'next-auth';
+
 import { apiAuthPrefix, authRoutes, dynamicPublicRoutes, publicRoutes } from '@/routes';
 
 const { auth } = NextAuth({

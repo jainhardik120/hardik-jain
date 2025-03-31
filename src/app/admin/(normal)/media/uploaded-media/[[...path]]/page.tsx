@@ -1,5 +1,6 @@
 import { DataTable } from '@/components/DataTable';
 import { api } from '@/server/api/server';
+
 import { columns } from './columns';
 
 export default async function Page({

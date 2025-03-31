@@ -1,9 +1,10 @@
-import { OauthService } from '@/canva-client';
-import { getBasicAuthClient } from '@/lib/canva';
-import { prisma } from '@/lib/prisma';
 import { redirect } from 'next/navigation';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
+
+import { OauthService } from '@/canva-client';
+import { getBasicAuthClient } from '@/lib/canva';
+import { prisma } from '@/lib/prisma';
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);

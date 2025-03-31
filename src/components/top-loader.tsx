@@ -1,7 +1,8 @@
 'use client';
 
-import * as React from 'react';
-import NProgress from 'nprogress';
+import React, { useEffect } from 'react';
+
+import { start, done, configure } from 'nprogress';
 
 const NextTopLoader = ({ showForHashAnchor = true }): JSX.Element => {
   const styles = (
@@ -27,8 +28,8 @@ const NextTopLoader = ({ showForHashAnchor = true }): JSX.Element => {
     return current.hostname.replace(/^www\./, '') === next.hostname.replace(/^www\./, '');
   };
 
-  React.useEffect((): ReturnType<React.EffectCallback> => {
-    NProgress.configure({
+  useEffect((): ReturnType<React.EffectCallback> => {
+    configure({
       showSpinner: false,
       trickle: true,
       trickleSpeed: 200,
@@ -101,23 +102,23 @@ const NextTopLoader = ({ showForHashAnchor = true }): JSX.Element => {
             event.altKey ||
             !toAbsoluteURL(anchor?.href ?? '').startsWith('http')
           ) {
-            NProgress.start();
-            NProgress.done();
+            start();
+            done();
             removeNProgressClass();
           } else {
-            NProgress.start();
+            start();
           }
         }
       } catch {
-        NProgress.start();
-        NProgress.done();
+        start();
+        done();
       }
     }
 
     ((history: History): void => {
       const pushState = history.pushState;
       history.pushState = (...args) => {
-        NProgress.done();
+        done();
         removeNProgressClass();
         return pushState.apply(history, args);
       };
@@ -126,19 +127,19 @@ const NextTopLoader = ({ showForHashAnchor = true }): JSX.Element => {
     ((history: History): void => {
       const replaceState = history.replaceState;
       history.replaceState = (...args) => {
-        NProgress.done();
+        done();
         removeNProgressClass();
         return replaceState.apply(history, args);
       };
     })((window as Window).history);
 
     function handlePageHide(): void {
-      NProgress.done();
+      done();
       removeNProgressClass();
     }
 
     function handleBackAndForth(): void {
-      NProgress.done();
+      done();
     }
 
     window.addEventListener('popstate', handleBackAndForth);

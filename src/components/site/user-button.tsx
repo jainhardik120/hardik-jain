@@ -4,10 +4,12 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { SignIn } from '../sidebar/auth-components';
-import UserDropDown from '../user-dropdown';
-import type { User } from 'next-auth';
+import UserDropDown from '@/components/user-dropdown';
 import RandomAvatarImage from '@/lib/avatar-image';
+
+import { SignIn } from './auth-components';
+
+import type { User } from 'next-auth';
 
 export default function UserButton({ loading, user }: { loading: boolean; user: User | null }) {
   if (loading) {

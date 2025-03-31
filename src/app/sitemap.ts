@@ -1,5 +1,6 @@
 import { getPostSlugs } from '@/actions/blog';
 import { getBaseUrl } from '@/lib/getBaseUrl';
+
 import type { MetadataRoute } from 'next';
 
 export const revalidate = 3600;

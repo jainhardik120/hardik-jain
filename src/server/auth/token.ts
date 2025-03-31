@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/prisma';
+
 import type { RefreshToken } from '@prisma/client';
 import type { JWT } from 'next-auth/jwt';
 

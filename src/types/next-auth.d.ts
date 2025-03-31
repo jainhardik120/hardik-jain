@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars, no-unused-vars */
 import { type DefaultSession } from 'next-auth';
-import type { UserRole } from '@prisma/client';
 import { JWT } from 'next-auth/jwt';
+
+import type { UserRole } from '@prisma/client';
 
 export type ExtendedUser = DefaultSession['user'] & {
   role: UserRole[];

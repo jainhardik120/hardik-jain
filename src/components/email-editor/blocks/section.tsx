@@ -1,5 +1,6 @@
-import { Section as EmailSection } from '@react-email/components';
 import React from 'react';
+
+import { Section as EmailSection } from '@react-email/components';
 import { z } from 'zod';
 
 const SectionPropsSchema = z.object({}).optional().default({});

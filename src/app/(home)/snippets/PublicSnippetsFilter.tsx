@@ -1,9 +1,14 @@
 'use client';
 
 import { useMemo, useState } from 'react';
+
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Input } from '@/components/ui/input';
+
+import { Search, X, Filter } from 'lucide-react';
+
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import {
   Select,
   SelectContent,
@@ -11,8 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Badge } from '@/components/ui/badge';
-import { Search, X, Filter } from 'lucide-react';
+
 import type { Snippet } from '@prisma/client';
 
 export const PublicSnippetsFilter = ({ initialSnippets }: { initialSnippets: Snippet[] }) => {

@@ -1,11 +1,17 @@
 'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import type { z } from 'zod';
 import { Suspense, useMemo, useState } from 'react';
 
-import { LoginSchema } from '@/types/schemas';
+import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
+
+import { zodResolver } from '@hookform/resolvers/zod';
+import { signIn } from 'next-auth/react';
+import { useForm } from 'react-hook-form';
+
+import { CardWrapper } from '@/components/auth/card-wrapper';
+import ErrorSuccessMessage from '@/components/form-success';
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -15,13 +21,10 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import ErrorSuccessMessage from '@/components/form-success';
-import Link from 'next/link';
-import { CardWrapper } from '@/components/auth/card-wrapper';
-import { useSearchParams } from 'next/navigation';
-import { signIn } from 'next-auth/react';
 import { ErrorCode } from '@/server/auth/ErrorCode';
+import { LoginSchema } from '@/types/schemas';
+
+import type { z } from 'zod';
 
 export default function LoginPage(): JSX.Element {
   return (

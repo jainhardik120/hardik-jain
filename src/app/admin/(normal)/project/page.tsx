@@ -1,8 +1,10 @@
-import { DataTable } from '@/components/DataTable';
-import { columns } from './columns';
-import { api } from '@/server/api/server';
 import Link from 'next/link';
+
+import { DataTable } from '@/components/DataTable';
 import { Button } from '@/components/ui/button';
+import { api } from '@/server/api/server';
+
+import { columns } from './columns';
 
 const ProjectsPage = async () => {
   const projects = await api.portfolio.getAllProjects();

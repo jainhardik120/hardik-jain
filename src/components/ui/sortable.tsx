@@ -35,7 +35,7 @@ import {
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { Slot, type SlotProps } from '@radix-ui/react-slot';
-import * as React from 'react';
+import React, { useState } from 'react';
 
 import { composeEventHandlers, useComposedRefs } from '@/lib/composition';
 import { cn } from '@/lib/utils';
@@ -126,7 +126,7 @@ function Sortable<T>(props: SortableProps<T>) {
     accessibility,
     ...sortableProps
   } = props;
-  const [activeId, setActiveId] = React.useState<UniqueIdentifier | null>(null);
+  const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
   const sensors = useSensors(
     useSensor(MouseSensor),
     useSensor(TouchSensor),
@@ -473,7 +473,7 @@ function SortableOverlay(props: SortableOverlayProps) {
   const { container: containerProp, children, ...overlayProps } = props;
   const context = useSortableContext(OVERLAY_NAME);
 
-  const [mounted, setMounted] = React.useState(false);
+  const [mounted, setMounted] = useState(false);
   React.useLayoutEffect(() => setMounted(true), []);
 
   const container = containerProp ?? (mounted ? globalThis.document?.body : null);

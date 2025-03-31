@@ -1,6 +1,7 @@
-import type { BlogPostWithAuthor } from '@/types';
 import Link from 'next/link';
-import { Button } from '../ui/button';
+
+import { Button } from '@/components/ui/button';
+import type { BlogPostWithAuthor } from '@/types';
 
 export default function BlogSection({ blogs }: { blogs: BlogPostWithAuthor[] }) {
   return (

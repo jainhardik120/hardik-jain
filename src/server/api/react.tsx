@@ -1,15 +1,14 @@
 'use client';
 
+import { useState } from 'react';
+
 import { QueryClientProvider, type QueryClient } from '@tanstack/react-query';
 import { createTRPCClient } from '@trpc/client';
 import { createTRPCReact } from '@trpc/react-query';
-import { useState } from 'react';
 import { type inferRouterInputs, type inferRouterOutputs } from '@trpc/server';
 
 import { createQueryClient, links } from '@/server/api';
 import { type AppRouter } from '@/server/api/routers';
-export type RouterInputs = inferRouterInputs<AppRouter>;
-export type RouterOutputs = inferRouterOutputs<AppRouter>;
 
 let clientQueryClientSingleton: QueryClient | undefined = undefined;
 const getQueryClient = (): QueryClient => {
@@ -20,11 +19,11 @@ const getQueryClient = (): QueryClient => {
   return (clientQueryClientSingleton ??= createQueryClient());
 };
 
-export const api = createTRPCReact<AppRouter>();
-
 const config = {
   links: links,
 };
+
+export const api = createTRPCReact<AppRouter>();
 
 export const client = createTRPCClient<AppRouter>(config);
 
@@ -41,3 +40,6 @@ export function TRPCReactProvider(props: { children: React.ReactNode }): JSX.Ele
     </QueryClientProvider>
   );
 }
+
+export type RouterInputs = inferRouterInputs<AppRouter>;
+export type RouterOutputs = inferRouterOutputs<AppRouter>;

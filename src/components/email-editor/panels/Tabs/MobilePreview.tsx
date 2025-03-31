@@ -1,5 +1,6 @@
 import React from 'react';
-import { useLayout } from '../../ContextProvider';
+
+import { useLayout } from '@/components/email-editor/ContextProvider';
 
 const MobilePreview = () => {
   const { html } = useLayout();

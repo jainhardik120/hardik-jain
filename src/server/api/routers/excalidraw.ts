@@ -1,9 +1,11 @@
+import { GetObjectCommand, PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
+import { z } from 'zod';
+
+import { env } from '@/env';
 import { config } from '@/lib/aws-config';
 import { createTRPCRouter, protectedProcedure } from '@/server/api/trpc';
-import { GetObjectCommand, PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
-import { z } from 'zod';
-import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
-import { env } from '@/env';
+
 import type { ExcalidrawElement } from '@excalidraw/excalidraw/types/element/types';
 
 export const excalidrawRouter = createTRPCRouter({

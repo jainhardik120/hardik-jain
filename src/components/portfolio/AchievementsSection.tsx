@@ -1,8 +1,11 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+
 import dynamic from 'next/dynamic';
+
 import { AchievementsList } from '@/types/constants';
+
 const AnimatedNumbers = dynamic(() => import('./AnimatedNumber'), {
   ssr: false,
 });

@@ -1,10 +1,11 @@
 'use client';
 
-import { FcGoogle } from 'react-icons/fc';
-import { FaGithub } from 'react-icons/fa';
+import { useSearchParams } from 'next/navigation';
 
 import { signIn } from 'next-auth/react';
-import { useSearchParams } from 'next/navigation';
+import { FaGithub } from 'react-icons/fa';
+import { FcGoogle } from 'react-icons/fc';
+
 import { Button } from '@/components/ui/button';
 
 export function Social() {

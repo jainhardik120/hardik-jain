@@ -1,11 +1,13 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
 import React, { useState } from 'react';
+
+import { DataTable } from '@/components/DataTable';
+import { Button } from '@/components/ui/button';
+import type { SkillWithSubSkills } from '@/types';
+
 import { EditSkillDialog } from './EditSkillDialog';
 import { NewSkillDialog } from './NewSkillDialog';
-import type { SkillWithSubSkills } from '@/types';
-import { DataTable } from '@/components/DataTable';
 
 export default function SkillsPage({ data }: { data: SkillWithSubSkills[] }) {
   const [dialogOpened, setDialogOpened] = useState(false);

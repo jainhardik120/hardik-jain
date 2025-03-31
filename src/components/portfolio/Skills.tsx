@@ -1,4 +1,5 @@
 import type { SkillWithSubSkills } from '@/types';
+
 import SkillCard from './SkillCard';
 
 export default function SkillsSection({ skills }: { skills: SkillWithSubSkills[] }) {

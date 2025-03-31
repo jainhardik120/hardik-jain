@@ -1,8 +1,10 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState } from 'react';
-import type { RootProps, Layout, LayoutItem } from './types';
+
 import { renderLayoutToHtml } from './components/DynamicEmailComponent';
+
+import type { RootProps, Layout, LayoutItem } from './types';
 
 const generateId = () => `id-${Math.random().toString(36).substr(2, 9)}`;
 

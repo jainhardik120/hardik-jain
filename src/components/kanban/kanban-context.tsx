@@ -1,8 +1,9 @@
 'use client';
 
-import { type Task, type TaskColumn } from '@prisma/client';
 import type React from 'react';
 import { createContext, useContext, useState } from 'react';
+
+import { type Task, type TaskColumn } from '@prisma/client';
 
 export type TaskColumnWithTasks = TaskColumn & {
   tasks: Task[];

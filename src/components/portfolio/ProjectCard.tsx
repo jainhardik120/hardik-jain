@@ -1,11 +1,15 @@
 'use client';
 
-import Image from 'next/image';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { useState, useMemo } from 'react';
-import type { Project } from '@prisma/client';
+
+import Image from 'next/image';
+
 import { DialogTitle } from '@radix-ui/react-dialog';
-import { Button } from '../ui/button';
+
+import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
+
+import type { Project } from '@prisma/client';
 
 export const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
   const [dialogOpened, setDialogOpened] = useState(false);

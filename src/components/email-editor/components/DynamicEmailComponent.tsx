@@ -1,9 +1,10 @@
-import { Tailwind } from '@react-email/components';
-import config from '../../../../tailwind.config';
-import { Font, Head, Html, render } from '@react-email/components';
-import prettier from 'prettier/standalone';
+import { Tailwind, Font, Head, Html, render } from '@react-email/components';
 import htmlParser from 'prettier/plugins/html';
-import { ComponentMap, type Layout, type LayoutItem } from '../types';
+import { format } from 'prettier/standalone';
+
+import config from 'tailwind.config';
+
+import { ComponentMap, type Layout, type LayoutItem } from '@/components/email-editor/types';
 
 const renderComponent = (item: LayoutItem): React.ReactNode => {
   const Component = ComponentMap[item.type];
@@ -43,7 +44,7 @@ export const renderLayoutToHtml = async (layout: Layout): Promise<string> => {
   );
 
   try {
-    const formatted = await prettier.format(html, {
+    const formatted = await format(html, {
       htmlWhitespaceSensitivity: 'ignore',
       parser: 'html',
       plugins: [htmlParser],

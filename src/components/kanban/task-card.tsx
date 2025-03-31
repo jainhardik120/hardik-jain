@@ -1,26 +1,29 @@
 'use client';
 
 import { useState } from 'react';
+
+import { type Task } from '@prisma/client';
+import { format } from 'date-fns';
+import { CalendarIcon, MoreHorizontal, Pencil, Trash2 } from 'lucide-react';
+
+import { Button } from '@/components/ui/button';
+import { Calendar } from '@/components/ui/calendar';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 // import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 // import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Calendar } from '@/components/ui/calendar';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { CalendarIcon, MoreHorizontal, Pencil, Trash2 } from 'lucide-react';
-// import { CalendarIcon, MoreHorizontal, Pencil, Trash2, User } from 'lucide-react';
-import { format } from 'date-fns';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { type Task } from '@prisma/client';
-import { useKanban } from './kanban-context';
+import { Input } from '@/components/ui/input';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Textarea } from '@/components/ui/textarea';
+// import { CalendarIcon, MoreHorizontal, Pencil, Trash2, User } from 'lucide-react';
 import { api } from '@/server/api/react';
+
+import { useKanban } from './kanban-context';
 
 interface TaskCardProps {
   task: Task;

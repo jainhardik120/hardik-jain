@@ -1,12 +1,14 @@
-import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
-import { trpc } from '@/server/api/pages';
-import type { ExcalidrawImportData } from '@/lib/excalidraw';
-import { importExcalidraw } from '@/lib/excalidraw';
+
+import dynamic from 'next/dynamic';
+
+import Header from '@/components/sidebar/sidebar-header';
 import { SidebarLayout } from '@/components/sidebar/sidebar-layout';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useTextStore } from '@/hooks/useTextStore';
-import Header from '@/components/sidebar/sidebar-header';
+import type { ExcalidrawImportData } from '@/lib/excalidraw';
+import { importExcalidraw } from '@/lib/excalidraw';
+import { trpc } from '@/server/api/pages';
 
 const ExcalidrawWrapper = dynamic(
   async () => await import('@/components/excalidraw/ExcalidrawWrapper'),

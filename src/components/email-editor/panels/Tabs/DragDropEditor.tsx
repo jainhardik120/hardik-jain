@@ -1,8 +1,10 @@
 import React from 'react';
-import { type LayoutItem } from '../../types';
-import { useLayout } from '../../ContextProvider';
-import { isItemContainer } from '../../components/RenderEditableComponent';
-import RenderComponentList from '../../components/RenderComponentList';
+
+import RenderComponentList, {
+  isItemContainer,
+} from '@/components/email-editor/components/RenderComponentList';
+import { useLayout } from '@/components/email-editor/ContextProvider';
+import { type LayoutItem } from '@/components/email-editor/types';
 
 const DragDropEditor = () => {
   const { layout, updateLayout, setSelectedComponentId } = useLayout();

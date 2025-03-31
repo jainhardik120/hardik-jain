@@ -1,11 +1,15 @@
 'use server';
 
-import type { SendEmailCommandInput } from '@aws-sdk/client-ses';
+import type React from 'react';
+
 import { SES } from '@aws-sdk/client-ses';
 import { render } from '@react-email/components';
-import type React from 'react';
-import { config } from './aws-config';
+
 import { env } from '@/env';
+
+import { config } from './aws-config';
+
+import type { SendEmailCommandInput } from '@aws-sdk/client-ses';
 
 export const sendSESEmail = async (
   to: string[],

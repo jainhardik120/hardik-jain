@@ -1,10 +1,12 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
 
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+
+import { useRouter } from '@/components/top-loader-router';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -22,9 +24,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-
 import { api } from '@/server/api/react';
-import { useRouter } from '@/components/top-loader-router';
 
 const createBoardSchema = z.object({
   title: z

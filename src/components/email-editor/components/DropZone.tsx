@@ -1,6 +1,8 @@
 import React, { useRef } from 'react';
+
 import { useDrop } from 'react-dnd';
-import { type ComponentType, type LayoutItem } from '../types';
+
+import { type ComponentType, type LayoutItem } from '@/components/email-editor/types';
 
 const DropZone = ({
   type,

@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { onUpload } from '@/components/editor/image-upload';
-import { toast } from 'sonner';
+
 import Image from 'next/image';
+
 import { ImageIcon, Upload, ImagePlus, Trash2 } from 'lucide-react';
+import { toast } from 'sonner';
+
+import { onUpload } from '@/components/editor/image-upload';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+
 import { PreviousImagesButton } from './PreviousImages';
 
 const ImageUpload = ({

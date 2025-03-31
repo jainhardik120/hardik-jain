@@ -1,10 +1,13 @@
-import { ModeToggle } from '@/components/site/theme-toggle';
 import React from 'react';
-import { MobileNav } from './site-nav-mobile';
-import { MainNav } from './site-main-nav';
-import { CommandMenu } from '../command-menu';
-import UserButton from './user-button';
+
 import { MainNavData } from '@/types/constants';
+
+import { CommandMenu } from './command-menu';
+import { MainNav } from './site-main-nav';
+import { MobileNav } from './site-nav-mobile';
+import { ModeToggle } from './theme-toggle';
+import UserButton from './user-button';
+
 import type { User } from 'next-auth';
 
 const Header = ({ loading, user }: { loading: boolean; user: User | null }) => {

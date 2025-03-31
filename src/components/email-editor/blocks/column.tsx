@@ -1,5 +1,6 @@
-import { Column as EmailColumn } from '@react-email/components';
 import React from 'react';
+
+import { Column as EmailColumn } from '@react-email/components';
 import { z } from 'zod';
 
 const ColumnPropsSchema = z.object({}).optional().default({});

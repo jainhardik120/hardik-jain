@@ -9,9 +9,10 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { SidebarMenuButton, useSidebar } from '@/components/ui/sidebar';
-import UserDropDown from '../user-dropdown';
-import type { User } from 'next-auth';
+import UserDropDown from '@/components/user-dropdown';
 import RandomAvatarImage from '@/lib/avatar-image';
+
+import type { User } from 'next-auth';
 
 export function NavUser({ user }: { user: User | null }) {
   const { isMobile } = useSidebar();

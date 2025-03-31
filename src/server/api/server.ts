@@ -1,12 +1,16 @@
+// eslint-disable-next-line
 import 'server-only';
 
-import { createHydrationHelpers } from '@trpc/react-query/rsc';
-import { headers } from 'next/headers';
 import { cache } from 'react';
 
+import { headers } from 'next/headers';
+
+import { createHydrationHelpers } from '@trpc/react-query/rsc';
+
 import { createQueryClient } from '@/server/api';
-import { createTRPCContext } from '@/server/api/trpc';
 import { createCaller, type AppRouter } from '@/server/api/routers';
+import { createTRPCContext } from '@/server/api/trpc';
+
 const createStaticContext = () => {
   return createTRPCContext({
     headers: new Headers(),
@@ -15,7 +19,6 @@ const createStaticContext = () => {
 
 const staticCaller = createCaller(createStaticContext);
 const getStaticQueryClient = cache(createQueryClient);
-export const { trpc: api } = createHydrationHelpers<AppRouter>(staticCaller, getStaticQueryClient);
 
 const createContext = cache(async () => {
   const heads = new Headers(await headers());
@@ -28,5 +31,7 @@ const createContext = cache(async () => {
 
 const getQueryClient = cache(createQueryClient);
 const caller = createCaller(createContext);
+
+export const { trpc: api } = createHydrationHelpers<AppRouter>(staticCaller, getStaticQueryClient);
 
 export const { trpc: dynamicApi } = createHydrationHelpers<AppRouter>(caller, getQueryClient);

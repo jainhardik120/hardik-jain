@@ -1,17 +1,21 @@
 import '@/styles/globals.css';
+import { useEffect, useRef, useState } from 'react';
+
+import { Excalidraw, MainMenu } from '@excalidraw/excalidraw';
+import cloneDeep from 'lodash/cloneDeep';
+import isEqual from 'lodash/isEqual';
+import { useTheme } from 'next-themes';
+import { useDebouncedCallback } from 'use-debounce';
+
+import type { ExcalidrawImportData } from '@/lib/excalidraw';
+import { trpc } from '@/server/api/pages';
+
+import type { ExcalidrawElement, Theme } from '@excalidraw/excalidraw/types/element/types';
 import type {
   BinaryFileData,
   BinaryFiles,
   ExcalidrawImperativeAPI,
 } from '@excalidraw/excalidraw/types/types';
-import { useEffect, useRef, useState } from 'react';
-import { Excalidraw, MainMenu } from '@excalidraw/excalidraw';
-import { useTheme } from 'next-themes';
-import type { ExcalidrawElement, Theme } from '@excalidraw/excalidraw/types/element/types';
-import type { ExcalidrawImportData } from '@/lib/excalidraw';
-import { trpc } from '@/server/api/pages';
-import { useDebouncedCallback } from 'use-debounce';
-import _ from 'lodash';
 
 export default function ExcalidrawWrapper({
   id,
@@ -27,8 +31,8 @@ export default function ExcalidrawWrapper({
   const [excalidrawApi, setExcalidrawApi] = useState<ExcalidrawImperativeAPI | null>(null);
   const { resolvedTheme } = useTheme();
 
-  const previousFiles = useRef<BinaryFileData[]>(_.cloneDeep(initialData.files));
-  const previousElements = useRef<ExcalidrawElement[]>(_.cloneDeep(initialData.elements));
+  const previousFiles = useRef<BinaryFileData[]>(cloneDeep(initialData.files));
+  const previousElements = useRef<ExcalidrawElement[]>(cloneDeep(initialData.elements));
 
   const [dataLoaded, setDataLoaded] = useState(false);
 
@@ -47,8 +51,8 @@ export default function ExcalidrawWrapper({
     setDataLoaded(true);
 
     const files = excalidrawApi.getFiles();
-    previousFiles.current = Object.values(files).map((file) => _.cloneDeep(file));
-    previousElements.current = _.cloneDeep(
+    previousFiles.current = Object.values(files).map((file) => cloneDeep(file));
+    previousElements.current = cloneDeep(
       excalidrawApi.getSceneElementsIncludingDeleted() as ExcalidrawElement[],
     );
     setMessage('');
@@ -97,13 +101,13 @@ export default function ExcalidrawWrapper({
       if (!dataLoaded) {
         return;
       }
-      const newFiles: BinaryFileData[] = Object.values(files).map((file) => _.cloneDeep(file));
-      if (!_.isEqual(newFiles, previousFiles.current)) {
+      const newFiles: BinaryFileData[] = Object.values(files).map((file) => cloneDeep(file));
+      if (!isEqual(newFiles, previousFiles.current)) {
         previousFiles.current = newFiles;
         void handleFileChange(newFiles);
       }
-      const newElements: ExcalidrawElement[] = _.cloneDeep(elements as ExcalidrawElement[]);
-      if (!_.isEqual(newElements, previousElements.current)) {
+      const newElements: ExcalidrawElement[] = cloneDeep(elements as ExcalidrawElement[]);
+      if (!isEqual(newElements, previousElements.current)) {
         previousElements.current = newElements;
         void handleElementsChange(newElements);
       }

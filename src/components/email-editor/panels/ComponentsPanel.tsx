@@ -1,11 +1,13 @@
-import React, { useRef } from 'react';
-import { useDrag } from 'react-dnd';
-import { ComponentMap, type LayoutItem } from '../types';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useLayout } from '../ContextProvider';
+import React, { useRef, useState } from 'react';
+
 import { ChevronRight, ChevronDown } from 'lucide-react';
+import { useDrag } from 'react-dnd';
+
+import { useLayout } from '@/components/email-editor/ContextProvider';
+import { ComponentMap, type LayoutItem } from '@/components/email-editor/types';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const NewComponentWrapper = ({ type }: { type: string }) => {
   const ref = useRef(null);
@@ -43,7 +45,7 @@ const NewComponentsTab = () => {
 };
 
 const TreeItem = ({ item, depth = 0 }: { item: LayoutItem; depth?: number }) => {
-  const [isOpen, setIsOpen] = React.useState(true);
+  const [isOpen, setIsOpen] = useState(true);
   const { setSelectedComponentId, selectedComponentId } = useLayout();
   const hasChildren = item.children !== undefined && item.children.length > 0;
 

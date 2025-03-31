@@ -1,20 +1,12 @@
 'use client';
 
 import type React from 'react';
-
 import { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { TaskCard } from './task-card';
-import { type TaskColumnWithTasks, useKanban } from './kanban-context';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+
 import { MoreHorizontal, Plus, Pencil, Trash2 } from 'lucide-react';
+
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Dialog,
   DialogContent,
@@ -22,7 +14,17 @@ import {
   DialogTitle,
   DialogFooter,
 } from '@/components/ui/dialog';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { Input } from '@/components/ui/input';
 import { api } from '@/server/api/react';
+
+import { type TaskColumnWithTasks, useKanban } from './kanban-context';
+import { TaskCard } from './task-card';
 
 interface ColumnProps {
   column: TaskColumnWithTasks;

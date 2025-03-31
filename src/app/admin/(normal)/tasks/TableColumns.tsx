@@ -1,8 +1,9 @@
 'use client';
 
+import Link from 'next/link';
+
 import { type TaskBoard } from '@prisma/client';
 import { type ColumnDef } from '@tanstack/react-table';
-import Link from 'next/link';
 
 export const columns: ColumnDef<TaskBoard>[] = [
   {

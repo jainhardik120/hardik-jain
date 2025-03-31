@@ -1,15 +1,16 @@
-import { createTRPCRouter, publicProcedure } from '@/server/api/trpc';
-import { NewPasswordSchema, RegisterSchema, ResetSchema } from '@/types/schemas';
 import { TRPCError } from '@trpc/server';
-import bcrypt from 'bcryptjs';
-import { default as ResetPasswordMail } from '@/emails/reset-password';
-import * as z from 'zod';
-import { getBaseUrl } from '@/lib/getBaseUrl';
-import { default as VerifyMailEmail } from '@/emails/verify-email';
-import { sendSESEmail } from '@/lib/sendMail';
-import { auth } from '@/server/auth';
+import { hash } from 'bcryptjs';
 import { v4 as uuidv4 } from 'uuid';
+import { string, object } from 'zod';
+
+import ResetPasswordMail from '@/emails/reset-password';
+import VerifyMailEmail from '@/emails/verify-email';
+import { getBaseUrl } from '@/lib/getBaseUrl';
 import { prisma as db } from '@/lib/prisma';
+import { sendSESEmail } from '@/lib/sendMail';
+import { createTRPCRouter, publicProcedure } from '@/server/api/trpc';
+import { auth } from '@/server/auth';
+import { NewPasswordSchema, RegisterSchema, ResetSchema } from '@/types/schemas';
 
 const appUrl = getBaseUrl();
 
@@ -75,7 +76,7 @@ export const authRouter = createTRPCRouter({
     }
 
     const { email, password, name } = validatedFields.data;
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await hash(password, 10);
     let existingUser;
     try {
       existingUser = await ctx.db.user.findUnique({ where: { email } });
@@ -99,7 +100,7 @@ export const authRouter = createTRPCRouter({
 
     return { success: 'Confirmation email sent!' };
   }),
-  sendVerificationEmail: publicProcedure.input(z.string()).mutation(async ({ ctx, input }) => {
+  sendVerificationEmail: publicProcedure.input(string()).mutation(async ({ ctx, input }) => {
     const email = input;
     const existingUser = await ctx.db.user.findUnique({ where: { email } });
     if (!existingUser) {
@@ -119,7 +120,7 @@ export const authRouter = createTRPCRouter({
     return { success: 'Confirmation email sent!' };
   }),
   verifyEmail: publicProcedure
-    .input(z.object({ token: z.string() }))
+    .input(object({ token: string() }))
     .mutation(async ({ ctx, input }) => {
       const { token } = input;
       const existingToken = await ctx.db.emailVerificationToken.findUnique({
@@ -184,7 +185,7 @@ export const authRouter = createTRPCRouter({
   newPassword: publicProcedure
     .input(
       NewPasswordSchema.extend({
-        token: z.string().min(1, 'Missing or invalid token!'),
+        token: string().min(1, 'Missing or invalid token!'),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -217,7 +218,7 @@ export const authRouter = createTRPCRouter({
           message: 'User not found!',
         });
       }
-      const hashedPassword = await bcrypt.hash(password, 10);
+      const hashedPassword = await hash(password, 10);
       await ctx.db.user.update({
         where: { id: existingUser.id },
         data: { password: hashedPassword },

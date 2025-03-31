@@ -1,6 +1,9 @@
 'use client';
 
+import Link from 'next/link';
+
 import { BadgeCheck, LogOut } from 'lucide-react';
+import { signOut } from 'next-auth/react';
 
 import { Avatar } from '@/components/ui/avatar';
 import {
@@ -9,10 +12,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
-import type { User } from 'next-auth';
 import RandomAvatarImage from '@/lib/avatar-image';
-import Link from 'next/link';
-import { signOut } from 'next-auth/react';
+
+import type { User } from 'next-auth';
 
 export default function UserDropDown({ user }: { user: User | null }) {
   return (

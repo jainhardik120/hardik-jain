@@ -1,8 +1,9 @@
 'use client';
 
-import { api } from '@/server/api/react';
 import React from 'react';
+
 import Navbar from '@/components/site/site-header';
+import { api } from '@/server/api/react';
 
 const ClientNavBar = () => {
   const session = api.auth.sessionDetails.useQuery();
