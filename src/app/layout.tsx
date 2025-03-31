@@ -4,6 +4,7 @@ import '@/styles/globals.css';
 import '@/styles/prosemirror.css';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { ThemeProvider } from 'next-themes';
+import { NuqsAdapter } from 'nuqs/adapters/next/app';
 
 import NextTopLoader from '@/components/top-loader';
 import { Toaster } from '@/components/ui/toaster';
@@ -25,19 +26,21 @@ export default function Layout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="h-screen flex flex-col">
-        <TRPCReactProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <NextTopLoader />
-            {children}
-            <SpeedInsights />
-            <Toaster />
-          </ThemeProvider>
-        </TRPCReactProvider>
+        <NuqsAdapter>
+          <TRPCReactProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <NextTopLoader />
+              {children}
+              <SpeedInsights />
+              <Toaster />
+            </ThemeProvider>
+          </TRPCReactProvider>
+        </NuqsAdapter>
       </body>
     </html>
   );

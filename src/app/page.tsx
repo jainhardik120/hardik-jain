@@ -5,6 +5,7 @@ import ContactSection from '@/components/portfolio/ContactSection';
 import ProfileSection from '@/components/portfolio/ProfileSection';
 import ProjectsSection from '@/components/portfolio/ProjectsSection';
 import SkillsSection from '@/components/portfolio/Skills';
+import Footer from '@/components/site/site-footer';
 
 export default async function Home() {
   const { categories, projectsByCategory } = await getProjectsGroupedByCategory();
@@ -12,17 +13,20 @@ export default async function Home() {
   const blogs = await getAllPosts();
 
   return (
-    <main>
-      <ProfileSection />
-      <AboutSection />
-      <SkillsSection skills={skills} />
-      <ProjectsSection
-        categories={categories}
-        projectsByCategory={projectsByCategory}
-        initialCategory={categories.length > 0 ? (categories[0] ?? '') : ''}
-      />
-      <BlogSection blogs={blogs} />
-      <ContactSection />
-    </main>
+    <>
+      <main>
+        <ProfileSection />
+        <AboutSection />
+        <SkillsSection skills={skills} />
+        <ProjectsSection
+          categories={categories}
+          projectsByCategory={projectsByCategory}
+          initialCategory={categories.length > 0 ? (categories[0] ?? '') : ''}
+        />
+        <BlogSection blogs={blogs} />
+        <ContactSection />
+      </main>
+      <Footer />
+    </>
   );
 }
