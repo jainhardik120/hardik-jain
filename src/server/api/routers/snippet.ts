@@ -1,4 +1,3 @@
-// src/server/api/routers/snippet.ts
 import { revalidatePath } from 'next/cache';
 
 import { z } from 'zod';

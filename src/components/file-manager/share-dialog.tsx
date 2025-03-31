@@ -58,7 +58,6 @@ export default function ShareDialog({ fileKey, isOpen, onClose }: ShareDialogPro
   }, [existingShares]);
 
   const handleCreateShare = () => {
-    // Convert expiresIn to milliseconds
     let expirationMs: number;
 
     switch (expiresIn) {
@@ -75,7 +74,7 @@ export default function ShareDialog({ fileKey, isOpen, onClose }: ShareDialogPro
         expirationMs = 30 * 24 * 60 * 60 * 1000;
         break;
       default:
-        expirationMs = 60 * 60 * 1000; // Default to 1 hour
+        expirationMs = 60 * 60 * 1000;
     }
 
     createShareMutation.mutate({

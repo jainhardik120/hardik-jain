@@ -65,7 +65,6 @@ export const filesRouter = createTRPCRouter({
 
       const response = await client.send(command);
 
-      // Process folders (CommonPrefixes)
       const folders = (response.CommonPrefixes || []).map((prefix) => ({
         key: prefix.Prefix ?? '',
         size: 0,
@@ -73,9 +72,7 @@ export const filesRouter = createTRPCRouter({
         isFolder: true,
       }));
 
-      // Process files (Contents)
       const files = (response.Contents || [])
-        // Filter out the current directory itself
         .filter((item) => item.Key !== prefix)
         .map((item) => ({
           key: item.Key ?? '',
@@ -84,9 +81,7 @@ export const filesRouter = createTRPCRouter({
           isFolder: false,
         }));
 
-      // Combine and sort
       return [...folders, ...files].sort((a, b) => {
-        // Folders first
         if (a.isFolder && !b.isFolder) {
           return -1;
         }
@@ -94,7 +89,6 @@ export const filesRouter = createTRPCRouter({
           return 1;
         }
 
-        // Then alphabetically
         return a.key.localeCompare(b.key);
       });
     }),
@@ -109,7 +103,6 @@ export const filesRouter = createTRPCRouter({
     .mutation(async ({ input }) => {
       const { fileName, contentType } = input;
 
-      // Create a presigned POST URL for direct browser upload
       const command = new PutObjectCommand({
         Bucket: env.S3_BUCKET_NAME_NEW,
         Key: fileName,
@@ -120,7 +113,7 @@ export const filesRouter = createTRPCRouter({
 
       return {
         url,
-        fields: {}, // For compatibility with the frontend
+        fields: {},
       };
     }),
 
@@ -152,10 +145,8 @@ export const filesRouter = createTRPCRouter({
     .mutation(async ({ input }) => {
       const { path } = input;
 
-      // Ensure the path ends with a slash
       const folderPath = path.endsWith('/') ? path : `${path}/`;
 
-      // Create an empty object with the folder name as the key
       const command = new PutObjectCommand({
         Bucket: env.S3_BUCKET_NAME_NEW,
         Key: folderPath,
@@ -179,7 +170,6 @@ export const filesRouter = createTRPCRouter({
       const { oldKey, newKey, isFolder } = input;
 
       if (isFolder) {
-        // For folders, we need to rename all objects with the prefix
         const listCommand = new ListObjectsV2Command({
           Bucket: env.S3_BUCKET_NAME_NEW,
           Prefix: oldKey,
@@ -191,7 +181,6 @@ export const filesRouter = createTRPCRouter({
           throw new Error('Folder not found');
         }
 
-        // Copy each object to the new location
         for (const item of response.Contents) {
           if (item.Key === undefined) {
             continue;
@@ -200,7 +189,6 @@ export const filesRouter = createTRPCRouter({
           const objectKey = item.Key;
           const newObjectKey = objectKey.replace(oldKey, newKey);
 
-          // Copy the object
           const copyCommand = new CopyObjectCommand({
             Bucket: env.S3_BUCKET_NAME_NEW,
             CopySource: `${env.S3_BUCKET_NAME_NEW}/${objectKey}`,
@@ -209,7 +197,6 @@ export const filesRouter = createTRPCRouter({
 
           await client.send(copyCommand);
 
-          // Delete the original
           const deleteCommand = new DeleteObjectCommand({
             Bucket: env.S3_BUCKET_NAME_NEW,
             Key: objectKey,
@@ -218,7 +205,6 @@ export const filesRouter = createTRPCRouter({
           await client.send(deleteCommand);
         }
       } else {
-        // For files, just copy and delete
         const copyCommand = new CopyObjectCommand({
           Bucket: env.S3_BUCKET_NAME_NEW,
           CopySource: `${env.S3_BUCKET_NAME_NEW}/${oldKey}`,
@@ -249,7 +235,6 @@ export const filesRouter = createTRPCRouter({
       const { key, isFolder } = input;
 
       if (isFolder) {
-        // For folders, delete all objects with the prefix
         const listCommand = new ListObjectsV2Command({
           Bucket: env.S3_BUCKET_NAME_NEW,
           Prefix: key,
@@ -261,7 +246,6 @@ export const filesRouter = createTRPCRouter({
           return { success: true };
         }
 
-        // If there are many objects, we need to delete them in batches
         const objects = response.Contents.map((item) => ({ Key: item.Key ?? '' }));
 
         const deleteCommand = new DeleteObjectsCommand({
@@ -271,7 +255,6 @@ export const filesRouter = createTRPCRouter({
 
         await client.send(deleteCommand);
       } else {
-        // For files, just delete the single object
         const deleteCommand = new DeleteObjectCommand({
           Bucket: env.S3_BUCKET_NAME_NEW,
           Key: key,

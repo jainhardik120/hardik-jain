@@ -12,14 +12,12 @@ import { api } from '@/server/api/react';
 export const DesignExportButton: React.FC<{ designId: string }> = ({ designId }) => {
   const mutation = api.canva.exportDesign.useMutation();
   const { data, isFetching, refetch } = api.canva.listExports.useQuery(designId, {
-    // Disable automatic fetching on mount
     enabled: false,
   });
 
   return (
     <Popover
       onOpenChange={(open) => {
-        // Only fetch data when the popover is opened
         if (open) {
           void refetch();
         }

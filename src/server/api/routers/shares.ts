@@ -14,16 +14,14 @@ export const sharesRouter = createTRPCRouter({
     .input(
       z.object({
         fileKey: z.string(),
-        expiresIn: z.number().min(1000), // Minimum 1 second
+        expiresIn: z.number().min(1000),
       }),
     )
     .mutation(async ({ ctx, input }) => {
       const { fileKey, expiresIn } = input;
 
-      // Calculate expiration date
       const expiresAt = new Date(Date.now() + expiresIn);
 
-      // Create a share record in the database
       const share = await ctx.db.fileShare.create({
         data: {
           fileKey,
@@ -31,7 +29,6 @@ export const sharesRouter = createTRPCRouter({
         },
       });
       const shareId = share.id;
-      // Generate the share URL
       const shareUrl = `${getBaseUrl()}/share/${shareId}`;
 
       return {
@@ -50,12 +47,11 @@ export const sharesRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       const { fileKey } = input;
 
-      // Find all active shares for this file
       const shares = await ctx.db.fileShare.findMany({
         where: {
           fileKey,
           expiresAt: {
-            gt: new Date(), // Only return non-expired shares
+            gt: new Date(),
           },
         },
         orderBy: {
@@ -78,7 +74,6 @@ export const sharesRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       const { shareId } = input;
 
-      // Find the share
       const share = await ctx.db.fileShare.findUnique({
         where: {
           id: shareId,
@@ -89,12 +84,10 @@ export const sharesRouter = createTRPCRouter({
         throw new Error('Share not found');
       }
 
-      // Check if the share has expired
       if (share.expiresAt < new Date()) {
         throw new Error('Share has expired');
       }
 
-      // Generate a signed URL for the file
       const command = new GetObjectCommand({
         Bucket: env.S3_BUCKET_NAME_NEW,
         Key: share.fileKey,
@@ -102,7 +95,6 @@ export const sharesRouter = createTRPCRouter({
 
       const signedUrl = await getSignedUrl(client, command, { expiresIn: 3600 });
 
-      // Extract the filename from the key
       const fileName = share.fileKey.split('/').pop() ?? 'file';
 
       return {
