@@ -1,5 +1,6 @@
-import { CalendarDays } from 'lucide-react';
 import React from 'react';
+
+import { CalendarDays } from 'lucide-react';
 
 const AboutSection: React.FC = () => {
   const experiences = [

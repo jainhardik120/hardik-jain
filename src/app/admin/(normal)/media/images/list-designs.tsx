@@ -1,14 +1,18 @@
 'use client';
 
-import type { ColumnDef } from '@tanstack/react-table';
 import React, { useEffect, useState } from 'react';
-import type { Design, GetListDesignResponse } from '@/canva-client';
-import { api } from '@/server/api/react';
-import { Button } from '@/components/ui/button';
+
 import Image from 'next/image';
+
+import type { Design, GetListDesignResponse } from '@/canva-client';
+import { DataTable } from '@/components/DataTable';
+import { Button } from '@/components/ui/button';
+import { api } from '@/server/api/react';
+
 import { CreateDesignForm } from './create-design-form';
 import { DesignExportButton } from './export-button';
-import { DataTable } from '../DataTable';
+
+import type { ColumnDef } from '@tanstack/react-table';
 
 export const columns: ColumnDef<Design>[] = [
   {

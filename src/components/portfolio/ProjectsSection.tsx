@@ -1,9 +1,12 @@
 'use client';
 
 import React, { useState, useCallback } from 'react';
+
+import { cn } from '@/lib/utils';
+
 import { ProjectCard } from './ProjectCard';
 import { ProjectTag } from './ProjectTag';
-import { cn } from '@/lib/utils';
+
 import type { Project } from '@prisma/client';
 
 interface ProjectGroup {

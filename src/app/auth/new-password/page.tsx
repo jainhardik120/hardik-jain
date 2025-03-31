@@ -1,13 +1,14 @@
 'use client';
 
 import { Suspense, useState, useTransition } from 'react';
-import { useSearchParams } from 'next/navigation';
-import ErrorSuccessMessage from '@/components/form-success';
 
-import { NewPasswordSchema } from '@/types/schemas';
-import { api } from '@/server/api/react';
+import { useSearchParams } from 'next/navigation';
+
 import { CardWrapper } from '@/components/auth/card-wrapper';
 import RenderedForm from '@/components/form';
+import ErrorSuccessMessage from '@/components/form-success';
+import { api } from '@/server/api/react';
+import { NewPasswordSchema } from '@/types/schemas';
 
 export default function NewPasswordPage() {
   return (

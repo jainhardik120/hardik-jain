@@ -1,6 +1,8 @@
 import Image from 'next/image';
-import { Button } from '@/components/ui/button';
+
 import { Twitter, Linkedin, Globe } from 'lucide-react';
+
+import { Button } from '@/components/ui/button';
 
 interface AuthorProps {
   author: {

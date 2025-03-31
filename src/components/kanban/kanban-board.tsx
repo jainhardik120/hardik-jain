@@ -1,12 +1,13 @@
 'use client';
 
 import type React from 'react';
-
 import { useState } from 'react';
+
+import { api } from '@/server/api/react';
+
 import { Column } from './column';
 import { FilterBar } from './filter-bar';
 import { useKanban } from './kanban-context';
-import { api } from '@/server/api/react';
 
 export function KanbanBoard() {
   const { filteredColumns, setColumns } = useKanban();

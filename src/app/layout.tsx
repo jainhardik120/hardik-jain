@@ -1,12 +1,15 @@
 import React from 'react';
+
 import '@/styles/globals.css';
 import '@/styles/prosemirror.css';
-import { TRPCReactProvider } from '@/server/api/react';
-import { ThemeProvider } from 'next-themes';
-import { Toaster } from '@/components/ui/toaster';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-import type { Metadata } from 'next';
+import { ThemeProvider } from 'next-themes';
+
 import NextTopLoader from '@/components/top-loader';
+import { Toaster } from '@/components/ui/toaster';
+import { TRPCReactProvider } from '@/server/api/react';
+
+import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Hardik Jain | Android & Web Developer',

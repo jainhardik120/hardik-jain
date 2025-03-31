@@ -1,5 +1,5 @@
+import { useLayout } from '@/components/email-editor/ContextProvider';
 import { Switch } from '@/components/ui/switch';
-import { useLayout } from '../ContextProvider';
 
 const PropertiesPanel = () => {
   const { selectedComponentId, selectedComponent, updateSelectedComponentProps } = useLayout();

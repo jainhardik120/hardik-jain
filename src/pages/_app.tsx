@@ -1,8 +1,10 @@
 import '@/styles/globals.css';
 import '@/styles/prosemirror.css';
-import { trpc } from '@/server/api/pages';
-import { ThemeProvider } from 'next-themes';
 import type { AppType } from 'next/app';
+
+import { ThemeProvider } from 'next-themes';
+
+import { trpc } from '@/server/api/pages';
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (

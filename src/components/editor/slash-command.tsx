@@ -12,10 +12,11 @@ import {
   TextQuote,
   Youtube,
 } from 'lucide-react';
-import { createSuggestionItems } from 'novel/extensions';
-import { Command, renderItems } from 'novel/extensions';
-import { uploadFn } from './image-upload';
+import { createSuggestionItems, Command, renderItems } from 'novel/extensions';
+
 import { client } from '@/server/api/react';
+
+import { uploadFn } from './image-upload';
 
 export const suggestionItems = createSuggestionItems([
   {

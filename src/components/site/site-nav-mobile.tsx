@@ -1,17 +1,19 @@
 'use client';
 
-import * as React from 'react';
+import React, { useState, useCallback } from 'react';
+
 import type { LinkProps } from 'next/link';
 import Link from 'next/link';
-import { cn } from '@/lib/utils';
+
 import { Button } from '@/components/ui/button';
 import { Drawer, DrawerContent, DrawerTrigger } from '@/components/ui/drawer';
+import { cn } from '@/lib/utils';
 import type { MainNavItem } from '@/types';
 
 export function MobileNav({ links }: { links: MainNavItem[] }) {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
-  const onOpenChange = React.useCallback((open: boolean) => {
+  const onOpenChange = useCallback((open: boolean) => {
     setOpen(open);
   }, []);
 

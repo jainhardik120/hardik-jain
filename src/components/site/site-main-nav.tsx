@@ -1,4 +1,5 @@
 import Link from 'next/link';
+
 import type { MainNavItem } from '@/types';
 
 export function MainNav({ links }: { links: MainNavItem[] }) {

@@ -1,6 +1,8 @@
 'use client';
 
-import type { DataTableFilterField, ExtendedSortingState } from '@/types';
+import type React from 'react';
+import { useState, useMemo, useCallback } from 'react';
+
 import {
   type ColumnFiltersState,
   type PaginationState,
@@ -27,10 +29,10 @@ import {
   useQueryState,
   useQueryStates,
 } from 'nuqs';
-import * as React from 'react';
 
 import { useDebouncedCallback } from '@/hooks/use-debounced-callback';
 import { getSortingStateParser } from '@/lib/parsers';
+import type { DataTableFilterField, ExtendedSortingState } from '@/types';
 
 interface UseDataTableProps<TData>
   extends Omit<
@@ -150,7 +152,7 @@ export function useDataTable<TData>({
   ...props
 }: UseDataTableProps<TData>) {
   // @ts-expect-error don't yet know the type of queryStateOptions
-  const queryStateOptions = React.useMemo<Omit<UseQueryStateOptions<string>, 'parse'>>(() => {
+  const queryStateOptions = useMemo<Omit<UseQueryStateOptions<string>, 'parse'>>(() => {
     return {
       history,
       scroll,
@@ -162,10 +164,10 @@ export function useDataTable<TData>({
     };
   }, [history, scroll, shallow, throttleMs, debounceMs, clearOnDefault, startTransition]);
 
-  const [rowSelection, setRowSelection] = React.useState<RowSelectionState>(
+  const [rowSelection, setRowSelection] = useState<RowSelectionState>(
     initialState?.rowSelection ?? {},
   );
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>(
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
     initialState?.columnVisibility ?? {},
   );
 
@@ -187,7 +189,7 @@ export function useDataTable<TData>({
   );
 
   // Create parsers for each filter field
-  const filterParsers = React.useMemo(() => {
+  const filterParsers = useMemo(() => {
     return filterFields.reduce<Record<string, Parser<string> | Parser<string[]>>>((acc, field) => {
       if (field.options) {
         // Faceted filter
@@ -233,7 +235,7 @@ export function useDataTable<TData>({
   }
 
   // Filter
-  const initialColumnFilters: ColumnFiltersState = React.useMemo(() => {
+  const initialColumnFilters: ColumnFiltersState = useMemo(() => {
     return enableAdvancedFilter
       ? []
       : Object.entries(filterValues).reduce<ColumnFiltersState>((filters, [key, value]) => {
@@ -247,11 +249,10 @@ export function useDataTable<TData>({
         }, []);
   }, [filterValues, enableAdvancedFilter]);
 
-  const [columnFilters, setColumnFilters] =
-    React.useState<ColumnFiltersState>(initialColumnFilters);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(initialColumnFilters);
 
   // Memoize computation of searchableColumns and filterableColumns
-  const { searchableColumns, filterableColumns } = React.useMemo(() => {
+  const { searchableColumns, filterableColumns } = useMemo(() => {
     return enableAdvancedFilter
       ? { searchableColumns: [], filterableColumns: [] }
       : {
@@ -260,7 +261,7 @@ export function useDataTable<TData>({
         };
   }, [filterFields, enableAdvancedFilter]);
 
-  const onColumnFiltersChange = React.useCallback(
+  const onColumnFiltersChange = useCallback(
     (updaterOrValue: Updater<ColumnFiltersState>) => {
       // Don't process filters if advanced filtering is enabled
       if (enableAdvancedFilter) {

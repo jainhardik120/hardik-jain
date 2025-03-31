@@ -1,18 +1,22 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
+
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable';
-import ComponentsPanel from './panels/ComponentsPanel';
-import PropertiesPanel from './panels/PropertiesPanel';
-import MiddlePanel from './panels/MiddlePanel';
-import { LayoutProvider } from './ContextProvider';
-import type { Layout } from './types';
-import { api } from '@/server/api/react';
-import type { EmailTemplate } from '@prisma/client';
-import { useTextStore } from '@/hooks/useTextStore';
 import { useDebouncedCallback } from 'use-debounce';
+
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable';
+import { useTextStore } from '@/hooks/useTextStore';
+import { api } from '@/server/api/react';
+
+import { LayoutProvider } from './ContextProvider';
+import ComponentsPanel from './panels/ComponentsPanel';
+import MiddlePanel from './panels/MiddlePanel';
+import PropertiesPanel from './panels/PropertiesPanel';
+
+import type { Layout } from './types';
+import type { EmailTemplate } from '@prisma/client';
 
 const EmailEditor = ({
   initialLayout,
@@ -22,8 +26,8 @@ const EmailEditor = ({
   emailTemplate: EmailTemplate;
 }) => {
   const setText = useTextStore((state) => state.setText);
-  const [leftCollapsed, setLeftCollapsed] = React.useState(false);
-  const [rightCollapsed, setRightCollapsed] = React.useState(false);
+  const [leftCollapsed, setLeftCollapsed] = useState(false);
+  const [rightCollapsed, setRightCollapsed] = useState(false);
   const updateLayoutInDb = api.email.updateEmailTemplate.useMutation();
   const debouncedSave = useDebouncedCallback(async (content: Layout) => {
     setText('Saving...');

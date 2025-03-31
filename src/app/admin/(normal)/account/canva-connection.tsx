@@ -1,9 +1,10 @@
 'use client';
 
-import { api } from '@/server/api/react';
 import React, { useEffect, useState } from 'react';
+
 import canvaAuth from '@/actions/canvaAuth';
 import { Button } from '@/components/ui/button';
+import { api } from '@/server/api/react';
 
 const CanvaConnection = () => {
   const [clientConnected, setClientConnected] = useState(false);

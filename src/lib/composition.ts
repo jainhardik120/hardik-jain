@@ -1,4 +1,5 @@
-import * as React from 'react';
+import { useCallback } from 'react';
+import type React from 'react';
 
 /**
  * Composes two event handlers into a single handler by calling both in order.
@@ -56,7 +57,7 @@ function composeRefs<T>(...refs: PossibleRef<T>[]) {
  */
 function useComposedRefs<T>(...refs: PossibleRef<T>[]) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  return React.useCallback(composeRefs(...refs), refs);
+  return useCallback(composeRefs(...refs), refs);
 }
 
 export { composeEventHandlers, composeRefs, useComposedRefs };

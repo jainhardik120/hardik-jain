@@ -1,12 +1,12 @@
-import type { Route } from 'next';
-import type { Skill, SubSkill } from '@prisma/client';
-import type { LucideIcon } from 'lucide-react';
-import type { ColumnSort, Row } from '@tanstack/react-table';
-import type { z } from 'zod';
-
 import type { DataTableConfig } from '@/config/data-table';
 import type { filterSchema } from '@/lib/parsers';
+
+import type { Skill, SubSkill } from '@prisma/client';
+import type { ColumnSort, Row } from '@tanstack/react-table';
+import type { LucideIcon } from 'lucide-react';
+import type { Route } from 'next';
 import type { User } from 'next-auth';
+import type { z } from 'zod';
 
 export type Prettify<T> = {
   [K in keyof T]: T[K];

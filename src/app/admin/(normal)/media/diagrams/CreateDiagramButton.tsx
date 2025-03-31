@@ -1,8 +1,8 @@
 'use client';
 
+import { useRouter } from '@/components/top-loader-router';
 import { Button } from '@/components/ui/button';
 import { api } from '@/server/api/react';
-import { useRouter } from '@/components/top-loader-router';
 
 export const CreateDiagramButton = () => {
   const router = useRouter();

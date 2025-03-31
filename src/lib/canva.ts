@@ -1,8 +1,10 @@
 import { createClient } from '@hey-api/client-fetch';
-import * as jose from 'jose';
+import { decodeJwt } from 'jose';
+
 import { OauthService } from '@/canva-client';
-import type { PrismaClient } from '@prisma/client';
 import { env } from '@/env';
+
+import type { PrismaClient } from '@prisma/client';
 
 export async function getAccessTokenForUser(id: string, prisma: PrismaClient): Promise<string> {
   const storedToken = await prisma.canvaUserToken.findFirst({
@@ -13,7 +15,7 @@ export async function getAccessTokenForUser(id: string, prisma: PrismaClient): P
   if (!storedToken) {
     throw new Error('No token found for user');
   }
-  const claims = jose.decodeJwt(storedToken.accessToken);
+  const claims = decodeJwt(storedToken.accessToken);
   const refreshBufferSeconds = 60 * 10;
   if (claims.exp !== undefined) {
     const aBitBeforeExpirationSeconds = claims.exp - refreshBufferSeconds;

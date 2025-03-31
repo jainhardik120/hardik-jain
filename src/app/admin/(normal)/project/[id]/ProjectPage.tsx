@@ -1,14 +1,17 @@
 'use client';
 
 import React from 'react';
-import { useRouter } from '@/components/top-loader-router';
-import type { z } from 'zod';
+
 import { toast } from 'sonner';
+
+import RenderedForm from '@/components/form';
+import ImageUpload from '@/components/ImageUpload';
+import { useRouter } from '@/components/top-loader-router';
 import { api } from '@/server/api/react';
 import { projectSchema } from '@/types/schemas';
+
 import type { Project } from '@prisma/client';
-import ImageUpload from './ImageUpload';
-import RenderedForm from '@/components/form';
+import type { z } from 'zod';
 
 type ProjectFormValues = z.infer<typeof projectSchema>;
 

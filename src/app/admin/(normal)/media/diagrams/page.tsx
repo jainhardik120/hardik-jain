@@ -1,7 +1,9 @@
-import { api } from '@/server/api/server';
-import { Table, TableBody, TableCell, TableHeader, TableRow } from '@/components/ui/table';
-import { CreateDiagramButton } from './CreateDiagramButton';
 import Link from 'next/link';
+
+import { Table, TableBody, TableCell, TableHeader, TableRow } from '@/components/ui/table';
+import { api } from '@/server/api/server';
+
+import { CreateDiagramButton } from './CreateDiagramButton';
 
 export default async function DiagramsPage() {
   const designs = await api.excalidraw.listDesigns();

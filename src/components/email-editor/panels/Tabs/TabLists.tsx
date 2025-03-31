@@ -1,6 +1,5 @@
 'use client';
 
-import { TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   Pencil as PencilIcon,
   Smartphone as SmartphoneIcon,
@@ -8,6 +7,8 @@ import {
   Code as CodeIcon,
   FileCode as FileCodeIcon,
 } from 'lucide-react';
+
+import { TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export const TabLists = () => {
   return (

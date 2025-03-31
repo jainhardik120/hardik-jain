@@ -1,17 +1,20 @@
-import { prisma } from '@/lib/prisma';
 import { PrismaAdapter } from '@auth/prisma-adapter';
-import { sendSESEmail } from '@/lib/sendMail';
-import { default as LoginRequestMail } from '@/emails/login-request';
-import { LoginSchema } from '@/types/schemas';
+import { compare } from 'bcryptjs';
+import { CredentialsSignin, type NextAuthConfig, type Session } from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
-import bcrypt from 'bcryptjs';
-import type { Session } from 'next-auth';
-import { CredentialsSignin, type NextAuthConfig } from 'next-auth';
-import type { JWT } from 'next-auth/jwt';
 import GithubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
+
+import LoginRequestMail from '@/emails/login-request';
 import { env } from '@/env';
+import { prisma } from '@/lib/prisma';
+import { sendSESEmail } from '@/lib/sendMail';
+import { LoginSchema } from '@/types/schemas';
+
 import { ErrorCode } from './ErrorCode';
+
+import type { JWT } from 'next-auth/jwt';
+
 // import { ACCESS_TOKEN_AGE, obtainRefreshTokenForUser, refreshAccessToken } from './token';
 
 class CustomError extends CredentialsSignin {
@@ -77,7 +80,7 @@ export const authOptions = {
         if (!existingUser.emailVerified) {
           throw new CustomError(ErrorCode.EMAIL_NOT_VERIFIED);
         }
-        const passwordsMatch = await bcrypt.compare(password, existingUser.password);
+        const passwordsMatch = await compare(password, existingUser.password);
         if (passwordsMatch) {
           return existingUser;
         }

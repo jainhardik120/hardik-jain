@@ -1,9 +1,13 @@
-import { api } from '@/server/api/server';
 import Link from 'next/link';
-import { Badge } from '@/components/ui/badge';
+
 import { formatDistanceToNow } from 'date-fns';
 import { Code, Clock, Tag } from 'lucide-react';
+
+import { Badge } from '@/components/ui/badge';
+import { api } from '@/server/api/server';
+
 import { PublicSnippetsFilter } from './PublicSnippetsFilter';
+
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {

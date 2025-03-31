@@ -1,5 +1,6 @@
-import { createTRPCRouter, permissionCheckProcedure, publicProcedure } from '@/server/api/trpc';
 import { z } from 'zod';
+
+import { createTRPCRouter, permissionCheckProcedure, publicProcedure } from '@/server/api/trpc';
 
 export const contactRouter = createTRPCRouter({
   sendMessage: publicProcedure

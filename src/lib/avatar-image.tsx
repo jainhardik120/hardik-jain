@@ -1,7 +1,8 @@
 'use client';
 
-import { AvatarImage } from '@/components/ui/avatar';
 import React, { useRef } from 'react';
+
+import { AvatarImage } from '@/components/ui/avatar';
 
 const RandomAvatarImage = ({
   src,

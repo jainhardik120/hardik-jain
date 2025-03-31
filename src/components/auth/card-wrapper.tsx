@@ -1,7 +1,9 @@
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { Social } from '@/components/auth/social';
 import Link from 'next/link';
+
+import { Social } from '@/components/auth/social';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+
 import type { Route } from 'next';
 
 interface CardWrapperProps {

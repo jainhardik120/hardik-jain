@@ -1,4 +1,5 @@
 import type { ExtendedUser } from '@/types/next-auth';
+
 import type { Prisma, UserRole } from '@prisma/client';
 
 type PermissionCheck<Key extends keyof Permissions> =
@@ -11,21 +12,6 @@ type RolesWithPermissions = {
       [Action in Permissions[Key]['action']]: PermissionCheck<Key>;
     }>;
   }>;
-};
-
-export type Permissions = {
-  post: {
-    prismaWhereInput: Prisma.PostWhereInput;
-    action: 'create' | 'update' | 'delete' | 'read';
-  };
-  users: {
-    prismaWhereInput: Prisma.UserWhereInput;
-    action: 'list';
-  };
-  messages: {
-    prismaWhereInput: Prisma.MessageWhereInput;
-    action: 'list';
-  };
 };
 
 const ROLES = {
@@ -50,6 +36,20 @@ const ROLES = {
   USER: {},
 } as const satisfies RolesWithPermissions;
 
+export type Permissions = {
+  post: {
+    prismaWhereInput: Prisma.PostWhereInput;
+    action: 'create' | 'update' | 'delete' | 'read';
+  };
+  users: {
+    prismaWhereInput: Prisma.UserWhereInput;
+    action: 'list';
+  };
+  messages: {
+    prismaWhereInput: Prisma.MessageWhereInput;
+    action: 'list';
+  };
+};
 export function withPermission<Resource extends keyof Permissions>(
   user: ExtendedUser,
   resource: Resource,

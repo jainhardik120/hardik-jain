@@ -1,10 +1,12 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
-import type { Project } from '@prisma/client';
-import type { ColumnDef } from '@tanstack/react-table';
 import Image from 'next/image';
 import Link from 'next/link';
+
+import { Button } from '@/components/ui/button';
+
+import type { Project } from '@prisma/client';
+import type { ColumnDef } from '@tanstack/react-table';
 
 export const columns: ColumnDef<Project>[] = [
   {

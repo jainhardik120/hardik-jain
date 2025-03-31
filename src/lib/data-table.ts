@@ -1,7 +1,7 @@
-import type { ColumnType, Filter, FilterOperator } from '@/types';
-import type { Column } from '@tanstack/react-table';
-
 import { dataTableConfig } from '@/config/data-table';
+import type { ColumnType, Filter, FilterOperator } from '@/types';
+
+import type { Column } from '@tanstack/react-table';
 
 /**
  * Generate common pinning styles for a table column.

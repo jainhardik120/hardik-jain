@@ -1,7 +1,9 @@
-import { projectSchema } from '@/types/schemas';
-import { createTRPCRouter, protectedProcedure } from '@/server/api/trpc';
-import { z } from 'zod';
 import { revalidatePath } from 'next/cache';
+
+import { z } from 'zod';
+
+import { createTRPCRouter, protectedProcedure } from '@/server/api/trpc';
+import { projectSchema } from '@/types/schemas';
 
 export const portfolioRouter = createTRPCRouter({
   getAllProjects: protectedProcedure.query(({ ctx }) => {

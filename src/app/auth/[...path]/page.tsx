@@ -1,5 +1,7 @@
-import { CardWrapper } from '@/components/auth/card-wrapper';
 import { FaExclamationTriangle } from 'react-icons/fa';
+
+import { CardWrapper } from '@/components/auth/card-wrapper';
+
 import { NewVerificationForm } from './new-verification';
 
 export default async function AuthPage({

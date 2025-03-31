@@ -1,4 +1,9 @@
+import React from 'react';
+
+import Link from 'next/link';
+
 import { ChevronRight } from 'lucide-react';
+
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import {
   SidebarGroup,
@@ -10,9 +15,7 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from '@/components/ui/sidebar';
-import Link from 'next/link';
 import { AppSidebarData } from '@/types/constants';
-import React from 'react';
 
 export function NavMain(): JSX.Element {
   return (

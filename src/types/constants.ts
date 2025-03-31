@@ -1,4 +1,10 @@
 import {
+  GitHubLogoIcon,
+  LinkedInLogoIcon,
+  InstagramLogoIcon,
+  TwitterLogoIcon,
+} from '@radix-ui/react-icons';
+import {
   Github,
   Instagram,
   Linkedin,
@@ -13,14 +19,8 @@ import {
   MailsIcon,
 } from 'lucide-react';
 
-import {
-  GitHubLogoIcon,
-  LinkedInLogoIcon,
-  InstagramLogoIcon,
-  TwitterLogoIcon,
-} from '@radix-ui/react-icons';
-import type { Route } from 'next';
 import type { MainNavItem, Team, Project, SidebarNavItem } from '.';
+import type { Route } from 'next';
 
 export const AchievementsList = [
   {

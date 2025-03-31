@@ -1,10 +1,11 @@
 'use client';
 
+import React from 'react';
+
 import { useRouter } from '@/components/top-loader-router';
 import { Button } from '@/components/ui/button';
 import { useTextStore } from '@/hooks/useTextStore';
 import { api } from '@/server/api/react';
-import React from 'react';
 
 const CreateEmailButton = () => {
   const router = useRouter();

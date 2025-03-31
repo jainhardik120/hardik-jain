@@ -1,10 +1,13 @@
-import { api } from '@/server/api/server';
-import Link from 'next/link';
-import PageSwitch from './PageSwitch';
-import type { Metadata } from 'next';
-import { getPageCount } from '@/actions/blog';
-import { notFound } from 'next/navigation';
 import Image from 'next/image';
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
+
+import { getPageCount } from '@/actions/blog';
+import { api } from '@/server/api/server';
+
+import PageSwitch from './PageSwitch';
+
+import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   // eslint-disable-next-line quotes

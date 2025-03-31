@@ -1,5 +1,6 @@
-import { handlers } from '@/server/auth';
 import type { NextRequest } from 'next/server';
+
+import { handlers } from '@/server/auth';
 
 async function apiHandler(req: NextRequest) {
   let response: Response;

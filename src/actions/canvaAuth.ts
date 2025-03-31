@@ -1,10 +1,12 @@
 'use server';
 
+import crypto from 'crypto';
+
+import { redirect } from 'next/navigation';
+
+import { env } from '@/env';
 import { prisma } from '@/lib/prisma';
 import { auth } from '@/server/auth';
-import crypto from 'crypto';
-import { redirect } from 'next/navigation';
-import { env } from '@/env';
 
 function generateCodeVerifierAndChallenge() {
   const codeVerifier = crypto.randomBytes(32).toString('base64url');

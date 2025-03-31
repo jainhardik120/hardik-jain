@@ -2,17 +2,10 @@ import { initTRPC, TRPCError } from '@trpc/server';
 import superjson from 'superjson';
 import { ZodError } from 'zod';
 
-import { auth } from '@/server/auth';
 import { prisma as db } from '@/lib/prisma';
-import { type Permissions, withPermission } from '../auth/permissions-helper';
+import { auth } from '@/server/auth';
+import { type Permissions, withPermission } from '@/server/auth/permissions-helper';
 import { type ExtendedUser } from '@/types/next-auth';
-
-export const createTRPCContext = async (opts: { headers: Headers }) => {
-  return {
-    db,
-    ...opts,
-  };
-};
 
 const t = initTRPC.context<typeof createTRPCContext>().create({
   transformer: superjson,
@@ -27,10 +20,6 @@ const t = initTRPC.context<typeof createTRPCContext>().create({
   },
 });
 
-export const createCallerFactory = t.createCallerFactory;
-
-export const createTRPCRouter = t.router;
-
 const timingMiddleware = t.middleware(async ({ next, path }) => {
   const start = Date.now();
   const result = await next();
@@ -40,6 +29,17 @@ const timingMiddleware = t.middleware(async ({ next, path }) => {
 
   return result;
 });
+
+export const createTRPCContext = async (opts: { headers: Headers }) => {
+  return {
+    db,
+    ...opts,
+  };
+};
+
+export const createCallerFactory = t.createCallerFactory;
+
+export const createTRPCRouter = t.router;
 
 export const publicProcedure = t.procedure.use(timingMiddleware).use(async ({ ctx, next }) => {
   return next({

@@ -1,14 +1,16 @@
-import type { Metadata } from 'next';
-
 import 'highlight.js/styles/atom-one-dark.css';
-import { api } from '@/server/api/server';
-import { getPostSlugs } from '@/actions/blog';
-import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
+
+import { getPostSlugs } from '@/actions/blog';
+import { api } from '@/server/api/server';
+
 import AuthorCard from './author-card';
 import ReadNext from './read-next';
 import TableOfContents from './table-of-contents';
+
+import type { Metadata } from 'next';
 
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
   const postSlugs = await getPostSlugs();

@@ -1,7 +1,9 @@
 import React, { useEffect, useRef } from 'react';
+
 import hljs from 'highlight.js';
+
 import 'highlight.js/styles/atom-one-dark.css';
-import { useLayout } from '../../ContextProvider';
+import { useLayout } from '@/components/email-editor/ContextProvider';
 
 const HTMLCode = () => {
   const { html } = useLayout();

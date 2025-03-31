@@ -1,8 +1,13 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+
+import { zodResolver } from '@hookform/resolvers/zod';
+import { PencilIcon } from 'lucide-react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+
 import { useRouter } from '@/components/top-loader-router';
-import { api } from '@/server/api/react';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -20,11 +25,6 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { PencilIcon } from 'lucide-react';
 import {
   Select,
   SelectContent,
@@ -32,6 +32,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
+import { api } from '@/server/api/react';
 
 const formSchema = z.object({
   title: z.string().min(1, 'Title is required'),
@@ -70,7 +72,7 @@ export const EditSnippetDialog = ({ snippetId }: { snippetId: string }) => {
     },
   });
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (snippet !== undefined && snippet !== null) {
       form.reset({
         title: snippet.title,

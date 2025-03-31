@@ -1,5 +1,3 @@
-import { config } from '@/lib/aws-config';
-import { createTRPCRouter, protectedProcedure } from '@/server/api/trpc';
 import {
   ListObjectsV2Command,
   PutObjectCommand,
@@ -8,10 +6,14 @@ import {
   DeleteObjectsCommand,
   CopyObjectCommand,
 } from '@aws-sdk/client-s3';
-import type { _Object } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { z } from 'zod';
+
 import { env } from '@/env';
+import { config } from '@/lib/aws-config';
+import { createTRPCRouter, protectedProcedure } from '@/server/api/trpc';
+
+import type { _Object } from '@aws-sdk/client-s3';
 
 const client = new S3Client(config);
 

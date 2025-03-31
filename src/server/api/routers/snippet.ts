@@ -1,7 +1,10 @@
 // src/server/api/routers/snippet.ts
-import { z } from 'zod';
-import { createTRPCRouter, protectedProcedure, publicProcedure } from '../trpc';
 import { revalidatePath } from 'next/cache';
+
+import { z } from 'zod';
+
+import { createTRPCRouter, protectedProcedure, publicProcedure } from '@/server/api/trpc';
+
 import type { Prisma } from '@prisma/client';
 
 export const snippetRouter = createTRPCRouter({

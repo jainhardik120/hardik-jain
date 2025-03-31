@@ -1,6 +1,10 @@
 'use client';
 
 import React from 'react';
+
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -9,9 +13,8 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
-import Link from 'next/link';
+
 import type { Route } from 'next';
-import { usePathname } from 'next/navigation';
 
 const AppBreadcrumb = ({ pathname }: { pathname?: string | null }): JSX.Element => {
   const path = usePathname();

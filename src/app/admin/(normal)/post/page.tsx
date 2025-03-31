@@ -1,6 +1,7 @@
 import { DataTable } from '@/components/DataTable';
-import CreatePostButton from './CreatePostButton';
 import { api } from '@/server/api/server';
+
+import CreatePostButton from './CreatePostButton';
 import { columns } from './TableColumns';
 
 const PostsPage = async () => {

@@ -1,7 +1,8 @@
 import { DataTable } from '@/components/DataTable';
 import { api } from '@/server/api/server';
-import { columns } from './TableColumns';
+
 import CreateSnippetButton from './CreateSnippetButton';
+import { columns } from './TableColumns';
 
 const SnippetsPage = async () => {
   const snippets = await api.snippet.getAllSnippets();

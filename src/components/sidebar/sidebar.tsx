@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 import { NavUser } from '@/components/sidebar/sidebar-user';
 import {
@@ -10,9 +10,10 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from '@/components/ui/sidebar';
+import type { AppSidebarProps } from '@/types';
+
 import { NavMain } from './sidebar-nav-main';
 import { TeamSwitcher } from './sidebar-team-switcher';
-import type { AppSidebarProps } from '@/types';
 
 export function AppSidebar({ user, teams }: AppSidebarProps): JSX.Element {
   return (

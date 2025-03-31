@@ -1,12 +1,15 @@
 'use client';
 
 import { useState } from 'react';
+
+import { Loader2 } from 'lucide-react';
+
+import { Button } from '@/components/ui/button';
+import { toast } from '@/hooks/use-toast';
+import { api } from '@/server/api/react';
+
 import FileList from './file-list';
 import FileUpload from './file-upload';
-import { Loader2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { api } from '@/server/api/react';
-import { toast } from '@/hooks/use-toast';
 
 export default function FileManager() {
   const [currentPath, setCurrentPath] = useState('');

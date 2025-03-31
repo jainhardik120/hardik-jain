@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -9,7 +11,6 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
 import {
   Select,
   SelectContent,
@@ -19,9 +20,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import type { SubSkill } from '@prisma/client';
-import type { SkillWithSubSkills } from '@/types';
 import { api } from '@/server/api/react';
+import type { SkillWithSubSkills } from '@/types';
+
+import type { SubSkill } from '@prisma/client';
 
 export const EditSkillDialog: React.FC<{
   skill: SkillWithSubSkills | null;
