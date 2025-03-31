@@ -43,6 +43,7 @@ function NewPasswordForm() {
       backButtonHref="/auth/signin"
     >
       <RenderedForm
+        showSubmitButton={true}
         schema={NewPasswordSchema}
         onSubmit={async (values) => {
           setError(false);

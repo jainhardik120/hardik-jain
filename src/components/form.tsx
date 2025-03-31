@@ -36,6 +36,8 @@ type Props<T extends z.ZodTypeAny> = {
   submitButtonText?: string;
   submitButtonDisabled?: boolean;
   FormFooter?: () => JSX.Element;
+  onValuesChange?: (values: z.infer<T>) => void;
+  showSubmitButton: boolean;
 };
 
 function StringArrayInput<T extends z.ZodTypeAny>({
@@ -98,6 +100,19 @@ function RenderedForm<T extends z.ZodTypeAny>(props: Props<T>) {
     defaultValues: props.defaultValues,
   });
 
+  useEffect(() => {
+    const subscription = form.watch((values) => {
+      if (values !== undefined && props.onValuesChange !== undefined) {
+        props.onValuesChange(values);
+      }
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [form, props.onValuesChange]);
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(props.onSubmit)} className="grid gap-4">
@@ -121,9 +136,11 @@ function RenderedForm<T extends z.ZodTypeAny>(props: Props<T>) {
           />
         ))}
         {props.FormFooter !== undefined ? <props.FormFooter /> : <></>}
-        <Button disabled={props.submitButtonDisabled} type="submit">
-          {props.submitButtonText ?? 'Submit'}
-        </Button>
+        {props.showSubmitButton === true && (
+          <Button disabled={props.submitButtonDisabled} type="submit">
+            {props.submitButtonText ?? 'Submit'}
+          </Button>
+        )}
       </form>
     </Form>
   );
