@@ -1,10 +1,9 @@
 'use client';
 
-import type { ExtendedColumnSort, ExtendedSortingState, StringKeyOf } from '@/types';
-import type { SortDirection, Table } from '@tanstack/react-table';
+import React, { useId, useMemo } from 'react';
+
 import { ArrowDownUp, Check, ChevronsUpDown, GripVertical, Trash2 } from 'lucide-react';
 import { useQueryState } from 'nuqs';
-import * as React from 'react';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -35,6 +34,9 @@ import { dataTableConfig } from '@/config/data-table';
 import { useDebouncedCallback } from '@/hooks/use-debounced-callback';
 import { getSortingStateParser } from '@/lib/parsers';
 import { cn, toSentenceCase } from '@/lib/utils';
+import type { ExtendedColumnSort, ExtendedSortingState, StringKeyOf } from '@/types';
+
+import type { SortDirection, Table } from '@tanstack/react-table';
 
 interface DataTableSortListProps<TData> {
   table: Table<TData>;
@@ -47,7 +49,7 @@ export function DataTableSortList<TData>({
   debounceMs,
   shallow,
 }: DataTableSortListProps<TData>) {
-  const id = React.useId();
+  const id = useId();
 
   const initialSorting = (table.initialState.sorting ?? []) as ExtendedSortingState<TData>;
 
@@ -61,14 +63,14 @@ export function DataTableSortList<TData>({
       }),
   );
 
-  const uniqueSorting = React.useMemo(
+  const uniqueSorting = useMemo(
     () => sorting.filter((sort, index, self) => index === self.findIndex((t) => t.id === sort.id)),
     [sorting],
   );
 
   const debouncedSetSorting = useDebouncedCallback(setSorting, debounceMs);
 
-  const sortableColumns = React.useMemo(
+  const sortableColumns = useMemo(
     () =>
       table
         .getAllColumns()
@@ -110,7 +112,7 @@ export function DataTableSortList<TData>({
     const updateFunction = debounced ? debouncedSetSorting : setSorting;
 
     updateFunction((prevSorting) => {
-      if (!prevSorting) {
+      if (prevSorting === undefined) {
         return prevSorting;
       }
 

@@ -1,13 +1,7 @@
 'use client';
 
-import type {
-  DataTableAdvancedFilterField,
-  Filter,
-  FilterOperator,
-  JoinOperator,
-  StringKeyOf,
-} from '@/types';
-import type { Table } from '@tanstack/react-table';
+import React, { useId } from 'react';
+
 import {
   CalendarIcon,
   Check,
@@ -18,7 +12,6 @@ import {
 } from 'lucide-react';
 import { customAlphabet } from 'nanoid';
 import { parseAsStringEnum, useQueryState } from 'nuqs';
-import * as React from 'react';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -62,6 +55,15 @@ import { useDebouncedCallback } from '@/hooks/use-debounced-callback';
 import { getDefaultFilterOperator, getFilterOperators } from '@/lib/data-table';
 import { getFiltersStateParser } from '@/lib/parsers';
 import { cn, formatDate } from '@/lib/utils';
+import type {
+  DataTableAdvancedFilterField,
+  Filter,
+  FilterOperator,
+  JoinOperator,
+  StringKeyOf,
+} from '@/types';
+
+import type { Table } from '@tanstack/react-table';
 
 interface DataTableFilterListProps<TData> {
   table: Table<TData>;
@@ -76,7 +78,7 @@ export function DataTableFilterList<TData>({
   debounceMs,
   shallow,
 }: DataTableFilterListProps<TData>) {
-  const id = React.useId();
+  const id = useId();
   const [filters, setFilters] = useQueryState(
     'filters',
     getFiltersStateParser(table.getRowModel().rows[0]?.original)
@@ -211,9 +213,9 @@ export function DataTableFilterList<TData>({
                 aria-controls={`${inputId}-listbox`}
                 className="h-8 w-full justify-start gap-2 rounded px-1.5 text-left text-muted-foreground hover:text-muted-foreground"
               >
-                {filter.value && typeof filter.value === 'string' ? (
+                {filter.value !== undefined && typeof filter.value === 'string' ? (
                   <Badge variant="secondary" className="rounded-sm px-1 font-normal">
-                    {filterField?.options?.find((option) => option.value === filter.value)?.label ||
+                    {filterField?.options?.find((option) => option.value === filter.value)?.label ??
                       filter.value}
                   </Badge>
                 ) : (
@@ -254,7 +256,7 @@ export function DataTableFilterList<TData>({
                         />
                       )}
                       <span>{option.label}</span>
-                      {option.count && (
+                      {option.count !== undefined && option.count && (
                         <span className="ml-auto flex size-4 items-center justify-center font-mono text-xs">
                           {option.count}
                         </span>
@@ -348,7 +350,7 @@ export function DataTableFilterList<TData>({
                         />
                       )}
                       <span>{option.label}</span>
-                      {option.count && (
+                      {option.count !== undefined && option.count && (
                         <span className="ml-auto flex size-4 items-center justify-center font-mono text-xs">
                           {option.count}
                         </span>
@@ -371,7 +373,7 @@ export function DataTableFilterList<TData>({
             ? `${formatDate(dateValue[0] ?? new Date())} - ${formatDate(
                 dateValue[1] ?? new Date(),
               )}`
-            : dateValue[0]
+            : dateValue[0] !== undefined
               ? formatDate(dateValue[0])
               : 'Pick a date';
 
@@ -386,7 +388,7 @@ export function DataTableFilterList<TData>({
                 aria-controls={`${inputId}-calendar`}
                 className={cn(
                   'h-8 w-full justify-start gap-2 rounded text-left font-normal',
-                  !filter.value && 'text-muted-foreground',
+                  filter.value === undefined && 'text-muted-foreground',
                 )}
               >
                 <CalendarIcon className="size-3.5 shrink-0" aria-hidden="true" />
@@ -428,7 +430,7 @@ export function DataTableFilterList<TData>({
                   id={`${inputId}-calendar`}
                   mode="single"
                   aria-label={`Select ${filterField.label} date`}
-                  selected={dateValue[0] ? new Date(dateValue[0]) : undefined}
+                  selected={dateValue[0] !== undefined ? new Date(dateValue[0]) : undefined}
                   onSelect={(date) => {
                     updateFilter({
                       rowId: filter.rowId,

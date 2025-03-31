@@ -1,11 +1,12 @@
 'use client';
 
 import { SelectIcon } from '@radix-ui/react-select';
-import type { Column } from '@tanstack/react-table';
 import { ArrowDown, ArrowUp, ChevronsUpDown, EyeOff } from 'lucide-react';
 
 import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
+
+import type { Column } from '@tanstack/react-table';
 
 interface DataTableColumnHeaderProps<TData, TValue> extends React.HTMLAttributes<HTMLDivElement> {
   column: Column<TData, TValue>;
@@ -27,7 +28,7 @@ export function DataTableColumnHeader<TData, TValue>({
 
   return (
     <div className={cn('flex items-center gap-2', className)}>
-      {/* @ts-expect-error */}
+      {/* @ts-expect-error don't know how to fix this */}
       <Select
         value={
           column.getIsSorted() === 'desc'

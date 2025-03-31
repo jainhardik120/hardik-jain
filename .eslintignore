@@ -5,4 +5,3 @@ prisma
 src/components/ui
 src/canva-client
 tailwind.config.ts
-src/components/data-table

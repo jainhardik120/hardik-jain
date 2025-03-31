@@ -1,17 +1,20 @@
 'use client';
 
-import type { DataTableFilterField } from '@/types';
-import type { Table } from '@tanstack/react-table';
+import React from 'react';
+import { type HTMLAttributes, useMemo } from 'react';
+
 import { X } from 'lucide-react';
-import * as React from 'react';
 
 import { DataTableFacetedFilter } from '@/components/data-table/data-table-faceted-filter';
 import { DataTableViewOptions } from '@/components/data-table/data-table-view-options';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
+import type { DataTableFilterField } from '@/types';
 
-interface DataTableToolbarProps<TData> extends React.HTMLAttributes<HTMLDivElement> {
+import type { Table } from '@tanstack/react-table';
+
+interface DataTableToolbarProps<TData> extends HTMLAttributes<HTMLDivElement> {
   table: Table<TData>;
   /**
    * An array of filter field configurations for the data table.
@@ -47,7 +50,7 @@ export function DataTableToolbar<TData>({
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0;
 
-  const { searchableColumns, filterableColumns } = React.useMemo(() => {
+  const { searchableColumns, filterableColumns } = useMemo(() => {
     return {
       searchableColumns: filterFields.filter((field) => !field.options),
       filterableColumns: filterFields.filter((field) => field.options),
