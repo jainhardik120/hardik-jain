@@ -1,5 +1,3 @@
-import type { Option } from '@/types';
-import type { Column } from '@tanstack/react-table';
 import { Check, PlusCircle } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
@@ -16,6 +14,9 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
+import type { Option } from '@/types';
+
+import type { Column } from '@tanstack/react-table';
 
 interface DataTableFacetedFilterProps<TData, TValue> {
   column?: Column<TData, TValue>;
@@ -105,7 +106,7 @@ export function DataTableFacetedFilter<TData, TValue>({
                       />
                     )}
                     <span>{option.label}</span>
-                    {option.count && (
+                    {option.count !== undefined && option.count && (
                       <span className="ml-auto flex size-4 items-center justify-center font-mono text-xs">
                         {option.count}
                       </span>

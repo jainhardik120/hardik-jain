@@ -1,8 +1,8 @@
 'use client';
 
-import type { Table } from '@tanstack/react-table';
+import React, { useRef } from 'react';
+
 import { Check, ChevronsUpDown, Settings2 } from 'lucide-react';
-import * as React from 'react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -16,12 +16,14 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { cn, toSentenceCase } from '@/lib/utils';
 
+import type { Table } from '@tanstack/react-table';
+
 interface DataTableViewOptionsProps<TData> {
   table: Table<TData>;
 }
 
 export function DataTableViewOptions<TData>({ table }: DataTableViewOptionsProps<TData>) {
-  const triggerRef = React.useRef<HTMLButtonElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
 
   return (
     <Popover modal>
