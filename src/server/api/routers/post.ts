@@ -44,6 +44,7 @@ import {
   protectedProcedure,
   publicProcedure,
 } from '@/server/api/trpc';
+import { PostSchema } from '@/types/schemas';
 
 export const postRouter = createTRPCRouter({
   createNewPost: permissionCheckProcedure('post', 'create').mutation(async ({ ctx }) => {
@@ -223,10 +224,7 @@ export const postRouter = createTRPCRouter({
     .input(
       z.object({
         id: z.string(),
-        title: z.string(),
-        content: z.string(),
-        description: z.string(),
-        slug: z.string(),
+        post: PostSchema,
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -236,14 +234,11 @@ export const postRouter = createTRPCRouter({
           ...(ctx.permission.whereInput ? { AND: ctx.permission.whereInput } : {}),
         },
         data: {
-          title: input.title,
-          content: input.content,
-          description: input.description,
-          slug: input.slug,
+          ...input.post,
         },
       });
       revalidatePath('/');
-      revalidatePath(`/post/${input.slug}`);
+      revalidatePath(`/post/${input.post.slug}`);
       return true;
     }),
   generateAIContent: protectedProcedure

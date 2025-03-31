@@ -31,6 +31,7 @@ export const CreateDesignForm: React.FC<{
       </PopoverTrigger>
       <PopoverContent>
         <RenderedForm
+          showSubmitButton={true}
           schema={designSchema}
           onSubmit={async (values) => {
             await createDesignMutation.mutateAsync(values);

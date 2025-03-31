@@ -1,3 +1,5 @@
+import { notFound } from 'next/navigation';
+
 import { api } from '@/server/api/server';
 
 import ProjectPage from './ProjectPage';
@@ -23,9 +25,12 @@ export default async function Page({
 }: {
   params: Promise<{ id: string }>;
 }): Promise<JSX.Element> {
-  const projectDetails: Project =
+  const projectDetails: Project | null =
     (await params).id !== 'new'
-      ? ((await api.portfolio.getProjectById({ id: (await params).id })) ?? defaultProject)
+      ? await api.portfolio.getProjectById({ id: (await params).id })
       : defaultProject;
+  if (!projectDetails) {
+    notFound();
+  }
   return <ProjectPage data={projectDetails} />;
 }

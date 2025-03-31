@@ -51,3 +51,10 @@ export const ContactSchema = object({
   subject: string().min(1, 'Subject is required'),
   message: string().min(50, 'Message should be minimum 50 characters long'),
 });
+
+export const PostSchema = object({
+  title: string(),
+  content: string(),
+  description: string(),
+  slug: string(),
+});
