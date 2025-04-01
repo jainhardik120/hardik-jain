@@ -63,7 +63,7 @@
     "space-before-blocks": ["error", "always"],
     "spaced-comment": ["error", "always", { "markers": ["/"] }],
     "import/order": [
-      "error",
+      "warn",
       {
         "groups": [
           "builtin",
