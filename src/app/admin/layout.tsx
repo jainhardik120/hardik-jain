@@ -11,7 +11,7 @@ export default async function MainLayout({
 }>): Promise<JSX.Element> {
   const session = await auth();
   const cookieStore = await cookies();
-  const defaultOpen = cookieStore.get('sidebar_state')?.value === 'true';
+  const defaultOpen = cookieStore.get('sidebar:state')?.value !== 'false';
   return (
     <SidebarLayout defaultOpen={defaultOpen} user={session?.user ?? null}>
       <Header />
