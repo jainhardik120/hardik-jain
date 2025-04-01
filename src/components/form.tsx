@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { type ControllerRenderProps, type Path, useForm } from 'react-hook-form';
 import { type z } from 'zod';
 
+import ImageUpload from '@/components/ImageUpload';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -17,7 +18,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 
-type InputType = 'input' | 'textarea' | 'custom' | 'password' | 'stringArray';
+type InputType = 'input' | 'textarea' | 'custom' | 'password' | 'stringArray' | 'image';
 
 type FormField<T extends z.ZodTypeAny> = {
   name: Path<z.infer<T>>;
@@ -87,6 +88,8 @@ function RenderFormInput<T extends z.ZodTypeAny>({
       return formField.render !== undefined ? formField.render(field) : <></>;
     case 'stringArray':
       return <StringArrayInput field={field} />;
+    case 'image':
+      return <ImageUpload imageUrl={field.value as string} setImageUrl={field.onChange} />;
     default:
       return <></>;
   }

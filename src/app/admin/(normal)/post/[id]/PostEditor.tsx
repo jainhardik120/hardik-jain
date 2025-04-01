@@ -37,12 +37,7 @@ export function PostEditor({ initData }: { initData: Post }): JSX.Element {
     <RenderedForm
       schema={PostSchema}
       onSubmit={async () => {}}
-      defaultValues={{
-        title: initData.title,
-        description: initData.description,
-        slug: initData.slug,
-        content: initData.content,
-      }}
+      defaultValues={initData}
       onValuesChange={(values) => {
         void debouncedSave(values);
       }}
@@ -64,6 +59,16 @@ export function PostEditor({ initData }: { initData: Post }): JSX.Element {
           label: 'Slug',
           type: 'input',
           placeholder: 'Enter slug',
+        },
+        {
+          name: 'coverImage',
+          label: 'Cover Image',
+          type: 'image',
+        },
+        {
+          name: 'tags',
+          label: 'Tags',
+          type: 'stringArray',
         },
         {
           name: 'content',
