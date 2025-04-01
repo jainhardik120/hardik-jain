@@ -1,7 +1,6 @@
 import 'highlight.js/styles/atom-one-dark.css';
 import Image from 'next/image';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
 
 import { getPostSlugs } from '@/actions/blog';
 import { api } from '@/server/api/server';
@@ -39,9 +38,6 @@ export default async function Page({
   const post = await api.post.getPostContentBySlug({
     slug: (await params).slug,
   });
-  if (!post) {
-    notFound();
-  }
   const relatedPosts = await api.post.getRelatedPosts({
     currentSlug: (await params).slug,
     tags: post.tags,

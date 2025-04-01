@@ -34,6 +34,7 @@ import { TextStyle } from '@tiptap/extension-text-style';
 import { Underline } from '@tiptap/extension-underline';
 import YouTube from '@tiptap/extension-youtube';
 import { generateHTML } from '@tiptap/html';
+import { TRPCError } from '@trpc/server';
 import { generateSlug } from 'random-word-slugs';
 import { z } from 'zod';
 
@@ -164,8 +165,11 @@ export const postRouter = createTRPCRouter({
         },
       });
 
-      if (!post || !post.content) {
-        return null;
+      if (!post) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'Post not found',
+        });
       }
 
       const renderedContent = generateHTML(JSON.parse(post.content), [
@@ -217,7 +221,12 @@ export const postRouter = createTRPCRouter({
           ...(ctx.permission.whereInput ? { AND: ctx.permission.whereInput } : {}),
         },
       });
-
+      if (!post) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'Post not found',
+        });
+      }
       return post;
     }),
   updatePostById: permissionCheckProcedure('post', 'update')
