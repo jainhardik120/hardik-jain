@@ -57,4 +57,6 @@ export const PostSchema = object({
   content: string(),
   description: string(),
   slug: string(),
+  tags: array(string()),
+  coverImage: string().url().optional().default(''),
 });

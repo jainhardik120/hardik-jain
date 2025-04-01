@@ -5,7 +5,6 @@ import React from 'react';
 import { toast } from 'sonner';
 
 import RenderedForm from '@/components/form';
-import ImageUpload from '@/components/ImageUpload';
 import { useRouter } from '@/components/top-loader-router';
 import { api } from '@/server/api/react';
 import { projectSchema } from '@/types/schemas';
@@ -76,11 +75,7 @@ export default function ProjectPage({ data }: { data: Project }): JSX.Element {
         {
           name: 'imageUrl',
           label: 'Image',
-          type: 'custom',
-          placeholder: 'Enter image URL',
-          render: (field) => (
-            <ImageUpload imageUrl={field.value as string} setImageUrl={field.onChange} />
-          ),
+          type: 'image',
         },
         {
           name: 'content',
