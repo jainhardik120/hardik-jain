@@ -4,7 +4,12 @@ import React, { useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { X } from 'lucide-react';
-import { type ControllerRenderProps, type Path, useForm } from 'react-hook-form';
+import {
+  type ControllerRenderProps,
+  type Path,
+  useForm,
+  type UseFormReturn,
+} from 'react-hook-form';
 import { type z } from 'zod';
 
 import ImageUpload from '@/components/ImageUpload';
@@ -65,7 +70,7 @@ type Props<T extends z.ZodTypeAny> = {
   fields: Array<FormField<T>>;
   submitButtonText?: string;
   submitButtonDisabled?: boolean;
-  FormFooter?: () => JSX.Element;
+  FormFooter?: ({ form }: { form: UseFormReturn<z.infer<T>> }) => JSX.Element;
   onValuesChange?: (values: z.infer<T>) => void;
   showSubmitButton: boolean;
 };
@@ -282,7 +287,7 @@ function RenderedForm<T extends z.ZodTypeAny>(props: Props<T>) {
             )}
           />
         ))}
-        {props.FormFooter !== undefined ? <props.FormFooter /> : <></>}
+        {props.FormFooter !== undefined ? <props.FormFooter form={form} /> : <></>}
         {props.showSubmitButton === true && (
           <Button disabled={props.submitButtonDisabled} type="submit">
             {props.submitButtonText ?? 'Submit'}
