@@ -84,7 +84,7 @@ export default async function Page({
           </div>
         </div>
 
-        <div className="flex flex-col lg:flex-row gap-12">
+        <div className="flex flex-col lg:flex-row gap-x-12">
           <aside className="lg:w-64 shrink-0">
             <div className="sticky top-24">
               <TableOfContents />

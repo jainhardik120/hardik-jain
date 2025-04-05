@@ -60,3 +60,12 @@ export const PostSchema = object({
   tags: array(string()),
   coverImage: string().url().optional().default(''),
 });
+
+export const AccountDetailsSchema = object({
+  name: string().optional().default(''),
+  bio: string().min(1, 'Bio is required'),
+  image: string().url().optional().default(''),
+  twitter: string().optional().default(''),
+  linkedin: string().optional().default(''),
+  website: string().optional().default(''),
+});
