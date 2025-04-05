@@ -51,7 +51,7 @@ export function PostEditor({ initData }: { initData: Post }): JSX.Element {
         {
           name: 'description',
           label: 'Description',
-          type: 'textarea',
+          type: 'input',
           placeholder: 'Enter description',
         },
         {

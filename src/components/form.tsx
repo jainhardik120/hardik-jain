@@ -1,10 +1,12 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { X } from 'lucide-react';
 import { type ControllerRenderProps, type Path, useForm } from 'react-hook-form';
 import { type z } from 'zod';
 
 import ImageUpload from '@/components/ImageUpload';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -18,7 +20,28 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 
-type InputType = 'input' | 'textarea' | 'custom' | 'password' | 'stringArray' | 'image';
+type InputType =
+  | 'input'
+  | 'textarea'
+  | 'custom'
+  | 'password'
+  | 'stringArray'
+  | 'image'
+  | 'number'
+  | 'email'
+  | 'date'
+  | 'time'
+  | 'tel'
+  | 'url'
+  | 'checkbox'
+  | 'radio'
+  | 'select'
+  | 'color';
+
+type SelectOption = {
+  label: string;
+  value: string | number;
+};
 
 type FormField<T extends z.ZodTypeAny> = {
   name: Path<z.infer<T>>;
@@ -26,6 +49,10 @@ type FormField<T extends z.ZodTypeAny> = {
   type: InputType;
   placeholder?: string;
   description?: string;
+  options?: SelectOption[];
+  min?: number;
+  max?: number;
+  step?: number;
   render?: (field: ControllerRenderProps<z.infer<T>, Path<z.infer<T>>>) => JSX.Element;
 };
 
@@ -46,25 +73,80 @@ function StringArrayInput<T extends z.ZodTypeAny>({
 }: {
   field: ControllerRenderProps<z.TypeOf<T>, Path<z.TypeOf<T>>>;
 }) {
-  const [value, setValue] = useState<string>((field.value as string[]).join(', '));
+  const [value, setValue] = useState<string>('');
 
-  const updateFieldValue = useCallback((value: string) => {
-    field.onChange(value.split(',').map((item) => item.trim()));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  if (!Array.isArray(field.value)) {
+    field.onChange([]);
+  }
+  const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === ',' || e.key === 'Enter') {
+      e.preventDefault();
 
-  useEffect(() => {
-    updateFieldValue(value);
-  }, [value, updateFieldValue]);
+      if (value.trim()) {
+        const newValue = [...field.value, value.trim()];
+        field.onChange(newValue);
+        setValue('');
+      }
+    }
+  };
+
+  const handleBlur = () => {
+    if (value.trim()) {
+      const newValue = [...field.value, value.trim()];
+      field.onChange(newValue);
+      setValue('');
+    }
+    field.onBlur();
+  };
+
+  const handleRemoveItem = (index: number) => {
+    const newValue = [...field.value];
+    newValue.splice(index, 1);
+    field.onChange(newValue);
+  };
+
+  const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    const pasteData = e.clipboardData.getData('text');
+    const values = pasteData
+      .split(',')
+      .map((item) => item.trim())
+      .filter(Boolean);
+
+    if (values.length) {
+      const newValue = [...field.value, ...values];
+      field.onChange(newValue);
+    }
+  };
 
   return (
-    <Textarea
-      placeholder="Enter tech stack (comma separated)"
-      value={value}
-      onChange={(e) => {
-        setValue(e.target.value);
-      }}
-    />
+    <>
+      <div className="flex flex-wrap gap-2">
+        {(field.value as string[])?.map((item: string, index: number) => (
+          <Badge key={index} variant="secondary" className="px-2 py-1">
+            {item}
+            <button
+              title="Remove"
+              type="button"
+              onClick={() => handleRemoveItem(index)}
+              className="ml-2 text-muted-foreground hover:text-foreground"
+            >
+              <X size={14} />
+            </button>
+          </Badge>
+        ))}
+      </div>
+      <Input
+        placeholder="Type and press Enter or comma to add"
+        value={value}
+        onChange={(e) => {
+          setValue(e.target.value);
+        }}
+        onKeyDown={handleInputKeyDown}
+        onBlur={handleBlur}
+        onPaste={handlePaste}
+      />
+    </>
   );
 }
 
@@ -84,6 +166,66 @@ function RenderFormInput<T extends z.ZodTypeAny>({
       return <Input type="password" placeholder={formField.placeholder} {...field} />;
     case 'textarea':
       return <Textarea placeholder={formField.placeholder} {...field} />;
+    case 'email':
+      return <Input type="email" placeholder={formField.placeholder} {...field} />;
+    case 'number':
+      return (
+        <Input
+          type="number"
+          placeholder={formField.placeholder}
+          min={formField.min}
+          max={formField.max}
+          step={formField.step}
+          {...field}
+        />
+      );
+    case 'date':
+      return <Input type="date" placeholder={formField.placeholder} {...field} />;
+    case 'time':
+      return <Input type="time" placeholder={formField.placeholder} {...field} />;
+    case 'tel':
+      return <Input type="tel" placeholder={formField.placeholder} {...field} />;
+    case 'url':
+      return <Input type="url" placeholder={formField.placeholder} {...field} />;
+    case 'checkbox':
+      return (
+        <Input
+          type="checkbox"
+          checked={field.value as boolean}
+          onChange={(e) => field.onChange(e.target.checked)}
+        />
+      );
+    case 'color':
+      return <Input type="color" {...field} />;
+    case 'select':
+      return (
+        <select
+          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background"
+          {...field}
+        >
+          {formField.options?.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+      );
+    case 'radio':
+      return (
+        <div className="flex flex-col gap-2">
+          {formField.options?.map((option) => (
+            <label key={option.value} className="flex items-center gap-2">
+              <Input
+                type="radio"
+                value={option.value}
+                checked={field.value === option.value}
+                onChange={(e) => field.onChange(e.target.value)}
+              />
+              {option.label}
+            </label>
+          ))}
+        </div>
+      );
     case 'custom':
       return formField.render !== undefined ? formField.render(field) : <></>;
     case 'stringArray':
