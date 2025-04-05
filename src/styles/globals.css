@@ -154,7 +154,7 @@
 
 .post-content pre {
   white-space: pre-wrap;
-  word-wrap: break-word;
+  word-break: break-word;
   overflow-x: auto;
   max-width: 100%;
 }
@@ -175,14 +175,14 @@
   word-break: break-word;
 }
 
-.prose :where(code):not(:where([class~="not-prose"],[class~="not-prose"] *))::before {
-  content: "";
+.prose :where(code):not(:where([class~='not-prose'], [class~='not-prose'] *))::before {
+  content: '';
 }
 
-.prose :where(code):not(:where([class~="not-prose"],[class~="not-prose"] *))::after {
-  content: "";
+.prose :where(code):not(:where([class~='not-prose'], [class~='not-prose'] *))::after {
+  content: '';
 }
 
-.prose :where(code):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
-  @apply rounded-md bg-muted px-1.5 py-1 font-mono font-medium
+.prose :where(code):not(:where(pre code, [class~='not-prose'], [class~='not-prose'] *)) {
+  @apply rounded-md bg-muted px-1.5 py-1 font-mono font-medium;
 }
