@@ -92,10 +92,12 @@ export interface BlogPostWithAuthor {
   createdAt: Date;
   title: string;
   slug: string;
+  coverImage: string;
   description: string;
   author: {
     name: string | null;
     id: string;
+    image: string | null;
   };
 }
 

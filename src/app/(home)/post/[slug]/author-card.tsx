@@ -1,8 +1,8 @@
 import { Twitter, Linkedin, Globe } from 'lucide-react';
 
+import RandomAvatarImage from '@/components/avatar-image';
 import { Avatar } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import RandomAvatarImage from '@/lib/avatar-image';
 
 interface AuthorProps {
   author: {

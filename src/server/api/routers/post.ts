@@ -133,6 +133,7 @@ export const postRouter = createTRPCRouter({
             select: {
               name: true,
               image: true,
+              id: true,
             },
           },
         },
