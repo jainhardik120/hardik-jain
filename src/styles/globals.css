@@ -153,11 +153,10 @@
 }
 
 .post-content pre {
-  @apply p-4 overflow-x-auto;
-}
-
-.post-content code {
-  @apply px-2 py-1 rounded-sm;
+  white-space: pre-wrap; /* CSS3 */
+  word-wrap: break-word; /* Modern browsers */
+  overflow-x: auto; /* Fallback for older browsers */
+  max-width: 100%;
 }
 
 .post-content a {

@@ -1,8 +1,8 @@
-import Image from 'next/image';
-
 import { Twitter, Linkedin, Globe } from 'lucide-react';
 
+import { Avatar } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
+import RandomAvatarImage from '@/lib/avatar-image';
 
 interface AuthorProps {
   author: {
@@ -19,16 +19,11 @@ export default function AuthorCard({ author }: AuthorProps) {
   return (
     <div className="bg-card rounded-lg p-6 border">
       <div className="flex flex-col sm:flex-row gap-6">
-        <div className="relative w-24 h-24 rounded-full overflow-hidden shrink-0 mx-auto sm:mx-0">
-          <Image
-            src={author.image ?? '/placeholder.svg'}
-            alt={author.name ?? 'Author Name'}
-            fill
-            className="object-cover"
-          />
-        </div>
+        <Avatar className="w-24 h-24 rounded-full shrink-0 mx-auto sm:mx-0">
+          <RandomAvatarImage src={author?.image} alt={author?.name} />
+        </Avatar>
         <div>
-          <h3 className="text-xl font-bold mb-2 text-center sm:text-left">{author.name}</h3>
+          <h5 className="text-xl font-bold mb-2 text-center sm:text-left">{author.name}</h5>
           <p className="text-muted-foreground mb-4">{author.bio}</p>
           <div className="flex space-x-2 justify-center sm:justify-start">
             {author.twitter !== null && author.twitter !== undefined && (

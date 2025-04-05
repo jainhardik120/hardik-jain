@@ -1,15 +1,21 @@
-import 'highlight.js/styles/atom-one-dark.css';
 import Image from 'next/image';
 import Link from 'next/link';
 
 import { getPostSlugs } from '@/actions/blog';
+import { Avatar } from '@/components/ui/avatar';
+import RandomAvatarImage from '@/lib/avatar-image';
 import { api } from '@/server/api/server';
 
+import 'highlight.js/styles/atom-one-dark.css';
+
 import AuthorCard from './author-card';
+import CodeHighlight from './code-highlight';
 import ReadNext from './read-next';
 import TableOfContents from './table-of-contents';
 
 import type { Metadata } from 'next';
+
+export const revalidate = 1800;
 
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
   const postSlugs = await getPostSlugs();
@@ -49,14 +55,9 @@ export default async function Page({
         <div className="mb-8">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">{post.title}</h1>
           <div className="flex items-center mb-6">
-            <div className="relative w-10 h-10 rounded-full overflow-hidden mr-3">
-              <Image
-                src={post.author.image ?? '/placeholder.svg'}
-                alt={post.author.name ?? 'Author Name'}
-                fill
-                className="object-cover"
-              />
-            </div>
+            <Avatar className="h-10 w-10 rounded-full mr-3">
+              <RandomAvatarImage src={post.author?.image} alt={post.author?.name} />
+            </Avatar>
             <div>
               <p className="font-medium">{post.author.name}</p>
               <p className="text-sm text-muted-foreground">
@@ -91,11 +92,7 @@ export default async function Page({
           </aside>
 
           <div className="flex-1">
-            <div
-              className="prose prose-slate dark:prose-invert max-w-none"
-              dangerouslySetInnerHTML={{ __html: post.content }}
-            />
-
+            <CodeHighlight content={post.content} />
             <div className="mt-12 pt-8 border-t">
               <div className="flex flex-wrap gap-2 mb-8">
                 {post.tags.map((tag) => (

@@ -3,11 +3,15 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
 import { getPageCount } from '@/actions/blog';
+import { Avatar } from '@/components/ui/avatar';
+import RandomAvatarImage from '@/lib/avatar-image';
 import { api } from '@/server/api/server';
 
 import PageSwitch from './PageSwitch';
 
 import type { Metadata } from 'next';
+
+export const revalidate = 1800;
 
 export const metadata: Metadata = {
   // eslint-disable-next-line quotes
@@ -40,7 +44,7 @@ export default async function Page({
   return (
     <main className="container mx-auto px-4 py-12">
       <div className="mb-12 text-center">
-        <h1 className="text-4xl font-bold tracking-tight mb-4">Latest Articles</h1>
+        <h1 className="mb-4">Latest Articles</h1>
         <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
           Explore in-depth articles, project showcases, and tech insights from Hardik Jain, an
           experienced Android & Web Developer.
@@ -60,21 +64,14 @@ export default async function Page({
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
               </div>
-              <h2 className="text-2xl font-bold mb-2 group-hover:text-primary transition-colors">
-                {post.title}
-              </h2>
+              <h2 className="text-2xl font-bold mb-2">{post.title}</h2>
             </Link>
             <p className="text-muted-foreground mb-4 flex-grow">{post.description}</p>
             <div className="flex items-center justify-between mt-auto">
               <div className="flex items-center">
-                <div className="relative w-8 h-8 rounded-full overflow-hidden mr-2">
-                  <Image
-                    src={post.author.image ?? '/placeholder.svg'}
-                    alt={post.author.name ?? 'Author Name'}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
+                <Avatar className="h-8 w-8 rounded-full mr-2">
+                  <RandomAvatarImage src={post.author?.image} alt={post.author?.name} />
+                </Avatar>
                 <span className="text-sm">{post.author.name}</span>
               </div>
               <span className="text-sm text-muted-foreground">
