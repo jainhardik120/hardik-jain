@@ -58,13 +58,13 @@ export const PostSchema = object({
   description: string(),
   slug: string(),
   tags: array(string()),
-  coverImage: string().url().optional().default(''),
+  coverImage: string().optional().default(''),
 });
 
 export const AccountDetailsSchema = object({
   name: string().optional().default(''),
   bio: string().min(1, 'Bio is required'),
-  image: string().url().optional().default(''),
+  image: string().optional().default(''),
   twitter: string().optional().default(''),
   linkedin: string().optional().default(''),
   website: string().optional().default(''),
