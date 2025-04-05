@@ -32,7 +32,7 @@ const ProjectsSection: React.FC<UIProps> = ({
   }, []);
 
   return (
-    <section id="projects" className="mx-auto container px-12 py-20 flex flex-col items-center ">
+    <section id="projects" className="mx-auto container px-12 py-20 flex flex-col items-center">
       <h2 className="text-center mb-12">My Projects</h2>
       <div className={cn('grid  md:grid-cols-3 justify-center items-center gap-4 mb-12')}>
         {categories.map((tcategory) => (
@@ -47,7 +47,7 @@ const ProjectsSection: React.FC<UIProps> = ({
       {projectsByCategory.map((group) => {
         return (
           <div key={group.id} style={{ display: category === group.id ? 'block' : 'none' }}>
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 ">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
               {group.projects.map((project, index) => (
                 <div key={index}>
                   <ProjectCard project={project} />

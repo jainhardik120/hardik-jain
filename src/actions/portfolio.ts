@@ -28,16 +28,12 @@ export async function getAllPosts() {
   const posts = await db.post.findMany({
     take: 3,
     orderBy: { createdAt: 'desc' },
-    select: {
-      id: true,
-      title: true,
-      description: true,
-      createdAt: true,
-      slug: true,
+    include: {
       author: {
         select: {
           id: true,
           name: true,
+          image: true,
         },
       },
     },

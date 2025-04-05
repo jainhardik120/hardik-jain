@@ -1,3 +1,4 @@
+import RandomAvatarImage from '@/components/avatar-image';
 import { Avatar } from '@/components/ui/avatar';
 import {
   DropdownMenu,
@@ -5,7 +6,6 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import UserDropDown from '@/components/user-dropdown';
-import RandomAvatarImage from '@/lib/avatar-image';
 
 import { SignIn } from './auth-components';
 

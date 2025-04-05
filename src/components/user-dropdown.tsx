@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { BadgeCheck, LogOut } from 'lucide-react';
 import { signOut } from 'next-auth/react';
 
+import RandomAvatarImage from '@/components/avatar-image';
 import { Avatar } from '@/components/ui/avatar';
 import {
   DropdownMenuGroup,
@@ -12,7 +13,6 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
-import RandomAvatarImage from '@/lib/avatar-image';
 
 import type { User } from 'next-auth';
 

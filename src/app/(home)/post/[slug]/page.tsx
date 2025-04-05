@@ -2,8 +2,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { getPostSlugs } from '@/actions/blog';
+import RandomAvatarImage from '@/components/avatar-image';
 import { Avatar } from '@/components/ui/avatar';
-import RandomAvatarImage from '@/lib/avatar-image';
 import { api } from '@/server/api/server';
 
 import 'highlight.js/styles/atom-one-dark.css';
@@ -91,9 +91,9 @@ export default async function Page({
             </div>
           </aside>
 
-          <div className="flex-1">
+          <div className="flex-1 mt-8 pt-8 border-t lg:mt-0 lg:pt-0 lg:border-0">
             <CodeHighlight content={post.content} />
-            <div className="mt-12 pt-8 border-t">
+            <div className="mt-8 pt-8 border-t">
               <div className="flex flex-wrap gap-2 mb-8">
                 {post.tags.map((tag) => (
                   <Link
