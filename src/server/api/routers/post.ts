@@ -1,7 +1,7 @@
 /* eslint-disable import/max-dependencies */
 
 import { revalidatePath } from 'next/cache';
-import { JSDOM } from 'jsdom';
+
 import { Blockquote } from '@tiptap/extension-blockquote';
 import { Bold } from '@tiptap/extension-bold';
 import { BubbleMenu } from '@tiptap/extension-bubble-menu';
@@ -35,6 +35,7 @@ import { Underline } from '@tiptap/extension-underline';
 import YouTube from '@tiptap/extension-youtube';
 import { generateHTML } from '@tiptap/html';
 import { TRPCError } from '@trpc/server';
+import { JSDOM } from 'jsdom';
 import { generateSlug } from 'random-word-slugs';
 import { z } from 'zod';
 
@@ -67,7 +68,7 @@ export interface TOCItem {
 
 export function extractTOC(htmlContent: string) {
   const dom = new JSDOM(htmlContent);
-  const { document } = dom.window;
+  const document = dom.window['document'] as Document;
 
   const headings = document.querySelectorAll('h2, h3, h4');
   const tocItems: TOCItem[] = [];

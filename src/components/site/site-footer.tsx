@@ -1,8 +1,10 @@
 import React from 'react';
 
 import Link from 'next/link';
-import { Button } from '@/components/ui/button';
+
 import { type Route } from 'next';
+
+import { Button } from '@/components/ui/button';
 
 const footerLinks: { title: string; href: Route }[] = [
   {
