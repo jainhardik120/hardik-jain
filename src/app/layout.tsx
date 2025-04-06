@@ -26,6 +26,7 @@ export default function Layout({
 }>): JSX.Element {
   return (
     <html lang="en" suppressHydrationWarning>
+      <meta name="google-site-verification" content="2UMpL0DOiAZPuJWyFgtSXWM49mkZ2jVdsX34ok6fDl0" />
       <body className="flex flex-col">
         <NuqsAdapter>
           <TRPCReactProvider>
