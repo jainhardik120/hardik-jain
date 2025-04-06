@@ -2,6 +2,7 @@ import React from 'react';
 
 import '@/styles/globals.css';
 import '@/styles/prosemirror.css';
+import { GoogleAnalytics } from '@next/third-parties/google';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { ThemeProvider } from 'next-themes';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
@@ -25,7 +26,7 @@ export default function Layout({
 }>): JSX.Element {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="h-screen flex flex-col">
+      <body className="flex flex-col">
         <NuqsAdapter>
           <TRPCReactProvider>
             <ThemeProvider
@@ -42,6 +43,7 @@ export default function Layout({
           </TRPCReactProvider>
         </NuqsAdapter>
       </body>
+      <GoogleAnalytics gaId="G-FXSDSMLGZ2" />
     </html>
   );
 }

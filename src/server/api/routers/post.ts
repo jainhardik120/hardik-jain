@@ -512,7 +512,8 @@ export const postRouter = createTRPCRouter({
           - Ensure logical flow between sections with clear headers
           - Use the reference materials to support your explanations
           - When discussing code, incorporate relevant examples from the provided code references
-          - When explaining concepts, reference and build upon the existing articles and documentation
+          - When explaining concepts, reference and build upon the existing articles and 
+            documentation
 
         2. Technical Accuracy:
           - Use the provided code examples to demonstrate practical implementations
