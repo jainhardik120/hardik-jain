@@ -8,7 +8,7 @@ import PageSwitch from './PageSwitch';
 
 import type { Metadata } from 'next';
 
-export const revalidate = 1800;
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   // eslint-disable-next-line quotes

@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
 
 import RandomAvatarImage from '@/components/avatar-image';
 import { Avatar } from '@/components/ui/avatar';
@@ -14,19 +15,18 @@ import TableOfContents from './table-of-contents';
 
 import type { Metadata } from 'next';
 
-export const revalidate = 1800;
+export const revalidate = 60;
 
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
-  return (
-    (await api.post.getPostMetadata({ slug: (await params).slug })) || {
-      title: '',
-      description: '',
-    }
-  );
+  const metadata = await api.post.getPostMetadata({ slug: (await params).slug });
+  return {
+    title: `${metadata?.title ?? ''} | Hardik Jain's Blog`,
+    description: metadata?.description ?? '',
+  };
 }
 
 export const dynamic = 'force-static';
@@ -39,6 +39,9 @@ export default async function Page({
   const post = await api.post.getPostContentBySlug({
     slug: (await params).slug,
   });
+  if (!post) {
+    return notFound();
+  }
   const relatedPosts = await api.post.getRelatedPosts({
     currentSlug: (await params).slug,
     tags: post.tags,
