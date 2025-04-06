@@ -67,7 +67,9 @@ export default function TableOfContents({ toc }: { toc: TOCItem[] }) {
 
   const handleScrollToHeading = (id: string) => {
     const element = document.getElementById(id);
-    if (!element) return;
+    if (!element) {
+      return;
+    }
 
     const headerOffset = 80;
     const elementPosition = element.getBoundingClientRect().top;

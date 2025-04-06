@@ -17,14 +17,6 @@ export const metadata: Metadata = {
     'Explore in-depth articles, project showcases, and tech insights from Hardik Jain, an experienced Android & Web Developer.',
 };
 
-export async function generateStaticParams(): Promise<{ page: string }[]> {
-  const pageCount = await getPageCount();
-
-  return Array.from({ length: pageCount }, (_, i) => ({
-    page: (i + 1).toString(),
-  }));
-}
-
 export default async function Page({
   params,
 }: {

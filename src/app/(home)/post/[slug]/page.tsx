@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { getPostSlugs } from '@/actions/blog';
 import RandomAvatarImage from '@/components/avatar-image';
 import { Avatar } from '@/components/ui/avatar';
 import { api } from '@/server/api/server';
@@ -16,12 +15,6 @@ import TableOfContents from './table-of-contents';
 import type { Metadata } from 'next';
 
 export const revalidate = 1800;
-
-export async function generateStaticParams(): Promise<{ slug: string }[]> {
-  const postSlugs = await getPostSlugs();
-
-  return postSlugs;
-}
 
 export async function generateMetadata({
   params,
@@ -92,7 +85,7 @@ export default async function Page({
           </aside>
 
           <div className="flex-1 mt-8 pt-8 border-t lg:mt-0 lg:pt-0 lg:border-0">
-            <CodeHighlight content={post.content} />
+            <CodeHighlight content={post.content as string} />
             <div className="mt-8 pt-8 border-t">
               <div className="flex flex-wrap gap-2 mb-8">
                 {post.tags.map((tag) => (
