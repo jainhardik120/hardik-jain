@@ -22,7 +22,7 @@ export function CardWrapper({
   showSocial,
 }: CardWrapperProps): JSX.Element {
   return (
-    <Card className="w-[400px] sm:border border-0">
+    <Card className="max-w-[400px]">
       <CardHeader>
         <p className="text-center text-lg font-bold">{headerLabel}</p>
       </CardHeader>

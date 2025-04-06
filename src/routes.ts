@@ -1,5 +1,5 @@
-export const publicRoutes = ['/', '/auth/new-verification'];
-export const dynamicPublicRoutes = ['/blog', '/post'];
+export const publicRoutes = ['/', '/auth/new-verification', '/contact', '/terms', '/privacy'];
+export const dynamicPublicRoutes = ['/blog', '/post', '/snippets'];
 export const authRoutes = [
   '/auth/signin',
   '/auth/signup',
