@@ -7,13 +7,24 @@ import ProjectsSection from '@/components/portfolio/ProjectsSection';
 import SkillsSection from '@/components/portfolio/Skills';
 import Footer from '@/components/site/site-footer';
 
+import type { WebSite, WithContext } from 'schema-dts';
+
 export default async function Home() {
   const { categories, projectsByCategory } = await getProjectsGroupedByCategory();
   const skills = await getSkills();
   const blogs = await getAllPosts();
-
+  const jsonLd: WithContext<WebSite> = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Hardik Jain',
+    url: 'https://hardikja.in',
+  };
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <main>
         <ProfileSection />
         <AboutSection />

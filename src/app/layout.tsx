@@ -17,6 +17,23 @@ export const metadata: Metadata = {
   title: 'Hardik Jain | Android & Web Developer',
   description:
     'Meet Hardik Jain, a skilled Android & Web Dev. Explore his projects, skills, and connect to collaborate.',
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: 'https://www.hardikja.in',
+    title: 'Hardik Jain | Android & Web Developer',
+    description:
+      'Meet Hardik Jain, a skilled Android & Web Dev. Explore his projects, skills, and connect to collaborate.',
+    images: [
+      {
+        url: 'https://storage.hardikja.in/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Hardik Jain | Android & Web Developer',
+      },
+    ],
+    siteName: 'Hardik Jain | Android & Web Developer',
+  },
 };
 
 export default function Layout({
