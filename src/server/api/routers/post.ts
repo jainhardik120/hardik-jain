@@ -1,7 +1,7 @@
 /* eslint-disable import/max-dependencies */
 
 import { revalidatePath } from 'next/cache';
-
+import { JSDOM } from 'jsdom';
 import { Blockquote } from '@tiptap/extension-blockquote';
 import { Bold } from '@tiptap/extension-bold';
 import { BubbleMenu } from '@tiptap/extension-bubble-menu';
@@ -58,6 +58,43 @@ export type Topic = {
     keyPoints: string[];
   };
 };
+
+export interface TOCItem {
+  id: string;
+  text: string;
+  level: number;
+}
+
+export function extractTOC(htmlContent: string) {
+  const dom = new JSDOM(htmlContent);
+  const { document } = dom.window;
+
+  const headings = document.querySelectorAll('h2, h3, h4');
+  const tocItems: TOCItem[] = [];
+
+  headings.forEach((heading: Element) => {
+    if (!heading.id) {
+      const id =
+        heading.textContent
+          ?.toLowerCase()
+          .replace(/[^\w\s]/g, '')
+          .replace(/\s+/g, '-') ?? `heading-${tocItems.length}`;
+      heading.id = id;
+      heading.setAttribute('id', id);
+    }
+
+    tocItems.push({
+      id: heading.id,
+      text: heading.textContent ?? '',
+      level: Number.parseInt(heading.tagName.substring(1)),
+    });
+  });
+
+  return {
+    updatedHtml: document.body.innerHTML,
+    tocItems,
+  };
+}
 
 export const postRouter = createTRPCRouter({
   createNewPost: permissionCheckProcedure('post', 'create').mutation(async ({ ctx }) => {
@@ -219,7 +256,9 @@ export const postRouter = createTRPCRouter({
         YouTube,
       ]);
 
-      return { ...post, content: renderedContent };
+      const { updatedHtml, tocItems } = extractTOC(renderedContent);
+
+      return { ...post, content: updatedHtml, tocItems };
     }),
   getPostById: permissionCheckProcedure('post', 'read')
     .input(

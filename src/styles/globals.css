@@ -186,3 +186,12 @@
 .prose :where(code):not(:where(pre code, [class~='not-prose'], [class~='not-prose'] *)) {
   @apply rounded-md bg-muted px-1.5 py-1 font-mono font-medium;
 }
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
