@@ -17,6 +17,8 @@ export const metadata: Metadata = {
     'Explore in-depth articles, project showcases, and tech insights from Hardik Jain, an experienced Android & Web Developer.',
 };
 
+export const dynamic = 'force-static';
+
 export default async function Page({
   params,
 }: {
