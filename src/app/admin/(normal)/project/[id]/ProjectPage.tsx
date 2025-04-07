@@ -14,7 +14,7 @@ import type { z } from 'zod';
 
 type ProjectFormValues = z.infer<typeof projectSchema>;
 
-export default function ProjectPage({ data }: { data: Project }): JSX.Element {
+export default function ProjectPage({ data }: { data: Project }) {
   const router = useRouter();
 
   const createProjectMutation = api.portfolio.createProject.useMutation();

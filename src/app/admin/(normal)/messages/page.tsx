@@ -3,7 +3,7 @@ import { api } from '@/server/api/server';
 
 import { columns } from './columns';
 
-export default async function Page(): Promise<JSX.Element> {
+export default async function Page() {
   const messages = await api.contact.listMessages();
 
   return (

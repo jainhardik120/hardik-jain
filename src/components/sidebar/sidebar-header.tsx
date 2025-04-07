@@ -7,7 +7,7 @@ import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import { useTextStore } from '@/hooks/useTextStore';
 
-export default function Header(): JSX.Element {
+export default function Header() {
   const text = useTextStore((state) => state.text);
   return (
     <header className="sticky shrink-0 w-full z-[40] top-0 flex h-16 items-center gap-2 border-b bg-background px-4">

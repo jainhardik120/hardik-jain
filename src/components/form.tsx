@@ -60,7 +60,7 @@ type FormField<T extends z.ZodTypeAny> = {
   min?: number;
   max?: number;
   step?: number;
-  render?: (field: ControllerRenderProps<z.infer<T>, Path<z.infer<T>>>) => JSX.Element;
+  render?: (field: ControllerRenderProps<z.infer<T>, Path<z.infer<T>>>) => React.ReactNode;
 };
 
 type Props<T extends z.ZodTypeAny> = {
@@ -70,7 +70,7 @@ type Props<T extends z.ZodTypeAny> = {
   fields: Array<FormField<T>>;
   submitButtonText?: string;
   submitButtonDisabled?: boolean;
-  FormFooter?: ({ form }: { form: UseFormReturn<z.infer<T>> }) => JSX.Element;
+  FormFooter?: ({ form }: { form: UseFormReturn<z.infer<T>> }) => React.ReactNode;
   onValuesChange?: (values: z.infer<T>) => void;
   showSubmitButton: boolean;
 };
@@ -165,7 +165,7 @@ function RenderFormInput<T extends z.ZodTypeAny>({
   type: InputType;
   field: ControllerRenderProps<z.TypeOf<T>, Path<z.TypeOf<T>>>;
   formField: FormField<T>;
-}): JSX.Element {
+}) {
   switch (type) {
     case 'input':
       return <Input placeholder={formField.placeholder} {...field} />;

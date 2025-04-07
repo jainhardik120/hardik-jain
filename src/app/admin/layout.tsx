@@ -8,7 +8,7 @@ export default async function MainLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>): Promise<JSX.Element> {
+}>) {
   const session = await auth();
   const cookieStore = await cookies();
   const defaultOpen = cookieStore.get('sidebar:state')?.value !== 'false';

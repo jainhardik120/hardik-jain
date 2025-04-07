@@ -22,7 +22,7 @@ import { ResetSchema } from '@/types/schemas';
 
 import type { z } from 'zod';
 
-export default function ResetPage(): JSX.Element {
+export default function ResetPage() {
   return (
     <Suspense>
       <ResetForm />
@@ -30,7 +30,7 @@ export default function ResetPage(): JSX.Element {
   );
 }
 
-function ResetForm(): JSX.Element {
+function ResetForm() {
   const [error, setError] = useState<boolean>(false);
   const [message, setMessage] = useState<string | undefined>('');
 

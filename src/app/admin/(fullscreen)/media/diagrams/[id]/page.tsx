@@ -1,14 +1,15 @@
+'use client';
+
 import { useEffect, useState } from 'react';
 
 import dynamic from 'next/dynamic';
+import { useParams } from 'next/navigation';
 
-import Header from '@/components/sidebar/sidebar-header';
-import { SidebarLayout } from '@/components/sidebar/sidebar-layout';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useTextStore } from '@/hooks/useTextStore';
 import type { ExcalidrawImportData } from '@/lib/excalidraw';
 import { importExcalidraw } from '@/lib/excalidraw';
-import { trpc } from '@/server/api/pages';
+import { api } from '@/server/api/react';
 
 const ExcalidrawWrapper = dynamic(
   async () => await import('@/components/excalidraw/ExcalidrawWrapper'),
@@ -18,21 +19,12 @@ const ExcalidrawWrapper = dynamic(
   },
 );
 
-export async function getServerSideProps(context: {
-  params: { id: string };
-}): Promise<{ props: { id: string } }> {
-  const { id } = context.params;
-
-  return {
-    props: {
-      id,
-    },
-  };
-}
-
-export default function Page({ id }: { id: string }): JSX.Element {
-  const signedUrl = trpc.excalidraw.getSignedUrlDesign.useQuery({ id }, { enabled: false });
-  const session = trpc.auth.sessionDetails.useQuery().data || null;
+export default function ExcalidrawPage() {
+  const params = useParams<{ id: string }>();
+  const signedUrl = api.excalidraw.getSignedUrlDesign.useQuery(
+    { id: params?.id ?? '' },
+    { enabled: false },
+  );
   const [initialExcalidrawData, setInitialExcalidrawData] = useState<
     ExcalidrawImportData | undefined
   >(undefined);
@@ -69,8 +61,7 @@ export default function Page({ id }: { id: string }): JSX.Element {
   }, [signedUrl.data]);
 
   return (
-    <SidebarLayout defaultOpen={true} user={session?.user ?? null}>
-      <Header />
+    <>
       {error !== undefined ? (
         <div>{error}</div>
       ) : !(isLoaded && initialExcalidrawData !== undefined) ? (
@@ -78,11 +69,11 @@ export default function Page({ id }: { id: string }): JSX.Element {
       ) : (
         <ExcalidrawWrapper
           initialData={initialExcalidrawData}
-          id={id}
+          id={params?.id ?? ''}
           setMessage={setMessage}
           setError={setError}
         />
       )}
-    </SidebarLayout>
+    </>
   );
 }

@@ -4,13 +4,9 @@ import { CardWrapper } from '@/components/auth/card-wrapper';
 
 import { NewVerificationForm } from './new-verification';
 
-export default async function AuthPage({
-  params,
-}: {
-  params: Promise<{ path: string[] }>;
-}): Promise<JSX.Element> {
+export default async function AuthPage({ params }: { params: Promise<{ path: string[] }> }) {
   const path = (await params).path[0];
-  const headerMessage = ((): { headerMessage: string; body: JSX.Element } => {
+  const headerMessage = ((): { headerMessage: string; body: React.ReactNode } => {
     switch (path) {
       case 'new-verification':
         return {

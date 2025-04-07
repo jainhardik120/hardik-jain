@@ -40,7 +40,7 @@ export default function Layout({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>): JSX.Element {
+}>) {
   return (
     <html lang="en" suppressHydrationWarning>
       <meta name="google-site-verification" content="2UMpL0DOiAZPuJWyFgtSXWM49mkZ2jVdsX34ok6fDl0" />

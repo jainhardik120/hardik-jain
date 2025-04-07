@@ -3,11 +3,7 @@ import { api } from '@/server/api/server';
 
 import { columns } from './columns';
 
-export default async function Page({
-  params,
-}: {
-  params: Promise<{ path: string[] }>;
-}): Promise<JSX.Element> {
+export default async function Page({ params }: { params: Promise<{ path: string[] }> }) {
   const files = await api.files.listUserUploadedFiles(((await params).path ?? ['']).join('/'));
   return (
     <DataTable

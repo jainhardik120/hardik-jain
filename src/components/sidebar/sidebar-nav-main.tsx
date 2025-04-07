@@ -17,7 +17,7 @@ import {
 } from '@/components/ui/sidebar';
 import { AppSidebarData } from '@/types/constants';
 
-export function NavMain(): JSX.Element {
+export function NavMain() {
   return (
     <SidebarGroup>
       <SidebarGroupLabel>Platform</SidebarGroupLabel>

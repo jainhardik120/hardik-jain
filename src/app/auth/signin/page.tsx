@@ -26,7 +26,7 @@ import { LoginSchema } from '@/types/schemas';
 
 import type { z } from 'zod';
 
-export default function LoginPage(): JSX.Element {
+export default function LoginPage() {
   return (
     <Suspense>
       <LoginForm />
@@ -34,7 +34,7 @@ export default function LoginPage(): JSX.Element {
   );
 }
 
-function LoginForm(): JSX.Element {
+function LoginForm() {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams?.get('callbackUrl') ?? '/';
 

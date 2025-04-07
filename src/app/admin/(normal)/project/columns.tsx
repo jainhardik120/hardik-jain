@@ -18,7 +18,7 @@ export const columns: ColumnDef<Project>[] = [
     id: 'githubLink',
     header: 'GitHub Link',
     accessorKey: 'githubLink',
-    cell: (context): JSX.Element => {
+    cell: (context) => {
       const value = context.getValue() as string;
 
       return (
@@ -32,7 +32,7 @@ export const columns: ColumnDef<Project>[] = [
     id: 'demoLink',
     header: 'Demo Link',
     accessorKey: 'demoLink',
-    cell: (context): JSX.Element => {
+    cell: (context) => {
       const value = context.getValue() as string;
 
       return value !== '' ? (
@@ -53,7 +53,7 @@ export const columns: ColumnDef<Project>[] = [
     id: 'imageUrl',
     header: 'Image',
     accessorKey: 'imageUrl',
-    cell: (context): JSX.Element => {
+    cell: (context) => {
       const value = context.getValue() as string;
 
       return (
@@ -74,7 +74,7 @@ export const columns: ColumnDef<Project>[] = [
   {
     id: 'edit',
     header: 'Edit',
-    cell: (context): JSX.Element => {
+    cell: (context) => {
       const projectId = context.row.original.id;
 
       return (

@@ -12,7 +12,7 @@ export function SidebarLayout({
   children: React.ReactNode;
   user: User | null;
   defaultOpen: boolean;
-}>): JSX.Element {
+}>) {
   return (
     <SidebarProvider defaultOpen={defaultOpen} className="w-full">
       <AppSidebar teams={AppSidebarData.teams} user={user} />

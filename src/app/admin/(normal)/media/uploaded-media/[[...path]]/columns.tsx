@@ -26,7 +26,7 @@ export const columns: ColumnDef<_Object>[] = [
     id: 'Key',
     header: 'Key',
     accessorKey: 'Key',
-    cell: (context): JSX.Element => {
+    cell: (context) => {
       const value = context.getValue() as string;
       let userId = '';
       const getItems = (value: string): { label: string; href: string }[] => {

@@ -20,11 +20,7 @@ const defaultProject: Project = {
   updatedAt: new Date(),
 };
 
-export default async function Page({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}): Promise<JSX.Element> {
+export default async function Page({ params }: { params: Promise<{ id: string }> }) {
   const projectDetails: Project | null =
     (await params).id !== 'new'
       ? await api.portfolio.getProjectById({ id: (await params).id })

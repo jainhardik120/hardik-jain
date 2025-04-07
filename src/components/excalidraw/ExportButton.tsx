@@ -9,7 +9,7 @@ import { trpc } from '@/server/api/pages';
 //   BinaryFiles,
 // } from '@excalidraw/excalidraw/types/types';
 
-const ExportButton = ({ id }: { id: string }): JSX.Element => {
+const ExportButton = ({ id }: { id: string }) => {
   const { data, refetch } = trpc.excalidraw.getSignedUrlDesign.useQuery({ id }, { enabled: false });
 
   useEffect(() => {

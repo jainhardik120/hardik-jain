@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars, no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { type DefaultSession } from 'next-auth';
 import { JWT } from 'next-auth/jwt';
 

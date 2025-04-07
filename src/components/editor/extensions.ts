@@ -1,9 +1,7 @@
 import { cx } from 'class-variance-authority';
-import { common, createLowlight } from 'lowlight';
 import {
   AIHighlight,
   CharacterCount,
-  CodeBlockLowlight,
   GlobalDragHandle,
   HorizontalRule,
   Placeholder,
@@ -14,8 +12,8 @@ import {
   TiptapLink,
   UpdatedImage,
   Youtube,
-} from 'novel/extensions';
-import { UploadImagesPlugin } from 'novel/plugins';
+  UploadImagesPlugin,
+} from 'novel';
 
 const aiHighlight = AIHighlight;
 const placeholder = Placeholder;
@@ -106,10 +104,6 @@ const starterKit = StarterKit.configure({
   gapcursor: false,
 });
 
-const codeBlockLowlight = CodeBlockLowlight.configure({
-  lowlight: createLowlight(common),
-});
-
 const youtube = Youtube.configure({
   HTMLAttributes: {
     class: cx('rounded-lg border border-muted'),
@@ -129,7 +123,6 @@ export const defaultExtensions = [
   taskItem,
   horizontalRule,
   aiHighlight,
-  codeBlockLowlight,
   youtube,
   characterCount,
   GlobalDragHandle,
