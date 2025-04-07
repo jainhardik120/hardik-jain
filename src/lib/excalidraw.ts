@@ -1,23 +1,7 @@
 import type { ExcalidrawElement } from '@excalidraw/excalidraw/element/types';
-import type { BinaryFiles, BinaryFileData } from '@excalidraw/excalidraw/types';
+import type { BinaryFiles } from '@excalidraw/excalidraw/types';
 
-export const exportExcalidraw = async (
-  elements: readonly ExcalidrawElement[],
-  files: BinaryFiles,
-): Promise<void> => {
-  const filesArray: BinaryFileData[] = Object.values(files).map(
-    (file): BinaryFileData => ({ ...file }),
-  );
-
-  const excalidrawData = JSON.stringify({ elements, files: filesArray });
-  try {
-    localStorage.setItem('excalidrawData', excalidrawData);
-  } catch (error) {
-    throw error;
-  }
-};
-
-export type ExcalidrawImportData = { elements: ExcalidrawElement[]; files: BinaryFileData[] };
+export type ExcalidrawImportData = { elements: ExcalidrawElement[]; files: BinaryFiles };
 
 export const importExcalidraw = async (
   elementsUrl: string,
@@ -40,10 +24,11 @@ export const importExcalidraw = async (
       const errorText = await filesResponse.text();
       throw new Error(errorText);
     }
-    const filesData = (await filesResponse.json()) as { files?: BinaryFileData[] };
+    const filesData = (await filesResponse.json()) as { files?: BinaryFiles };
+    const files = filesData.files ?? {};
     const combinedData: ExcalidrawImportData = {
       elements: elementsData.elements ?? [],
-      files: filesData.files ?? [],
+      files: files,
     };
 
     return combinedData;

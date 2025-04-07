@@ -1,5 +1,6 @@
 import Link from 'next/link';
 
+import ExportButton from '@/components/excalidraw/ExportButton';
 import { Table, TableBody, TableCell, TableHeader, TableRow } from '@/components/ui/table';
 import { api } from '@/server/api/server';
 
@@ -28,7 +29,9 @@ export default async function DiagramsPage() {
               </TableCell>
               <TableCell>{design.createdAt.toLocaleString()}</TableCell>
               <TableCell>{design.lastModified.toLocaleString()}</TableCell>
-              <TableCell></TableCell>
+              <TableCell>
+                <ExportButton id={design.id} />
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

@@ -14,11 +14,7 @@ import { trpc } from '@/server/api/pages';
 import '@excalidraw/excalidraw/index.css';
 
 import type { ExcalidrawElement, Theme } from '@excalidraw/excalidraw/element/types';
-import type {
-  BinaryFileData,
-  BinaryFiles,
-  ExcalidrawImperativeAPI,
-} from '@excalidraw/excalidraw/types';
+import type { BinaryFiles, ExcalidrawImperativeAPI } from '@excalidraw/excalidraw/types';
 
 export default function ExcalidrawWrapper({
   id,
@@ -34,46 +30,32 @@ export default function ExcalidrawWrapper({
   const [excalidrawApi, setExcalidrawApi] = useState<ExcalidrawImperativeAPI | null>(null);
   const { resolvedTheme } = useTheme();
 
-  const previousFiles = useRef<BinaryFileData[]>(cloneDeep(initialData.files));
+  const previousFiles = useRef<BinaryFiles>(cloneDeep(initialData.files));
   const previousElements = useRef<ExcalidrawElement[]>(cloneDeep(initialData.elements));
-
-  const [dataLoaded, setDataLoaded] = useState(false);
 
   useEffect(() => {
     if (!excalidrawApi) {
       return;
     }
-    setMessage('Loading initial data...');
-    try {
-      excalidrawApi.addFiles(initialData.files);
-      excalidrawApi.updateScene({ elements: initialData.elements });
-    } catch (error) {
-      setError(`Error loading initial data: ${error}`);
-    }
-
-    setDataLoaded(true);
-
     const files = excalidrawApi.getFiles();
-    previousFiles.current = Object.values(files).map((file) => cloneDeep(file));
+    previousFiles.current = cloneDeep(files);
     previousElements.current = cloneDeep(
       excalidrawApi.getSceneElementsIncludingDeleted() as ExcalidrawElement[],
     );
-    setMessage('');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [excalidrawApi, initialData]);
+  }, [excalidrawApi]);
 
   const signedUrlForPut = trpc.excalidraw.getSignedUrlForPutFiles.useMutation();
 
   const updateElementsMutation = trpc.excalidraw.updateElements.useMutation();
 
-  const handleFileChange = useDebouncedCallback(async (updatedFiles: BinaryFileData[]) => {
+  const handleFileChange = useDebouncedCallback(async (files: BinaryFiles) => {
     setMessage('Uploading files...');
     try {
       const signedUrl = await signedUrlForPut.mutateAsync({ id });
       await fetch(signedUrl ?? '', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ files: updatedFiles }),
+        body: JSON.stringify({ files: files }),
       });
     } catch (error) {
       setError(`Error uploading files: ${error}`);
@@ -101,10 +83,7 @@ export default function ExcalidrawWrapper({
 
   const debouncedUpdates = useDebouncedCallback(
     (elements: readonly ExcalidrawElement[], files: BinaryFiles) => {
-      if (!dataLoaded) {
-        return;
-      }
-      const newFiles: BinaryFileData[] = Object.values(files).map((file) => cloneDeep(file));
+      const newFiles = cloneDeep(files);
       if (!isEqual(newFiles, previousFiles.current)) {
         previousFiles.current = newFiles;
         void handleFileChange(newFiles);
@@ -123,6 +102,10 @@ export default function ExcalidrawWrapper({
       excalidrawAPI={(api) => setExcalidrawApi(api)}
       onChange={(elements, _, files) => {
         debouncedUpdates(elements, files);
+      }}
+      initialData={{
+        elements: initialData.elements,
+        files: initialData.files,
       }}
       theme={resolvedTheme as Theme}
     >
