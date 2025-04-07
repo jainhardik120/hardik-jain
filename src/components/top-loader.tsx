@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 
 import { start, done, configure } from 'nprogress';
 
-const NextTopLoader = ({ showForHashAnchor = true }): JSX.Element => {
+const NextTopLoader = ({ showForHashAnchor = true }) => {
   const styles = (
     <style>
       {/* eslint-disable-next-line max-len, quotes */}

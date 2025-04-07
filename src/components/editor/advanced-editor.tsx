@@ -11,9 +11,11 @@ import {
   type EditorInstance,
   EditorCommandList,
   EditorBubble,
+  ImageResizer,
+  handleCommandNavigation,
+  handleImageDrop,
+  handleImagePaste,
 } from 'novel';
-import { ImageResizer, handleCommandNavigation } from 'novel/extensions';
-import { handleImageDrop, handleImagePaste } from 'novel/plugins';
 
 import { Separator } from '@/components/ui/separator';
 

@@ -7,7 +7,7 @@ import { useSearchParams } from 'next/navigation';
 import ErrorSuccessMessage from '@/components/form-success';
 import { api } from '@/server/api/react';
 
-export function NewVerificationForm(): JSX.Element {
+export function NewVerificationForm() {
   const [isPending, startTransition] = useTransition();
 
   const [error, setError] = useState<boolean>(false);

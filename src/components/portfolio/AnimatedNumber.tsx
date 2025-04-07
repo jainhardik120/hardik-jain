@@ -2,8 +2,6 @@ import React, { useState, useEffect, useRef, useCallback, memo } from 'react';
 
 import { motion, useAnimation, useInView } from 'motion/react';
 
-import type { Transition } from 'motion/react';
-
 const NUMBERS = [
   0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
 ];
@@ -12,19 +10,11 @@ interface Props {
   className?: string;
   animateToNumber: number;
   fontStyle?: React.CSSProperties;
-  transitions?: (index: number) => Transition;
   includeComma?: boolean;
   locale?: string;
 }
 
-const AnimatedNumber = ({
-  className,
-  animateToNumber,
-  fontStyle,
-  transitions,
-  includeComma,
-  locale,
-}: Props) => {
+const AnimatedNumber = ({ className, animateToNumber, fontStyle, includeComma, locale }: Props) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
 
@@ -94,11 +84,7 @@ const AnimatedNumber = ({
     <span ref={ref}>
       {numberHeight !== 0 && (
         <div
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            overflow: 'hidden',
-          }}
+          style={{ display: 'flex', flexDirection: 'row', overflow: 'hidden' }}
           className={className}
           key={dimensionKey}
         >
@@ -117,10 +103,7 @@ const AnimatedNumber = ({
             return (
               <motion.div
                 key={`${n}_${index}_${dimensionKey}`}
-                style={{
-                  height: numberHeight,
-                  width: numberWidth,
-                }}
+                style={{ height: numberHeight, width: numberWidth }}
                 initial="hidden"
                 variants={{
                   hidden: { y: 0 },
@@ -135,7 +118,6 @@ const AnimatedNumber = ({
                   },
                 }}
                 animate={controls}
-                transition={transitions?.(index)}
               >
                 {NUMBERS.map((number, idx) => (
                   <div

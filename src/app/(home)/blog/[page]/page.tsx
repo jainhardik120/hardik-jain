@@ -19,11 +19,7 @@ export const metadata: Metadata = {
 
 export const dynamic = 'force-static';
 
-export default async function Page({
-  params,
-}: {
-  params: Promise<{ page: string }>;
-}): Promise<JSX.Element> {
+export default async function Page({ params }: { params: Promise<{ page: string }> }) {
   const pageCount = await getPageCount();
   const posts = await api.post.getAllPosts({
     offset: (parseInt((await params).page) - 1) * 10,

@@ -31,11 +31,7 @@ export async function generateMetadata({
 
 export const dynamic = 'force-static';
 
-export default async function Page({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}): Promise<JSX.Element> {
+export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const post = await api.post.getPostContentBySlug({
     slug: (await params).slug,
   });

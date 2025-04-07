@@ -20,7 +20,7 @@ import {
 } from '@/components/ui/sidebar';
 import { AppSidebarData } from '@/types/constants';
 
-export function NavProjects(): JSX.Element {
+export function NavProjects() {
   const { isMobile } = useSidebar();
 
   return (

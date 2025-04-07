@@ -15,7 +15,7 @@ import type { AppSidebarProps } from '@/types';
 import { NavMain } from './sidebar-nav-main';
 import { TeamSwitcher } from './sidebar-team-switcher';
 
-export function AppSidebar({ user, teams }: AppSidebarProps): JSX.Element {
+export function AppSidebar({ user, teams }: AppSidebarProps) {
   return (
     <Sidebar>
       <SidebarHeader className="h-16 border-b border-sidebar-border">

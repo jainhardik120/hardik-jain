@@ -20,7 +20,7 @@ export function CardWrapper({
   backButtonLabel,
   backButtonHref,
   showSocial,
-}: CardWrapperProps): JSX.Element {
+}: CardWrapperProps) {
   return (
     <Card className="max-w-[400px]">
       <CardHeader>

@@ -12,7 +12,7 @@ import {
   TextQuote,
   Youtube,
 } from 'lucide-react';
-import { createSuggestionItems, Command, renderItems } from 'novel/extensions';
+import { createSuggestionItems, Command, renderItems } from 'novel';
 
 import { client } from '@/server/api/react';
 

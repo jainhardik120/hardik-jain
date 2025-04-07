@@ -6,7 +6,7 @@ import { env } from '@/env';
 import { config } from '@/lib/aws-config';
 import { createTRPCRouter, protectedProcedure } from '@/server/api/trpc';
 
-import type { ExcalidrawElement } from '@excalidraw/excalidraw/types/element/types';
+import type { ExcalidrawElement } from '@excalidraw/excalidraw/element/types';
 
 export const excalidrawRouter = createTRPCRouter({
   listDesigns: protectedProcedure.query(async ({ ctx }) => {

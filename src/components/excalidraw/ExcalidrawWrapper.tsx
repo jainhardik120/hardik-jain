@@ -10,12 +10,15 @@ import { useDebouncedCallback } from 'use-debounce';
 import type { ExcalidrawImportData } from '@/lib/excalidraw';
 import { trpc } from '@/server/api/pages';
 
-import type { ExcalidrawElement, Theme } from '@excalidraw/excalidraw/types/element/types';
+// eslint-disable-next-line import/no-unresolved
+import '@excalidraw/excalidraw/index.css';
+
+import type { ExcalidrawElement, Theme } from '@excalidraw/excalidraw/element/types';
 import type {
   BinaryFileData,
   BinaryFiles,
   ExcalidrawImperativeAPI,
-} from '@excalidraw/excalidraw/types/types';
+} from '@excalidraw/excalidraw/types';
 
 export default function ExcalidrawWrapper({
   id,
@@ -27,7 +30,7 @@ export default function ExcalidrawWrapper({
   initialData: ExcalidrawImportData;
   setMessage: (message: string) => void;
   setError: (error: string | undefined) => void;
-}): JSX.Element {
+}) {
   const [excalidrawApi, setExcalidrawApi] = useState<ExcalidrawImperativeAPI | null>(null);
   const { resolvedTheme } = useTheme();
 

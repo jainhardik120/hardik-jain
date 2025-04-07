@@ -16,7 +16,7 @@ import {
 
 import type { Route } from 'next';
 
-const AppBreadcrumb = ({ pathname }: { pathname?: string | null }): JSX.Element => {
+const AppBreadcrumb = ({ pathname }: { pathname?: string | null }) => {
   const path = usePathname();
   if (pathname === undefined || pathname === null) {
     pathname = path;

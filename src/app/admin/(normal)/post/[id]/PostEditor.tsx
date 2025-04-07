@@ -59,7 +59,7 @@ const ReferenceInput = ({
   );
 };
 
-export function PostEditor({ initData }: { initData: Post }): JSX.Element {
+export function PostEditor({ initData }: { initData: Post }) {
   const editorRef = useRef<EditorRef>(null);
   const setText = useTextStore((state) => state.setText);
 

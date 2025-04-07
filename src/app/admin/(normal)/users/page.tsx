@@ -1,7 +1,7 @@
 import { DataTable } from '@/components/DataTable';
 import { api } from '@/server/api/server';
 
-export default async function Users(): Promise<JSX.Element> {
+export default async function Users() {
   const users = await api.user.listUsers();
   return (
     <DataTable

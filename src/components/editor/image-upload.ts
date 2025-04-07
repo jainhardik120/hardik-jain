@@ -1,4 +1,4 @@
-import { createImageUpload } from 'novel/plugins';
+import { createImageUpload } from 'novel';
 import { toast } from 'sonner';
 
 import { onUpload } from '@/lib/image-upload';

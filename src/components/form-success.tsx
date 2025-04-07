@@ -6,7 +6,7 @@ export default function FormMessage({
 }: {
   message: string | undefined;
   isError?: boolean;
-}): JSX.Element {
+}) {
   return (
     <div
       className={cn(
