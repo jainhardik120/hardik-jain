@@ -37,7 +37,7 @@ export const excalidrawRouter = createTRPCRouter({
       Bucket: bucketName,
       Key: `${baseKey}_files.json`,
       Body: JSON.stringify({
-        files: [],
+        files: {},
       }),
     };
     await Promise.all([

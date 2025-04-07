@@ -1,39 +1,38 @@
+'use client';
+
 import React, { useEffect } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { importExcalidraw } from '@/lib/excalidraw';
-import { trpc } from '@/server/api/pages';
-// import { exportToBlob } from '@excalidraw/excalidraw';
-// import {
-//   BinaryFileData,
-//   BinaryFiles,
-// } from '@excalidraw/excalidraw/types/types';
+import { api } from '@/server/api/react';
 
 const ExportButton = ({ id }: { id: string }) => {
-  const { data, refetch } = trpc.excalidraw.getSignedUrlDesign.useQuery({ id }, { enabled: false });
+  const { data, refetch } = api.excalidraw.getSignedUrlDesign.useQuery({ id }, { enabled: false });
 
   useEffect(() => {
     if (data === undefined) {
       return;
     }
-    void importExcalidraw(data.elementsUrl, data.filesUrl)
-      .then
-      // async (importedData) => {
-      // const binaryFiles: BinaryFiles = importedData.files.reduce<
-      //   Record<string, BinaryFileData>
-      // >((acc, file, index) => {
-      //   acc[index] = file;
-      //   return acc;
-      // }, {});
-      // const blob = await exportToBlob({
-      //   elements: importedData.elements,
-      //   files: binaryFiles,
-      //   mimeType: 'image/jpeg',
-      //   quality: 1,
-      //   exportPadding: 10,
-      // });
-      // },
-      ();
+    const exportExcalidraw = async () => {
+      const importData = await importExcalidraw(data.elementsUrl, data.filesUrl);
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      const exportToBlob = (await import('@excalidraw/excalidraw')).exportToBlob;
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      const blob = (await exportToBlob({
+        elements: importData.elements,
+        files: importData.files,
+        mimeType: 'image/png',
+        quality: 1,
+        exportPadding: 10,
+      })) as Blob;
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'excalidraw-export.png';
+      a.click();
+      URL.revokeObjectURL(url);
+    };
+    void exportExcalidraw();
   }, [data]);
 
   return (
