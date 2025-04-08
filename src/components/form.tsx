@@ -45,10 +45,7 @@ type InputType =
   | 'select'
   | 'color';
 
-type SelectOption = {
-  label: string;
-  value: string | number;
-};
+type SelectOption = { label: string; value: string | number };
 
 type FormField<T extends z.ZodTypeAny> = {
   name: Path<z.infer<T>>;
@@ -73,6 +70,7 @@ type Props<T extends z.ZodTypeAny> = {
   FormFooter?: ({ form }: { form: UseFormReturn<z.infer<T>> }) => React.ReactNode;
   onValuesChange?: (values: z.infer<T>) => void;
   showSubmitButton: boolean;
+  ref?: React.Ref<UseFormReturn<z.infer<T>>>;
 };
 
 function StringArrayInput<T extends z.ZodTypeAny>({
@@ -251,6 +249,14 @@ function RenderedForm<T extends z.ZodTypeAny>(props: Props<T>) {
     resolver: zodResolver(props.schema),
     defaultValues: props.defaultValues,
   });
+
+  if (props.ref !== undefined && props.ref !== null) {
+    if (typeof props.ref === 'function') {
+      props.ref(form);
+    } else {
+      props.ref.current = form;
+    }
+  }
 
   useEffect(() => {
     const subscription = form.watch((values) => {
