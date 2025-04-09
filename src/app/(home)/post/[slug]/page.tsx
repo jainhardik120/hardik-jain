@@ -92,7 +92,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
                 {post.tags.map((tag) => (
                   <Link
                     key={tag}
-                    href={`/blog/1?tag=${tag}`}
+                    href={`/blog?tag=${tag}`}
                     className="px-3 py-1 bg-secondary text-secondary-foreground rounded-full text-sm hover:bg-secondary/80 transition-colors"
                   >
                     {tag}

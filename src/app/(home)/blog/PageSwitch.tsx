@@ -1,8 +1,11 @@
-import Link from 'next/link';
+'use client';
 
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useQueryStates } from 'nuqs';
 
 import { Button } from '@/components/ui/button';
+
+import { tagsParser } from './tagsparser';
 
 interface PaginationProps {
   currentPage: number;
@@ -12,6 +15,7 @@ interface PaginationProps {
 export default function Pagination({ currentPage, totalPages }: PaginationProps) {
   const prevPage = currentPage > 1 ? currentPage - 1 : null;
   const nextPage = currentPage < totalPages ? currentPage + 1 : null;
+  const [params, setParams] = useQueryStates(tagsParser);
 
   const getPageNumbers = () => {
     const pages = [];
@@ -65,16 +69,11 @@ export default function Pagination({ currentPage, totalPages }: PaginationProps)
           size="icon"
           disabled={prevPage === null}
           asChild={prevPage !== null}
+          onClick={() => {
+            void setParams({ ...params, page: prevPage }, { shallow: false });
+          }}
         >
-          {prevPage !== null ? (
-            <Link href={`/blog/${prevPage}`} aria-label="Previous page">
-              <ChevronLeft className="h-4 w-4" />
-            </Link>
-          ) : (
-            <span>
-              <ChevronLeft className="h-4 w-4" />
-            </span>
-          )}
+          <ChevronLeft className="h-4 w-4" />
         </Button>
 
         {getPageNumbers().map((page, index) =>
@@ -84,14 +83,11 @@ export default function Pagination({ currentPage, totalPages }: PaginationProps)
               variant={currentPage === page ? 'default' : 'outline'}
               size="icon"
               asChild={currentPage !== page}
+              onClick={() => {
+                void setParams({ ...params, page: page }, { shallow: false });
+              }}
             >
-              {currentPage !== page ? (
-                <Link href={`/?page=${page}`} aria-label={`Page ${page}`}>
-                  {page}
-                </Link>
-              ) : (
-                <span>{page}</span>
-              )}
+              {page}
             </Button>
           ) : (
             <span key={index} className="px-2">
@@ -105,16 +101,11 @@ export default function Pagination({ currentPage, totalPages }: PaginationProps)
           size="icon"
           disabled={nextPage === null}
           asChild={nextPage !== null}
+          onClick={() => {
+            void setParams({ ...params, page: nextPage }, { shallow: false });
+          }}
         >
-          {nextPage !== null ? (
-            <Link href={`/blog/${nextPage}`} aria-label="Next page">
-              <ChevronRight className="h-4 w-4" />
-            </Link>
-          ) : (
-            <span>
-              <ChevronRight className="h-4 w-4" />
-            </span>
-          )}
+          <ChevronRight className="h-4 w-4" />
         </Button>
       </div>
     </div>
