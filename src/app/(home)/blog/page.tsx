@@ -1,12 +1,17 @@
 import { notFound } from 'next/navigation';
 
+import { createLoader, type SearchParams } from 'nuqs/server';
+
 import { getPageCount } from '@/actions/blog';
 import PostCard from '@/components/post-card';
 import { api } from '@/server/api/server';
 
 import PageSwitch from './PageSwitch';
+import { tagsParser } from './tagsparser';
 
 import type { Metadata } from 'next';
+
+const loadSearchParams = createLoader(tagsParser);
 
 export const revalidate = 60;
 
@@ -17,12 +22,11 @@ export const metadata: Metadata = {
     'Explore in-depth articles, project showcases, and tech insights from Hardik Jain, an experienced Android & Web Developer.',
 };
 
-export const dynamic = 'force-static';
-
-export default async function Page({ params }: { params: Promise<{ page: string }> }) {
+export default async function Page({ searchParams }: { searchParams: Promise<SearchParams> }) {
+  const parsedParams = await loadSearchParams(searchParams);
   const pageCount = await getPageCount();
   const posts = await api.post.getAllPosts({
-    offset: (parseInt((await params).page) - 1) * 10,
+    offset: (parsedParams.page - 1) * 10,
   });
   if (posts.length === 0) {
     notFound();
@@ -44,7 +48,7 @@ export default async function Page({ params }: { params: Promise<{ page: string 
         ))}
       </div>
 
-      <PageSwitch totalPages={pageCount} currentPage={parseInt((await params).page)} />
+      <PageSwitch totalPages={pageCount} currentPage={parsedParams.page} />
     </main>
   );
 }

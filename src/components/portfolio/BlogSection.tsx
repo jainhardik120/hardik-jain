@@ -15,7 +15,7 @@ export default function BlogSection({ blogs }: { blogs: BlogPostWithAuthor[] }) 
           </div>
         ))}
       </div>
-      <Link href="/blog/1" prefetch={false}>
+      <Link href="/blog" prefetch={false}>
         <Button>View All Blog Posts</Button>
       </Link>
     </section>
