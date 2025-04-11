@@ -2,8 +2,6 @@
 
 import { useEffect, useRef } from 'react';
 
-import hljs from 'highlight.js';
-
 export default function CodeHighlight({ content }: { content: string }) {
   const contentRef = useRef<HTMLDivElement>(null);
 
@@ -72,10 +70,13 @@ export default function CodeHighlight({ content }: { content: string }) {
       preEl.parentNode?.insertBefore(wrapper, preEl);
       wrapper.appendChild(preEl);
     });
-
-    document.querySelectorAll('pre code').forEach((block) => {
-      hljs.highlightElement(block as HTMLElement);
-    });
+    const highlightElements = async () => {
+      const highlightElement = (await import('highlight.js')).default.highlightElement;
+      document.querySelectorAll('pre code').forEach((block) => {
+        highlightElement(block as HTMLElement);
+      });
+    };
+    void highlightElements();
   }, [content]);
 
   return (
