@@ -7,6 +7,7 @@ import dynamic from 'next/dynamic';
 import { Zap } from 'lucide-react';
 import { useDebouncedCallback } from 'use-debounce';
 
+import type { titlesSchema } from '@/app/api/ai/generateTitles/schema';
 import type { EditorRef } from '@/components/editor/advanced-editor';
 import RenderedForm from '@/components/form';
 import { Button } from '@/components/ui/button';
@@ -16,7 +17,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Textarea } from '@/components/ui/textarea';
 import { useTextStore } from '@/hooks/useTextStore';
 import { api } from '@/server/api/react';
-import type { Topic } from '@/server/api/routers/post';
 import { PostSchema } from '@/types/schemas';
 
 import type { Post } from '@prisma/client';
@@ -75,7 +75,7 @@ export function PostEditor({ initData }: { initData: Post }) {
 
   const formRef = useRef<UseFormReturn<z.TypeOf<typeof PostSchema>>>(null);
 
-  const [aiSuggestions, setAiSuggestions] = useState<Topic[]>([]);
+  const [aiSuggestions, setAiSuggestions] = useState<z.infer<typeof titlesSchema>[]>([]);
   const [keypoints, setKeypoints] = useState('');
   const [outline, setOutline] = useState('');
   const [referenceCode, setReferenceCode] = useState<string[]>([]);
@@ -83,7 +83,6 @@ export function PostEditor({ initData }: { initData: Post }) {
   const [documentation, setDocumentation] = useState<string[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
 
-  const generateTitlesMutation = api.post.generateTitles.useMutation();
   const generateOutlineMutation = api.post.generateOutline.useMutation();
   const generateBlogContentMutation = api.post.generateBlogContent.useMutation();
   const generateDescriptionMutation = api.post.generateDescription.useMutation();
@@ -104,14 +103,20 @@ export function PostEditor({ initData }: { initData: Post }) {
         formRef.current?.getValues().title !== undefined &&
         formRef.current?.getValues().title !== ''
       ) {
-        const result = await generateTitlesMutation.mutateAsync({
-          topic: formRef.current?.getValues().title,
+        await fetch('/api/ai/generateTitles', {
+          method: 'POST',
+          body: JSON.stringify({
+            prompt: formRef.current?.getValues().title,
+          }),
+        }).then((response) => {
+          void response.json().then((json) => {
+            setAiSuggestions(json);
+          });
         });
-        setAiSuggestions(result);
       }
     });
 
-  const handleSelectTitle = (topic: Topic) => {
+  const handleSelectTitle = (topic: z.infer<typeof titlesSchema>) => {
     formRef.current?.setValue('title', topic.title);
     setKeypoints(topic.outline.keyPoints.join('\n'));
   };
@@ -188,7 +193,7 @@ export function PostEditor({ initData }: { initData: Post }) {
             </Button>
             {aiSuggestions.length > 0 && (
               <div className="grid grid-cols-2">
-                {aiSuggestions.map((topic: Topic, index: number) => (
+                {aiSuggestions.map((topic, index: number) => (
                   <Collapsible key={index} className="p-4 border rounded m-2 cursor-pointer">
                     <CollapsibleTrigger>
                       <p className="text-xl">{topic.title}</p>
