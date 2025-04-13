@@ -2,8 +2,11 @@
   "files.associations": {
     "*.css": "tailwindcss"
   },
-  "conventionalCommits.scopes": [
-    "Dev Tools",
-    "Snippets"
-  ]
+  "conventionalCommits.scopes": ["Dev Tools", "Snippets"],
+  "eslint.workingDirectories": [
+    {
+      "mode": "auto"
+    }
+  ],
+  "typescript.tsdk": "node_modules/typescript/lib"
 }
