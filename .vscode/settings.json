@@ -2,8 +2,6 @@
   "files.associations": {
     "*.css": "tailwindcss"
   },
-  "conventionalCommits.scopes": [
-    "Dev Tools",
-    "Snippets"
-  ]
+  "conventionalCommits.scopes": ["Dev Tools", "Snippets"],
+  "files.eol": "\n"
 }
