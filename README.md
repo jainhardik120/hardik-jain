@@ -1,160 +1,389 @@
-##  Next.js Portfolio Website and Admin Panel 
+# Hardik Jain's Portfolio & CMS
 
-This project showcases a personal portfolio website built using Next.js with Tailwind CSS. It also features an admin panel for managing the website content.
+<div align="center">
 
-### Table of Contents
+A modern, full-stack personal portfolio website with an integrated content management system built with Next.js 15, featuring AI-powered content creation, real-time editing, and comprehensive admin tools.
 
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Getting Started](#getting-started)
+[![Next.js](https://img.shields.io/badge/Next.js-15.2-black?logo=next.js)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.8-blue?logo=typescript)](https://www.typescriptlang.org/)
+[![Prisma](https://img.shields.io/badge/Prisma-6.5-2D3748?logo=prisma)](https://www.prisma.io/)
+[![tRPC](https://img.shields.io/badge/tRPC-11.0-2596BE?logo=trpc)](https://trpc.io/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+[Demo](https://hardikja.in) · [Report Bug](https://github.com/jainhardik120/hardik-jain/issues) · [Request Feature](https://github.com/jainhardik120/hardik-jain/issues)
+
+</div>
+
+---
+
+## 📋 Table of Contents
+
+- [Overview](#-overview)
+- [Features](#-features)
+- [Tech Stack](#-tech-stack)
+- [Getting Started](#-getting-started)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
-  - [Running the Development Server](#running-the-development-server)
-- [Usage](#usage)
-  - [Portfolio Website](#portfolio-website)
-  - [Admin Panel](#admin-panel)
-- [Contributing](#contributing)
-- [License](#license)
+  - [Environment Variables](#environment-variables)
+  - [Database Setup](#database-setup)
+- [Development](#-development)
+- [Deployment](#-deployment)
+- [Project Structure](#-project-structure)
+- [API Documentation](#-api-documentation)
+- [Contributing](#-contributing)
+- [License](#-license)
 
-### Features
+## 🎯 Overview
 
-- **Portfolio Website:**
-  - Interactive profile section with typing animation and social links.
-  - Accordion-based About Me section with details on education, skills, and achievements.
-  - Skill card component for showcasing expertise with level indication.
-  - Project card component for showcasing completed projects with interactive details.
-  - Categorized project display with tag-based filtering.
-  - Engaging blog section with latest posts and a link to view all posts.
-  - Contact section with a form for sending messages and social links.
-  - Responsive design for various screen sizes.
+This is a production-ready portfolio website with a powerful CMS that combines modern web technologies to deliver a seamless content management experience. The project showcases best practices in Next.js development, including App Router, Server Components, tRPC for type-safe APIs, and AI-powered content generation.
 
-- **Admin Panel:**
-  - Secure login with email and password authentication.
-  - User management with registration and password reset functionality.
-  - Email verification for new users.
-  - Content management for blog posts with advanced editor and AI assistance.
-  - Rich text editor with features like formatting, headings, lists, code blocks, and image upload.
-  - AI-powered title suggestions, outline generation, content writing, and description writing.
-  - Integration with Canva API for managing designs and exporting them.
-  - Excalidraw integration for creating and managing diagrams.
-  - File upload and management using AWS S3.
-  - Contact message listing and management.
+**Live Demo:** [hardikja.in](https://hardikja.in)
 
-### Tech Stack
+## ✨ Features
 
-- **Frontend:**
-  - Next.js
-  - React
-  - Tailwind CSS
-  - Novel (Rich Text Editor)
-  - Embla Carousel React
-  - Recharts
-  - Radix UI (Components)
-  - Lucide React (Icons)
-  - Sonner (Toasts)
+### 🌐 Portfolio Website
 
-- **Backend:**
-  - Node.js
-  - Next.js API Routes
-  - Prisma (Database ORM)
-  - PostgreSQL (Database)
-  - bcrypt (Password Hashing)
-  - NextAuth.js (Authentication)
-  - AWS SES (Email Service)
-  - AWS S3 (File Storage)
-  - Canva Connect API
-  - Google Generative AI API
+- **Modern UI/UX**
+  - Responsive design optimized for all devices
+  - Dark mode support with `next-themes`
+  - Smooth animations using Framer Motion
+  - Interactive typing animations and carousels
+  
+- **Content Display**
+  - Dynamic blog with rich text formatting
+  - Project showcase with filtering and categorization
+  - Skills visualization with progress indicators
+  - Contact form with email integration
+  - SEO optimized with structured data
 
-### Getting Started
+### 🔐 Admin Panel
 
-#### Prerequisites
+- **Authentication & Authorization**
+  - Secure NextAuth.js v5 integration
+  - Email/password authentication
+  - OAuth providers (GitHub, Google)
+  - Role-based access control (RBAC)
+  - Email verification system
+  
+- **Content Management**
+  - Advanced rich text editor powered by Novel/TipTap
+  - AI-assisted content creation using Google Gemini
+    - Automatic title suggestions
+    - Content outline generation
+    - Smart content writing
+    - SEO description generation
+  - Image upload and management via AWS S3
+  - Draft and publish workflow
+  
+- **Design Tools Integration**
+  - Canva Connect API integration
+  - Excalidraw diagram editor
+  - Asset management and export functionality
+  
+- **Task Management**
+  - Kanban-style task boards
+  - Drag-and-drop interface
+  - Team collaboration features
+  
+- **Communication**
+  - Email template builder
+  - Contact form message management
+  - AWS SES integration
 
-- Node.js >= 16
-- npm >= 8 / yarn
-- PostgreSQL installed locally or a cloud instance
+## 🛠 Tech Stack
 
-#### Installation
+### Frontend
 
-1. Clone the repository:
+| Technology | Purpose |
+|------------|---------|
+| [Next.js 15](https://nextjs.org/) | React framework with App Router |
+| [React 19](https://react.dev/) | UI library |
+| [TypeScript](https://www.typescriptlang.org/) | Type safety |
+| [Tailwind CSS](https://tailwindcss.com/) | Styling |
+| [Radix UI](https://www.radix-ui.com/) | Accessible UI components |
+| [shadcn/ui](https://ui.shadcn.com/) | Component library |
+| [Novel](https://novel.sh/) | WYSIWYG editor |
+| [TanStack Query](https://tanstack.com/query) | Data fetching |
+| [Framer Motion](https://www.framer.com/motion/) | Animations |
+| [Recharts](https://recharts.org/) | Data visualization |
+
+### Backend
+
+| Technology | Purpose |
+|------------|---------|
+| [tRPC](https://trpc.io/) | Type-safe API |
+| [Prisma](https://www.prisma.io/) | Database ORM |
+| [PostgreSQL](https://www.postgresql.org/) | Database |
+| [NextAuth.js](https://next-auth.js.org/) | Authentication |
+| [Zod](https://zod.dev/) | Schema validation |
+| [AWS S3](https://aws.amazon.com/s3/) | File storage |
+| [AWS SES](https://aws.amazon.com/ses/) | Email service |
+
+### AI & Integrations
+
+- [Google Generative AI](https://ai.google.dev/) - Content generation
+- [Canva Connect API](https://www.canva.com/developers/) - Design integration
+- [Excalidraw](https://excalidraw.com/) - Diagram creation
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+Before you begin, ensure you have the following installed:
+
+- **Node.js** 18.x or higher
+- **pnpm** 10.8.0 (recommended) or npm/yarn
+- **PostgreSQL** 14.x or higher
+- **Git** for version control
+
+### Installation
+
+1. **Clone the repository**
+
    ```bash
-   git clone https://github.com/your-repo/project.git
+   git clone https://github.com/jainhardik120/hardik-jain.git
+   cd hardik-jain
    ```
-2. Navigate to the project directory:
+
+2. **Install dependencies**
+
    ```bash
-   cd project
-   ```
-3. Install dependencies:
-   ```bash
+   pnpm install
+   # or
    npm install
    ```
-4. Set up environment variables:
-   - Create a `.env` file:
-     ```env
-     DATABASE_URL=postgres://username:password@host:port/database_name
-     NEXTAUTH_SECRET=your-secret
-     CANVA_CLIENT_ID=your-canva-client-id
-     CANVA_CLIENT_SECRET=your-canva-client-secret
-     BASE_CANVA_CONNECT_API_URL=https://api.canva.com
-     AWS_ACCESS_KEY_ID=your-aws-access-key-id
-     AWS_SECRET_ACCESS_KEY=your-aws-secret-access-key
-     AWS_REGION=your-aws-region
-     S3_BUCKET_NAME=your-s3-bucket-name
-     EMAIL_SENDER_ADDRESS=your-email-sender-address
-     GEMINI_API_KEY=your-gemini-api-key
-     ```
-   - Replace the placeholder values with your actual credentials.
 
-#### Running the Development Server
+3. **Set up environment variables**
 
-1. Start the development server:
+   Create a `.env` file in the root directory:
+
    ```bash
-   npm run dev
+   cp .env.example .env
    ```
-   - The portfolio website will be accessible at: `http://localhost:3000`
-   - The admin panel will be accessible at: `http://localhost:3000/admin`
 
-### Usage
+   See [Environment Variables](#environment-variables) section below for detailed configuration.
 
-#### Portfolio Website
+### Environment Variables
 
-- Navigate to `http://localhost:3000` to view the portfolio website.
-- Explore different sections of the website.
-- Click on project cards to view detailed information.
-- Fill out the contact form to get in touch.
+Create a `.env` file with the following variables:
 
-#### Admin Panel
+```env
+# Database
+DATABASE_URL="postgresql://user:password@localhost:5432/portfolio"
 
-1. Access the admin panel at `http://localhost:3000/admin`.
-2. Login using the email and password you used for registration.
-3. Manage content for blog posts:
-   - Create new posts.
-   - Edit existing posts.
-   - Delete posts.
-   - Use the AI-powered features to enhance writing efficiency.
-4. Manage Canva designs:
-   - Create new designs.
-   - View existing designs.
-   - Edit designs in Canva.
-   - Export designs as images or PDFs.
-5. Manage diagrams:
-   - Create new diagrams using Excalidraw.
-   - Edit existing diagrams.
-6. Manage uploaded media:
-   - Upload files to AWS S3.
-   - View uploaded files.
-   - Download uploaded files.
-7. Manage contact messages:
-   - View received messages.
-   - Delete messages.
+# Authentication
+AUTH_SECRET="your-secret-key-generate-with-openssl-rand-base64-32"
+NEXTAUTH_URL="http://localhost:3000"
 
-### Contributing
+# OAuth Providers (Optional)
+GITHUB_CLIENT_ID="your-github-client-id"
+GITHUB_CLIENT_SECRET="your-github-client-secret"
+GOOGLE_OAUTH_CLIENT_ID="your-google-client-id"
+GOOGLE_OAUTH_CLIENT_SECRET="your-google-client-secret"
 
-1. Fork the repository.
-2. Create a new branch (`git checkout -b feature-name`).
-3. Commit your changes (`git commit -m 'Add new feature'`).
-4. Push to the branch (`git push origin feature-name`).
-5. Create a pull request.
+# AWS Services
+AWS_REGION_NEW="us-east-1"
+AWS_ACCESS_KEY_ID_NEW="your-aws-access-key"
+AWS_SECRET_ACCESS_KEY_NEW="your-aws-secret-key"
+S3_BUCKET_NAME_NEW="your-bucket-name"
+EMAIL_SENDER_ADDRESS="noreply@yourdomain.com"
 
-### License
+# Canva API
+BASE_CANVA_CONNECT_API_URL="https://api.canva.com"
+CANVA_CLIENT_ID="your-canva-client-id"
+CANVA_CLIENT_SECRET="your-canva-client-secret"
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details. 
+# Google AI
+GOOGLE_GENERATIVE_AI_API_KEY="your-gemini-api-key"
+
+# Public URLs
+NEXT_PUBLIC_FILE_STORAGE_HOST="https://storage.yourdomain.com"
+NEXT_PUBLIC_BASE_URL="http://localhost:3000"
+
+# Development
+NODE_ENV="development"
+```
+
+**Required API Keys:**
+
+- **PostgreSQL Database:** Set up a PostgreSQL instance locally or use a cloud provider
+- **Auth Secret:** Generate using `openssl rand -base64 32`
+- **AWS Credentials:** Create an IAM user with S3 and SES permissions
+- **Canva API:** Register at [Canva Developers](https://www.canva.com/developers/)
+- **Google AI:** Get API key from [Google AI Studio](https://makersuite.google.com/app/apikey)
+- **OAuth Providers (Optional):** Configure in respective developer consoles
+
+### Database Setup
+
+1. **Run Prisma migrations**
+
+   ```bash
+   pnpm prisma migrate dev
+   # or
+   npx prisma migrate dev
+   ```
+
+2. **Generate Prisma Client**
+
+   ```bash
+   pnpm prisma generate
+   ```
+
+3. **Seed the database (optional)**
+
+   ```bash
+   pnpm prisma db seed
+   ```
+
+## 💻 Development
+
+### Running the Development Server
+
+```bash
+pnpm dev
+```
+
+The application will be available at:
+- Portfolio: [http://localhost:3000](http://localhost:3000)
+- Admin Panel: [http://localhost:3000/admin](http://localhost:3000/admin)
+
+### Available Scripts
+
+```bash
+# Development
+pnpm dev                 # Start development server
+pnpm build              # Build for production
+pnpm start              # Start production server
+
+# Code Quality
+pnpm lint               # Run ESLint
+pnpm typecheck          # Run TypeScript compiler
+pnpm format:check       # Check code formatting
+pnpm format:write       # Format code with Prettier
+
+# Database
+pnpm prisma studio      # Open Prisma Studio
+pnpm prisma migrate dev # Run migrations
+
+# Email Development
+pnpm email:dev          # Start email preview server
+```
+
+### Linting and Formatting
+
+This project uses ESLint and Prettier for code quality:
+
+```bash
+# Check for linting errors
+pnpm lint
+
+# Check formatting
+pnpm format:check
+
+# Auto-fix formatting
+pnpm format:write
+
+# Type check
+pnpm typecheck
+```
+
+## 🌍 Deployment
+
+### Vercel (Recommended)
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/jainhardik120/hardik-jain)
+
+1. Push your code to GitHub
+2. Import your repository on [Vercel](https://vercel.com)
+3. Configure environment variables in Vercel dashboard
+4. Deploy!
+
+### Other Platforms
+
+The application can be deployed on any platform that supports Next.js:
+
+- **Docker**: See `Dockerfile` (if available)
+- **Railway**: Connect GitHub repository
+- **Netlify**: Use Next.js runtime
+- **Self-hosted**: Build and use `pnpm start`
+
+**Production Build:**
+
+```bash
+pnpm build
+pnpm start
+```
+
+## 📁 Project Structure
+
+```
+hardik-jain/
+├── prisma/
+│   └── schema.prisma          # Database schema
+├── public/
+│   └── placeholder.svg        # Static assets
+├── src/
+│   ├── app/                   # Next.js App Router
+│   │   ├── (home)/           # Public portfolio pages
+│   │   ├── admin/            # Admin panel routes
+│   │   ├── api/              # API routes
+│   │   └── auth/             # Authentication pages
+│   ├── components/           # React components
+│   ├── server/
+│   │   └── api/              # tRPC routers
+│   ├── lib/                  # Utility functions
+│   ├── hooks/                # Custom React hooks
+│   ├── types/                # TypeScript types
+│   ├── actions/              # Server actions
+│   └── env.ts                # Environment validation
+├── next.config.ts            # Next.js configuration
+├── tailwind.config.ts        # Tailwind CSS config
+└── tsconfig.json             # TypeScript config
+```
+
+## 📚 API Documentation
+
+This project uses tRPC for type-safe APIs. The API is organized into routers:
+
+- **Auth Router** (`/api/trpc/auth.*`) - Authentication and user management
+- **Post Router** (`/api/trpc/post.*`) - Blog post CRUD operations
+- **Portfolio Router** (`/api/trpc/portfolio.*`) - Portfolio content
+- **File Router** (`/api/trpc/files.*`) - File upload and management
+- **Canva Router** (`/api/trpc/canva.*`) - Canva integration
+- **Contact Router** (`/api/trpc/contact.*`) - Contact form handling
+- **Task Router** (`/api/trpc/tasks.*`) - Task management
+- **Email Router** (`/api/trpc/email.*`) - Email templates
+
+All API endpoints are type-safe and automatically validated using Zod schemas.
+
+## 🤝 Contributing
+
+Contributions are welcome! Please follow these steps:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+### Development Guidelines
+
+- Follow the existing code style
+- Write meaningful commit messages
+- Add tests for new features
+- Update documentation as needed
+- Ensure all tests pass before submitting PR
+
+## 📄 License
+
+This project is open source and available under the [MIT License](LICENSE).
+
+---
+
+<div align="center">
+
+**Built with ❤️ by [Hardik Jain](https://github.com/jainhardik120)**
+
+If you found this project helpful, please give it a ⭐️!
+
+</div>
