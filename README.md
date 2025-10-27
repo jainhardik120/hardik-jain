@@ -132,7 +132,7 @@ This is a production-ready portfolio website with a powerful CMS that combines m
 Before you begin, ensure you have the following installed:
 
 - **Node.js** 18.x or higher
-- **pnpm** 8.x or higher (recommended) or npm/yarn
+- **pnpm** 8.x or higher (project uses 10.8.0) or npm/yarn
 - **PostgreSQL** 14.x or higher
 - **Git** for version control
 
