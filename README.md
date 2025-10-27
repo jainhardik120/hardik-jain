@@ -132,7 +132,7 @@ This is a production-ready portfolio website with a powerful CMS that combines m
 Before you begin, ensure you have the following installed:
 
 - **Node.js** 18.x or higher
-- **pnpm** 10.8.0 (recommended) or npm/yarn
+- **pnpm** 8.x or higher (recommended) or npm/yarn
 - **PostgreSQL** 14.x or higher
 - **Git** for version control
 
@@ -173,9 +173,8 @@ DATABASE_URL="postgresql://user:password@localhost:5432/portfolio"
 
 # Authentication
 AUTH_SECRET="your-secret-key-generate-with-openssl-rand-base64-32"
-NEXTAUTH_URL="http://localhost:3000"
 
-# OAuth Providers (Optional)
+# OAuth Providers
 GITHUB_CLIENT_ID="your-github-client-id"
 GITHUB_CLIENT_SECRET="your-github-client-secret"
 GOOGLE_OAUTH_CLIENT_ID="your-google-client-id"
@@ -211,7 +210,7 @@ NODE_ENV="development"
 - **AWS Credentials:** Create an IAM user with S3 and SES permissions
 - **Canva API:** Register at [Canva Developers](https://www.canva.com/developers/)
 - **Google AI:** Get API key from [Google AI Studio](https://makersuite.google.com/app/apikey)
-- **OAuth Providers (Optional):** Configure in respective developer consoles
+- **OAuth Providers:** Configure GitHub and Google OAuth apps in respective developer consoles
 
 ### Database Setup
 
@@ -261,9 +260,9 @@ pnpm typecheck          # Run TypeScript compiler
 pnpm format:check       # Check code formatting
 pnpm format:write       # Format code with Prettier
 
-# Database
-pnpm prisma studio      # Open Prisma Studio
-pnpm prisma migrate dev # Run migrations
+# Database (using Prisma CLI)
+npx prisma studio       # Open Prisma Studio
+npx prisma migrate dev  # Run migrations
 
 # Email Development
 pnpm email:dev          # Start email preview server
